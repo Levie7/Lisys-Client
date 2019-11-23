@@ -1,0 +1,32 @@
+{
+    "extends": ["react-app", "eslint:recommended"],
+    "plugins": ["prettier"],
+    "rules": {
+        "spaced-comment": [
+            "warn",
+            "always",
+            {
+                "block": {
+                    "balanced": true
+                }
+            }
+        ],
+        "max-len": ["warn", { "code": 100, "tabWidth": 4, "ignoreTrailingComments": true }],
+        "no-bitwise": 0,
+        "no-cond-assign": "warn",
+        "no-debugger": "warn",
+        "prefer-const": 0,
+        "radix": 0,
+        "comma-dangle": [
+            "warn",
+            {
+                "objects": "always-multiline",
+                "arrays": "always-multiline",
+                "imports": "always-multiline",
+                "exports": "always-multiline"
+            }
+        ],
+        "prettier/prettier": "warn",
+        "no-console": "warn"
+    }
+}
