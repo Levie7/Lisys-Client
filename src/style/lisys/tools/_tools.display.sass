@@ -1,0 +1,19 @@
+@import '../settings/settings.namespace'
+@import './tools.breakpoint'
+
+@mixin create-display($display-breakpoint, $display-breakpoints)
+    @include media-breakpoint-up($display-breakpoint, $display-breakpoints)
+        $infix: breakpoint-infix($display-breakpoint, $display-breakpoints)
+        .#{$namespace-display} #{$infix}
+            &-none                       
+                display: none
+            &-inline                     
+                display: inline
+            &-inline-block               
+                display: inline-block
+            &-block                      
+                display: block
+            &-flex                       
+                display: flex
+            &-inline-flex                
+                display: inline-flex

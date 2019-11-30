@@ -1,0 +1,21 @@
+@mixin create-perimeter($namings, $values, $infix)
+    @each $prop, $abbrev in $namings
+        @each $size, $length in $values
+            .#{$abbrev}#{$infix}-#{$size} 
+                #{$prop}: $length
+        
+    @each $prop, $abbrev in $namings
+        @each $size, $length in $values
+            .#{$abbrev}t#{$infix}-#{$size},
+            .#{$abbrev}y#{$infix}-#{$size}
+                #{$prop}-top: $length
+            .#{$abbrev}r#{$infix}-#{$size},
+            .#{$abbrev}x#{$infix}-#{$size}
+                #{$prop}-right: $length
+            .#{$abbrev}b#{$infix}-#{$size},
+            .#{$abbrev}y#{$infix}-#{$size}
+                #{$prop}-bottom: $length
+            .#{$abbrev}l#{$infix}-#{$size},
+            .#{$abbrev}x#{$infix}-#{$size}
+                #{$prop}-left: $length
+            

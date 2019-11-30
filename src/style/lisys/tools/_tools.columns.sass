@@ -1,0 +1,39 @@
+@import '../settings/settings.namespace'
+@import './tools.grid'
+@import './tools.breakpoint'
+
+@mixin grid-column
+    position: relative
+    width: 100%
+    min-height: 1px
+    padding-right: $spacing / 2
+    padding-left:  $spacing / 2
+
+@mixin create-columns($columns, $spacing, $col-breakpoint, $col-breakpoints)
+    $infix: breakpoint-infix($col-breakpoint, $col-breakpoints)
+    @include media-breakpoint-up($col-breakpoint, $col-breakpoints)
+        @for $i from 1 through $columns
+            .#{$namespace-column}#{$infix}-#{$i}
+                @include grid-column
+
+        .#{$namespace-column}#{$infix},
+        .#{$namespace-column}#{$infix}-auto
+            @include grid-column
+
+        .#{$namespace-column}#{$infix}
+            flex-basis: 0
+            flex-grow: 1
+            max-width: 100%
+        
+        .#{$namespace-column}#{$infix}-auto
+            flex: 0 0 auto
+            width: auto
+            max-width: none
+
+        @for $i from 1 through $columns
+            .#{$namespace-column}#{$infix}-#{$i}
+                @include make-col($i, $columns)
+
+        @for $i from 1 through $columns
+            .order#{$infix}-#{$i}
+                order: $i

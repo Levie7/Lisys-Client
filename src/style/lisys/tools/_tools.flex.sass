@@ -1,0 +1,48 @@
+@import '../settings/settings.namespace'
+@import './tools.breakpoint'
+
+@mixin create-flex($flex-breakpoint, $flex-breakpoints)
+    @include media-breakpoint-up($flex-breakpoint, $flex-breakpoints)
+        $infix: breakpoint-infix($flex-breakpoint, $flex-breakpoints)
+
+        .#{$namespace-flex-direction}#{$infix}
+            &-row
+                flex-direction: row
+            &-column
+                flex-direction: column
+            &-row-reverse
+                flex-direction: row-reverse
+            &-column-reverse
+                flex-direction: column-reverse
+
+        .#{$namespace-flex-wrap}#{$infix}
+            &-wrap
+                flex-wrap: wrap
+            &-nowrap
+                flex-wrap: nowrap
+            &-wrap-reverse
+                flex-wrap: wrap-reverse
+
+        .#{$namespace-justify-content}#{$infix}
+            &-start
+                justify-content: flex-start
+            &-end
+                justify-content: flex-end
+            &-center
+                justify-content: center
+            &-between
+                justify-content: space-between
+            &-around
+                justify-content: space-around
+
+        .#{$namespace-align-items}#{$infix}
+            &-start                     
+                align-items: flex-start
+            &-end                       
+                align-items: flex-end
+            &-center                    
+                align-items: center
+            &-baseline                  
+                align-items: baseline
+            &-stretch                   
+                align-items: stretch

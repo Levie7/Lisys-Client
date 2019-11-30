@@ -1,11 +1,13 @@
 import React from 'react';
+import { ConfigProvider } from 'antd';
+import enGB from 'antd/lib/locale-provider/en_GB';
 
 import { createClient, GraphqlProvider } from 'src/core/graphql';
 import { createAuthLink, createAuthTokenStorage, useAuth } from 'src/core/graphql/auth';
 import { createLogger } from 'src/core/log';
 
 import { ErrorBoundary } from './shell/ErrorBoundary';
-
+import { MainLayout } from './shell/MainLayout';
 import { createConfig } from './config';
 import { Routes } from './Routes';
 
@@ -23,7 +25,11 @@ export const App = () => {
     return (
         <ErrorBoundary onError={logger.error} renderOnError={MainErrorOverlay}>
             <GraphqlProvider client={graphqlClient}>
-                <Routes isAuth={isAuth} />
+                <ConfigProvider locale={enGB}>
+                    <MainLayout>
+                        <Routes isAuth={isAuth} />
+                    </MainLayout>
+                </ConfigProvider>
             </GraphqlProvider>
         </ErrorBoundary>
     );
