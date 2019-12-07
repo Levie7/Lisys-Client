@@ -1,0 +1,24 @@
+@import 'src/style/lisys/settings/settings.color'
+
+.MainMenu
+    &_DarkDrawer
+        .drawer-handle
+            background: $primary
+
+            &-icon
+                background: $white
+
+                &:after,
+                &:before
+                    background: $white
+
+    &_LightDrawer
+        .drawer-handle
+            background: $white
+
+            &-icon
+                background: $primary
+
+                &:after,
+                &:before
+                    background: $primary

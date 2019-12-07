@@ -10,6 +10,7 @@ export interface MainMenuState {
     isMenuTop: boolean;
 }
 
+require('./MainMenu.sass');
 export class MainMenu extends React.Component<{}, MainMenuState> {
     constructor(props: {}) {
         super(props);
@@ -23,13 +24,13 @@ export class MainMenu extends React.Component<{}, MainMenuState> {
             <UIContext.Consumer>
                 {({ isMobile }) =>
                     isMobile ? (
-                        <Drawer>
-                            <MenuLeft {...this.props} />
+                        <Drawer className='MainMenu_DarkDrawer' getContainer={null} level={null}>
+                            <MenuLeft isMobile={isMobile} />
                         </Drawer>
                     ) : isMenuTop ? (
                         <MenuTop />
                     ) : (
-                        <MenuLeft />
+                        <MenuLeft isMobile={isMobile} />
                     )
                 }
             </UIContext.Consumer>

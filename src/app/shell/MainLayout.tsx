@@ -2,21 +2,20 @@ import { Layout } from 'antd';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import React from 'react';
 
+import { UIContext } from 'src/shared/contexts/UIContext';
+
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { MainMenu } from './components/MainMenu/MainMenu';
-import { UIContext } from 'src/shared/contexts/UIContext';
-
-export interface MainLayoutProps {}
 
 export interface MainLayoutState {
     isMobile: boolean;
 }
 
-export class MainLayout extends React.Component<MainLayoutProps, MainLayoutState> {
+export class MainLayout extends React.Component<{}, MainLayoutState> {
     enquireHandler: any;
 
-    constructor(props: MainLayoutProps) {
+    constructor(props: {}) {
         super(props);
         this.state = { isMobile: false };
     }
@@ -32,6 +31,7 @@ export class MainLayout extends React.Component<MainLayoutProps, MainLayoutState
     }
 
     render() {
+        let { children } = this.props;
         let UI = { isMobile: !!this.state.isMobile! };
 
         return (
@@ -42,7 +42,7 @@ export class MainLayout extends React.Component<MainLayoutProps, MainLayoutState
                         <Layout.Header>
                             <Header />
                         </Layout.Header>
-                        <Layout.Content>{this.props.children}</Layout.Content>
+                        <Layout.Content>{children}</Layout.Content>
                         <Layout.Footer>
                             <Footer />
                         </Layout.Footer>
