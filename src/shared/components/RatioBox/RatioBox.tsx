@@ -6,7 +6,7 @@ import { RATIO_CLASSES } from './constants';
 
 export type Ratio = keyof typeof RATIO_CLASSES;
 
-export interface RatioBoxProps extends React.HTMLProps<HTMLDivElement> {
+interface RatioBoxProps extends React.HTMLProps<HTMLDivElement> {
     ratio?: Ratio;
 }
 

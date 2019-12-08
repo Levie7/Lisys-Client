@@ -6,7 +6,7 @@ import { UIContext } from 'src/shared/contexts/UIContext';
 import { MenuLeft } from './MenuLeft';
 import { MenuTop } from './MenuTop';
 
-export interface MainMenuState {
+interface MainMenuState {
     isMenuTop: boolean;
 }
 

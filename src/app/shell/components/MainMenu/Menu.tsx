@@ -1,16 +1,17 @@
-import { Icon, Menu as AntMenu } from 'antd';
+import { Menu as AntMenu } from 'antd';
 import * as React from 'react';
 
 import { Menu as MenuAPI } from 'src/core/api';
 
+import { Icon } from 'src/shared/components/Icon';
 import { Link } from 'src/shared/components/Link';
 
 import { menuData } from './constants';
 
 interface MenuProps {
     className?: string;
-    mode: 'vertical' | 'vertical-left' | 'vertical-right' | 'horizontal' | 'inline' | undefined;
-    theme: 'light' | 'dark' | undefined;
+    mode?: 'vertical' | 'vertical-left' | 'vertical-right' | 'horizontal' | 'inline';
+    theme?: 'light' | 'dark';
 }
 
 export class Menu extends React.Component<MenuProps> {

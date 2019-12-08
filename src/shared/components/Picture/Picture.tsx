@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Ratio, RatioBox } from 'src/shared/components/RatioBox';
 import { classNames } from 'src/shared/utilities/classNames';
 
-export interface PictureProps
+interface PictureProps
     extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
     alt: string;
     imgClassName?: string;
@@ -13,8 +13,7 @@ export interface PictureProps
 }
 
 require('./Picture.sass');
-
-export class Picture extends React.Component<PictureProps, {}> {
+export class Picture extends React.Component<PictureProps> {
     render() {
         let {
             alt,

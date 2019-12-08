@@ -8,7 +8,7 @@ import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { MainMenu } from './components/MainMenu/MainMenu';
 
-export interface MainLayoutState {
+interface MainLayoutState {
     isMobile: boolean;
 }
 
