@@ -1,0 +1,15 @@
+@import './tools.breakpoint'
+
+@mixin make-container($spacing)
+    width: 100%
+    margin-right: auto
+    margin-left: auto
+    padding-right: $spacing
+    padding-left: $spacing
+
+
+// For each breakpoint, define the maximum width of the container in a media query
+@mixin make-container-max-widths($max-widths, $breakpoint, $breakpoints)
+    $container-max-width: map-get($max-widths, $breakpoint)
+    @include media-breakpoint-up($breakpoint, $breakpoints)
+        width: $container-max-width

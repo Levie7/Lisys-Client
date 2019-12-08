@@ -1,2 +1,2 @@
 export * from './Routing';
-export { useHistory } from 'react-router-dom';
+export { Router, Switch, useHistory } from 'react-router-dom';

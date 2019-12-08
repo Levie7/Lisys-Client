@@ -1,4 +1,6 @@
-import 'antd/dist/antd.less';
+import 'rc-drawer/assets/index.css';
+import 'src/style/antd/_antd.less';
+import 'src/style/index.sass';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
