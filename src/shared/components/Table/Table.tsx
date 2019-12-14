@@ -6,7 +6,7 @@ interface TableProps {
     dataSource?: any;
 }
 
-export class Table extends React.Component<TableProps, {}> {
+export class Table extends React.Component<TableProps> {
     render() {
         let { columns, dataSource } = this.props;
 

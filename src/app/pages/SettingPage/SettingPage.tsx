@@ -1,23 +1,25 @@
 import React from 'react';
 
+import { Company } from 'src/modules/components/Settings/Company/Company';
+import { General } from 'src/modules/components/Settings/General/General';
+import { UserManagement } from 'src/modules/components/Settings/UserManagement';
+
 import { Card } from 'src/shared/components/Card';
+import { Icon } from 'src/shared/components/Icon';
 import { Tabs, TabPositions } from 'src/shared/components/Tabs';
 import { UIContext } from 'src/shared/contexts/UIContext';
 
 import { tabData } from './constants';
-import { CompanySetting } from './components/CompanySetting';
-import { GeneralSetting } from './components/GeneralSetting';
-import { UserSetting } from './components/UserSetting';
 
 export class SettingPage extends React.Component<{}> {
     renderContent(tab: string) {
         switch (tab) {
             case 'Company':
-                return <CompanySetting />;
+                return <Company />;
             case 'General':
-                return <GeneralSetting />;
-            case 'User':
-                return <UserSetting />;
+                return <General />;
+            case 'User Management':
+                return <UserManagement />;
             default:
                 return null;
         }
@@ -25,9 +27,28 @@ export class SettingPage extends React.Component<{}> {
 
     renderTabs(position: TabPositions) {
         return (
-            <Tabs defaultActiveKey='1' tabPosition={position}>
+            <Tabs defaultActiveKey='2' tabPosition={position}>
                 {tabData.map((tab) => (
-                    <Tabs.TabPane key={tab.key} tab={tab.title}>
+                    <Tabs.TabPane
+                        key={tab.key}
+                        tab={
+                            <div className='d-flex fd-row'>
+                                <Icon className='d-flex fa-center' type={tab.icon} />
+                                <div>
+                                    <div className='fw-bold'>{tab.title}</div>
+                                    <UIContext.Consumer>
+                                        {({ isMobile }) =>
+                                            !isMobile && (
+                                                <div className='fg-gray-light'>
+                                                    {tab.description}
+                                                </div>
+                                            )
+                                        }
+                                    </UIContext.Consumer>
+                                </div>
+                            </div>
+                        }
+                    >
                         {this.renderContent(tab.title)}
                     </Tabs.TabPane>
                 ))}
