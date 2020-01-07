@@ -3,13 +3,14 @@ import * as React from 'react';
 
 interface IconProps {
     className?: string;
+    spin?: boolean;
     type: string;
 }
 
 export class Icon extends React.PureComponent<IconProps> {
     render() {
-        let { className, type } = this.props;
+        let { className, spin, type } = this.props;
 
-        return <AntIcon className={className} type={type} />;
+        return <AntIcon className={className} spin={spin} type={type} />;
     }
 }
