@@ -2,9 +2,11 @@ import React from 'react';
 
 import { LoadingComponent } from 'src/core/chunk';
 
-export const PageLoading: LoadingComponent = ({ error }) => {
+import { Spin } from 'src/shared/components/Spin';
+
+export const PageLoading: LoadingComponent = ({ error }, props) => {
     if (error) {
         throw error;
     }
-    return <div>Page is loading...</div>;
+    return <Spin spinning={true}>{props.children}</Spin>;
 };

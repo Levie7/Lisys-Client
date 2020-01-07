@@ -13,6 +13,7 @@
         "apollo-link-http": "1.5.16",
         "enquire-js": "0.2.1",
         "graphql-tag": "2.10.1",
+        "nprogress": "0.2.0",
         "rc-drawer": "3.0.2",
         "react": "16.12.0",
         "react-custom-scrollbars": "4.2.1",
@@ -24,8 +25,9 @@
     "devDependencies": {
         "@types/jest": "24.0.23",
         "@types/node": "12.12.12",
+        "@types/nprogress": "0.2.0",
         "@types/react": "16.9.12",
-        "@types/react-custom-scrollbars": "^4.0.6",
+        "@types/react-custom-scrollbars": "4.0.6",
         "@types/react-dom": "16.9.4",
         "@types/react-loadable": "5.5.2",
         "@types/react-router-dom": "5.1.2",
@@ -37,7 +39,7 @@
         "node-sass": "4.13.0",
         "prettier": "1.19.1",
         "react-app-rewired": "2.1.5",
-        "react-scripts": "3.2.0",
+        "react-scripts": "3.3.0",
         "sass-loader": "8.0.0",
         "typescript": "3.7.2"
     },
