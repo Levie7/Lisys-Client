@@ -12,13 +12,11 @@ export class Select extends React.Component<SelectProps> {
     static Option: React.ClassicComponentClass<OptionProps>;
 
     render() {
-        let { children, defaultValue, onChange } = this.props;
+        let { children, defaultValue, onChange, ...props } = this.props;
 
         return (
-            <AntSelect defaultValue={defaultValue} onChange={onChange}>
-                {/* <AntSelect.Option> */}
+            <AntSelect {...props} defaultValue={defaultValue} onChange={onChange}>
                 {children}
-                {/* </AntSelect.Option> */}
             </AntSelect>
         );
     }

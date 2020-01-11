@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Company from 'src/modules/components/Settings/Company/Company';
-import { General } from 'src/modules/components/Settings/General/General';
+import General from 'src/modules/components/Settings/General/General';
 import { UserManagement } from 'src/modules/components/Settings/UserManagement';
 
 import { Card } from 'src/shared/components/Card';
@@ -27,7 +27,7 @@ export default function SettingPage() {
 
     function renderTabs(position: TabPositions) {
         return (
-            <Tabs defaultActiveKey='1' tabPosition={position}>
+            <Tabs defaultActiveKey='2' tabPosition={position}>
                 {tabData.map((tab) => (
                     <Tabs.TabPane
                         key={tab.key}

@@ -6,7 +6,7 @@ import { InfoSetting } from 'src/modules/components/Settings/InfoSetting/InfoSet
 
 import { Breadcrumb } from 'src/shared/components/Breadcrumb';
 import { Button } from 'src/shared/components/Button';
-import { Form } from 'src/shared/components/Form';
+import { Form, FormProps } from 'src/shared/components/Form';
 import { Input } from 'src/shared/components/Input';
 import { Spin } from 'src/shared/components/Spin';
 import { Upload } from 'src/shared/components/Upload';
@@ -16,12 +16,14 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { companyInfo } from './constants';
-import { convertArrayOfObjectsToObject } from './helpers';
-import { COMPANIES, useCompany, useUpdateCompany } from './schema.gql';
+import { convertArrayOfObjectsToObject } from '../helpers';
+import { getSettings, setUpdateSettings, SETTING } from '../schema.gql';
 
-function Company(props: any) {
-    const { data, error: queryError, loading: queryLoading } = useCompany();
-    const [updateSetting, { error: mutationError, loading: mutationLoading }] = useUpdateCompany({
+function Company(props: FormProps) {
+    let { data, error: queryError, loading: queryLoading } = getSettings({
+        variables: { category: 'company' },
+    });
+    let [updateSetting, { error: mutationError, loading: mutationLoading }] = setUpdateSettings({
         onCompleted() {
             Progress(false);
             return <>{Message('Update data successfully', 'success')}</>;
@@ -35,13 +37,13 @@ function Company(props: any) {
         e.preventDefault();
         let { form } = props;
 
-        form.validateFields((err: any, values: any) => {
+        form!.validateFields((err: any, values: any) => {
             if (!err) {
                 let { company_name, company_year } = values;
 
                 Progress(true);
                 updateSetting({
-                    refetchQueries: [{ query: COMPANIES }],
+                    refetchQueries: [{ variables: { category: 'company' }, query: SETTING }],
                     variables: {
                         payload: [
                             { category: 'company', type: 'name', value: company_name },
@@ -54,7 +56,7 @@ function Company(props: any) {
     }
 
     function renderContent() {
-        let { getFieldDecorator } = props.form;
+        let { getFieldDecorator } = props.form!;
 
         return (
             <Form onSubmit={handleSubmit}>

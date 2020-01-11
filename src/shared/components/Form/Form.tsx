@@ -4,7 +4,7 @@ import * as React from 'react';
 import { WrappedFormUtils } from './interfaces';
 import { FormItem } from './FormItem';
 
-interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
+export interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
     form?: WrappedFormUtils;
     onSubmit?: (event?: React.FormEvent<HTMLFormElement>) => void;
 }
