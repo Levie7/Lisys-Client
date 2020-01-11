@@ -1,9 +1,9 @@
 import { Setting } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
-export const COMPANIES = gql`
-    {
-        getSettingsByCategory(category: "company") {
+export const SETTING = gql`
+    query getSettingsByCategory($category: String) {
+        getSettingsByCategory(category: $category) {
             type
             value
         }
@@ -11,7 +11,7 @@ export const COMPANIES = gql`
 `;
 
 const UPDATE_SETTING = gql`
-    mutation updateSetting($payload: [updateSettingPayload]) {
+    mutation updateSetting($payload: [UpdateSettingPayload]) {
         updateSetting(payload: $payload) {
             category
             type
@@ -20,6 +20,7 @@ const UPDATE_SETTING = gql`
     }
 `;
 
-export const useCompany = () => useQuery<{ getSettingsByCategory: Setting[] }>(COMPANIES);
-export const useUpdateCompany = (onComplete: any) =>
+export const getSettings = (params: any) =>
+    useQuery<{ getSettingsByCategory: Setting[] }>(SETTING, params);
+export const setUpdateSettings = (onComplete: any) =>
     useMutation<{ updateSetting: Setting }>(UPDATE_SETTING, onComplete);
