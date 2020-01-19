@@ -7,10 +7,6 @@ interface IconProps {
     type: string;
 }
 
-export class Icon extends React.PureComponent<IconProps> {
-    render() {
-        let { className, spin, type } = this.props;
-
-        return <AntIcon className={className} spin={spin} type={type} />;
-    }
-}
+export const Icon = React.memo<IconProps>(({ className, spin, type }) => (
+    <AntIcon className={className} spin={spin} type={type} />
+));

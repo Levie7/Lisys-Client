@@ -6,7 +6,7 @@ interface FormItemProps {
     label?: React.ReactNode;
 }
 
-export class FormItem extends React.Component<FormItemProps> {
+export class FormItem extends React.PureComponent<FormItemProps> {
     render() {
         let { children, extra, label } = this.props;
 

@@ -6,10 +6,6 @@ interface TableProps {
     dataSource?: any;
 }
 
-export class Table extends React.Component<TableProps> {
-    render() {
-        let { columns, dataSource } = this.props;
-
-        return <AntTable columns={columns} dataSource={dataSource} />;
-    }
-}
+export const Table = React.memo<TableProps>(({ columns, dataSource }) => (
+    <AntTable columns={columns} dataSource={dataSource} />
+));

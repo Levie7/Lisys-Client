@@ -9,7 +9,7 @@ export interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
     onSubmit?: (event?: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export class Form extends React.Component<FormProps> {
+export class Form extends React.PureComponent<FormProps> {
     static create: any;
     static Item: typeof FormItem;
 

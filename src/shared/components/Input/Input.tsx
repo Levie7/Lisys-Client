@@ -5,10 +5,6 @@ interface InputProps {
     placeholder?: string;
 }
 
-export class Input extends React.Component<InputProps> {
-    render() {
-        let { placeholder, ...props } = this.props;
-
-        return <AntInput {...props} placeholder={placeholder} />;
-    }
-}
+export const Input = React.memo<InputProps>(({ placeholder, ...props }) => (
+    <AntInput {...props} placeholder={placeholder} />
+));

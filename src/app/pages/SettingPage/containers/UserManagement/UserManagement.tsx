@@ -1,9 +1,5 @@
 import * as React from 'react';
 
-import { InfoSetting } from 'src/modules/components/Settings/InfoSetting/InfoSetting';
-import { RoleList } from 'src/modules/components/Settings/UserManagement/RoleList';
-import { UserList } from 'src/modules/components/Settings/UserManagement/UserList';
-
 import { Breadcrumb } from 'src/shared/components/Breadcrumb';
 import { Button } from 'src/shared/components/Button';
 import { Divider } from 'src/shared/components/Divider';
@@ -11,6 +7,9 @@ import { Form } from 'src/shared/components/Form';
 import { Icon } from 'src/shared/components/Icon';
 
 import { userManagementInfo } from './constants';
+import { InfoSetting } from '../../components/InfoSetting';
+import { RoleList } from '../UserManagement/RoleList';
+import { UserList } from '../UserManagement/UserList';
 
 interface UserManagementState {
     activeSection: string;

@@ -6,19 +6,16 @@ import { Icon } from 'src/shared/components/Icon';
 require('./Spin.sass');
 
 export interface SpinProps {
+    children?: React.ReactNode;
     spinning?: boolean;
 }
 
-export class Spin extends React.PureComponent<SpinProps> {
-    render() {
-        let { children, spinning } = this.props;
+export const Spin = React.memo<SpinProps>(({ children, spinning }) => {
+    let antIcon = <Icon className='spin_icon' spin type='loading' />;
 
-        let antIcon = <Icon className='spin_icon' spin type='loading' />;
-
-        return (
-            <AntSpin className='spin' indicator={antIcon} spinning={spinning} tip='Loading...'>
-                {children}
-            </AntSpin>
-        );
-    }
-}
+    return (
+        <AntSpin className='spin' indicator={antIcon} spinning={spinning} tip='Loading...'>
+            {children}
+        </AntSpin>
+    );
+});

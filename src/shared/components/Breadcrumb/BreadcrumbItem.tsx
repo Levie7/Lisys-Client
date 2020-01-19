@@ -5,7 +5,7 @@ interface BreadcrumbItemProps {
     href?: string;
 }
 
-export class BreadcrumbItem extends React.Component<BreadcrumbItemProps> {
+export class BreadcrumbItem extends React.PureComponent<BreadcrumbItemProps> {
     render() {
         let { children, href } = this.props;
 

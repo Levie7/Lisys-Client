@@ -5,10 +5,4 @@ interface LinkProps extends LinkRouterProps {
     disabled?: boolean;
 }
 
-export class Link extends React.Component<LinkProps> {
-    render() {
-        let { ...props } = this.props;
-
-        return <LinkRouter {...props} />;
-    }
-}
+export const Link = React.memo<LinkProps>(({ ...props }) => <LinkRouter {...props} />);

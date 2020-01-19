@@ -8,7 +8,7 @@ interface SelectProps {
     onChange?: (value: string, option: React.ReactElement<any> | React.ReactElement<any>[]) => void;
 }
 
-export class Select extends React.Component<SelectProps> {
+export class Select extends React.PureComponent<SelectProps> {
     static Option: React.ClassicComponentClass<OptionProps>;
 
     render() {
