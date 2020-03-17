@@ -15,6 +15,7 @@
         "no-bitwise": 0,
         "no-cond-assign": "warn",
         "no-debugger": "warn",
+        "no-unused-vars": "warn",
         "prefer-const": 0,
         "radix": 0,
         "comma-dangle": [

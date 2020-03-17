@@ -71,7 +71,7 @@ export class Upload extends React.Component<UploadProps, UploadState> {
 
         let uploadButton = (
             <>
-                <Icon type={loading ? 'loading' : 'plus'} />
+                {loading ? Icon.loading : Icon.plus}
                 <div className='ant-upload-text'>Upload</div>
             </>
         );

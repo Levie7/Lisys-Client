@@ -1,103 +1,57 @@
 import * as React from 'react';
 
 import { Breadcrumb } from 'src/shared/components/Breadcrumb';
-import { Button } from 'src/shared/components/Button';
-import { Divider } from 'src/shared/components/Divider';
-import { Form } from 'src/shared/components/Form';
-import { Icon } from 'src/shared/components/Icon';
+import { Capitalized } from 'src/shared/utilities/capitalized';
 
-import { userManagementInfo } from './constants';
-import { InfoSetting } from '../../components/InfoSetting';
-import { RoleList } from '../UserManagement/RoleList';
-import { UserList } from '../UserManagement/UserList';
+import { Role } from './Role';
+import { User } from './User';
+import { UserManagementForm } from './UserManagementForm';
 
-interface UserManagementState {
-    activeSection: string;
-}
+export const UserManagement = React.memo(() => {
+    let [activeSection, setActiveSection] = React.useState({ action: 'list', section: 'role' });
 
-export class UserManagement extends React.Component<{}, UserManagementState> {
-    constructor(props: {}) {
-        super(props);
-        this.state = { activeSection: 'Main' };
-
-        this.setSection = this.setSection.bind(this);
+    function handleSection({ action, section }: { action: string; section: string }) {
+        setActiveSection({ action, section });
     }
 
-    setSection(section: string) {
-        this.setState({ activeSection: section });
-    }
-
-    renderContent() {
-        let { activeSection } = this.state;
-
-        switch (activeSection) {
-            case 'Role':
-                return <RoleList setSection={this.setSection} />;
-            case 'Main':
-                return this.renderMain();
-            case 'User':
-                return <UserList setSection={this.setSection} />;
+    function renderContent() {
+        switch (activeSection.section) {
+            case 'role':
+                return (
+                    <Role
+                        action={activeSection.action}
+                        section={activeSection.section}
+                        setSection={handleSection}
+                    />
+                );
+            case 'main':
+                return <UserManagementForm setSection={handleSection} />;
+            case 'user':
+                return (
+                    <User
+                        action={activeSection.action}
+                        section={activeSection.section}
+                        setSection={handleSection}
+                    />
+                );
             default:
                 return null;
         }
     }
 
-    renderMain() {
-        return (
-            <Form>
-                <InfoSetting
-                    description={userManagementInfo.role.description}
-                    title={userManagementInfo.role.title}
-                >
-                    <div className='fw-bold mb-2'>Active Role (0)</div>
-                    <Button
-                        onClick={() => this.setSection(userManagementInfo.role.title)}
-                        type='default'
-                    >
-                        Add or Modify Role
-                    </Button>
-                </InfoSetting>
-                <InfoSetting
-                    description={userManagementInfo.permission.description}
-                    title={userManagementInfo.permission.title}
-                >
-                    <Button
-                        onClick={() => this.setSection(userManagementInfo.permission.title)}
-                        type='default'
-                    >
-                        Set Permission
-                        <Icon type='lock' />
-                    </Button>
-                </InfoSetting>
-                <InfoSetting
-                    description={userManagementInfo.user.description}
-                    title={userManagementInfo.user.title}
-                >
-                    <div className='fw-bold mb-2'>Active User (0)</div>
-                    <Button
-                        onClick={() => this.setSection(userManagementInfo.user.title)}
-                        type='default'
-                    >
-                        Add or Modify User
-                    </Button>
-                </InfoSetting>
-            </Form>
-        );
-    }
-
-    render() {
-        let { activeSection } = this.state;
-
-        return (
-            <>
-                <Breadcrumb>
-                    <Breadcrumb.Item href='/settings'>Settings</Breadcrumb.Item>
-                    <Breadcrumb.Item>User Management</Breadcrumb.Item>
-                    {activeSection !== 'Main' && <Breadcrumb.Item>{activeSection}</Breadcrumb.Item>}
-                </Breadcrumb>
-                {this.renderContent()}
-                <Divider />
-            </>
-        );
-    }
-}
+    return (
+        <>
+            <Breadcrumb>
+                <Breadcrumb.Item href='/settings'>Settings</Breadcrumb.Item>
+                <Breadcrumb.Item>User Management</Breadcrumb.Item>
+                {activeSection.section !== 'main' && (
+                    <Breadcrumb.Item>{Capitalized(activeSection.section)}</Breadcrumb.Item>
+                )}
+                {activeSection.action !== 'back' && (
+                    <Breadcrumb.Item>{Capitalized(activeSection.action)}</Breadcrumb.Item>
+                )}
+            </Breadcrumb>
+            {renderContent()}
+        </>
+    );
+});

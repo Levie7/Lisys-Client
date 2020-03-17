@@ -11,7 +11,7 @@ export interface SpinProps {
 }
 
 export const Spin = React.memo<SpinProps>(({ children, spinning }) => {
-    let antIcon = <Icon className='spin_icon' spin type='loading' />;
+    let antIcon = <div className='spin_icon'>{Icon.loading}</div>;
 
     return (
         <AntSpin className='spin' indicator={antIcon} spinning={spinning} tip='Loading...'>

@@ -1,3 +1,5 @@
+import { FormInstance } from 'antd/lib/form';
+
 interface REACT_STATICS {
     childContextTypes: true;
     contextType: true;
@@ -39,6 +41,12 @@ interface FORWARD_REF_STATICS {
     propTypes: true;
 }
 
+export declare type ChildrenType =
+    | React.ReactElement
+    | RenderChildren
+    | React.ReactElement[]
+    | null;
+declare type RenderChildren = (form: FormInstance) => React.ReactElement;
 declare type NonReactStatics<
     S extends React.ComponentType<any>,
     C extends {
@@ -205,3 +213,13 @@ export interface WrappedFormInternalProps<V = any> {
 export interface RcBaseFormProps {
     wrappedComponentRef?: any;
 }
+
+export type ValidateStatus = '' | 'error' | 'success' | 'warning' | 'validating';
+export interface FormItemLabelProps {
+    colon?: boolean;
+    htmlFor?: string;
+    label?: React.ReactNode;
+    labelAlign?: FormLabelAlign;
+}
+
+export declare type FormLabelAlign = 'left' | 'right';

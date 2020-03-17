@@ -25,7 +25,7 @@ export const Menu = React.memo<MenuProps>(({ className, mode, theme }) => {
         return (
             <AntMenu.Item key={menu.key}>
                 <Link to={menu.url}>
-                    <Icon type={menu.icon} />
+                    {Icon[menu.icon]}
                     <span>{menu.name}</span>
                 </Link>
             </AntMenu.Item>
@@ -35,7 +35,7 @@ export const Menu = React.memo<MenuProps>(({ className, mode, theme }) => {
     function renderSubMenu(menu: MenuAPI) {
         let subMenuTitle = (
             <>
-                <Icon type={menu.icon} />
+                {Icon[menu.icon]}
                 <span>{menu.name}</span>
             </>
         );

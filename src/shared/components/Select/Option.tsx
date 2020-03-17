@@ -1,10 +1,10 @@
 import { Select as AntSelect } from 'antd';
 import * as React from 'react';
 
-export interface OptionProps {
+interface OptionProps {
     children?: React.ReactNode;
     disabled?: boolean;
-    value?: string | number;
+    value: React.ReactText;
 }
 
 export const Option = React.memo<OptionProps>(({ children, disabled, value }) => (

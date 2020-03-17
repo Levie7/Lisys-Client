@@ -1,81 +1,85 @@
 import * as React from 'react';
+import { Form } from 'antd';
+
+import { InfoSetting } from 'src/app/pages/SettingPage/components/InfoSetting';
+import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
 
 import { SettingCompany } from 'src/core/api';
 
-import { Form, FormProps } from 'src/shared/components/Form';
 import { Input } from 'src/shared/components/Input';
 import { Spin } from 'src/shared/components/Spin';
 import { Upload } from 'src/shared/components/Upload';
 
-import { Errors } from 'src/shared/utilities/errors';
-import { Message } from 'src/shared/utilities/message';
+import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { companyInfo } from './constants';
 import { convertArrayOfObjectsToObject } from '../helpers';
 import { getSettings, setUpdateSettings, SETTING } from '../schema.gql';
-import { InfoSetting } from '../../components/InfoSetting';
-import { SaveSettingButton } from '../../components/SaveSettingButton';
+import { mutationForm } from 'src/shared/graphql/mutationForm';
 
-function CompanyForm(props: FormProps) {
-    let { data, error: queryError, loading: queryLoading } = getSettings({
-        variables: { category: 'company' },
-    });
-    let [updateSetting, { error: mutationError, loading: mutationLoading }] = setUpdateSettings({
-        onCompleted() {
-            Progress(false);
-            return <>{Message('Update data successfully', 'success')}</>;
-        },
-    });
-    if (queryLoading || mutationLoading) return <Spin />;
-    if (queryError || mutationError) return Errors(queryError! || mutationError!);
+export function CompanyForm() {
+    let [form] = Form.useForm();
 
-    let company = convertArrayOfObjectsToObject(data?.getSettingsByCategory) as SettingCompany;
-    if (!company) {
-        return <>{Message('Error - Failed to load data source', 'error')}</>;
-    }
+    let mutation = mutationForm('update', setUpdateSettings);
+    let query = handleQuery();
+    if (mutation.loading || query.loading) return <Spin />;
 
-    let { getFieldDecorator } = props.form!;
+    let company = convertArrayOfObjectsToObject(
+        query.data?.getSettingsByCategory
+    ) as SettingCompany;
+    let initialValues = company && { company_name: company.name, company_year: company.year };
 
-    function handleSubmit(e: any) {
-        e.preventDefault();
-        let { form } = props;
+    function handleFinish(values: any) {
+        Progress(true);
 
-        form!.validateFields((err: any, values: any) => {
-            if (!err) {
-                let { company_name, company_year } = values;
+        let { company_name, company_year } = values;
 
-                Progress(true);
-                updateSetting({
-                    refetchQueries: [{ variables: { category: 'company' }, query: SETTING }],
-                    variables: {
-                        payload: [
-                            { category: 'company', type: 'name', value: company_name },
-                            { category: 'company', type: 'year', value: company_year },
-                        ],
-                    },
-                });
-            }
+        mutation.action({
+            refetchQueries: [{ variables: { category: 'company' }, query: SETTING }],
+            variables: {
+                payload: [
+                    { category: 'company', type: 'name', value: company_name },
+                    { category: 'company', type: 'year', value: company_year },
+                ],
+            },
         });
     }
 
+    function handleQuery() {
+        let { data, loading } = getSettings({
+            onError(error: any) {
+                ErrorHandler(error);
+            },
+            variables: { category: 'company' },
+        });
+
+        return {
+            data,
+            loading,
+        };
+    }
+
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form form={form} initialValues={initialValues} layout='vertical' onFinish={handleFinish}>
             <InfoSetting
                 description={companyInfo.companyInformation.description}
                 title={companyInfo.companyInformation.title}
             >
-                <Form.Item label='Company Name'>
-                    {getFieldDecorator('company_name', {
-                        initialValue: company.name,
-                        rules: [{ required: true, message: 'Please set the company name' }],
-                    })(<Input placeholder='PT. Lisys' />)}
+                <Form.Item
+                    label='Company Name'
+                    name='company_name'
+                    rules={[{ required: true, message: 'Please input the company name' }]}
+                >
+                    <Input placeholder='PT. Lisys' />
                 </Form.Item>
-                <Form.Item extra='Year the company was founded until now' label='Company Year'>
-                    {getFieldDecorator('company_year', {
-                        initialValue: company.year,
-                        rules: [{ required: true, message: 'Please set the company year' }],
-                    })(<Input placeholder='2019' />)}
+                <Form.Item
+                    extra='Year the company was founded until now'
+                    label='Company Year'
+                    name='company_year'
+                    rules={[{ required: true, message: 'Please input the company year' }]}
+                >
+                    <Input placeholder='2019' />
                 </Form.Item>
             </InfoSetting>
             <InfoSetting
@@ -92,5 +96,3 @@ function CompanyForm(props: FormProps) {
         </Form>
     );
 }
-
-export default Form.create({ name: 'companyForm' })(CompanyForm);

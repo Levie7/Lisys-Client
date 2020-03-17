@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Card } from 'src/shared/components/Card';
+import { Icon } from 'src/shared/components/Icon';
 import { Tabs, TabPositions } from 'src/shared/components/Tabs';
 import { UIContext } from 'src/shared/contexts/UIContext';
 
@@ -26,7 +27,7 @@ export default function SettingPage() {
 
     function renderTabs(position: TabPositions) {
         return (
-            <Tabs defaultActiveKey='2' tabPosition={position}>
+            <Tabs defaultActiveKey='3' tabPosition={position}>
                 {tabData.map((tab) => (
                     <Tabs.TabPane
                         key={tab.key}

@@ -1,6 +1,8 @@
 import { Avatar, Dropdown, Menu } from 'antd';
 import * as React from 'react';
 
+import { Icon } from 'src/shared/components/Icon';
+
 require('./Header.sass');
 
 export const Header = React.memo(() => {
@@ -48,7 +50,12 @@ export const Header = React.memo(() => {
             <div className='Header_Dropdown'>
                 <Dropdown overlay={menu} trigger={['click']} placement='bottomRight'>
                     <a className='ant-dropdown-link' href='/'>
-                        <Avatar className='Header_Avatar' shape='square' size='large' icon='user' />
+                        <Avatar
+                            className='Header_Avatar'
+                            shape='square'
+                            size='large'
+                            icon={Icon.user}
+                        />
                     </a>
                 </Dropdown>
             </div>

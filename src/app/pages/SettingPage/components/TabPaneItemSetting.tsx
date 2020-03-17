@@ -12,7 +12,7 @@ interface TabPaneItemSettingProps {
 export const TabPaneItemSetting = React.memo<TabPaneItemSettingProps>(
     ({ description, icon, title }) => (
         <div className='d-flex fd-row'>
-            <Icon className='d-flex fa-center' type={icon} />
+            {Icon[icon]}
             <div>
                 <div className='fw-bold'>{title}</div>
                 <UIContext.Consumer>
