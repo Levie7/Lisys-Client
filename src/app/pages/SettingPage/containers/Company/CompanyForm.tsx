@@ -9,14 +9,13 @@ import { SettingCompany } from 'src/core/api';
 import { Input } from 'src/shared/components/Input';
 import { Spin } from 'src/shared/components/Spin';
 import { Upload } from 'src/shared/components/Upload';
-
+import { mutationForm } from 'src/shared/graphql/mutationForm';
+import { getSettings, SETTING, setUpdateSettings } from 'src/shared/graphql/Setting/schema.gql';
+import { convertArrayOfObjectsToObject } from 'src/shared/helpers/convertArrayOfObjects';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { companyInfo } from './constants';
-import { convertArrayOfObjectsToObject } from '../helpers';
-import { getSettings, SETTING, setUpdateSettings } from '../schema.gql';
-import { mutationForm } from 'src/shared/graphql/mutationForm';
 
 export function CompanyForm() {
     let [form] = Form.useForm();

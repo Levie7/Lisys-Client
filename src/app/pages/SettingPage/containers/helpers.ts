@@ -1,10 +1,6 @@
-import { Column, Setting } from 'src/core/api';
+import { Column } from 'src/core/api';
 
 import { Capitalized } from 'src/shared/utilities/capitalized';
-
-export function convertArrayOfObjectsToObject(data?: Setting[]) {
-    return data && Object.assign({}, ...data.map((item) => ({ [item.type]: item.value })));
-}
 
 export function convertDataFieldToColumn(data: any) {
     let columns: Column[] = [];

@@ -9,12 +9,12 @@ import { SettingGeneral } from 'src/core/api';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
+import { getSettings, SETTING, setUpdateSettings } from 'src/shared/graphql/Setting/schema.gql';
+import { convertArrayOfObjectsToObject } from 'src/shared/helpers/convertArrayOfObjects';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { generalInfo } from './constants';
-import { getSettings, SETTING, setUpdateSettings } from '../schema.gql';
-import { convertArrayOfObjectsToObject } from '../helpers';
 
 export function GeneralForm() {
     let [form] = Form.useForm();
