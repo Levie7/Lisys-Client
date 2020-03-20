@@ -3,7 +3,6 @@ import * as React from 'react';
 import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
 
 import { Divider } from 'src/shared/components/Divider';
-import { Icon } from 'src/shared/components/Icon';
 
 import { RoleList } from './RoleList';
 
@@ -28,7 +27,7 @@ export const RoleListSection = React.memo<RoleListSectionProps>(({ setRecord, se
                 <ActionButton
                     action='back'
                     buttonType='default'
-                    iconType='left'
+                    iconType='back'
                     section='main'
                     setSection={handleSection}
                     title='Back'

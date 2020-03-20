@@ -9,4 +9,9 @@ export const userColumns = [
         key: 'name',
         title: 'Name',
     },
+    {
+        dataIndex: 'roleName',
+        key: 'roleName',
+        title: 'Role',
+    },
 ];

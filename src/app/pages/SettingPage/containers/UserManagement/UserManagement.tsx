@@ -8,7 +8,7 @@ import { User } from './User';
 import { UserManagementForm } from './UserManagementForm';
 
 export const UserManagement = React.memo(() => {
-    let [activeSection, setActiveSection] = React.useState({ action: 'list', section: 'role' });
+    let [activeSection, setActiveSection] = React.useState({ action: 'list', section: 'user' });
 
     function handleSection({ action, section }: { action: string; section: string }) {
         setActiveSection({ action, section });

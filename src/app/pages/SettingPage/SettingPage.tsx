@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { Card } from 'src/shared/components/Card';
-import { Icon } from 'src/shared/components/Icon';
-import { Tabs, TabPositions } from 'src/shared/components/Tabs';
+import { TabPositions, Tabs } from 'src/shared/components/Tabs';
 import { UIContext } from 'src/shared/contexts/UIContext';
 
 import { TabPaneItemSetting } from './components/TabPaneItemSetting';

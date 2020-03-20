@@ -5,7 +5,6 @@ import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton'
 import { Divider } from 'src/shared/components/Divider';
 
 import { RoleForm } from './RoleForm';
-import { Icon } from 'src/shared/components/Icon';
 
 interface RoleFormSectionProps {
     formType: string;

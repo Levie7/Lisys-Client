@@ -2,17 +2,24 @@ import * as React from 'react';
 import { Form } from 'antd';
 
 import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
+import { getRoles } from 'src/app/pages/SettingPage/containers/UserManagement/Role/containers/schema.gql';
+import {
+    createUser,
+    getUserById,
+    updateUser,
+    USER_BY_ID,
+    USERS,
+} from 'src/app/pages/SettingPage/containers/UserManagement/User/containers/schema.gql';
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
 import { Button } from 'src/shared/components/Button';
 import { Icon } from 'src/shared/components/Icon';
 import { Input } from 'src/shared/components/Input';
+import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
-
-import { createUser, getUserById, USERS, USER_BY_ID, updateUser } from '../schema.gql';
 
 interface UserFormProps {
     formType: string;
@@ -25,13 +32,20 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
     let [isUsernameChanged, changeUsername] = React.useState(false);
 
     let mutation = mutationForm(formType, formType === 'create' ? createUser : updateUser);
-    let query = handleQuery({ formType, recordKey });
-    if (mutation.loading || query.loading) return <Spin />;
+    let query = handleQuery(
+        { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
+        getUserById
+    );
+    let roleQuery = handleQuery(undefined, getRoles);
+    if (mutation.loading || query.loading || roleQuery.loading) return <Spin />;
 
     let initialValues = {
-        username: query.data?.getUserById.username,
         name: query.data?.getUserById.name,
+        role: query.data?.getUserById.role.id,
+        username: query.data?.getUserById.username,
     };
+
+    let roles = roleQuery.data?.getRoles;
 
     function handleChangePassword() {
         changePassword(true);
@@ -44,12 +58,13 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
     function handleFinish(values: any) {
         Progress(true);
 
-        let { name, password, username } = values;
+        let { name, password, role, username } = values;
         let fetchPayload = {
             id: recordKey,
             name,
-            username,
             password,
+            role,
+            username,
         };
         let fetchQuery;
         let payload;
@@ -58,7 +73,7 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
             case 'create':
                 fetchQuery = [{ query: USERS }, { query: USER_MANAGEMENT }];
                 payload = fetchPayload;
-                form.resetFields(['confirm_password', 'name', 'password', 'username']);
+                form.resetFields(['confirm_password', 'name', 'password', 'role', 'username']);
                 break;
             case 'update':
                 fetchQuery = [
@@ -81,13 +96,13 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
         });
     }
 
-    function handleQuery(options: any) {
-        let { data, loading } = getUserById({
+    function handleQuery(options: any, queries: any) {
+        let { data, loading } = queries({
             onError(error: any) {
                 ErrorHandler(error);
             },
-            skip: options.formType === 'create',
-            variables: { id: options.recordKey },
+            skip: options && options.isSkip,
+            variables: options && options.variables,
         });
 
         return {
@@ -148,6 +163,20 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
                 rules={[{ required: true, message: 'Please input the name' }]}
             >
                 <Input />
+            </Form.Item>
+            <Form.Item
+                label='Role'
+                name='role'
+                rules={[{ required: true, message: 'Please select the role' }]}
+            >
+                <Select>
+                    {roles &&
+                        roles.map((role: any) => (
+                            <Select.Option key={role.id} value={role.id}>
+                                {role.name}
+                            </Select.Option>
+                        ))}
+                </Select>
             </Form.Item>
             {formType === 'update' ? (
                 !isPasswordChanged ? (

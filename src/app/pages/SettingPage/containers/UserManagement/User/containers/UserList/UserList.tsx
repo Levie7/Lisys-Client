@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
-import { User } from 'src/core/api';
+import { User, UserData } from 'src/core/api';
 
 import { Spin } from 'src/shared/components/Spin';
 import { Column, Table, TableAction } from 'src/shared/components/Table';
@@ -21,7 +21,7 @@ interface UserListProps {
 export const UserList = React.memo<UserListProps>(({ handleRecord }) => {
     let mutation = mutationForm('delete', deleteUser);
     let query = handleQuery();
-    let users: User[] = handleData(query.data?.getUsers);
+    let users: UserData[] = handleData(query.data?.getUsers);
     if (mutation.loading || query.loading) return <Spin />;
 
     function handleData(user?: User[]) {
@@ -34,6 +34,7 @@ export const UserList = React.memo<UserListProps>(({ handleRecord }) => {
                 key: user.id!,
                 name: user.name,
                 password: user.password,
+                roleName: user.role!.name,
                 username: user.username,
             };
         });

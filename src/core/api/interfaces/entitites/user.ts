@@ -1,7 +1,14 @@
 export interface User {
     id?: string;
-    key: string;
     name: string;
-    password: string;
     username: string;
+    password?: string;
+    role?: {
+        name: string;
+    };
+}
+
+export interface UserData extends User {
+    key: string;
+    roleName: string;
 }

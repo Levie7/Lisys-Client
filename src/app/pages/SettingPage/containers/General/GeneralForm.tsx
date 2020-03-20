@@ -13,7 +13,7 @@ import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { generalInfo } from './constants';
-import { getSettings, setUpdateSettings, SETTING } from '../schema.gql';
+import { getSettings, SETTING, setUpdateSettings } from '../schema.gql';
 import { convertArrayOfObjectsToObject } from '../helpers';
 
 export function GeneralForm() {

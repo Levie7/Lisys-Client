@@ -6,7 +6,9 @@ export const USERS = gql`
         getUsers {
             id
             name
-            password
+            role {
+                name
+            }
             username
         }
     }
@@ -16,6 +18,9 @@ export const USER_BY_ID = gql`
     query getUserById($id: ID!) {
         getUserById(id: $id) {
             name
+            role {
+                id
+            }
             username
         }
     }
@@ -32,6 +37,9 @@ const CREATE_USER = gql`
         createUser(payload: $payload) {
             name
             password
+            role {
+                id
+            }
             username
         }
     }
@@ -52,6 +60,9 @@ const UPDATE_USER = gql`
         updateUser(payload: $payload) {
             name
             password
+            role {
+                id
+            }
             username
         }
     }

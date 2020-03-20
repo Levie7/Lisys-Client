@@ -6,11 +6,11 @@ import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManage
 
 import { Input, InputArea } from 'src/shared/components/Input';
 import { Spin } from 'src/shared/components/Spin';
+import { mutationForm } from 'src/shared/graphql/mutationForm';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { createRole, getRoleById, ROLES, ROLE_BY_ID, updateRole } from '../schema.gql';
-import { mutationForm } from 'src/shared/graphql/mutationForm';
+import { createRole, getRoleById, ROLE_BY_ID, ROLES, updateRole } from '../schema.gql';
 
 interface RoleFormProps {
     formType: string;

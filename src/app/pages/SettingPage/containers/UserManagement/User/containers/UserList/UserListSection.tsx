@@ -27,7 +27,7 @@ export const UserListSection = React.memo<UserListSectionProps>(({ setRecord, se
                 <ActionButton
                     action='back'
                     buttonType='default'
-                    iconType='left'
+                    iconType='back'
                     section='main'
                     setSection={handleSection}
                     title='Back'

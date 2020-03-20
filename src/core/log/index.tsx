@@ -1,4 +1,4 @@
-import { init, captureException } from '@sentry/browser';
+import { captureException, init } from '@sentry/browser';
 
 export const createLogger = ({
     environment,

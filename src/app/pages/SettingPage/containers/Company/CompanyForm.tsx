@@ -15,7 +15,7 @@ import { Progress } from 'src/shared/utilities/progress';
 
 import { companyInfo } from './constants';
 import { convertArrayOfObjectsToObject } from '../helpers';
-import { getSettings, setUpdateSettings, SETTING } from '../schema.gql';
+import { getSettings, SETTING, setUpdateSettings } from '../schema.gql';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
 
 export function CompanyForm() {
