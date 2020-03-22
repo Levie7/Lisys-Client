@@ -2,13 +2,10 @@ import { Divider as AntDivider } from 'antd';
 import * as React from 'react';
 
 interface DividerProps {
+    children?: React.ReactNode;
     orientation?: 'center' | 'left' | 'right';
 }
 
-export class Divider extends React.PureComponent<DividerProps> {
-    render() {
-        let { children, orientation } = this.props;
-
-        return <AntDivider orientation={orientation}>{children}</AntDivider>;
-    }
-}
+export const Divider = React.memo<DividerProps>(({ children, orientation }) => (
+    <AntDivider orientation={orientation}>{children}</AntDivider>
+));

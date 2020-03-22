@@ -13,20 +13,19 @@ interface PictureProps
 }
 
 require('./Picture.sass');
-export class Picture extends React.Component<PictureProps> {
-    render() {
-        let {
-            alt,
-            className,
-            imgClassName,
-            objectFit,
-            ratio,
-            src,
-            stretch = 'none',
-            title,
-            ...props
-        } = this.props;
 
+export const Picture = React.memo<PictureProps>(
+    ({
+        alt,
+        className,
+        imgClassName,
+        objectFit,
+        ratio,
+        src,
+        stretch = 'none',
+        title,
+        ...props
+    }) => {
         let pictureVariant = {
             Picture_Contained: stretch === 'container',
             Picture_Wide: stretch === 'width',
@@ -47,4 +46,4 @@ export class Picture extends React.Component<PictureProps> {
             </RatioBox>
         );
     }
-}
+);

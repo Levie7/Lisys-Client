@@ -1,16 +1,36 @@
-import { Icon as AntIcon } from 'antd';
+import {
+    DashboardOutlined,
+    DeleteOutlined,
+    EditOutlined,
+    GlobalOutlined,
+    HddOutlined,
+    LeftOutlined,
+    LoadingOutlined,
+    LockOutlined,
+    MedicineBoxOutlined,
+    PlusOutlined,
+    SettingOutlined,
+    ShopOutlined,
+    UserOutlined,
+} from '@ant-design/icons';
 import * as React from 'react';
 
-interface IconProps {
-    className?: string;
-    spin?: boolean;
-    type: string;
+interface Icons {
+    [key: string]: JSX.Element;
 }
 
-export class Icon extends React.PureComponent<IconProps> {
-    render() {
-        let { className, spin, type } = this.props;
-
-        return <AntIcon className={className} spin={spin} type={type} />;
-    }
-}
+export const Icon: Icons = {
+    back: <LeftOutlined />,
+    dashboard: <DashboardOutlined />,
+    delete: <DeleteOutlined />,
+    edit: <EditOutlined />,
+    global: <GlobalOutlined />,
+    hdd: <HddOutlined />,
+    loading: <LoadingOutlined />,
+    lock: <LockOutlined />,
+    medicine_box: <MedicineBoxOutlined />,
+    plus: <PlusOutlined />,
+    setting: <SettingOutlined />,
+    shop: <ShopOutlined />,
+    user: <UserOutlined />,
+};

@@ -1,19 +1,35 @@
-import { Form as AntForm } from 'antd';
-import * as React from 'react';
+// import { Form as AntForm } from 'antd';
+// import * as React from 'react';
 
-interface FormItemProps {
-    extra?: React.ReactNode;
-    label?: React.ReactNode;
-}
+// import { ChildrenType, FormItemLabelProps, FormItem ValidateStatus } from './interfaces';
 
-export class FormItem extends React.Component<FormItemProps> {
-    render() {
-        let { children, extra, label } = this.props;
+// interface FormItemProps
+//     extends FormItemLabelProps,
+//         FormItemInputProps,
+//         Omit<RcFieldProps, 'children'> {
+//     children: ChildrenType;
+//     extra?: React.ReactNode;
+//     hasFeedback?: boolean;
+//     help?: React.ReactNode;
+//     label?: React.ReactNode;
+//     validateStatus?: ValidateStatus;
+// }
 
-        return (
-            <AntForm.Item extra={extra} label={label}>
-                {children}
-            </AntForm.Item>
-        );
-    }
-}
+// export class FormItem extends React.PureComponent<FormItemProps> {
+//     render() {
+//         let { children, extra, hasFeedback, help, label, validateStatus } = this.props;
+
+//         return (
+//             <AntForm.Item
+//                 extra={extra}
+//                 hasFeedback={hasFeedback}
+//                 help={help}
+//                 label={label}
+//                 validateStatus={validateStatus}
+//             >
+//                 {/* {children} */}
+//             </AntForm.Item>
+//         );
+//     }
+// }
+export {};

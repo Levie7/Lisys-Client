@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { BreadcrumbItem } from './BreadcrumbItem';
 
-export class Breadcrumb extends React.Component<{}> {
+export class Breadcrumb extends React.PureComponent<{}> {
     static Item: typeof BreadcrumbItem;
 
     render() {

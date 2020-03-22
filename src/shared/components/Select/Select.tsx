@@ -1,15 +1,13 @@
 import { Select as AntSelect } from 'antd';
 import * as React from 'react';
 
-import { OptionProps } from './Option';
-
 interface SelectProps {
     defaultValue?: string;
-    onChange?: (value: string, option: React.ReactElement<any> | React.ReactElement<any>[]) => void;
+    onChange?: (value: string, option: any) => void;
 }
 
-export class Select extends React.Component<SelectProps> {
-    static Option: React.ClassicComponentClass<OptionProps>;
+export class Select extends React.PureComponent<SelectProps> {
+    static Option: import('rc-select/lib/Option').OptionFC;
 
     render() {
         let { children, defaultValue, onChange, ...props } = this.props;

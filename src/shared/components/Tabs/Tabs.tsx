@@ -14,7 +14,7 @@ interface TabsProps {
     tabPosition?: TabPositions;
 }
 
-export class Tabs extends React.Component<TabsProps> {
+export class Tabs extends React.PureComponent<TabsProps> {
     static TabPane: React.ClassicComponentClass<TabPaneProps>;
 
     render() {

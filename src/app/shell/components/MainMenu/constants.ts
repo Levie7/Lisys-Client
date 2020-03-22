@@ -29,7 +29,7 @@ export const menuData = [
     {
         children: [
             {
-                icon: 'medicine-box',
+                icon: 'medicine_box',
                 key: 'Obat',
                 name: 'Obat',
                 status: 'Active',

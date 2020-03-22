@@ -12,12 +12,8 @@ interface RatioBoxProps extends React.HTMLProps<HTMLDivElement> {
 
 require('./RatioBox.sass');
 
-export class RatioBox extends React.Component<RatioBoxProps> {
-    render() {
-        let { ratio, className, ...props } = this.props;
+export const RatioBox = React.memo<RatioBoxProps>(({ ratio, className, ...props }) => {
+    className = classNames('position-relative', ratio && RATIO_CLASSES[ratio], className);
 
-        className = classNames('position-relative', ratio && RATIO_CLASSES[ratio], className);
-
-        return <div {...props} className={className} />;
-    }
-}
+    return <div {...props} className={className} />;
+});

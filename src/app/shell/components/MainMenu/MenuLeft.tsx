@@ -11,69 +11,53 @@ interface MenuLeftProps {
     isMobile: boolean;
 }
 
-interface MenuLeftState {
-    onCollapsed: boolean;
-}
-
 require('./MenuLeft.sass');
-export class MenuLeft extends React.Component<MenuLeftProps, MenuLeftState> {
-    constructor(props: MenuLeftProps) {
-        super(props);
-        this.state = { onCollapsed: false };
 
-        this.toggleCollapse = this.toggleCollapse.bind(this);
-    }
+export const MenuLeft = React.memo<MenuLeftProps>(({ isMobile }) => {
+    const [onCollapsed, setCollapsed] = React.useState(false);
 
-    toggleCollapse(type: any) {
-        let { onCollapsed } = this.state;
-
+    function toggleCollapse(type: any) {
         if (type === 'responsive' && onCollapsed) {
             return;
         }
 
-        this.setState({ onCollapsed: !onCollapsed });
+        setCollapsed(!onCollapsed);
     }
 
-    render() {
-        let { isMobile } = this.props;
-        let { onCollapsed } = this.state;
+    let paramsMobile = {
+        collapsed: false,
+        collapsible: false,
+        onCollapse: toggleCollapse,
+        width: 256,
+    };
+    let paramsDesktop = {
+        breakpoint: 'lg',
+        collapsed: onCollapsed,
+        collapsible: true,
+        onCollapse: toggleCollapse,
+        width: 256,
+    };
+    let params = isMobile ? paramsMobile : paramsDesktop;
 
-        let paramsMobile = {
-            collapsed: false,
-            collapsible: false,
-            onCollapse: this.toggleCollapse,
-            width: 256,
-        };
-        let paramsDesktop = {
-            breakpoint: 'lg',
-            collapsed: onCollapsed,
-            collapsible: true,
-            onCollapse: this.toggleCollapse,
-            width: 256,
-        };
-
-        let params = isMobile ? paramsMobile : paramsDesktop;
-
-        return (
-            <Layout.Sider {...params} className='MenuLeft'>
-                {!onCollapsed && (
-                    <div className='MenuLeft_Logo d-flex fa-center fj-center'>
-                        <Picture
-                            alt={logo.light.alt}
-                            className='bg-primary'
-                            height='46px'
-                            src={logo.light.url}
-                            title={logo.light.title}
-                        />
-                    </div>
-                )}
-                <Scrollbars
-                    autoHide
-                    style={{ height: isMobile ? 'calc(100vh - 64px)' : 'calc(100vh - 112px)' }}
-                >
-                    <Menu className='MenuLeft_Navigation' mode='inline' theme='dark' />
-                </Scrollbars>
-            </Layout.Sider>
-        );
-    }
-}
+    return (
+        <Layout.Sider {...params} className='MenuLeft'>
+            {!onCollapsed && (
+                <div className='MenuLeft_Logo d-flex fa-center fj-center'>
+                    <Picture
+                        alt={logo.light.alt}
+                        className='bg-primary'
+                        height='46px'
+                        src={logo.light.url}
+                        title={logo.light.title}
+                    />
+                </div>
+            )}
+            <Scrollbars
+                autoHide
+                style={{ height: isMobile ? 'calc(100vh - 64px)' : 'calc(100vh - 112px)' }}
+            >
+                <Menu className='MenuLeft_Navigation' mode='inline' theme='dark' />
+            </Scrollbars>
+        </Layout.Sider>
+    );
+});

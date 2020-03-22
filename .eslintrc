@@ -2,6 +2,13 @@
     "extends": ["react-app", "eslint:recommended"],
     "plugins": ["prettier"],
     "rules": {
+        "sort-imports": [
+            "warn",
+            {
+                "ignoreCase": true,
+                "ignoreDeclarationSort": true
+            }
+        ],
         "spaced-comment": [
             "warn",
             "always",
@@ -11,10 +18,11 @@
                 }
             }
         ],
-        "max-len": ["warn", { "code": 100, "tabWidth": 4, "ignoreTrailingComments": true }],
+        "max-len": ["warn", { "code": 110, "tabWidth": 4, "ignoreTrailingComments": true }],
         "no-bitwise": 0,
         "no-cond-assign": "warn",
         "no-debugger": "warn",
+        "no-unused-vars": "warn",
         "prefer-const": 0,
         "radix": 0,
         "comma-dangle": [
