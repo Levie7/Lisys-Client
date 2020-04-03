@@ -3,5 +3,6 @@ export * from './column';
 export * from './menu';
 export * from './role';
 export * from './setting';
+export * from './uom';
 export * from './user';
 export * from './variant';
