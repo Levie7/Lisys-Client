@@ -1,3 +1,4 @@
+export * from './category';
 export * from './column';
 export * from './menu';
 export * from './role';
