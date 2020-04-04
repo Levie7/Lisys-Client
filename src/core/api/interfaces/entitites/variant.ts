@@ -1,7 +1,7 @@
 export interface Variant {
+    description: string;
     id?: string;
     name: string;
-    description: string;
     status: string;
 }
 

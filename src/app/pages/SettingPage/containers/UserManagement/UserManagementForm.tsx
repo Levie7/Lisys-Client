@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { InfoSetting } from 'src/app/pages/SettingPage/components/InfoSetting';
 import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
 
+import { Info } from 'src/shared/components/Info';
 import { Spin } from 'src/shared/components/Spin';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 
@@ -40,7 +40,7 @@ export function UserManagementForm({ setSection }: UserManagementFormProps) {
 
     return (
         <Form form={form}>
-            <InfoSetting
+            <Info
                 description={userManagementInfo.role.description}
                 title={userManagementInfo.role.title}
             >
@@ -52,8 +52,8 @@ export function UserManagementForm({ setSection }: UserManagementFormProps) {
                     title='Add or Modify Role'
                     setSection={setSection}
                 />
-            </InfoSetting>
-            <InfoSetting
+            </Info>
+            <Info
                 description={userManagementInfo.permission.description}
                 title={userManagementInfo.permission.title}
             >
@@ -65,8 +65,8 @@ export function UserManagementForm({ setSection }: UserManagementFormProps) {
                     title='Set Permission'
                     setSection={setSection}
                 />
-            </InfoSetting>
-            <InfoSetting
+            </Info>
+            <Info
                 description={userManagementInfo.user.description}
                 title={userManagementInfo.user.title}
             >
@@ -78,7 +78,7 @@ export function UserManagementForm({ setSection }: UserManagementFormProps) {
                     title='Add or Modify User'
                     setSection={setSection}
                 />
-            </InfoSetting>
+            </Info>
         </Form>
     );
 }

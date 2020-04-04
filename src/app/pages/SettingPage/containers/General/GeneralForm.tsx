@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { InfoSetting } from 'src/app/pages/SettingPage/components/InfoSetting';
 import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
 
 import { SettingGeneral } from 'src/core/api';
 
+import { Info } from 'src/shared/components/Info';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
@@ -65,10 +65,7 @@ export function GeneralForm() {
 
     return (
         <Form form={form} initialValues={initialValues} layout='vertical' onFinish={handleFinish}>
-            <InfoSetting
-                description={generalInfo.dateTime.description}
-                title={generalInfo.dateTime.title}
-            >
+            <Info description={generalInfo.dateTime.description} title={generalInfo.dateTime.title}>
                 <Form.Item label='Date Format' name='date_format'>
                     <Select>
                         <Select.Option value='D-M-YYYY'>1-1-2020</Select.Option>
@@ -85,11 +82,8 @@ export function GeneralForm() {
                         <Select.Option value='hh:mm:ss A'>08:00:00 AM</Select.Option>
                     </Select>
                 </Form.Item>
-            </InfoSetting>
-            <InfoSetting
-                description={generalInfo.language.description}
-                title={generalInfo.language.title}
-            >
+            </Info>
+            <Info description={generalInfo.language.description} title={generalInfo.language.title}>
                 <Form.Item label={generalInfo.language.title} name='language'>
                     <Select>
                         <Select.Option value='English'>English</Select.Option>
@@ -99,7 +93,7 @@ export function GeneralForm() {
                 <Form.Item>
                     <SaveSettingButton />
                 </Form.Item>
-            </InfoSetting>
+            </Info>
         </Form>
     );
 }

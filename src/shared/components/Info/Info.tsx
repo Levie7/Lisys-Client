@@ -2,13 +2,13 @@ import * as React from 'react';
 
 import { Divider } from 'src/shared/components/Divider';
 
-interface InfoSettingProps {
+interface InfoProps {
     children?: React.ReactNode;
     description?: string;
     title?: string;
 }
 
-export const InfoSetting = React.memo<InfoSettingProps>(({ children, description, title }) => (
+export const Info = React.memo<InfoProps>(({ children, description, title }) => (
     <>
         <Divider />
         <div className='d-flex fd-column fd@md-row'>

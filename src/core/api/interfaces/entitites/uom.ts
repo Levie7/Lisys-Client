@@ -1,7 +1,7 @@
 export interface UoM {
+    description: string;
     id?: string;
     name: string;
-    description: string;
     status: string;
 }
 

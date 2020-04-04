@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
 
+import { Alert } from 'src/shared/components/Alert';
 import { Divider } from 'src/shared/components/Divider';
 
 import { VariantForm } from './VariantForm';
@@ -28,6 +29,12 @@ export const VariantFormSection = React.memo(
                 />
             </div>
             <Divider orientation='left'> Variant Form </Divider>
+            <Alert
+                message='Please fill these required fields below to create or update variant data, you can also skip
+                the non required fields.'
+                type='info'
+                showIcon={true}
+            />
             <VariantForm formType={formType} recordKey={recordKey} />
         </>
     )

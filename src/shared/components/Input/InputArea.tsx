@@ -2,11 +2,11 @@ import { Input as AntInput } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import * as React from 'react';
 
-interface InputProps {
+interface InputAreaProps {
     rows?: number;
 }
 
-export const InputArea = React.memo<InputProps>(
+export const InputArea = React.memo<InputAreaProps>(
     React.forwardRef(
         (
             { rows, ...props },

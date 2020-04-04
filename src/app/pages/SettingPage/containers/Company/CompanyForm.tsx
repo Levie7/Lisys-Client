@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { InfoSetting } from 'src/app/pages/SettingPage/components/InfoSetting';
 import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
 
 import { SettingCompany } from 'src/core/api';
 
+import { Info } from 'src/shared/components/Info';
 import { Input } from 'src/shared/components/Input';
 import { Spin } from 'src/shared/components/Spin';
 import { Upload } from 'src/shared/components/Upload';
@@ -61,7 +61,7 @@ export function CompanyForm() {
 
     return (
         <Form form={form} initialValues={initialValues} layout='vertical' onFinish={handleFinish}>
-            <InfoSetting
+            <Info
                 description={companyInfo.companyInformation.description}
                 title={companyInfo.companyInformation.title}
             >
@@ -80,8 +80,8 @@ export function CompanyForm() {
                 >
                     <Input placeholder='2019' />
                 </Form.Item>
-            </InfoSetting>
-            <InfoSetting
+            </Info>
+            <Info
                 description={companyInfo.companyLogo.description}
                 title={companyInfo.companyLogo.title}
             >
@@ -91,7 +91,7 @@ export function CompanyForm() {
                 <Form.Item>
                     <SaveSettingButton />
                 </Form.Item>
-            </InfoSetting>
+            </Info>
         </Form>
     );
 }

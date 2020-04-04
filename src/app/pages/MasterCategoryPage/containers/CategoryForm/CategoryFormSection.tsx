@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
 
+import { Alert } from 'src/shared/components/Alert';
 import { Divider } from 'src/shared/components/Divider';
 
 import { CategoryForm } from './CategoryForm';
@@ -28,6 +29,12 @@ export const CategoryFormSection = React.memo(
                 />
             </div>
             <Divider orientation='left'> Category Form </Divider>
+            <Alert
+                message='Please fill these required fields below to create or update category data, you can also skip
+                the non required fields.'
+                type='info'
+                showIcon={true}
+            />
             <CategoryForm formType={formType} recordKey={recordKey} />
         </>
     )

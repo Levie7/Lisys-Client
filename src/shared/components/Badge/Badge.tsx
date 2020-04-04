@@ -5,6 +5,7 @@ interface BadgeProps {
     status?: 'success' | 'processing' | 'default' | 'error' | 'warning';
     text?: React.ReactNode;
 }
+
 export const Badge = React.memo<BadgeProps>(({ status, text }) => (
     <AntBadge status={status} text={text} />
 ));

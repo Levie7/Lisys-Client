@@ -5,6 +5,7 @@ interface InputProps extends React.HTMLAttributes<HTMLDivElement> {
     disabled?: boolean;
     placeholder?: string;
     type?: string;
+    value?: string | number | string[];
 
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -13,7 +14,7 @@ interface InputProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Input = React.memo<InputProps>(
     React.forwardRef(
         (
-            { className, disabled, onBlur, onChange, placeholder, type, ...props },
+            { className, disabled, onBlur, onChange, placeholder, type, value, ...props },
             ref?: string | ((instance: AntInput | null) => void) | React.RefObject<AntInput> | null
         ) => (
             <AntInput
@@ -25,6 +26,7 @@ export const Input = React.memo<InputProps>(
                 placeholder={placeholder}
                 ref={ref}
                 type={type}
+                value={value}
             />
         )
     )

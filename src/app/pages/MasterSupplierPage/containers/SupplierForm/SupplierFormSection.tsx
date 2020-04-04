@@ -5,17 +5,17 @@ import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton'
 import { Alert } from 'src/shared/components/Alert';
 import { Divider } from 'src/shared/components/Divider';
 
-import { UoMForm } from './UoMForm';
+import { SupplierForm } from './SupplierForm';
 
-interface UoMFormSectionProps {
+interface SupplierFormSectionProps {
     formType: string;
     recordKey?: string;
 
     setSection: ({ action, section }: { action: string; section: string }) => void;
 }
 
-export const UoMFormSection = React.memo(
-    ({ formType, recordKey, setSection }: UoMFormSectionProps) => (
+export const SupplierFormSection = React.memo(
+    ({ formType, recordKey, setSection }: SupplierFormSectionProps) => (
         <>
             <Divider />
             <div className='d-flex fj-between mb-4'>
@@ -28,14 +28,14 @@ export const UoMFormSection = React.memo(
                     title='Back'
                 />
             </div>
-            <Divider orientation='left'> UoM Form </Divider>
+            <Divider orientation='left'> Supplier Form </Divider>
             <Alert
-                message='Please fill these required fields below to create or update UoM data, you can also skip
+                message='Please fill these required fields below to create or update supplier data, you can also skip
                 the non required fields.'
                 type='info'
                 showIcon={true}
             />
-            <UoMForm formType={formType} recordKey={recordKey} />
+            <SupplierForm formType={formType} recordKey={recordKey} />
         </>
     )
 );

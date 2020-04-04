@@ -11,6 +11,7 @@ import {
     VARIANTS,
 } from 'src/app/pages/MasterVariantPage/containers/schema.gql';
 
+import { Info } from 'src/shared/components/Info';
 import { Input, InputArea } from 'src/shared/components/Input';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
@@ -41,7 +42,7 @@ export function VariantForm({ formType, recordKey }: VariantFormProps) {
     function handleFinish(values: any) {
         Progress(true);
 
-        let { name, description } = values;
+        let { name, description = '' } = values;
         let fetchQuery;
         let payload = {
             id: recordKey,
@@ -89,16 +90,21 @@ export function VariantForm({ formType, recordKey }: VariantFormProps) {
 
     return (
         <Form form={form} initialValues={initialValues} layout='vertical' onFinish={handleFinish}>
-            <Form.Item
-                label='Name'
-                name='name'
-                rules={[{ required: true, message: 'Please input the name' }]}
+            <Info
+                description='General fields to create or update variant data'
+                title='General Information'
             >
-                <Input />
-            </Form.Item>
-            <Form.Item label='Description' name='description'>
-                <InputArea />
-            </Form.Item>
+                <Form.Item
+                    label='Name'
+                    name='name'
+                    rules={[{ required: true, message: 'Please input the name' }]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Description' name='description'>
+                    <InputArea />
+                </Form.Item>
+            </Info>
             <Form.Item>
                 <SaveSettingButton />
             </Form.Item>
