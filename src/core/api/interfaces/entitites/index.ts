@@ -1,5 +1,6 @@
 export * from './category';
 export * from './column';
+export * from './medicine';
 export * from './menu';
 export * from './role';
 export * from './setting';

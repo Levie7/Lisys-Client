@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
 import { getRoles } from 'src/app/pages/SettingPage/containers/UserManagement/Role/containers/schema.gql';
 import {
     createUser,
@@ -15,6 +14,7 @@ import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManage
 import { Button } from 'src/shared/components/Button';
 import { Icon } from 'src/shared/components/Icon';
 import { Input } from 'src/shared/components/Input';
+import { SaveButton } from 'src/shared/components/SaveButton';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
@@ -52,7 +52,7 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
     }
 
     function handleChangeUsername() {
-        changeUsername(initialValues.username !== form.getFieldValue('username') ? true : false);
+        changeUsername(initialValues.username !== form.getFieldValue('username'));
     }
 
     function handleFinish(values: any) {
@@ -192,7 +192,7 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
                 renderPassword()
             )}
             <Form.Item>
-                <SaveSettingButton />
+                <SaveButton />
             </Form.Item>
         </Form>
     );

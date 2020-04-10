@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
-
 import { SettingGeneral } from 'src/core/api';
 
 import { Info } from 'src/shared/components/Info';
+import { SaveButton } from 'src/shared/components/SaveButton/SaveButton';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
@@ -91,7 +90,7 @@ export function GeneralForm() {
                     </Select>
                 </Form.Item>
                 <Form.Item>
-                    <SaveSettingButton />
+                    <SaveButton />
                 </Form.Item>
             </Info>
         </Form>

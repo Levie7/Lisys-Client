@@ -1,8 +1,6 @@
 import { Form } from 'antd';
 import * as React from 'react';
 
-import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
-import { getRoles } from 'src/app/pages/SettingPage/containers/UserManagement/Role/containers/schema.gql';
 import {
     createSupplier,
     getSupplierById,
@@ -13,14 +11,13 @@ import {
 
 import { Info } from 'src/shared/components/Info';
 import { Input, InputArea } from 'src/shared/components/Input';
+import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
+import { formatNumeric } from 'src/shared/helpers/formatNumeric';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { AccountNo } from '../../components/AccountNo';
-import { Npwp } from '../../components/Npwp';
-import { Zipcode } from '../../components/Zipcode';
 import { supplierInfo } from './constants';
 
 interface SupplierFormProps {
@@ -36,8 +33,7 @@ export function SupplierForm({ formType, recordKey }: SupplierFormProps) {
         { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
         getSupplierById
     );
-    let roleQuery = handleQuery(undefined, getRoles);
-    if (mutation.loading || query.loading || roleQuery.loading) return <Spin />;
+    if (mutation.loading || query.loading) return <Spin />;
 
     let initialValues = {
         account_name: query.data?.getSupplierById.account_name,
@@ -182,21 +178,27 @@ export function SupplierForm({ formType, recordKey }: SupplierFormProps) {
                 <Form.Item label='Province' name='province'>
                     <Input />
                 </Form.Item>
-                <Zipcode />
+                <Form.Item getValueFromEvent={formatNumeric} label='Zipcode' name='zip_code'>
+                    <Input />
+                </Form.Item>
             </Info>
             <Info description={supplierInfo.bank.description} title={supplierInfo.bank.title}>
                 <Form.Item label='Bank Name' name='bank'>
                     <Input />
                 </Form.Item>
-                <AccountNo />
+                <Form.Item getValueFromEvent={formatNumeric} label='Account No' name='account_no'>
+                    <Input />
+                </Form.Item>
                 <Form.Item label='Account Name' name='account_name'>
                     <Input />
                 </Form.Item>
-                <Npwp />
+                <Form.Item getValueFromEvent={formatNumeric} label='Npwp' name='npwp'>
+                    <Input />
+                </Form.Item>
+                <Form.Item>
+                    <SaveButton />
+                </Form.Item>
             </Info>
-            <Form.Item>
-                <SaveSettingButton />
-            </Form.Item>
         </Form>
     );
 }

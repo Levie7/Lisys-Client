@@ -10,8 +10,8 @@ export const userColumns = [
         title: 'Name',
     },
     {
-        dataIndex: 'roleName',
-        key: 'roleName',
+        dataIndex: 'role_name',
+        key: 'role_name',
         title: 'Role',
     },
 ];

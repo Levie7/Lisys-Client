@@ -1,20 +1,18 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
-import { getRoles } from 'src/app/pages/SettingPage/containers/UserManagement/Role/containers/schema.gql';
+import { Info } from 'src/shared/components/Info';
+import { Input, InputArea } from 'src/shared/components/Input';
+import { SaveButton } from 'src/shared/components/SaveButton';
+import { Spin } from 'src/shared/components/Spin';
+import { mutationForm } from 'src/shared/graphql/mutationForm';
 import {
     createVariant,
     getVariantById,
     updateVariant,
     VARIANT_BY_ID,
     VARIANTS,
-} from 'src/app/pages/MasterVariantPage/containers/schema.gql';
-
-import { Info } from 'src/shared/components/Info';
-import { Input, InputArea } from 'src/shared/components/Input';
-import { Spin } from 'src/shared/components/Spin';
-import { mutationForm } from 'src/shared/graphql/mutationForm';
+} from 'src/shared/graphql/Variant/schema.gql';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
@@ -31,8 +29,7 @@ export function VariantForm({ formType, recordKey }: VariantFormProps) {
         { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
         getVariantById
     );
-    let roleQuery = handleQuery(undefined, getRoles);
-    if (mutation.loading || query.loading || roleQuery.loading) return <Spin />;
+    if (mutation.loading || query.loading) return <Spin />;
 
     let initialValues = {
         name: query.data?.getVariantById.name,
@@ -104,10 +101,10 @@ export function VariantForm({ formType, recordKey }: VariantFormProps) {
                 <Form.Item label='Description' name='description'>
                     <InputArea />
                 </Form.Item>
+                <Form.Item>
+                    <SaveButton />
+                </Form.Item>
             </Info>
-            <Form.Item>
-                <SaveSettingButton />
-            </Form.Item>
         </Form>
     );
 }

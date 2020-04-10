@@ -6,13 +6,18 @@ import { Spin } from 'src/shared/components/Spin';
 import { Status } from 'src/shared/components/Status';
 import { Column, Table, TableAction } from 'src/shared/components/Table';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
+import {
+    deleteVariant,
+    getVariants,
+    updateManyVariant,
+    VARIANTS,
+} from 'src/shared/graphql/Variant/schema.gql';
 import { Delete } from 'src/shared/utilities/delete';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { variantColumns } from './constants';
-import { deleteVariant, getVariants, updateManyVariant, VARIANTS } from '../schema.gql';
 
 interface VariantListProps {
     action: string;

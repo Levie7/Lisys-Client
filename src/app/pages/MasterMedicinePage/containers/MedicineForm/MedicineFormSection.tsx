@@ -5,18 +5,18 @@ import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton'
 import { Alert } from 'src/shared/components/Alert';
 import { Divider } from 'src/shared/components/Divider';
 
-import { alertMessage } from './constant';
-import { UoMForm } from './UoMForm';
+import { alertMessage } from './constants';
+import { MedicineForm } from './MedicineForm';
 
-interface UoMFormSectionProps {
+interface MedicineFormSectionProps {
     formType: string;
     recordKey?: string;
 
     setSection: ({ action, section }: { action: string; section: string }) => void;
 }
 
-export const UoMFormSection = React.memo(
-    ({ formType, recordKey, setSection }: UoMFormSectionProps) => (
+export const MedicineFormSection = React.memo(
+    ({ formType, recordKey, setSection }: MedicineFormSectionProps) => (
         <>
             <Divider />
             <div className='d-flex fj-between mb-4'>
@@ -29,9 +29,9 @@ export const UoMFormSection = React.memo(
                     title='Back'
                 />
             </div>
-            <Divider orientation='left'> UoM Form </Divider>
+            <Divider orientation='left'> Medicine Form </Divider>
             <Alert message={alertMessage} type='info' showIcon />
-            <UoMForm formType={formType} recordKey={recordKey} />
+            <MedicineForm formType={formType} recordKey={recordKey} />
         </>
     )
 );

@@ -6,6 +6,7 @@ import { Alert } from 'src/shared/components/Alert';
 import { Divider } from 'src/shared/components/Divider';
 
 import { CategoryForm } from './CategoryForm';
+import { alertMessage } from './constants';
 
 interface CategoryFormSectionProps {
     formType: string;
@@ -29,12 +30,7 @@ export const CategoryFormSection = React.memo(
                 />
             </div>
             <Divider orientation='left'> Category Form </Divider>
-            <Alert
-                message='Please fill these required fields below to create or update category data, you can also skip
-                the non required fields.'
-                type='info'
-                showIcon={true}
-            />
+            <Alert message={alertMessage} type='info' showIcon />
             <CategoryForm formType={formType} recordKey={recordKey} />
         </>
     )

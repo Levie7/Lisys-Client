@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
-
 import { SettingCompany } from 'src/core/api';
 
 import { Info } from 'src/shared/components/Info';
 import { Input } from 'src/shared/components/Input';
+import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import { Upload } from 'src/shared/components/Upload';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
@@ -89,7 +88,7 @@ export function CompanyForm() {
                     <Upload name='company_logo' listType='picture-card' />
                 </Form.Item>
                 <Form.Item>
-                    <SaveSettingButton />
+                    <SaveButton />
                 </Form.Item>
             </Info>
         </Form>

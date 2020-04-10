@@ -34,7 +34,7 @@ export const UserList = React.memo<UserListProps>(({ handleRecord }) => {
                 key: user.id!,
                 name: user.name,
                 password: user.password,
-                roleName: user.role!.name,
+                role_name: user.role!.name,
                 username: user.username,
             };
         });

@@ -1,19 +1,17 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
-import { getRoles } from 'src/app/pages/SettingPage/containers/UserManagement/Role/containers/schema.gql';
+import { Info } from 'src/shared/components/Info';
+import { Input, InputArea } from 'src/shared/components/Input';
+import { SaveButton } from 'src/shared/components/SaveButton';
+import { Spin } from 'src/shared/components/Spin';
 import {
     CATEGORIES,
     CATEGORY_BY_ID,
     createCategory,
     getCategoryById,
     updateCategory,
-} from 'src/app/pages/MasterCategoryPage/containers/schema.gql';
-
-import { Info } from 'src/shared/components/Info';
-import { Input, InputArea } from 'src/shared/components/Input';
-import { Spin } from 'src/shared/components/Spin';
+} from 'src/shared/graphql/Category/schema.gql';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
@@ -31,8 +29,7 @@ export function CategoryForm({ formType, recordKey }: CategoryFormProps) {
         { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
         getCategoryById
     );
-    let roleQuery = handleQuery(undefined, getRoles);
-    if (mutation.loading || query.loading || roleQuery.loading) return <Spin />;
+    if (mutation.loading || query.loading) return <Spin />;
 
     let initialValues = {
         name: query.data?.getCategoryById.name,
@@ -104,10 +101,10 @@ export function CategoryForm({ formType, recordKey }: CategoryFormProps) {
                 <Form.Item label='Description' name='description'>
                     <InputArea />
                 </Form.Item>
+                <Form.Item>
+                    <SaveButton />
+                </Form.Item>
             </Info>
-            <Form.Item>
-                <SaveSettingButton />
-            </Form.Item>
         </Form>
     );
 }

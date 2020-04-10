@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { SaveSettingButton } from 'src/app/pages/SettingPage/components/SaveSettingButton';
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
 import { Input, InputArea } from 'src/shared/components/Input';
+import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm } from 'src/shared/graphql/mutationForm';
 import { ErrorHandler } from 'src/shared/utilities/errors';
@@ -86,7 +86,7 @@ export function RoleForm({ formType, recordKey }: RoleFormProps) {
                 <InputArea />
             </Form.Item>
             <Form.Item>
-                <SaveSettingButton />
+                <SaveButton />
             </Form.Item>
         </Form>
     );
