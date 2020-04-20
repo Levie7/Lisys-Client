@@ -28,8 +28,8 @@ export const UoMList = React.memo<UoMListProps>(({ action, handleRecord, resetAc
         onChange: handleSelect,
     };
 
-    let mutation = mutationForm('delete', deleteUoM);
-    let mutationAction = mutationForm('update', updateManyUoM);
+    let mutation = mutationForm(deleteUoM, 'delete');
+    let mutationAction = mutationForm(updateManyUoM, 'update');
     let query = handleQuery();
     let uoms: UoMData[] = handleData(query.data?.getUoMs);
     if (mutation.loading || mutationAction.loading || query.loading) return <Spin />;

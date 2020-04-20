@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
+// import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
 
 import { Divider } from 'src/shared/components/Divider';
 
@@ -15,9 +15,9 @@ export const MedicineListSection = React.memo<MedicineListSectionProps>(
     ({ setRecord, setSection }) => {
         let [action, setAction] = React.useState('');
 
-        function handleAction(action: string) {
-            setAction(action);
-        }
+        // function handleAction(action: string) {
+        //     setAction(action);
+        // }
 
         function handleRecord(recordKey: string) {
             setRecord(recordKey);
@@ -27,15 +27,15 @@ export const MedicineListSection = React.memo<MedicineListSectionProps>(
             setAction('');
         }
 
-        function handleSection({ action, section }: { action: string; section: string }) {
-            setSection({ action, section });
-        }
+        // function handleSection({ action, section }: { action: string; section: string }) {
+        //     setSection({ action, section });
+        // }
 
         return (
             <>
                 <Divider />
                 <div className='d-flex fj-end mb-4'>
-                    <ActionButton
+                    {/* <ActionButton
                         action='action'
                         buttonType='default'
                         className='mr-2'
@@ -52,7 +52,7 @@ export const MedicineListSection = React.memo<MedicineListSectionProps>(
                         section='medicine'
                         setSection={handleSection}
                         title='Create'
-                    />
+                    /> */}
                 </div>
                 <MedicineList
                     action={action}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
+// import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
 
 import { Alert } from 'src/shared/components/Alert';
 import { Divider } from 'src/shared/components/Divider';
@@ -20,14 +20,14 @@ export const UoMFormSection = React.memo(
         <>
             <Divider />
             <div className='d-flex fj-between mb-4'>
-                <ActionButton
+                {/* <ActionButton
                     action='list'
                     buttonType='default'
                     iconType='left'
                     section='user'
                     setSection={setSection}
                     title='Back'
-                />
+                /> */}
             </div>
             <Divider orientation='left'> UoM Form </Divider>
             <Alert message={alertMessage} type='info' showIcon />

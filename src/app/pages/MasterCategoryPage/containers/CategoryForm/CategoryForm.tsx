@@ -24,7 +24,7 @@ interface CategoryFormProps {
 export function CategoryForm({ formType, recordKey }: CategoryFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(formType, formType === 'create' ? createCategory : updateCategory);
+    let mutation = mutationForm(formType === 'create' ? createCategory : updateCategory, formType);
     let query = handleQuery(
         { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
         getCategoryById

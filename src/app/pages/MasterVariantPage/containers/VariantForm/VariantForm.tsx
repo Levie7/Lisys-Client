@@ -24,7 +24,7 @@ interface VariantFormProps {
 export function VariantForm({ formType, recordKey }: VariantFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(formType, formType === 'create' ? createVariant : updateVariant);
+    let mutation = mutationForm(formType === 'create' ? createVariant : updateVariant, formType);
     let query = handleQuery(
         { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
         getVariantById

@@ -38,7 +38,7 @@ export function MedicineForm({ formType, recordKey }: MedicineFormProps) {
     let [isBarcodeChanged, changeBarcode] = React.useState(false);
     let [isCodeChanged, changeCode] = React.useState(false);
 
-    let mutation = mutationForm(formType, formType === 'create' ? createMedicine : updateMedicine);
+    let mutation = mutationForm(formType === 'create' ? createMedicine : updateMedicine, formType);
     let query = handleQuery(
         { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
         getMedicineById

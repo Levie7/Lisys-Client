@@ -29,8 +29,8 @@ export const SupplierList = React.memo<SupplierListProps>(
             onChange: handleSelect,
         };
 
-        let mutation = mutationForm('delete', deleteSupplier);
-        let mutationAction = mutationForm('update', updateManySupplier);
+        let mutation = mutationForm(deleteSupplier, 'delete');
+        let mutationAction = mutationForm(updateManySupplier, 'update');
         let query = handleQuery();
         let suppliers: SupplierData[] = handleData(query.data?.getSuppliers);
         if (mutation.loading || mutationAction.loading || query.loading) return <Spin />;

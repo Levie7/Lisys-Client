@@ -29,8 +29,8 @@ export const MedicineList = React.memo<MedicineListProps>(
             onChange: handleSelect,
         };
 
-        let mutation = mutationForm('delete', deleteMedicine);
-        let mutationAction = mutationForm('update', updateManyMedicine);
+        let mutation = mutationForm(deleteMedicine, 'delete');
+        let mutationAction = mutationForm(updateManyMedicine, 'update');
         let query = handleQuery();
         let medicines: MedicineData[] = handleData(query.data?.getMedicines);
         if (mutation.loading || mutationAction.loading || query.loading) return <Spin />;

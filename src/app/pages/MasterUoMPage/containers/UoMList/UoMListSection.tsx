@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
+// import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
 
 import { Divider } from 'src/shared/components/Divider';
 
@@ -14,9 +14,9 @@ interface UoMListSectionProps {
 export const UoMListSection = React.memo<UoMListSectionProps>(({ setRecord, setSection }) => {
     let [action, setAction] = React.useState('');
 
-    function handleAction(action: string) {
-        setAction(action);
-    }
+    // function handleAction(action: string) {
+    //     setAction(action);
+    // }
 
     function handleRecord(recordKey: string) {
         setRecord(recordKey);
@@ -26,15 +26,15 @@ export const UoMListSection = React.memo<UoMListSectionProps>(({ setRecord, setS
         setAction('');
     }
 
-    function handleSection({ action, section }: { action: string; section: string }) {
-        setSection({ action, section });
-    }
+    // function handleSection({ action, section }: { action: string; section: string }) {
+    //     setSection({ action, section });
+    // }
 
     return (
         <>
             <Divider />
             <div className='d-flex fj-end mb-4'>
-                <ActionButton
+                {/* <ActionButton
                     action='action'
                     buttonType='default'
                     className='mr-2'
@@ -51,7 +51,7 @@ export const UoMListSection = React.memo<UoMListSectionProps>(({ setRecord, setS
                     section='uom'
                     setSection={handleSection}
                     title='Create'
-                />
+                /> */}
             </div>
             <UoMList action={action} handleRecord={handleRecord} resetAction={handleResetAction} />
         </>

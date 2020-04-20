@@ -34,8 +34,8 @@ export const CategoryList = React.memo<CategoryListProps>(
             onChange: handleSelect,
         };
 
-        let mutation = mutationForm('delete', deleteCategory);
-        let mutationAction = mutationForm('update', updateManyCategory);
+        let mutation = mutationForm(deleteCategory, 'delete');
+        let mutationAction = mutationForm(updateManyCategory, 'update');
         let query = handleQuery();
         let categories: CategoryData[] = handleData(query.data?.getCategories);
         if (mutation.loading || mutationAction.loading || query.loading) return <Spin />;

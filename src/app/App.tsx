@@ -16,12 +16,13 @@ import { ErrorBoundary } from './shell/ErrorBoundary';
 import { MainLayout } from './shell/MainLayout';
 import { createConfig } from './config';
 import { Routes } from './Routes';
+import { createCrudModule } from 'src/core/graphql/crud';
 
 const config = createConfig();
 const authTokenStorage = createAuthTokenStorage();
 const graphqlClient = createClient({
     serverUri: config.graphqlServerUri,
-    modules: [createAuthModule({ storage: authTokenStorage })],
+    modules: [createAuthModule({ storage: authTokenStorage }), createCrudModule()],
 });
 const logger = createLogger({ environment: config.environment, dsn: config.loggerDsn });
 const MainErrorOverlay = () => <h1>Something went wrong.</h1>;

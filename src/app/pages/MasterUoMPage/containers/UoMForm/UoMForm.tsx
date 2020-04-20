@@ -24,7 +24,7 @@ interface UoMFormProps {
 export function UoMForm({ formType, recordKey }: UoMFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(formType, formType === 'create' ? createUoM : updateUoM);
+    let mutation = mutationForm(formType === 'create' ? createUoM : updateUoM, formType);
     let query = handleQuery(
         { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
         getUoMById

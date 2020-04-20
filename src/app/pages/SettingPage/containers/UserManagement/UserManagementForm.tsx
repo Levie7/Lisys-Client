@@ -1,84 +1,51 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { ActionButton } from 'src/app/pages/SettingPage/components/ActionButton';
-
+import { ButtonAction } from 'src/shared/components/Button';
+import { CrudConnectedProps } from 'src/shared/components/Crud';
 import { Info } from 'src/shared/components/Info';
 import { Spin } from 'src/shared/components/Spin';
-import { ErrorHandler } from 'src/shared/utilities/errors';
+import { queryForm } from 'src/shared/graphql/queryForm';
 
-import { userManagementInfo } from './constants';
+import { userManagementForm } from './constants';
 import { getTotalActive } from './schema.gql';
 
-interface UserManagementFormProps {
-    setSection: ({ action, section }: { action: string; section: string }) => void;
-}
+type totalActive = 'role' | 'user';
 
-export function UserManagementForm({ setSection }: UserManagementFormProps) {
-    let [form] = Form.useForm();
+interface UserManagementFormProps extends CrudConnectedProps {}
 
-    let query = handleQuery();
+export function UserManagementForm({ crud }: UserManagementFormProps) {
+    let query = queryForm(getTotalActive);
     if (query.loading) return <Spin />;
 
     let totalActive = {
-        roles: query.data?.getTotalActiveRoles,
-        users: query.data?.getTotalActiveUsers,
+        role: query.data?.getTotalActiveRoles,
+        user: query.data?.getTotalActiveUsers,
     };
 
-    function handleQuery() {
-        let { data, loading } = getTotalActive({
-            onError(error: any) {
-                ErrorHandler(error);
-            },
-        });
-
-        return {
-            data,
-            loading,
-        };
+    function renderFormItem() {
+        return userManagementForm.map((userManagement) => (
+            <Info
+                description={userManagement.info.description}
+                key={userManagement.section}
+                title={userManagement.info.title}
+            >
+                {userManagement.label && (
+                    <div className='fw-bold mb-2'>
+                        {userManagement.label}{' '}
+                        {userManagement.section &&
+                            `(${totalActive[userManagement.section as totalActive]})`}
+                    </div>
+                )}
+                <ButtonAction
+                    buttonType='default'
+                    crud={{ ...crud, action: 'list', section: userManagement.section }}
+                    iconType={userManagement.button.icon}
+                    title={userManagement.button.title}
+                />
+            </Info>
+        ));
     }
 
-    return (
-        <Form form={form}>
-            <Info
-                description={userManagementInfo.role.description}
-                title={userManagementInfo.role.title}
-            >
-                <div className='fw-bold mb-2'>Active Role ({totalActive.roles})</div>
-                <ActionButton
-                    action='list'
-                    buttonType='default'
-                    section='role'
-                    title='Add or Modify Role'
-                    setSection={setSection}
-                />
-            </Info>
-            <Info
-                description={userManagementInfo.permission.description}
-                title={userManagementInfo.permission.title}
-            >
-                <ActionButton
-                    action='list'
-                    buttonType='default'
-                    iconType='lock'
-                    section='permission'
-                    title='Set Permission'
-                    setSection={setSection}
-                />
-            </Info>
-            <Info
-                description={userManagementInfo.user.description}
-                title={userManagementInfo.user.title}
-            >
-                <div className='fw-bold mb-2'>Active User ({totalActive.users})</div>
-                <ActionButton
-                    action='list'
-                    buttonType='default'
-                    section='user'
-                    title='Add or Modify User'
-                    setSection={setSection}
-                />
-            </Info>
-        </Form>
-    );
+    return <Form>{renderFormItem()}</Form>;
 }

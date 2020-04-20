@@ -28,7 +28,7 @@ interface SupplierFormProps {
 export function SupplierForm({ formType, recordKey }: SupplierFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(formType, formType === 'create' ? createSupplier : updateSupplier);
+    let mutation = mutationForm(formType === 'create' ? createSupplier : updateSupplier, formType);
     let query = handleQuery(
         { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
         getSupplierById

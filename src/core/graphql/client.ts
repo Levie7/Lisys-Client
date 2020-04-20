@@ -5,6 +5,8 @@ import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 
 import { Module } from './core';
+import { resolvers } from './resolvers';
+import { typeDefs } from './typeDefs';
 
 export const createClient = ({ serverUri, modules }: { serverUri: string; modules: Module[] }) => {
     const cache = new InMemoryCache();
@@ -20,7 +22,8 @@ export const createClient = ({ serverUri, modules }: { serverUri: string; module
     return new ApolloClient({
         link,
         cache,
-        resolvers: {},
+        resolvers,
+        typeDefs,
     });
 };
 

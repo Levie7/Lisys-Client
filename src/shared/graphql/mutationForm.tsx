@@ -5,7 +5,7 @@ import { ErrorHandler } from '../utilities/errors';
 import { Message } from '../utilities/message';
 import { Progress } from '../utilities/progress';
 
-export function mutationForm(formType: string, mutations: any) {
+export function mutationForm(mutations: any, formType: string) {
     let [fetchUser, { loading }] = mutations({
         onCompleted() {
             Progress(false);

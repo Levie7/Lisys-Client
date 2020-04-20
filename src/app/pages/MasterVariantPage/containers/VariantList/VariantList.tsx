@@ -33,8 +33,8 @@ export const VariantList = React.memo<VariantListProps>(({ action, handleRecord,
         onChange: handleSelect,
     };
 
-    let mutation = mutationForm('delete', deleteVariant);
-    let mutationAction = mutationForm('update', updateManyVariant);
+    let mutation = mutationForm(deleteVariant, 'delete');
+    let mutationAction = mutationForm(updateManyVariant, 'update');
     let query = handleQuery();
     let variants: VariantData[] = handleData(query.data?.getVariants);
     if (mutation.loading || mutationAction.loading || query.loading) return <Spin />;
