@@ -15,7 +15,7 @@ type totalActive = 'role' | 'user';
 interface UserManagementFormProps extends CrudConnectedProps {}
 
 export function UserManagementForm({ crud }: UserManagementFormProps) {
-    let query = queryForm(getTotalActive);
+    let query = queryForm({ query: getTotalActive });
     if (query.loading) return <Spin />;
 
     let totalActive = {

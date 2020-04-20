@@ -18,7 +18,7 @@ export function CompanyForm() {
     let [form] = Form.useForm();
 
     let mutation = mutationForm(setUpdateSettings, 'update');
-    let query = queryForm(getSettings, { category: 'company' });
+    let query = queryForm({ query: getSettings, variables: { category: 'company' } });
     if (mutation.loading || query.loading) return <Spin />;
 
     let data = convertArrayOfObjectsToObject(query.data?.getSettingsByCategory) as SettingCompany;

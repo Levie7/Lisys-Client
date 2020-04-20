@@ -1,60 +1,54 @@
 import React from 'react';
 
-import { Breadcrumb } from 'src/shared/components/Breadcrumb';
-import { Card } from 'src/shared/components/Card';
-import { Capitalized } from 'src/shared/utilities/capitalized';
+import { Action } from 'src/core/api';
+import { updateCrud, useCrud } from 'src/core/graphql/crud';
 
-import { CategoryFormSection } from './containers/CategoryForm/CategoryFormSection';
-import { CategoryListSection } from './containers/CategoryList/CategoryListSection';
+import { MasterContentHeader } from 'src/modules/Master/components/MasterContentHeader';
+
+import { Card } from 'src/shared/components/Card';
+import { Crud } from 'src/shared/components/Crud';
+
+import { MasterCategoryForm } from './MasterCategoryForm';
+import { MasterCategoryList } from './MasterCategoryList';
 
 export const MasterCategoryPage = () => {
     let [recordKey, setRecordKey] = React.useState('');
-    let [activeSection, setActiveSection] = React.useState({ action: 'list', section: 'user' });
+    let crud = useCrud();
+    let [fetch, { loading }] = updateCrud();
+    if (loading) return null;
+
+    function handleFetch(action: Action) {
+        fetch({
+            variables: { payload: { ...crud, action } },
+        });
+    }
 
     function handleRecord(recordKey: string) {
-        handleSection({ action: 'update', section: activeSection.section });
+        handleFetch('update');
         setRecordKey(recordKey);
     }
 
-    function handleSection({ action, section }: { action: string; section: string }) {
-        setActiveSection({ action, section });
+    function handleResetAction() {
+        handleFetch('list');
     }
 
-    function renderSection() {
-        switch (activeSection.action) {
-            case 'list':
-                return <CategoryListSection setRecord={handleRecord} setSection={handleSection} />;
-            case 'create':
-                return (
-                    <CategoryFormSection
-                        formType={activeSection.action}
-                        setSection={handleSection}
-                    />
-                );
-            case 'update':
-                return (
-                    <CategoryFormSection
-                        formType={activeSection.action}
-                        recordKey={recordKey}
-                        setSection={handleSection}
-                    />
-                );
-            default:
-                return null;
-        }
+    function renderCrud() {
+        return crud.action === 'list' ? (
+            <MasterCategoryList
+                action={crud.action}
+                handleRecord={handleRecord}
+                handleResetAction={handleResetAction}
+            />
+        ) : (
+            <MasterCategoryForm formType={crud.action} recordKey={recordKey} />
+        );
     }
 
     return (
         <div className='d-flex fj-center m-4'>
             <Card>
-                <Breadcrumb>
-                    <Breadcrumb.Item>Master</Breadcrumb.Item>
-                    <Breadcrumb.Item href='/category'>Category</Breadcrumb.Item>
-                    {activeSection.action !== 'back' && (
-                        <Breadcrumb.Item>{Capitalized(activeSection.action)}</Breadcrumb.Item>
-                    )}
-                </Breadcrumb>
-                {renderSection()}
+                <MasterContentHeader crud={{ ...crud }} title='Category' to='/category' />
+                <Crud>{renderCrud()}</Crud>
             </Card>
         </div>
     );

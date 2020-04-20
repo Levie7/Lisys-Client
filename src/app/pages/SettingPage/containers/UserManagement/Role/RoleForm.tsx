@@ -6,7 +6,7 @@ import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManage
 import { Input, InputArea } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
-import { mutationForm } from 'src/shared/graphql/mutationForm';
+import { mutationForm, queryForm } from 'src/shared/graphql';
 import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
@@ -21,7 +21,11 @@ export function RoleForm({ formType, recordKey }: RoleFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm(formType === 'create' ? createRole : updateRole, formType);
-    let query = handleQuery({ formType, recordKey });
+    let query = queryForm({
+        skip: formType === 'create',
+        query: getRoleById,
+        variables: { id: recordKey },
+    });
     if (mutation.loading || query.loading) return <Spin />;
 
     let initialValues = {
@@ -38,6 +42,7 @@ export function RoleForm({ formType, recordKey }: RoleFormProps) {
         switch (formType) {
             case 'create':
                 fetchQuery = [{ query: ROLES }, { query: USER_MANAGEMENT }];
+                recordKey = undefined;
                 form.resetFields(['name', 'description']);
                 break;
             case 'update':
@@ -56,21 +61,6 @@ export function RoleForm({ formType, recordKey }: RoleFormProps) {
                 payload: { id: recordKey, name: name, description: description },
             },
         });
-    }
-
-    function handleQuery(options: any) {
-        let { data, loading } = getRoleById({
-            onError(error: any) {
-                ErrorHandler(error);
-            },
-            skip: options.formType === 'create',
-            variables: { id: options.recordKey },
-        });
-
-        return {
-            data,
-            loading,
-        };
     }
 
     return (

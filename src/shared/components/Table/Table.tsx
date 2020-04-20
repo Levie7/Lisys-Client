@@ -3,10 +3,9 @@ import { PaginationConfig } from 'antd/lib/pagination';
 import { SorterResult, TableRowSelection } from 'antd/lib/table/interface';
 import * as React from 'react';
 
-interface TableProps {
+interface TableProps extends TableRowProps {
     children?: React.ReactNode;
     dataSource?: any[];
-    rowSelection?: TableRowSelection<any>;
 
     onChange?: (
         pagination: PaginationConfig,
@@ -14,6 +13,10 @@ interface TableProps {
         sorter: SorterResult<any> | SorterResult<any>[],
         extra: any
     ) => void;
+}
+
+export interface TableRowProps {
+    rowSelection?: TableRowSelection<any>;
 }
 
 export const Table = React.memo<TableProps>(({ children, dataSource, onChange, rowSelection }) => (

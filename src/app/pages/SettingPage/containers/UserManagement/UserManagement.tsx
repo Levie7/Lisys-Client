@@ -4,17 +4,17 @@ import { SettingContentHeader } from 'src/app/pages/SettingPage/components/Setti
 
 import { updateCrud, useCrud } from 'src/core/graphql/crud';
 
+import { Crud } from 'src/shared/components/Crud';
+
 import { RoleForm, RoleList } from './Role';
 import { UserForm, UserList } from './User';
 import { UserManagementForm } from './UserManagementForm';
-import { Crud } from 'src/shared/components/Crud';
 
 export function UserManagement() {
-    let crud = useCrud();
     let [recordKey, setRecordKey] = React.useState('');
-
-    let [fetch, { loading, error }] = updateCrud();
-    if (loading || error) return null;
+    let crud = useCrud();
+    let [fetch, { loading }] = updateCrud();
+    if (loading) return null;
 
     function handleRecord(recordKey: string) {
         fetch({

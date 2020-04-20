@@ -1,60 +1,54 @@
 import React from 'react';
 
-import { Breadcrumb } from 'src/shared/components/Breadcrumb';
-import { Card } from 'src/shared/components/Card';
-import { Capitalized } from 'src/shared/utilities/capitalized';
+import { Action } from 'src/core/api';
+import { updateCrud, useCrud } from 'src/core/graphql/crud';
 
-import { VariantFormSection } from './containers/VariantForm/VariantFormSection';
-import { VariantListSection } from './containers/VariantList/VariantListSection';
+import { MasterContentHeader } from 'src/modules/Master/components/MasterContentHeader';
+
+import { Card } from 'src/shared/components/Card';
+import { Crud } from 'src/shared/components/Crud';
+
+import { MasterVariantForm } from './MasterVariantForm';
+import { MasterVariantList } from './MasterVariantList';
 
 export const MasterVariantPage = () => {
     let [recordKey, setRecordKey] = React.useState('');
-    let [activeSection, setActiveSection] = React.useState({ action: 'list', section: 'user' });
+    let crud = useCrud();
+    let [fetch, { loading }] = updateCrud();
+    if (loading) return null;
+
+    function handleFetch(action: Action) {
+        fetch({
+            variables: { payload: { ...crud, action } },
+        });
+    }
 
     function handleRecord(recordKey: string) {
-        handleSection({ action: 'update', section: activeSection.section });
+        handleFetch('update');
         setRecordKey(recordKey);
     }
 
-    function handleSection({ action, section }: { action: string; section: string }) {
-        setActiveSection({ action, section });
+    function handleResetAction() {
+        handleFetch('list');
     }
 
-    function renderSection() {
-        switch (activeSection.action) {
-            case 'list':
-                return <VariantListSection setRecord={handleRecord} setSection={handleSection} />;
-            case 'create':
-                return (
-                    <VariantFormSection
-                        formType={activeSection.action}
-                        setSection={handleSection}
-                    />
-                );
-            case 'update':
-                return (
-                    <VariantFormSection
-                        formType={activeSection.action}
-                        recordKey={recordKey}
-                        setSection={handleSection}
-                    />
-                );
-            default:
-                return null;
-        }
+    function renderCrud() {
+        return crud.action === 'list' ? (
+            <MasterVariantList
+                action={crud.action}
+                handleRecord={handleRecord}
+                handleResetAction={handleResetAction}
+            />
+        ) : (
+            <MasterVariantForm formType={crud.action} recordKey={recordKey} />
+        );
     }
 
     return (
         <div className='d-flex fj-center m-4'>
             <Card>
-                <Breadcrumb>
-                    <Breadcrumb.Item>Master</Breadcrumb.Item>
-                    <Breadcrumb.Item href='/variant'>Variant</Breadcrumb.Item>
-                    {activeSection.action !== 'back' && (
-                        <Breadcrumb.Item>{Capitalized(activeSection.action)}</Breadcrumb.Item>
-                    )}
-                </Breadcrumb>
-                {renderSection()}
+                <MasterContentHeader crud={{ ...crud }} title='Variant' to='/variant' />
+                <Crud>{renderCrud()}</Crud>
             </Card>
         </div>
     );

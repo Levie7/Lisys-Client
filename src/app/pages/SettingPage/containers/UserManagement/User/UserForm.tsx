@@ -17,8 +17,7 @@ import { Input } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
-import { mutationForm } from 'src/shared/graphql/mutationForm';
-import { ErrorHandler } from 'src/shared/utilities/errors';
+import { mutationForm, queryForm } from 'src/shared/graphql';
 import { Progress } from 'src/shared/utilities/progress';
 
 interface UserFormProps {
@@ -32,11 +31,12 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
     let [isUsernameChanged, changeUsername] = React.useState(false);
 
     let mutation = mutationForm(formType === 'create' ? createUser : updateUser, formType);
-    let query = handleQuery(
-        { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
-        getUserById
-    );
-    let roleQuery = handleQuery(undefined, getRoles);
+    let query = queryForm({
+        skip: formType === 'create',
+        query: getUserById,
+        variables: { id: recordKey },
+    });
+    let roleQuery = queryForm({ query: getRoles });
     if (mutation.loading || query.loading || roleQuery.loading) return <Spin />;
 
     let initialValues = {
@@ -72,7 +72,7 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
         switch (formType) {
             case 'create':
                 fetchQuery = [{ query: USERS }, { query: USER_MANAGEMENT }];
-                payload = fetchPayload;
+                payload = { ...fetchPayload, id: undefined };
                 form.resetFields(['confirm_password', 'name', 'password', 'role', 'username']);
                 break;
             case 'update':
@@ -94,21 +94,6 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
                 payload,
             },
         });
-    }
-
-    function handleQuery(options: any, queries: any) {
-        let { data, loading } = queries({
-            onError(error: any) {
-                ErrorHandler(error);
-            },
-            skip: options && options.isSkip,
-            variables: options && options.variables,
-        });
-
-        return {
-            data,
-            loading,
-        };
     }
 
     function renderPassword() {

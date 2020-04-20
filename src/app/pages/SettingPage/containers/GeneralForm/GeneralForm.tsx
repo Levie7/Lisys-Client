@@ -17,7 +17,7 @@ export function GeneralForm() {
     let [form] = Form.useForm();
 
     let mutation = mutationForm(setUpdateSettings, 'update');
-    let query = queryForm(getSettings, { category: 'general' });
+    let query = queryForm({ query: getSettings, variables: { category: 'general' } });
     if (mutation.loading || query.loading) return <Spin />;
 
     let data = convertArrayOfObjectsToObject(query.data?.getSettingsByCategory) as SettingGeneral;

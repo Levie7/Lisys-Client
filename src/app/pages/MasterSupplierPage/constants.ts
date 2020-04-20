@@ -1,5 +1,19 @@
 export const alertMessage =
     'Please fill these required fields below to create or update supplier data, you can also skip the non required fields.';
+
+export const supplierColumns = [
+    {
+        dataIndex: 'name',
+        key: 'name',
+        title: 'Name',
+    },
+    {
+        dataIndex: 'phone',
+        key: 'phone',
+        title: 'Phone',
+    },
+];
+
 export const supplierInfo = {
     additional: {
         description: 'Additional fields to add more info about supplier data',

@@ -1,21 +1,14 @@
 import { Form } from 'antd';
 import * as React from 'react';
 
-import {
-    createMedicine,
-    getMedicineById,
-    MEDICINE_BY_ID,
-    MEDICINES,
-    updateMedicine,
-} from 'src/app/pages/MasterMedicinePage/containers/schema.gql';
-
+import { Alert } from 'src/shared/components/Alert';
 import { Info } from 'src/shared/components/Info';
 import { Input } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { getCategories } from 'src/shared/graphql/Category/schema.gql';
-import { mutationForm } from 'src/shared/graphql/mutationForm';
+import { mutationForm, queryForm } from 'src/shared/graphql';
 import { getUoMs } from 'src/shared/graphql/UoM/schema.gql';
 import { getVariants } from 'src/shared/graphql/Variant/schema.gql';
 import { Currency, formatCurrency } from 'src/shared/helpers/formatCurrency';
@@ -26,26 +19,34 @@ import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { medicineInfo } from './constants';
+import { alertMessage, medicineInfo } from './constants';
+import {
+    createMedicine,
+    getMedicineById,
+    MEDICINE_BY_ID,
+    MEDICINES,
+    updateMedicine,
+} from './schema.gql';
 
-interface MedicineFormProps {
+interface MasterMedicineFormProps {
     formType: string;
     recordKey?: string;
 }
 
-export function MedicineForm({ formType, recordKey }: MedicineFormProps) {
+export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormProps) {
     let [form] = Form.useForm();
     let [isBarcodeChanged, changeBarcode] = React.useState(false);
     let [isCodeChanged, changeCode] = React.useState(false);
 
     let mutation = mutationForm(formType === 'create' ? createMedicine : updateMedicine, formType);
-    let query = handleQuery(
-        { isSkip: formType === 'create' ? true : false, variables: { id: recordKey } },
-        getMedicineById
-    );
-    let categoryQuery = handleQuery(undefined, getCategories);
-    let uomQuery = handleQuery(undefined, getUoMs);
-    let variantQuery = handleQuery(undefined, getVariants);
+    let query = queryForm({
+        skip: formType === 'create',
+        query: getMedicineById,
+        variables: { id: recordKey },
+    });
+    let categoryQuery = queryForm({ query: getCategories });
+    let uomQuery = queryForm({ query: getUoMs });
+    let variantQuery = queryForm({ query: getVariants });
     if (
         mutation.loading ||
         query.loading ||
@@ -124,7 +125,7 @@ export function MedicineForm({ formType, recordKey }: MedicineFormProps) {
         switch (formType) {
             case 'create':
                 fetchQuery = [{ query: MEDICINES }];
-                payload = fetchPayload;
+                payload = { ...fetchPayload, id: undefined };
                 form.resetFields([
                     'barcode',
                     'buy_price',
@@ -184,122 +185,116 @@ export function MedicineForm({ formType, recordKey }: MedicineFormProps) {
         return formatCurrency(e);
     }
 
-    function handleQuery(options: any, queries: any) {
-        let { data, loading } = queries({
-            onError(error: any) {
-                ErrorHandler(error);
-            },
-            skip: options && options.isSkip,
-            variables: options && options.variables,
-        });
-
-        return {
-            data,
-            loading,
-        };
-    }
-
     return (
-        <Form
-            form={form}
-            initialValues={initialValues}
-            layout='vertical'
-            onFinish={handleFinish}
-            scrollToFirstError
-        >
-            <Info description={medicineInfo.general.description} title={medicineInfo.general.title}>
-                <Form.Item
-                    label='Code'
-                    name='code'
-                    rules={[{ required: true, message: 'Please input the code' }]}
-                >
-                    <Input onChange={handleChangeCode} />
-                </Form.Item>
-                <Form.Item
-                    label='Name'
-                    name='name'
-                    rules={[{ required: true, message: 'Please input the name' }]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label='Variant'
-                    name='variant'
-                    rules={[{ required: true, message: 'Please select the variant' }]}
-                >
-                    <Select showSearch>
-                        {variants &&
-                            variants.map((variant: any) => (
-                                <Select.Option key={variant.id} value={variant.id}>
-                                    {variant.name}
-                                </Select.Option>
-                            ))}
-                    </Select>
-                </Form.Item>
-                <Form.Item
-                    label='Category'
-                    name='category'
-                    rules={[{ required: true, message: 'Please select the category' }]}
-                >
-                    <Select showSearch>
-                        {categories &&
-                            categories.map((category: any) => (
-                                <Select.Option key={category.id} value={category.id}>
-                                    {category.name}
-                                </Select.Option>
-                            ))}
-                    </Select>
-                </Form.Item>
-                <Form.Item
-                    label='UoM'
-                    name='uom'
-                    rules={[{ required: true, message: 'Please select the UoM' }]}
-                >
-                    <Select showSearch>
-                        {uoms &&
-                            uoms.map((uom: any) => (
-                                <Select.Option key={uom.id} value={uom.id}>
-                                    {uom.name}
-                                </Select.Option>
-                            ))}
-                    </Select>
-                </Form.Item>
-            </Info>
-            <Info description={medicineInfo.pricing.description} title={medicineInfo.pricing.title}>
-                <Form.Item
-                    getValueFromEvent={formatCurrency}
-                    label='Buy Price'
-                    name='buy_price'
-                    rules={[{ required: true, message: 'Please input the buy price' }]}
-                >
-                    <Input prefix='Rp' />
-                </Form.Item>
-                <Form.Item getValueFromEvent={handlePercentage} name='percentage'>
-                    <Input suffix='%' />
-                </Form.Item>
-                <Form.Item
-                    getValueFromEvent={handleSellPrice}
-                    label='Sell Price'
-                    name='sell_price'
-                    rules={[{ required: true, message: 'Please input the sell price' }]}
-                >
-                    <Input prefix='Rp' />
-                </Form.Item>
-            </Info>
-            <Info
-                description={medicineInfo.inventory.description}
-                title={medicineInfo.inventory.title}
+        <>
+            <Alert message={alertMessage} type='info' showIcon />
+            <Form
+                form={form}
+                initialValues={initialValues}
+                layout='vertical'
+                onFinish={handleFinish}
+                scrollToFirstError
             >
-                <Form.Item label='Barcode' name='barcode'>
-                    <Input onChange={handleChangeBarcode} />
-                </Form.Item>
-                <Form.Item getValueFromEvent={formatNumeric} label='Min Stock' name='min_stock'>
-                    <Input />
-                </Form.Item>
-                <Form.Item>
-                    <SaveButton />
-                </Form.Item>
-            </Info>
-        </Form>
+                <Info
+                    description={medicineInfo.general.description}
+                    title={medicineInfo.general.title}
+                >
+                    <Form.Item
+                        label='Code'
+                        name='code'
+                        rules={[{ required: true, message: 'Please input the code' }]}
+                    >
+                        <Input onChange={handleChangeCode} />
+                    </Form.Item>
+                    <Form.Item
+                        label='Name'
+                        name='name'
+                        rules={[{ required: true, message: 'Please input the name' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label='Variant'
+                        name='variant'
+                        rules={[{ required: true, message: 'Please select the variant' }]}
+                    >
+                        <Select showSearch>
+                            {variants &&
+                                variants.map((variant: any) => (
+                                    <Select.Option key={variant.id} value={variant.id}>
+                                        {variant.name}
+                                    </Select.Option>
+                                ))}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
+                        label='Category'
+                        name='category'
+                        rules={[{ required: true, message: 'Please select the category' }]}
+                    >
+                        <Select showSearch>
+                            {categories &&
+                                categories.map((category: any) => (
+                                    <Select.Option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </Select.Option>
+                                ))}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
+                        label='UoM'
+                        name='uom'
+                        rules={[{ required: true, message: 'Please select the UoM' }]}
+                    >
+                        <Select showSearch>
+                            {uoms &&
+                                uoms.map((uom: any) => (
+                                    <Select.Option key={uom.id} value={uom.id}>
+                                        {uom.name}
+                                    </Select.Option>
+                                ))}
+                        </Select>
+                    </Form.Item>
+                </Info>
+                <Info
+                    description={medicineInfo.pricing.description}
+                    title={medicineInfo.pricing.title}
+                >
+                    <Form.Item
+                        getValueFromEvent={formatCurrency}
+                        label='Buy Price'
+                        name='buy_price'
+                        rules={[{ required: true, message: 'Please input the buy price' }]}
+                    >
+                        <Input prefix='Rp' />
+                    </Form.Item>
+                    <Form.Item getValueFromEvent={handlePercentage} name='percentage'>
+                        <Input suffix='%' />
+                    </Form.Item>
+                    <Form.Item
+                        getValueFromEvent={handleSellPrice}
+                        label='Sell Price'
+                        name='sell_price'
+                        rules={[{ required: true, message: 'Please input the sell price' }]}
+                    >
+                        <Input prefix='Rp' />
+                    </Form.Item>
+                </Info>
+                <Info
+                    description={medicineInfo.inventory.description}
+                    title={medicineInfo.inventory.title}
+                >
+                    <Form.Item label='Barcode' name='barcode'>
+                        <Input onChange={handleChangeBarcode} />
+                    </Form.Item>
+                    <Form.Item getValueFromEvent={formatNumeric} label='Min Stock' name='min_stock'>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item>
+                        <SaveButton />
+                    </Form.Item>
+                </Info>
+            </Form>
+        </>
     );
 }
