@@ -9,7 +9,7 @@ export const createCrudData = (Crud: any) => ({
 
 export const createCrudModule = () => {
     const initialData: Crud = {
-        action: 'list',
+        action: 'back',
         section: 'main',
         __typename: 'Crud',
     };

@@ -6,15 +6,19 @@ import { updateCrud, useCrud } from 'src/core/graphql/crud';
 
 import { Crud } from 'src/shared/components/Crud';
 
+import { initialize } from './helpers';
 import { RoleForm, RoleList } from './Role';
 import { UserForm, UserList } from './User';
 import { UserManagementForm } from './UserManagementForm';
 
 export function UserManagement() {
+    let [init, setInit] = React.useState(false);
     let [recordKey, setRecordKey] = React.useState('');
     let crud = useCrud();
     let [fetch, { loading }] = updateCrud();
     if (loading) return null;
+
+    !init && setInit(initialize(init, fetch, 'main'));
 
     function handleRecord(recordKey: string) {
         fetch({
@@ -55,7 +59,7 @@ export function UserManagement() {
             {crud.section === 'main' ? (
                 <UserManagementForm crud={crud} />
             ) : (
-                <Crud>{renderCrud()}</Crud>
+                <Crud showBack>{renderCrud()}</Crud>
             )}
         </>
     );

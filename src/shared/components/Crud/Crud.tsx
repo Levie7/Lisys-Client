@@ -8,18 +8,22 @@ import { CrudList } from './CrudList';
 
 interface CrudProps {
     children?: React.ReactNode;
+    showAction?: boolean;
+    showBack?: boolean;
 }
 
 export interface CrudConnectedProps {
     crud: CrudType;
 }
 
-export function Crud({ children }: CrudProps) {
+export function Crud({ children, ...props }: CrudProps) {
     let crud = useCrud();
 
     function renderAction() {
         return crud.action === 'list' ? (
-            <CrudList crud={crud}>{children}</CrudList>
+            <CrudList crud={crud} {...props}>
+                {children}
+            </CrudList>
         ) : (
             <CrudForm crud={crud}>{children}</CrudForm>
         );

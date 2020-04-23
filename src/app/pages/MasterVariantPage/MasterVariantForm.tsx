@@ -14,7 +14,6 @@ import {
     VARIANT_BY_ID,
     VARIANTS,
 } from 'src/shared/graphql/Variant/schema.gql';
-import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { alertMessage } from './constants';
@@ -27,7 +26,11 @@ interface MasterVariantFormProps {
 export function MasterVariantForm({ formType, recordKey }: MasterVariantFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(formType === 'create' ? createVariant : updateVariant, formType);
+    let mutation = mutationForm(
+        formType === 'create' ? createVariant : updateVariant,
+        formType,
+        handleResetForm
+    );
     let query = queryForm({
         skip: formType === 'create',
         query: getVariantById,
@@ -55,7 +58,6 @@ export function MasterVariantForm({ formType, recordKey }: MasterVariantFormProp
             case 'create':
                 fetchQuery = [{ query: VARIANTS }];
                 payload = { ...payload, id: undefined };
-                form.resetFields(['name', 'description']);
                 break;
             case 'update':
                 fetchQuery = [
@@ -73,6 +75,10 @@ export function MasterVariantForm({ formType, recordKey }: MasterVariantFormProp
                 payload,
             },
         });
+    }
+
+    function handleResetForm() {
+        form.resetFields(['name', 'description']);
     }
 
     return (

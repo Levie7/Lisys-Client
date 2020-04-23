@@ -12,8 +12,6 @@ interface ButtonActionProps extends React.HTMLAttributes<any>, CrudConnectedProp
     buttonType: ButtonType;
     iconType?: string;
     title: string;
-
-    setAction?: (action: string) => void;
 }
 
 export const ButtonAction = ({
@@ -21,7 +19,6 @@ export const ButtonAction = ({
     className,
     crud,
     iconType,
-    setAction,
     title,
 }: ButtonActionProps) => {
     let [fetch] = updateCrud();
@@ -31,14 +28,14 @@ export const ButtonAction = ({
     }
 
     function handleMenuClick(e: any) {
-        setAction!(e.key);
+        fetch({ variables: { payload: { ...crud, action: e.key } } });
     }
 
     function renderActions() {
         let menu = (
             <Menu onClick={handleMenuClick}>
-                <Menu.Item key='Active'>Activate</Menu.Item>
-                <Menu.Item key='Inactive'>Inactivate</Menu.Item>
+                <Menu.Item key='active'>Activate</Menu.Item>
+                <Menu.Item key='inactive'>Inactivate</Menu.Item>
             </Menu>
         );
 

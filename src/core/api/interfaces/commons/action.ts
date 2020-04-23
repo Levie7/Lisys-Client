@@ -1,1 +1,10 @@
-export type Action = 'create' | 'read' | 'update' | 'delete' | 'back' | 'list' | 'action';
+export type Action =
+    | 'create'
+    | 'read'
+    | 'update'
+    | 'delete'
+    | 'back'
+    | 'list'
+    | 'action'
+    | 'active'
+    | 'inactive';

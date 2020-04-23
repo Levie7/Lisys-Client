@@ -26,7 +26,11 @@ interface CategoryFormProps {
 export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(formType === 'create' ? createCategory : updateCategory, formType);
+    let mutation = mutationForm(
+        formType === 'create' ? createCategory : updateCategory,
+        formType,
+        handleResetForm
+    );
     let query = queryForm({
         skip: formType === 'create',
         query: getCategoryById,
@@ -55,7 +59,6 @@ export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
             case 'create':
                 fetchQuery = [{ query: CATEGORIES }];
                 payload = { ...payload, id: undefined };
-                form.resetFields(['name', 'description']);
                 break;
             case 'update':
                 fetchQuery = [
@@ -73,6 +76,10 @@ export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
                 payload,
             },
         });
+    }
+
+    function handleResetForm() {
+        form.resetFields(['name', 'description']);
     }
 
     return (

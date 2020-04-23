@@ -14,7 +14,7 @@ export const CrudFormAction = React.memo<CrudFormActionProps>(({ crud }) => (
             <ButtonAction
                 buttonType='default'
                 crud={{ ...crud, action: 'list' }}
-                iconType='left'
+                iconType='back'
                 title='Back'
             />
         </div>

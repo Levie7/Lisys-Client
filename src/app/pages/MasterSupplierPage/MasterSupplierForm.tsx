@@ -27,7 +27,11 @@ interface MasterSupplierFormProps {
 export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(formType === 'create' ? createSupplier : updateSupplier, formType);
+    let mutation = mutationForm(
+        formType === 'create' ? createSupplier : updateSupplier,
+        formType,
+        handleResetForm
+    );
     let query = queryForm({
         skip: formType === 'create',
         query: getSupplierById,
@@ -89,20 +93,6 @@ export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormPr
             case 'create':
                 fetchQuery = [{ query: SUPPLIERS }];
                 payload = { ...payload, id: undefined };
-                form.resetFields([
-                    'account_name',
-                    'account_no',
-                    'address',
-                    'bank',
-                    'city',
-                    'contact',
-                    'email',
-                    'name',
-                    'npwp',
-                    'phone',
-                    'province',
-                    'zip_code',
-                ]);
                 break;
             case 'update':
                 fetchQuery = [
@@ -120,6 +110,23 @@ export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormPr
                 payload,
             },
         });
+    }
+
+    function handleResetForm() {
+        form.resetFields([
+            'account_name',
+            'account_no',
+            'address',
+            'bank',
+            'city',
+            'contact',
+            'email',
+            'name',
+            'npwp',
+            'phone',
+            'province',
+            'zip_code',
+        ]);
     }
 
     return (

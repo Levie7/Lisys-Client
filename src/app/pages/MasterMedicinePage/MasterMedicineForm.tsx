@@ -15,7 +15,6 @@ import { Currency, formatCurrency } from 'src/shared/helpers/formatCurrency';
 import { formatPercentage, Percentage } from 'src/shared/helpers/formatPercentage';
 import { formatNumeric } from 'src/shared/helpers/formatNumeric';
 import { formatCommaValue, formatValue } from 'src/shared/helpers/formatValue';
-import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
@@ -38,7 +37,11 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
     let [isBarcodeChanged, changeBarcode] = React.useState(false);
     let [isCodeChanged, changeCode] = React.useState(false);
 
-    let mutation = mutationForm(formType === 'create' ? createMedicine : updateMedicine, formType);
+    let mutation = mutationForm(
+        formType === 'create' ? createMedicine : updateMedicine,
+        formType,
+        handleResetForm
+    );
     let query = queryForm({
         skip: formType === 'create',
         query: getMedicineById,
@@ -126,19 +129,6 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
             case 'create':
                 fetchQuery = [{ query: MEDICINES }];
                 payload = { ...fetchPayload, id: undefined };
-                form.resetFields([
-                    'barcode',
-                    'buy_price',
-                    'category',
-                    'code',
-                    'min_stock',
-                    'name',
-                    'percentage',
-                    'sell_price',
-                    'stock',
-                    'uom',
-                    'variant',
-                ]);
                 break;
             case 'update':
                 fetchQuery = [
@@ -170,6 +160,22 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
         form.setFieldsValue({ sell_price: Currency(sellPrice) });
 
         return formatPercentage(e);
+    }
+
+    function handleResetForm() {
+        form.resetFields([
+            'barcode',
+            'buy_price',
+            'category',
+            'code',
+            'min_stock',
+            'name',
+            'percentage',
+            'sell_price',
+            'stock',
+            'uom',
+            'variant',
+        ]);
     }
 
     function handleSellPrice(e: any) {

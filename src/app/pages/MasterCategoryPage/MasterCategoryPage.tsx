@@ -4,6 +4,7 @@ import { Action } from 'src/core/api';
 import { updateCrud, useCrud } from 'src/core/graphql/crud';
 
 import { MasterContentHeader } from 'src/modules/Master/components/MasterContentHeader';
+import { initialize } from 'src/modules/Master/helpers';
 
 import { Card } from 'src/shared/components/Card';
 import { Crud } from 'src/shared/components/Crud';
@@ -12,10 +13,13 @@ import { MasterCategoryForm } from './MasterCategoryForm';
 import { MasterCategoryList } from './MasterCategoryList';
 
 export const MasterCategoryPage = () => {
+    let [init, setInit] = React.useState(false);
     let [recordKey, setRecordKey] = React.useState('');
     let crud = useCrud();
     let [fetch, { loading }] = updateCrud();
     if (loading) return null;
+
+    !init && setInit(initialize(init, fetch, 'category'));
 
     function handleFetch(action: Action) {
         fetch({
@@ -33,7 +37,7 @@ export const MasterCategoryPage = () => {
     }
 
     function renderCrud() {
-        return crud.action === 'list' ? (
+        return ['list', 'active', 'inactive'].includes(crud.action) ? (
             <MasterCategoryList
                 action={crud.action}
                 handleRecord={handleRecord}
@@ -48,7 +52,7 @@ export const MasterCategoryPage = () => {
         <div className='d-flex fj-center m-4'>
             <Card>
                 <MasterContentHeader crud={{ ...crud }} title='Category' to='/category' />
-                <Crud>{renderCrud()}</Crud>
+                <Crud showAction>{renderCrud()}</Crud>
             </Card>
         </div>
     );

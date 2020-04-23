@@ -10,7 +10,7 @@ interface CrudListProps extends CrudConnectedProps {
 export const CrudList = React.memo<CrudListProps>(({ children, ...props }) => {
     return (
         <>
-            <CrudListAction {...props} showBack />
+            <CrudListAction {...props} />
             {children}
         </>
     );
