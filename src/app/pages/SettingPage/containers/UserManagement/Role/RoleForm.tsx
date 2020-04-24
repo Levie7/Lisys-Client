@@ -7,7 +7,6 @@ import { Input, InputArea } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm, queryForm } from 'src/shared/graphql';
-import { ErrorHandler } from 'src/shared/utilities/errors';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { createRole, getRoleById, ROLE_BY_ID, ROLES, updateRole } from './schema.gql';
