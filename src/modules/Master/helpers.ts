@@ -1,9 +1,19 @@
-export function initialize(init: boolean, fetch: any, section: string) {
-    if (!init) {
+import { Action } from 'src/core/api';
+
+export function initialize({
+    fetch,
+    initSection,
+    isInit,
+}: {
+    fetch: any;
+    initSection: string;
+    isInit: boolean;
+}) {
+    if (!isInit) {
         fetch({
-            variables: { payload: { action: 'list', section } },
+            variables: { payload: { action: 'list', section: initSection } },
         });
-        return !init;
+        return !isInit;
     }
-    return init;
+    return isInit;
 }

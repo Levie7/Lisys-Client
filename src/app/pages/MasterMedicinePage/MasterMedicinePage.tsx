@@ -1,59 +1,62 @@
 import React from 'react';
 
-import { Action } from 'src/core/api';
-import { updateCrud, useCrud } from 'src/core/graphql/crud';
+import { Medicine, MedicineData } from 'src/core/api';
 
-import { MasterContentHeader } from 'src/modules/Master/components/MasterContentHeader';
-import { initialize } from 'src/modules/Master/helpers';
+import { MasterCard } from 'src/modules/Master/containers/MasterCard';
+import { MasterList } from 'src/modules/Master/containers/MasterList';
 
-import { Card } from 'src/shared/components/Card';
-import { Crud } from 'src/shared/components/Crud';
-
+import { medicineColumns } from './constants';
 import { MasterMedicineForm } from './MasterMedicineForm';
-import { MasterMedicineList } from './MasterMedicineList';
+import { deleteMedicine, getMedicines, MEDICINES, updateManyMedicine } from './schema.gql';
 
 export const MasterMedicinePage = () => {
-    let [init, setInit] = React.useState(false);
-    let [recordKey, setRecordKey] = React.useState('');
-    let crud = useCrud();
-    let [fetch, { loading }] = updateCrud();
-    if (loading) return null;
+    function handleData(data?: any): MedicineData[] {
+        let medicine = data?.getMedicines;
+        if (!medicine || !medicine.length) {
+            return [];
+        }
 
-    !init && setInit(initialize(init, fetch, 'medicine'));
-
-    function handleFetch(action: Action) {
-        fetch({
-            variables: { payload: { ...crud, action } },
+        return medicine.map((medicine: Medicine) => {
+            return {
+                barcode: medicine.barcode,
+                buy_price: medicine.buy_price,
+                category_name: medicine.category!.name,
+                code: medicine.code,
+                key: medicine.id!,
+                min_stock: medicine.min_stock,
+                name: medicine.name,
+                sell_price: medicine.sell_price,
+                status: medicine.status,
+                stock: medicine.stock,
+                uom_name: medicine.uom!.name,
+                variant_name: medicine.variant!.name,
+            };
         });
     }
 
-    function handleRecord(recordKey: string) {
-        handleFetch('update');
-        setRecordKey(recordKey);
-    }
-
-    function handleResetAction() {
-        handleFetch('list');
-    }
-
-    function renderCrud() {
-        return ['list', 'active', 'inactive'].includes(crud.action) ? (
-            <MasterMedicineList
-                action={crud.action}
-                handleRecord={handleRecord}
-                handleResetAction={handleResetAction}
-            />
-        ) : (
-            <MasterMedicineForm formType={crud.action} recordKey={recordKey} />
-        );
-    }
-
     return (
-        <div className='d-flex fj-center m-4'>
-            <Card>
-                <MasterContentHeader crud={{ ...crud }} title='Medicine' to='/medicine' />
-                <Crud showAction>{renderCrud()}</Crud>
-            </Card>
-        </div>
+        <MasterCard header={{ link: '/medicine', title: 'Medicine' }} initSection='medicine'>
+            {({ action, recordKey, handleRecord, handleResetAction }) =>
+                ['list', 'active', 'inactive'].includes(action) ? (
+                    <MasterList
+                        action={action}
+                        columns={medicineColumns}
+                        mutation={{
+                            delete: deleteMedicine,
+                            update: updateManyMedicine,
+                        }}
+                        query={{
+                            data: getMedicines,
+                            refetch: MEDICINES,
+                        }}
+                        handleData={handleData}
+                        handleRecord={handleRecord}
+                        handleResetAction={handleResetAction}
+                    />
+                ) : (
+                    <MasterMedicineForm formType={action} recordKey={recordKey} />
+                )
+            }
+        </MasterCard>
     );
 };

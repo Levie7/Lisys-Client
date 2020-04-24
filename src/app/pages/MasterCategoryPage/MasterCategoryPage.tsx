@@ -1,59 +1,60 @@
 import React from 'react';
 
-import { Action } from 'src/core/api';
-import { updateCrud, useCrud } from 'src/core/graphql/crud';
+import { Category, CategoryData } from 'src/core/api';
 
-import { MasterContentHeader } from 'src/modules/Master/components/MasterContentHeader';
-import { initialize } from 'src/modules/Master/helpers';
+import { MasterCard } from 'src/modules/Master/containers/MasterCard';
+import { MasterList } from 'src/modules/Master/containers/MasterList';
 
-import { Card } from 'src/shared/components/Card';
-import { Crud } from 'src/shared/components/Crud';
+import {
+    CATEGORIES,
+    deleteCategory,
+    getCategories,
+    updateManyCategory,
+} from 'src/shared/graphql/Category/schema.gql';
 
+import { categoryColumns } from './constants';
 import { MasterCategoryForm } from './MasterCategoryForm';
-import { MasterCategoryList } from './MasterCategoryList';
 
 export const MasterCategoryPage = () => {
-    let [init, setInit] = React.useState(false);
-    let [recordKey, setRecordKey] = React.useState('');
-    let crud = useCrud();
-    let [fetch, { loading }] = updateCrud();
-    if (loading) return null;
+    function handleData(data?: any): CategoryData[] {
+        let category = data?.getCategories;
+        if (!category || !category.length) {
+            return [];
+        }
 
-    !init && setInit(initialize(init, fetch, 'category'));
-
-    function handleFetch(action: Action) {
-        fetch({
-            variables: { payload: { ...crud, action } },
+        return category.map((category: Category) => {
+            return {
+                key: category.id!,
+                name: category.name,
+                description: category.description,
+                status: category.status,
+            };
         });
     }
 
-    function handleRecord(recordKey: string) {
-        handleFetch('update');
-        setRecordKey(recordKey);
-    }
-
-    function handleResetAction() {
-        handleFetch('list');
-    }
-
-    function renderCrud() {
-        return ['list', 'active', 'inactive'].includes(crud.action) ? (
-            <MasterCategoryList
-                action={crud.action}
-                handleRecord={handleRecord}
-                handleResetAction={handleResetAction}
-            />
-        ) : (
-            <MasterCategoryForm formType={crud.action} recordKey={recordKey} />
-        );
-    }
-
     return (
-        <div className='d-flex fj-center m-4'>
-            <Card>
-                <MasterContentHeader crud={{ ...crud }} title='Category' to='/category' />
-                <Crud showAction>{renderCrud()}</Crud>
-            </Card>
-        </div>
+        <MasterCard header={{ link: '/category', title: 'Category' }} initSection='category'>
+            {({ action, recordKey, handleRecord, handleResetAction }) =>
+                ['list', 'active', 'inactive'].includes(action) ? (
+                    <MasterList
+                        action={action}
+                        columns={categoryColumns}
+                        mutation={{
+                            delete: deleteCategory,
+                            update: updateManyCategory,
+                        }}
+                        query={{
+                            data: getCategories,
+                            refetch: CATEGORIES,
+                        }}
+                        handleData={handleData}
+                        handleRecord={handleRecord}
+                        handleResetAction={handleResetAction}
+                    />
+                ) : (
+                    <MasterCategoryForm formType={action} recordKey={recordKey} />
+                )
+            }
+        </MasterCard>
     );
 };

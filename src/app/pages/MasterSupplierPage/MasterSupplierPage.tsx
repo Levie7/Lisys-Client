@@ -1,59 +1,64 @@
 import React from 'react';
 
-import { Action } from 'src/core/api';
-import { updateCrud, useCrud } from 'src/core/graphql/crud';
+import { Supplier, SupplierData } from 'src/core/api';
 
-import { MasterContentHeader } from 'src/modules/Master/components/MasterContentHeader';
-import { initialize } from 'src/modules/Master/helpers';
+import { MasterCard } from 'src/modules/Master/containers/MasterCard';
+import { MasterList } from 'src/modules/Master/containers/MasterList';
 
-import { Card } from 'src/shared/components/Card';
-import { Crud } from 'src/shared/components/Crud';
-
+import { supplierColumns } from './constants';
 import { MasterSupplierForm } from './MasterSupplierForm';
-import { MasterSupplierList } from './MasterSupplierList';
+import { deleteSupplier, getSuppliers, SUPPLIERS, updateManySupplier } from './schema.gql';
 
 export const MasterSupplierPage = () => {
-    let [init, setInit] = React.useState(false);
-    let [recordKey, setRecordKey] = React.useState('');
-    let crud = useCrud();
-    let [fetch, { loading }] = updateCrud();
-    if (loading) return null;
+    function handleData(data?: any): SupplierData[] {
+        let supplier = data?.getSuppliers;
+        if (!supplier || !supplier.length) {
+            return [];
+        }
 
-    !init && setInit(initialize(init, fetch, 'supplier'));
-
-    function handleFetch(action: Action) {
-        fetch({
-            variables: { payload: { ...crud, action } },
+        return supplier.map((supplier: Supplier) => {
+            return {
+                account_name: supplier.account_name,
+                account_no: supplier.account_no,
+                address: supplier.address,
+                bank: supplier.bank,
+                city: supplier.city,
+                contact: supplier.contact,
+                email: supplier.email,
+                key: supplier.id!,
+                name: supplier.name,
+                npwp: supplier.npwp,
+                phone: supplier.phone,
+                province: supplier.province,
+                status: supplier.status,
+                zip_code: supplier.zip_code,
+            };
         });
     }
 
-    function handleRecord(recordKey: string) {
-        handleFetch('update');
-        setRecordKey(recordKey);
-    }
-
-    function handleResetAction() {
-        handleFetch('list');
-    }
-
-    function renderCrud() {
-        return ['list', 'active', 'inactive'].includes(crud.action) ? (
-            <MasterSupplierList
-                action={crud.action}
-                handleRecord={handleRecord}
-                handleResetAction={handleResetAction}
-            />
-        ) : (
-            <MasterSupplierForm formType={crud.action} recordKey={recordKey} />
-        );
-    }
-
     return (
-        <div className='d-flex fj-center m-4'>
-            <Card>
-                <MasterContentHeader crud={{ ...crud }} title='Category' to='/category' />
-                <Crud showAction>{renderCrud()}</Crud>
-            </Card>
-        </div>
+        <MasterCard header={{ link: '/category', title: 'Category' }} initSection='category'>
+            {({ action, recordKey, handleRecord, handleResetAction }) =>
+                ['list', 'active', 'inactive'].includes(action) ? (
+                    <MasterList
+                        action={action}
+                        columns={supplierColumns}
+                        mutation={{
+                            delete: deleteSupplier,
+                            update: updateManySupplier,
+                        }}
+                        query={{
+                            data: getSuppliers,
+                            refetch: SUPPLIERS,
+                        }}
+                        handleData={handleData}
+                        handleRecord={handleRecord}
+                        handleResetAction={handleResetAction}
+                    />
+                ) : (
+                    <MasterSupplierForm formType={action} recordKey={recordKey} />
+                )
+            }
+        </MasterCard>
     );
 };

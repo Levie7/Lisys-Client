@@ -1,59 +1,55 @@
 import React from 'react';
 
-import { Action } from 'src/core/api';
-import { updateCrud, useCrud } from 'src/core/graphql/crud';
+import { UoM, UoMData } from 'src/core/api';
 
-import { MasterContentHeader } from 'src/modules/Master/components/MasterContentHeader';
-import { initialize } from 'src/modules/Master/helpers';
+import { MasterCard } from 'src/modules/Master/containers/MasterCard';
+import { MasterList } from 'src/modules/Master/containers/MasterList';
 
-import { Card } from 'src/shared/components/Card';
-import { Crud } from 'src/shared/components/Crud';
+import { deleteUoM, getUoMs, UOMS, updateManyUoM } from 'src/shared/graphql/UoM/schema.gql';
 
+import { uomColumns } from './constants';
 import { MasterUoMForm } from './MasterUoMForm';
-import { MasterUoMList } from './MasterUoMList';
 
 export const MasterUoMPage = () => {
-    let [init, setInit] = React.useState(false);
-    let [recordKey, setRecordKey] = React.useState('');
-    let crud = useCrud();
-    let [fetch, { loading }] = updateCrud();
-    if (loading) return null;
+    function handleData(data?: any): UoMData[] {
+        let uom = data?.getUoMs;
+        if (!uom || !uom.length) {
+            return [];
+        }
 
-    !init && setInit(initialize(init, fetch, 'uom'));
-
-    function handleFetch(action: Action) {
-        fetch({
-            variables: { payload: { ...crud, action } },
+        return uom.map((uom: UoM) => {
+            return {
+                key: uom.id!,
+                name: uom.name,
+                description: uom.description,
+                status: uom.status,
+            };
         });
     }
 
-    function handleRecord(recordKey: string) {
-        handleFetch('update');
-        setRecordKey(recordKey);
-    }
-
-    function handleResetAction() {
-        handleFetch('list');
-    }
-
-    function renderCrud() {
-        return ['list', 'active', 'inactive'].includes(crud.action) ? (
-            <MasterUoMList
-                action={crud.action}
-                handleRecord={handleRecord}
-                handleResetAction={handleResetAction}
-            />
-        ) : (
-            <MasterUoMForm formType={crud.action} recordKey={recordKey} />
-        );
-    }
-
     return (
-        <div className='d-flex fj-center m-4'>
-            <Card>
-                <MasterContentHeader crud={{ ...crud }} title='UoM' to='/uom' />
-                <Crud showAction>{renderCrud()}</Crud>
-            </Card>
-        </div>
+        <MasterCard header={{ link: '/uom', title: 'UoM' }} initSection='uom'>
+            {({ action, recordKey, handleRecord, handleResetAction }) =>
+                ['list', 'active', 'inactive'].includes(action) ? (
+                    <MasterList
+                        action={action}
+                        columns={uomColumns}
+                        mutation={{
+                            delete: deleteUoM,
+                            update: updateManyUoM,
+                        }}
+                        query={{
+                            data: getUoMs,
+                            refetch: UOMS,
+                        }}
+                        handleData={handleData}
+                        handleRecord={handleRecord}
+                        handleResetAction={handleResetAction}
+                    />
+                ) : (
+                    <MasterUoMForm formType={action} recordKey={recordKey} />
+                )
+            }
+        </MasterCard>
     );
 };

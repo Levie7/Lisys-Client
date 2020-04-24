@@ -1,59 +1,60 @@
 import React from 'react';
 
-import { Action } from 'src/core/api';
-import { updateCrud, useCrud } from 'src/core/graphql/crud';
+import { Variant, VariantData } from 'src/core/api';
 
-import { MasterContentHeader } from 'src/modules/Master/components/MasterContentHeader';
-import { initialize } from 'src/modules/Master/helpers';
+import { MasterCard } from 'src/modules/Master/containers/MasterCard';
+import { MasterList } from 'src/modules/Master/containers/MasterList';
 
-import { Card } from 'src/shared/components/Card';
-import { Crud } from 'src/shared/components/Crud';
+import {
+    deleteVariant,
+    getVariants,
+    updateManyVariant,
+    VARIANTS,
+} from 'src/shared/graphql/Variant/schema.gql';
 
+import { variantColumns } from './constants';
 import { MasterVariantForm } from './MasterVariantForm';
-import { MasterVariantList } from './MasterVariantList';
 
 export const MasterVariantPage = () => {
-    let [init, setInit] = React.useState(false);
-    let [recordKey, setRecordKey] = React.useState('');
-    let crud = useCrud();
-    let [fetch, { loading }] = updateCrud();
-    if (loading) return null;
+    function handleData(data?: any): VariantData[] {
+        let variant = data?.getVariants;
+        if (!variant || !variant.length) {
+            return [];
+        }
 
-    !init && setInit(initialize(init, fetch, 'variant'));
-
-    function handleFetch(action: Action) {
-        fetch({
-            variables: { payload: { ...crud, action } },
+        return variant.map((variant: Variant) => {
+            return {
+                key: variant.id!,
+                name: variant.name,
+                description: variant.description,
+                status: variant.status,
+            };
         });
     }
 
-    function handleRecord(recordKey: string) {
-        handleFetch('update');
-        setRecordKey(recordKey);
-    }
-
-    function handleResetAction() {
-        handleFetch('list');
-    }
-
-    function renderCrud() {
-        return ['list', 'active', 'inactive'].includes(crud.action) ? (
-            <MasterVariantList
-                action={crud.action}
-                handleRecord={handleRecord}
-                handleResetAction={handleResetAction}
-            />
-        ) : (
-            <MasterVariantForm formType={crud.action} recordKey={recordKey} />
-        );
-    }
-
     return (
-        <div className='d-flex fj-center m-4'>
-            <Card>
-                <MasterContentHeader crud={{ ...crud }} title='Variant' to='/variant' />
-                <Crud showAction>{renderCrud()}</Crud>
-            </Card>
-        </div>
+        <MasterCard header={{ link: '/variant', title: 'Variant' }} initSection='variant'>
+            {({ action, recordKey, handleRecord, handleResetAction }) =>
+                ['list', 'active', 'inactive'].includes(action) ? (
+                    <MasterList
+                        action={action}
+                        columns={variantColumns}
+                        mutation={{
+                            delete: deleteVariant,
+                            update: updateManyVariant,
+                        }}
+                        query={{
+                            data: getVariants,
+                            refetch: VARIANTS,
+                        }}
+                        handleData={handleData}
+                        handleRecord={handleRecord}
+                        handleResetAction={handleResetAction}
+                    />
+                ) : (
+                    <MasterVariantForm formType={action} recordKey={recordKey} />
+                )
+            }
+        </MasterCard>
     );
 };

@@ -5,6 +5,7 @@ import { SettingContentHeader } from 'src/app/pages/SettingPage/components/Setti
 import { updateCrud, useCrud } from 'src/core/graphql/crud';
 
 import { Crud } from 'src/shared/components/Crud';
+import { handleFetchCrud } from 'src/shared/components/Crud/helpers';
 
 import { initialize } from './helpers';
 import { RoleForm, RoleList } from './Role';
@@ -21,9 +22,7 @@ export function UserManagement() {
     !init && setInit(initialize(init, fetch, 'main'));
 
     function handleRecord(recordKey: string) {
-        fetch({
-            variables: { payload: { ...crud, action: 'update' } },
-        });
+        handleFetchCrud({ ...crud, action: 'update', fetch });
         setRecordKey(recordKey);
     }
 
