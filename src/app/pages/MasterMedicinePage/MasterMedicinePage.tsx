@@ -5,9 +5,12 @@ import { Medicine, MedicineData } from 'src/core/api';
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
 
+import { Currency } from 'src/shared/helpers/formatCurrency';
+
 import { medicineColumns } from './constants';
 import { MasterMedicineForm } from './MasterMedicineForm';
 import { deleteMedicine, getMedicines, MEDICINES, updateManyMedicine } from './schema.gql';
+import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
 export const MasterMedicinePage = () => {
     function handleData(data?: any): MedicineData[] {
@@ -19,13 +22,13 @@ export const MasterMedicinePage = () => {
         return medicine.map((medicine: Medicine) => {
             return {
                 barcode: medicine.barcode,
-                buy_price: medicine.buy_price,
+                buy_price: Currency(formatCommaValue(medicine.buy_price)),
                 category_name: medicine.category!.name,
                 code: medicine.code,
                 key: medicine.id!,
                 min_stock: medicine.min_stock,
                 name: medicine.name,
-                sell_price: medicine.sell_price,
+                sell_price: Currency(formatCommaValue(medicine.sell_price)),
                 status: medicine.status,
                 stock: medicine.stock,
                 uom_name: medicine.uom!.name,
