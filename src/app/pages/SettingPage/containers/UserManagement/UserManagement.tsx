@@ -1,39 +1,52 @@
 import * as React from 'react';
 
-import { Breadcrumb } from 'src/shared/components/Breadcrumb';
-import { Capitalized } from 'src/shared/utilities/capitalized';
+import { SettingContentHeader } from 'src/app/pages/SettingPage/components/SettingContentHeader';
 
-import { Role } from './Role';
-import { User } from './User';
+import { updateCrud, useCrud } from 'src/core/graphql/crud';
+
+import { Crud } from 'src/shared/components/Crud';
+import { handleFetchCrud } from 'src/shared/components/Crud/helpers';
+
+import { initialize } from './helpers';
+import { RoleForm, RoleList } from './Role';
+import { UserForm, UserList } from './User';
 import { UserManagementForm } from './UserManagementForm';
 
-export const UserManagement = React.memo(() => {
-    let [activeSection, setActiveSection] = React.useState({ action: 'list', section: 'user' });
+export function UserManagement() {
+    let [init, setInit] = React.useState(false);
+    let [recordKey, setRecordKey] = React.useState('');
+    let crud = useCrud();
+    let [fetch, { loading }] = updateCrud();
+    if (loading) return null;
 
-    function handleSection({ action, section }: { action: string; section: string }) {
-        setActiveSection({ action, section });
+    !init && setInit(initialize(init, fetch, 'main'));
+
+    function handleRecord(recordKey: string) {
+        handleFetchCrud({ ...crud, action: 'update', fetch });
+        setRecordKey(recordKey);
     }
 
-    function renderContent() {
-        switch (activeSection.section) {
+    function renderCrud() {
+        return crud.action === 'list' ? renderList() : renderForm();
+    }
+
+    function renderForm() {
+        switch (crud.section) {
             case 'role':
-                return (
-                    <Role
-                        action={activeSection.action}
-                        section={activeSection.section}
-                        setSection={handleSection}
-                    />
-                );
-            case 'main':
-                return <UserManagementForm setSection={handleSection} />;
+                return <RoleForm formType={crud.action} recordKey={recordKey} />;
             case 'user':
-                return (
-                    <User
-                        action={activeSection.action}
-                        section={activeSection.section}
-                        setSection={handleSection}
-                    />
-                );
+                return <UserForm formType={crud.action} recordKey={recordKey} />;
+            default:
+                return null;
+        }
+    }
+
+    function renderList() {
+        switch (crud.section) {
+            case 'role':
+                return <RoleList handleRecord={handleRecord} />;
+            case 'user':
+                return <UserList handleRecord={handleRecord} />;
             default:
                 return null;
         }
@@ -41,17 +54,12 @@ export const UserManagement = React.memo(() => {
 
     return (
         <>
-            <Breadcrumb>
-                <Breadcrumb.Item href='/settings'>Settings</Breadcrumb.Item>
-                <Breadcrumb.Item>User Management</Breadcrumb.Item>
-                {activeSection.section !== 'main' && (
-                    <Breadcrumb.Item>{Capitalized(activeSection.section)}</Breadcrumb.Item>
-                )}
-                {activeSection.action !== 'back' && (
-                    <Breadcrumb.Item>{Capitalized(activeSection.action)}</Breadcrumb.Item>
-                )}
-            </Breadcrumb>
-            {renderContent()}
+            <SettingContentHeader crud={{ ...crud }} title='User Management' />
+            {crud.section === 'main' ? (
+                <UserManagementForm crud={crud} />
+            ) : (
+                <Crud showBack>{renderCrud()}</Crud>
+            )}
         </>
     );
-});
+}

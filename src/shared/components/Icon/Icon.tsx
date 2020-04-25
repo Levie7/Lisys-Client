@@ -1,13 +1,18 @@
 import {
+    AuditOutlined,
+    ClusterOutlined,
     DashboardOutlined,
     DeleteOutlined,
+    DownOutlined,
     EditOutlined,
     GlobalOutlined,
+    GoldOutlined,
     HddOutlined,
     LeftOutlined,
     LoadingOutlined,
     LockOutlined,
     MedicineBoxOutlined,
+    PartitionOutlined,
     PlusOutlined,
     SettingOutlined,
     ShopOutlined,
@@ -20,7 +25,9 @@ interface Icons {
 }
 
 export const Icon: Icons = {
+    action: <DownOutlined />,
     back: <LeftOutlined />,
+    category: <ClusterOutlined />,
     dashboard: <DashboardOutlined />,
     delete: <DeleteOutlined />,
     edit: <EditOutlined />,
@@ -32,5 +39,8 @@ export const Icon: Icons = {
     plus: <PlusOutlined />,
     setting: <SettingOutlined />,
     shop: <ShopOutlined />,
+    supplier: <AuditOutlined />,
+    uom: <GoldOutlined />,
     user: <UserOutlined />,
+    variant: <PartitionOutlined />,
 };

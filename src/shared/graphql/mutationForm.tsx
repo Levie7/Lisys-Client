@@ -5,10 +5,11 @@ import { ErrorHandler } from '../utilities/errors';
 import { Message } from '../utilities/message';
 import { Progress } from '../utilities/progress';
 
-export function mutationForm(formType: string, mutations: any) {
+export function mutationForm(mutations: any, formType: string, resetForm?: () => void) {
     let [fetchUser, { loading }] = mutations({
         onCompleted() {
             Progress(false);
+            resetForm && formType === 'create' && resetForm();
 
             return <>{Message(`${Capitalized(formType)} data successfully`, 'success')}</>;
         },

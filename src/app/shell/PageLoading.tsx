@@ -8,5 +8,5 @@ export const PageLoading: LoadingComponent = ({ error }, props) => {
     if (error) {
         throw error;
     }
-    return <Spin spinning={true}>{props.children}</Spin>;
+    return <Spin spinning>{props.children}</Spin>;
 };
