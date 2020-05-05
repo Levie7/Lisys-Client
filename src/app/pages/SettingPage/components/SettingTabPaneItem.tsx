@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Icon } from 'src/shared/components/Icon';
-import { UIContext } from 'src/shared/contexts/UIContext';
+import { useUIContext } from 'src/shared/contexts/UIContext';
 
 interface SettingTabPaneItemProps {
     description: string;
@@ -11,13 +11,15 @@ interface SettingTabPaneItemProps {
 
 export const SettingTabPaneItem = React.memo<SettingTabPaneItemProps>(
     ({ description, icon, title }) => (
-        <div className='d-flex fa-center fd-row'>
+        <div id='SettingTabPaneItem' className='d-flex fa-center fd-row'>
             {Icon[icon]}
             <div>
                 <span className='fw-bold'>{title}</span>
-                <UIContext.Consumer>
-                    {({ isMobile }) => !isMobile && <p className='fg-gray-light'>{description}</p>}
-                </UIContext.Consumer>
+                {!useUIContext().isMobile && (
+                    <p id='description' className='fg-gray-light'>
+                        {description}
+                    </p>
+                )}
             </div>
         </div>
     )

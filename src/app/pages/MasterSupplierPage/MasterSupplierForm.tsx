@@ -27,11 +27,11 @@ interface MasterSupplierFormProps {
 export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(
-        formType === 'create' ? createSupplier : updateSupplier,
+    let mutation = mutationForm({
         formType,
-        handleResetForm
-    );
+        mutations: formType === 'create' ? createSupplier : updateSupplier,
+        resetForm: handleResetForm,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getSupplierById,
@@ -99,8 +99,6 @@ export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormPr
                     { query: SUPPLIERS },
                     { query: SUPPLIER_BY_ID, variables: { id: recordKey } },
                 ];
-                break;
-            default:
                 break;
         }
 

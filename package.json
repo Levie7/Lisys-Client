@@ -26,6 +26,11 @@
         "rxjs": "6.5.3"
     },
     "devDependencies": {
+        "@apollo/react-testing": "3.1.4",
+        "@testing-library/react": "10.0.4",
+        "@testing-library/react-hooks": "3.2.1",
+        "@types/enzyme": "3.10.5",
+        "@types/enzyme-adapter-react-16": "1.0.6",
         "@types/jest": "24.0.23",
         "@types/lodash": "4.14.149",
         "@types/node": "12.12.12",
@@ -37,9 +42,13 @@
         "@types/react-router-dom": "5.1.2",
         "babel-plugin-import": "1.12.2",
         "customize-cra": "0.9.1",
+        "enzyme": "3.11.0",
+        "enzyme-adapter-react-16": "1.15.2",
         "eslint-plugin-prettier": "3.1.1",
+        "jest-cli": "25.4.0",
         "less": "3.10.3",
         "less-loader": "5.0.0",
+        "mock-apollo-client": "0.3.0",
         "node-sass": "4.13.0",
         "prettier": "1.19.1",
         "react-app-rewired": "2.1.5",
@@ -51,6 +60,7 @@
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
+        "test-coverage": "react-app-rewired test --coverage --watchAll=false --coverageDirectory=output/coverage/jest",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -67,5 +77,31 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "jest": {
+        "coverageReporters": [
+            "text",
+            "lcov"
+        ],
+        "collectCoverageFrom": [
+            "!**/*.ts",
+            "!src/index.tsx",
+            "!src/serviceWorker.ts",
+            "!src/app/App.tsx",
+            "!src/app/Routes.tsx",
+            "!src/core/**",
+            "!src/shared/components/Upload/**",
+            "!src/shared/graphql/**",
+            "!**/node_modules/**",
+            "!**/vendor/**"
+        ],
+        "coverageThreshold": {
+            "global": {
+                "branches": 0,
+                "functions": 0,
+                "lines": 0,
+                "statements": 0
+            }
+        }
     }
 }

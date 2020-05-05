@@ -24,7 +24,7 @@ export const SettingContent = React.memo<SettingContentProps>(({ category, isDef
     }
 
     return (
-        <>
+        <div id='SettingContent'>
             {isDefault ? (
                 <>
                     <SettingContentHeader title={title} />
@@ -33,6 +33,6 @@ export const SettingContent = React.memo<SettingContentProps>(({ category, isDef
             ) : (
                 <UserManagement />
             )}
-        </>
+        </div>
     );
 });

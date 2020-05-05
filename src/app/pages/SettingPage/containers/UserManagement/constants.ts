@@ -20,7 +20,7 @@ export const userManagementForm = [
                 'Manage the permission for each role. You can give Access Menu and User Control.',
             title: 'Permission',
         },
-        section: 'role',
+        section: 'permission',
     },
     {
         button: {

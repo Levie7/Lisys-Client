@@ -4,33 +4,19 @@ import { SettingCompany } from 'src/core/api';
 
 import { Spin } from 'src/shared/components/Spin';
 import { getSettings } from 'src/shared/graphql/Setting/schema.gql';
+import { queryForm } from 'src/shared/graphql';
 import { convertArrayOfObjectsToObject } from 'src/shared/helpers/convertArrayOfObjects';
-import { ErrorHandler } from 'src/shared/utilities/errors';
 
-export const Footer = React.memo(() => {
-    let query = handleQuery();
+function FooterPure() {
+    let query = queryForm({ query: getSettings, variables: { category: 'company' } });
     if (query.loading) return <Spin />;
 
     let company = convertArrayOfObjectsToObject(
         query.data?.getSettingsByCategory
     ) as SettingCompany;
 
-    function handleQuery() {
-        let { data, loading } = getSettings({
-            onError(error: any) {
-                ErrorHandler(error);
-            },
-            variables: { category: 'company' },
-        });
-
-        return {
-            data,
-            loading,
-        };
-    }
-
     return (
-        <div className='bg-primary fg-white p-6 ta-center'>
+        <div className='bg-primary fg-white p-6 ta-center' id='Footer'>
             Copyright © {company.year} - {company.name}. All Right Reserved.
             <br />
             made with{' '}
@@ -40,4 +26,6 @@ export const Footer = React.memo(() => {
             by Lisys
         </div>
     );
-});
+}
+
+export const Footer = React.memo(FooterPure);

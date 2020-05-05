@@ -17,7 +17,7 @@ interface UserListProps {
 }
 
 export function UserList({ handleRecord }: UserListProps) {
-    let mutation = mutationForm(deleteUser, 'delete');
+    let mutation = mutationForm({ formType: 'delete', mutations: deleteUser });
     let query = queryForm({ query: getUsers });
     let users = handleData(query.data?.getUsers);
     if (mutation.loading || query.loading) return <Spin />;

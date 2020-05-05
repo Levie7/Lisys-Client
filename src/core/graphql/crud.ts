@@ -19,7 +19,7 @@ export const createCrudModule = () => {
     };
 };
 
-const CRUD = gql`
+export const CRUD = gql`
     query getCrud {
         getCrud @client {
             action
@@ -29,12 +29,16 @@ const CRUD = gql`
 `;
 const getCrud = () => useQuery<{ getCrud: Crud }>(CRUD);
 
-export const updateCrud = () =>
-    useMutation<{ updateCrud: Crud }>(gql`
-        mutation updateCrud($payload: UpdateCrudPayload) {
-            updateCrud(payload: $payload) @client
+export const UPDATE_CRUD = gql`
+    mutation updateCrud($payload: UpdateCrudPayload) {
+        updateCrud(payload: $payload) @client {
+            action
+            section
         }
-    `);
+    }
+`;
+
+export const updateCrud = () => useMutation<{ updateCrud: Crud }>(UPDATE_CRUD);
 
 export const useCrud = () => {
     let { data } = getCrud();

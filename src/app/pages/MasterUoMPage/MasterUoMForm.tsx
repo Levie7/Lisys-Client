@@ -26,11 +26,11 @@ interface UoMFormProps {
 export function MasterUoMForm({ formType, recordKey }: UoMFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(
-        formType === 'create' ? createUoM : updateUoM,
+    let mutation = mutationForm({
         formType,
-        handleResetForm
-    );
+        mutations: formType === 'create' ? createUoM : updateUoM,
+        resetForm: handleResetForm,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getUoMById,
@@ -62,8 +62,6 @@ export function MasterUoMForm({ formType, recordKey }: UoMFormProps) {
                 break;
             case 'update':
                 fetchQuery = [{ query: UOMS }, { query: UOM_BY_ID, variables: { id: recordKey } }];
-                break;
-            default:
                 break;
         }
 

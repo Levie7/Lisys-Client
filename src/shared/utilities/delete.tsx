@@ -9,7 +9,7 @@ interface DeleteProps {
     confirm: (recordKey: string) => void;
 }
 
-export const Delete = React.memo<DeleteProps>(({ recordKey, confirm }) => {
+function DeletePure({ recordKey, confirm }: DeleteProps) {
     function handleConfirm(e: any) {
         confirm(recordKey);
     }
@@ -24,4 +24,6 @@ export const Delete = React.memo<DeleteProps>(({ recordKey, confirm }) => {
             <TableAction iconType='delete' record={recordKey} title='Delete' />
         </Popconfirm>
     );
-});
+}
+
+export const Delete = React.memo(DeletePure);

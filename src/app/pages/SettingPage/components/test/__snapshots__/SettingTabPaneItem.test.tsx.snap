@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingTabPaneItem <SettingTabPaneItem/> - should render SettingTabPaneItem component correctly 1`] = `ShallowWrapper {}`;

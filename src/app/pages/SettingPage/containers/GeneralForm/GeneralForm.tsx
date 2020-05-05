@@ -16,7 +16,7 @@ import { generalInfo } from './constants';
 export function GeneralForm() {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(setUpdateSettings, 'update');
+    let mutation = mutationForm({ formType: 'update', mutations: setUpdateSettings });
     let query = queryForm({ query: getSettings, variables: { category: 'general' } });
     if (mutation.loading || query.loading) return <Spin />;
 

@@ -5,7 +5,15 @@ import { ErrorHandler } from '../utilities/errors';
 import { Message } from '../utilities/message';
 import { Progress } from '../utilities/progress';
 
-export function mutationForm(mutations: any, formType: string, resetForm?: () => void) {
+export function mutationForm({
+    formType,
+    mutations,
+    resetForm,
+}: {
+    formType: string;
+    mutations: any;
+    resetForm?: () => void;
+}) {
     let [fetchUser, { loading }] = mutations({
         onCompleted() {
             Progress(false);

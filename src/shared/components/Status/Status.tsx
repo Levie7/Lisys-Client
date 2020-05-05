@@ -7,7 +7,7 @@ interface StatusProps {
     text: any;
 }
 
-export const Status = React.memo<StatusProps>(({ text }) => {
+function StatusPure({ text }: StatusProps) {
     switch (text.status) {
         case 'active':
             return <Badge status='success' text={Capitalized(text.status)} />;
@@ -16,4 +16,6 @@ export const Status = React.memo<StatusProps>(({ text }) => {
         default:
             return null;
     }
-});
+}
+
+export const Status = React.memo(StatusPure);

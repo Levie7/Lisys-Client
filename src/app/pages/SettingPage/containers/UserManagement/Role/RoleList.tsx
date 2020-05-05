@@ -17,7 +17,7 @@ interface RoleListProps {
 }
 
 export function RoleList({ handleRecord }: RoleListProps) {
-    let mutation = mutationForm(deleteRole, 'delete');
+    let mutation = mutationForm({ formType: 'delete', mutations: deleteRole });
     let query = queryForm({ query: getRoles });
     let roles = handleData(query.data?.getRoles);
     if (mutation.loading || query.loading) return <Spin />;

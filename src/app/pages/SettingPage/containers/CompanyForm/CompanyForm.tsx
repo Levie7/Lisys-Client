@@ -17,7 +17,7 @@ import { companyInfo } from './constants';
 export function CompanyForm() {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(setUpdateSettings, 'update');
+    let mutation = mutationForm({ formType: 'update', mutations: setUpdateSettings });
     let query = queryForm({ query: getSettings, variables: { category: 'company' } });
     if (mutation.loading || query.loading) return <Spin />;
 

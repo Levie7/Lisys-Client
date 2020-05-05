@@ -26,11 +26,11 @@ interface MasterVariantFormProps {
 export function MasterVariantForm({ formType, recordKey }: MasterVariantFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(
-        formType === 'create' ? createVariant : updateVariant,
+    let mutation = mutationForm({
         formType,
-        handleResetForm
-    );
+        mutations: formType === 'create' ? createVariant : updateVariant,
+        resetForm: handleResetForm,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getVariantById,
@@ -64,8 +64,6 @@ export function MasterVariantForm({ formType, recordKey }: MasterVariantFormProp
                     { query: VARIANTS },
                     { query: VARIANT_BY_ID, variables: { id: recordKey } },
                 ];
-                break;
-            default:
                 break;
         }
 

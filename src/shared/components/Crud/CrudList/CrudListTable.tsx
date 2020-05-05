@@ -17,8 +17,15 @@ interface CrudListTableProps extends TableRowProps {
     handleRecord: (recordKey: string) => void;
 }
 
-export const CrudListTable = React.memo<CrudListTableProps>(
-    ({ columns, data, hasStatus, handleDelete, handleRecord, rowSelection }) => (
+function CrudListTablePure({
+    columns,
+    data,
+    hasStatus,
+    handleDelete,
+    handleRecord,
+    rowSelection,
+}: CrudListTableProps) {
+    return (
         <Table dataSource={data} rowSelection={rowSelection}>
             {columns.map((column: any) => (
                 <Column dataIndex={column.dataIndex} key={column.key} title={column.title} />
@@ -42,5 +49,7 @@ export const CrudListTable = React.memo<CrudListTableProps>(
                 )}
             />
         </Table>
-    )
-);
+    );
+}
+
+export const CrudListTable = React.memo(CrudListTablePure);

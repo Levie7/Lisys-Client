@@ -7,7 +7,7 @@ export const resolvers = {
             let data = { ...payload, __typename: 'Crud' };
             cache.writeData(createCrudData(data));
 
-            return null;
+            return data;
         },
     },
 };

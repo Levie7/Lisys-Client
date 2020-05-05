@@ -41,14 +41,21 @@ export const ButtonAction = ({
 
         return (
             <Dropdown overlay={menu}>
-                <Button className={className}>Actions {Icon['action']}</Button>
+                <Button className={className} id='ButtonActions'>
+                    Actions {Icon['action']}
+                </Button>
             </Dropdown>
         );
     }
 
     function renderDefault() {
         return (
-            <Button className={className} onClick={handleClick} type={buttonType}>
+            <Button
+                className={className}
+                id='ButtonActionDefault'
+                onClick={handleClick}
+                type={buttonType}
+            >
                 {iconType && Icon[iconType]} {title}
             </Button>
         );

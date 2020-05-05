@@ -42,8 +42,8 @@ export function MasterList({
         onChange: handleSelect,
     };
 
-    let mutationDelete = mutationForm(mutation.delete, 'delete');
-    let mutationUpdate = mutationForm(mutation.update, 'update');
+    let mutationDelete = mutationForm({ formType: 'delete', mutations: mutation.delete });
+    let mutationUpdate = mutationForm({ formType: 'update', mutations: mutation.update });
     let queryData = queryForm({ query: query.data });
     let data = handleData(queryData.data);
     if (mutationDelete.loading || mutationUpdate.loading || queryData.loading) return <Spin />;

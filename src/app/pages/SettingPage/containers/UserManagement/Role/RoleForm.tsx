@@ -19,7 +19,10 @@ interface RoleFormProps {
 export function RoleForm({ formType, recordKey }: RoleFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(formType === 'create' ? createRole : updateRole, formType);
+    let mutation = mutationForm({
+        formType,
+        mutations: formType === 'create' ? createRole : updateRole,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getRoleById,
@@ -49,8 +52,6 @@ export function RoleForm({ formType, recordKey }: RoleFormProps) {
                     { query: ROLES },
                     { query: ROLE_BY_ID, variables: { id: recordKey } },
                 ];
-                break;
-            default:
                 break;
         }
 

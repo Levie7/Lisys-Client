@@ -26,11 +26,11 @@ interface CategoryFormProps {
 export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(
-        formType === 'create' ? createCategory : updateCategory,
+    let mutation = mutationForm({
         formType,
-        handleResetForm
-    );
+        mutations: formType === 'create' ? createCategory : updateCategory,
+        resetForm: handleResetForm,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getCategoryById,
@@ -65,8 +65,6 @@ export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
                     { query: CATEGORIES },
                     { query: CATEGORY_BY_ID, variables: { id: recordKey } },
                 ];
-                break;
-            default:
                 break;
         }
 

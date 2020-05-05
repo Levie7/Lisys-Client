@@ -2,7 +2,7 @@ import { Layout } from 'antd';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import React from 'react';
 
-import { UIContext } from 'src/shared/contexts/UIContext';
+import UIContext from 'src/shared/contexts/UIContext';
 
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
@@ -13,21 +13,24 @@ interface MainLayoutState {
 }
 
 export class MainLayout extends React.Component<{}, MainLayoutState> {
-    enquireHandler: any;
-
     constructor(props: {}) {
         super(props);
         this.state = { isMobile: false };
+        this.enquireHandler = this.enquireHandler.bind(this);
     }
 
     componentDidMount() {
-        this.enquireHandler = enquireScreen((mobile: any) => {
-            this.setState({ isMobile: mobile });
-        });
+        this.enquireHandler();
     }
 
     componentWillUnmount() {
         unenquireScreen(this.enquireHandler);
+    }
+
+    enquireHandler() {
+        enquireScreen((mobile: any) => {
+            this.setState({ isMobile: mobile });
+        });
     }
 
     render() {
@@ -37,7 +40,7 @@ export class MainLayout extends React.Component<{}, MainLayoutState> {
         return (
             <UIContext.Provider value={UI}>
                 <Layout>
-                    <MainMenu />
+                    <MainMenu isMenuTop />
                     <Layout>
                         <Layout.Header>
                             <Header />
