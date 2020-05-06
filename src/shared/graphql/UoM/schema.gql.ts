@@ -1,6 +1,29 @@
 import { UoM } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
+export const UOM_BY_ID = gql`
+    query getUoMById($id: ID!) {
+        getUoMById(id: $id) {
+            name
+            description
+        }
+    }
+`;
+
+export const UOM_LIST = gql`
+    query getUoMList($payload: ListPayload) {
+        getUoMList(payload: $payload) {
+            data {
+                id
+                name
+                description
+                status
+            }
+            total
+        }
+    }
+`;
+
 export const UOMS = gql`
     query {
         getUoMs {
@@ -8,15 +31,6 @@ export const UOMS = gql`
             name
             description
             status
-        }
-    }
-`;
-
-export const UOM_BY_ID = gql`
-    query getUoMById($id: ID!) {
-        getUoMById(id: $id) {
-            name
-            description
         }
     }
 `;
@@ -54,6 +68,7 @@ const UPDATE_UOM = gql`
 `;
 
 export const getUoMById = (options: any) => useQuery<{ getUoMById: UoM }>(UOM_BY_ID, options);
+export const getUoMList = (options: any) => useQuery<{ getUoMList: UoM[] }>(UOM_LIST, options);
 export const getUoMs = (options: any) => useQuery<{ getUoMs: UoM[] }>(UOMS, options);
 export const createUoM = (options: any) => useMutation<{ createUoM: UoM }>(CREATE_UOM, options);
 export const deleteUoM = (options: any) => useMutation<{ deleteUoM: UoM }>(DELETE_UOM, options);

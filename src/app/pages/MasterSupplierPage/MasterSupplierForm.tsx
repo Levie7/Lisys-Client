@@ -11,13 +11,7 @@ import { formatNumeric } from 'src/shared/helpers/formatNumeric';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { alertMessage, supplierInfo } from './constants';
-import {
-    createSupplier,
-    getSupplierById,
-    SUPPLIER_BY_ID,
-    SUPPLIERS,
-    updateSupplier,
-} from './schema.gql';
+import { createSupplier, getSupplierById, SUPPLIER_BY_ID, updateSupplier } from './schema.gql';
 
 interface MasterSupplierFormProps {
     formType: string;
@@ -91,14 +85,10 @@ export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormPr
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: SUPPLIERS }];
                 payload = { ...payload, id: undefined };
                 break;
             case 'update':
-                fetchQuery = [
-                    { query: SUPPLIERS },
-                    { query: SUPPLIER_BY_ID, variables: { id: recordKey } },
-                ];
+                fetchQuery = [{ query: SUPPLIER_BY_ID, variables: { id: recordKey } }];
                 break;
         }
 

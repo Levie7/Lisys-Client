@@ -7,7 +7,6 @@ import {
     getUserById,
     updateUser,
     USER_BY_ID,
-    USERS,
 } from 'src/app/pages/SettingPage/containers/UserManagement/User/schema.gql';
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
@@ -74,15 +73,12 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: USERS }, { query: USER_MANAGEMENT }];
+                fetchQuery = [{ query: USER_MANAGEMENT }];
                 payload = { ...fetchPayload, id: undefined };
                 form.resetFields(['confirm_password', 'name', 'password', 'role', 'username']);
                 break;
             case 'update':
-                fetchQuery = [
-                    { query: USERS },
-                    { query: USER_BY_ID, variables: { id: recordKey } },
-                ];
+                fetchQuery = [{ query: USER_BY_ID, variables: { id: recordKey } }];
                 payload = { ...fetchPayload, isPasswordChanged, isUsernameChanged };
                 changePassword(false);
                 form.resetFields(['confirm_password', 'password']);

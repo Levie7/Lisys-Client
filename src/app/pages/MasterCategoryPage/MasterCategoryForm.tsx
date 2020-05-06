@@ -7,7 +7,6 @@ import { Input, InputArea } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import {
-    CATEGORIES,
     CATEGORY_BY_ID,
     createCategory,
     getCategoryById,
@@ -57,14 +56,10 @@ export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: CATEGORIES }];
                 payload = { ...payload, id: undefined };
                 break;
             case 'update':
-                fetchQuery = [
-                    { query: CATEGORIES },
-                    { query: CATEGORY_BY_ID, variables: { id: recordKey } },
-                ];
+                fetchQuery = [{ query: CATEGORY_BY_ID, variables: { id: recordKey } }];
                 break;
         }
 

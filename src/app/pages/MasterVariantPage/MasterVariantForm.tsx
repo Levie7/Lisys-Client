@@ -12,7 +12,6 @@ import {
     getVariantById,
     updateVariant,
     VARIANT_BY_ID,
-    VARIANTS,
 } from 'src/shared/graphql/Variant/schema.gql';
 import { Progress } from 'src/shared/utilities/progress';
 
@@ -56,14 +55,10 @@ export function MasterVariantForm({ formType, recordKey }: MasterVariantFormProp
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: VARIANTS }];
                 payload = { ...payload, id: undefined };
                 break;
             case 'update':
-                fetchQuery = [
-                    { query: VARIANTS },
-                    { query: VARIANT_BY_ID, variables: { id: recordKey } },
-                ];
+                fetchQuery = [{ query: VARIANT_BY_ID, variables: { id: recordKey } }];
                 break;
         }
 

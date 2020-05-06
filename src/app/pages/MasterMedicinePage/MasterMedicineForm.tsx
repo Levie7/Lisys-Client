@@ -19,13 +19,7 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { alertMessage, medicineInfo } from './constants';
-import {
-    createMedicine,
-    getMedicineById,
-    MEDICINE_BY_ID,
-    MEDICINES,
-    updateMedicine,
-} from './schema.gql';
+import { createMedicine, getMedicineById, MEDICINE_BY_ID, updateMedicine } from './schema.gql';
 
 interface MasterMedicineFormProps {
     formType: string;
@@ -128,14 +122,10 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: MEDICINES }];
                 payload = { ...fetchPayload, id: undefined };
                 break;
             case 'update':
-                fetchQuery = [
-                    { query: MEDICINES },
-                    { query: MEDICINE_BY_ID, variables: { id: recordKey } },
-                ];
+                fetchQuery = [{ query: MEDICINE_BY_ID, variables: { id: recordKey } }];
                 payload = { ...fetchPayload, isBarcodeChanged, isCodeChanged };
                 break;
         }

@@ -1,17 +1,6 @@
 import { Supplier } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
-export const SUPPLIERS = gql`
-    query {
-        getSuppliers {
-            id
-            name
-            phone
-            status
-        }
-    }
-`;
-
 export const SUPPLIER_BY_ID = gql`
     query getSupplierById($id: ID!) {
         getSupplierById(id: $id) {
@@ -27,6 +16,31 @@ export const SUPPLIER_BY_ID = gql`
             phone
             province
             zip_code
+        }
+    }
+`;
+
+export const SUPPLIER_LIST = gql`
+    query getSupplierList($payload: ListPayload) {
+        getSupplierList(payload: $payload) {
+            data {
+                id
+                name
+                phone
+                status
+            }
+            total
+        }
+    }
+`;
+
+export const SUPPLIERS = gql`
+    query {
+        getSuppliers {
+            id
+            name
+            phone
+            status
         }
     }
 `;
@@ -65,6 +79,8 @@ const UPDATE_SUPPLIER = gql`
 
 export const getSupplierById = (options: any) =>
     useQuery<{ getSupplierById: Supplier }>(SUPPLIER_BY_ID, options);
+export const getSupplierList = (options: any) =>
+    useQuery<{ getSupplierList: Supplier[] }>(SUPPLIER_LIST, options);
 export const getSuppliers = (options: any) =>
     useQuery<{ getSuppliers: Supplier[] }>(SUPPLIERS, options);
 export const createSupplier = (options: any) =>

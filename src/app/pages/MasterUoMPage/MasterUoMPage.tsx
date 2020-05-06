@@ -5,26 +5,30 @@ import { UoM, UoMData } from 'src/core/api';
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
 
-import { deleteUoM, getUoMs, UOMS, updateManyUoM } from 'src/shared/graphql/UoM/schema.gql';
+import { deleteUoM, getUoMList, UOM_LIST, updateManyUoM } from 'src/shared/graphql/UoM/schema.gql';
 
 import { uomColumns } from './constants';
 import { MasterUoMForm } from './MasterUoMForm';
 
 export const MasterUoMPage = () => {
-    function handleData(data?: any): UoMData[] {
-        let uom = data?.getUoMs;
+    function handleData(data?: any): { list: UoMData[]; total: number } {
+        let uom = data?.getUoMList.data;
+        let total = data?.getUoMList.total;
         if (!uom || !uom.length) {
-            return [];
+            return { list: [], total: 0 };
         }
 
-        return uom.map((uom: UoM) => {
-            return {
-                key: uom.id!,
-                name: uom.name,
-                description: uom.description,
-                status: uom.status,
-            };
-        });
+        return {
+            list: uom.map((uom: UoM) => {
+                return {
+                    key: uom.id!,
+                    name: uom.name,
+                    description: uom.description,
+                    status: uom.status,
+                };
+            }),
+            total,
+        };
     }
 
     return (
@@ -39,8 +43,8 @@ export const MasterUoMPage = () => {
                             update: updateManyUoM,
                         }}
                         query={{
-                            data: getUoMs,
-                            refetch: UOMS,
+                            list: getUoMList,
+                            refetch: UOM_LIST,
                         }}
                         handleData={handleData}
                         handleRecord={handleRecord}
