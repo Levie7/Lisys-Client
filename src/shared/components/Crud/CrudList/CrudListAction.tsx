@@ -15,13 +15,13 @@ export const CrudListAction = React.memo<CrudListActionProps>(({ crud, showActio
         <Divider />
         <div className='d-flex fj-between mb-4'>
             <ButtonAction
-                className={classNames('fj-start', showBack ? '' : 'd-invisible')}
+                className={classNames('fj-start mr-2', showBack ? '' : 'd-invisible')}
                 buttonType='default'
                 crud={{ ...crud, action: 'back', section: 'main' }}
                 iconType='back'
                 title='Back'
             />
-            <div className='d-flex fj-end'>
+            <div className='d-flex fj-end ml-2'>
                 <ButtonAction
                     buttonType='default'
                     className={classNames('mr-2', showAction ? '' : 'd-invisible')}

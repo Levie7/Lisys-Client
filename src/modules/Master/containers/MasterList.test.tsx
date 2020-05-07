@@ -67,7 +67,7 @@ describe('MasterList', () => {
     };
     let queryHandler = jest
         .fn()
-        .mockResolvedValue({ data: { getCategoryList: { data: mockCategory, total: 1 } } });
+        .mockResolvedValue({ data: { getCategoryList: { data: mockCategory, total: 11 } } });
     mockClient.setRequestHandler(CATEGORY_LIST, queryHandler);
     const Component = ({ properties }: any) => (
         <ApolloProvider client={mockClient}>
@@ -123,6 +123,16 @@ describe('MasterList', () => {
             });
         });
 
+        describe('when change page 2', () => {
+            beforeEach(() => {
+                wrap.update();
+                wrap.find('.ant-pagination-item-2').simulate('click');
+            });
+            it('should set current page to 2', () => {
+                expect(wrap.find('Memo(CrudListTablePure)').props().pagination.current).toEqual(2);
+            });
+        });
+
         describe('when deleting a data', () => {
             beforeEach(() => {
                 wrap.find('#TableAction-delete-id1').simulate('click');
@@ -131,15 +141,6 @@ describe('MasterList', () => {
 
             it('remove list data depend on id', () => {
                 expect(wrap.find('BodyRow').exists()).toBeFalsy();
-            });
-        });
-
-        describe('when change page 2', () => {
-            beforeEach(() => {
-                wrap.find('.ant-pagination-item-2').simulate('click');
-            });
-            it('should set current page to 2', () => {
-                expect(wrap.find('Memo(CrudListTablePure)').props().pagination.current).toEqual(2);
             });
         });
     });

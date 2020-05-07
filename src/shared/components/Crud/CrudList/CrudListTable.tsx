@@ -1,15 +1,11 @@
 import * as React from 'react';
 
-import { Column, Table, TableAction, TableProps } from 'src/shared/components/Table';
+import { Column, ColumnProps, Table, TableAction, TableProps } from 'src/shared/components/Table';
 import { Status } from 'src/shared/components/Status';
 import { Delete } from 'src/shared/utilities/delete';
 
 interface CrudListTableProps extends TableProps {
-    columns: {
-        dataIndex: string;
-        key: string;
-        title: string;
-    }[];
+    columns: ColumnProps[];
     hasStatus?: boolean;
 
     handleDelete: (record: any) => void;
@@ -26,7 +22,12 @@ function CrudListTablePure({
     return (
         <Table {...props}>
             {columns.map((column: any) => (
-                <Column dataIndex={column.dataIndex} key={column.key} title={column.title} />
+                <Column
+                    dataIndex={column.dataIndex}
+                    key={column.key}
+                    sorter={column.sorter}
+                    title={column.title}
+                />
             ))}
             {hasStatus && (
                 <Column title='Status' key='status' render={(text) => <Status text={text} />} />

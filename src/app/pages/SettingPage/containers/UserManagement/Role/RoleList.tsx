@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
@@ -11,29 +11,44 @@ import { Progress } from 'src/shared/utilities/progress';
 
 import { roleColumns } from './constants';
 import { deleteRole, getRoleList, ROLE_LIST } from './schema.gql';
+import { usePrevious } from 'src/shared/helpers/usePrevious';
+import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 
 interface RoleListProps {
     handleRecord: (recordKey: string) => void;
 }
 
 export function RoleList({ handleRecord }: RoleListProps) {
-    let [fetched, setFetch] = React.useState(true);
-    let [pagination, setPagination] = React.useState({
+    let [page, setPage] = React.useState({
         current: 1,
         pageSize: 10,
         total: 0,
     });
-    let mutation = mutationForm({ formType: 'delete', mutations: deleteRole });
+    let [sort, setSort] = React.useState<{ field?: string; order?: string }>({});
+    let [search, setSearch] = React.useState('');
     let queryDataList = queryList({
         query: getRoleList,
-        variables: { payload: { limit: pagination.pageSize, page: pagination.current } },
+        variables: {
+            payload: {
+                limit: page.pageSize,
+                page: page.current,
+                search,
+                sortField: sort.field,
+                sortOrder: sort.order,
+            },
+        },
     });
+    let mutation = mutationForm({ formType: 'delete', mutations: deleteRole });
     let roles = handleData(queryDataList.data);
+    let prevDataTotal = usePrevious(roles.total);
 
-    if (fetched && queryDataList.data) {
-        handleFetch({ pagination });
-        setFetch(false);
-    }
+    useEffect(() => {
+        if (prevDataTotal !== roles.total) {
+            setPage({ ...page, current: 1, total: roles.total });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [roles.total]);
+
     if (mutation.loading) return <Spin />;
 
     function handleData(data?: any): { list: Role[]; total: number } {
@@ -61,7 +76,13 @@ export function RoleList({ handleRecord }: RoleListProps) {
                 {
                     query: ROLE_LIST,
                     variables: {
-                        payload: { limit: pagination.pageSize, page: pagination.current },
+                        payload: {
+                            limit: page.pageSize,
+                            page: page.current,
+                            search,
+                            sortField: sort.field,
+                            sortOrder: sort.order,
+                        },
                     },
                 },
                 { query: USER_MANAGEMENT },
@@ -70,39 +91,29 @@ export function RoleList({ handleRecord }: RoleListProps) {
                 payload: { id: record.key },
             },
         });
-        if (roles.list.length - 1 === 0) {
-            setPagination({
-                ...pagination,
-                current: roles.total - 1 <= pagination.pageSize ? 1 : pagination.current - 1,
-                total: roles.total - 1,
-            });
-        }
     }
 
-    function handleFetch({ pagination }: any) {
-        setPagination({ ...pagination, total: roles.total });
+    function handleSearch(value: any) {
+        setSearch(value);
     }
 
     function handleTableChange(pagination: any, filters: any, sorter: any) {
-        queryDataList.fetchMore({
-            variables: { payload: { limit: pagination.pageSize, page: pagination.current } },
-            updateQuery: (prev: any, { fetchMoreResult }: any) => {
-                if (!fetchMoreResult) return prev;
-                return fetchMoreResult;
-            },
-        });
-        handleFetch({ pagination });
+        setPage({ ...page, current: pagination.current, pageSize: pagination.pageSize });
+        setSort(sorter);
     }
 
     return (
-        <CrudListTable
-            columns={roleColumns}
-            dataSource={roles.list}
-            handleDelete={handleDelete}
-            handleRecord={handleRecord}
-            loading={queryDataList.loading}
-            onChange={handleTableChange}
-            pagination={pagination}
-        />
+        <>
+            <CrudFilter onSearch={handleSearch} />
+            <CrudListTable
+                columns={roleColumns}
+                dataSource={roles.list}
+                handleDelete={handleDelete}
+                handleRecord={handleRecord}
+                loading={queryDataList.loading}
+                onChange={handleTableChange}
+                pagination={page}
+            />
+        </>
     );
 }

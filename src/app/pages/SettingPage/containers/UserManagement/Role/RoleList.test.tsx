@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
+import { mockRole } from './mocks/mockData';
 import { RoleList } from './RoleList';
 import { ROLE_LIST } from './schema.gql';
 
@@ -16,14 +17,8 @@ describe('RoleList', () => {
     let queryHandler = jest.fn().mockResolvedValue({
         data: {
             getRoleList: {
-                data: [
-                    {
-                        id: 'id1',
-                        name: 'role1',
-                        description: 'role1',
-                    },
-                ],
-                total: 1,
+                data: mockRole,
+                total: 11,
             },
         },
     });
@@ -52,9 +47,18 @@ describe('RoleList', () => {
             });
         });
 
-        it('should list with data', () => {
-            expect(wrap.find('BodyRow').exists()).toBeTruthy();
-            expect(wrap.find('BodyRow').props().rowKey).toEqual('id1');
+        it('should render crud list table', () => {
+            expect(wrap.find('Memo(CrudListTablePure)').exists()).toBeTruthy();
+        });
+
+        describe('when change page 2', () => {
+            beforeEach(() => {
+                wrap.update();
+                wrap.find('.ant-pagination-item-2').simulate('click');
+            });
+            it('should set current page to 2', () => {
+                expect(wrap.find('Memo(CrudListTablePure)').props().pagination.current).toEqual(2);
+            });
         });
 
         describe('when deleting a data', () => {

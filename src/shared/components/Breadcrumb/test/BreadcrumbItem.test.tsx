@@ -8,7 +8,7 @@ describe('BreadcrumbItem', () => {
     const props = {
         href: '/master',
     };
-    it('should render breadcrumb item', () => {
+    it('should render user management', () => {
         wrap = mount(<BreadcrumbItem {...props} />);
         expect(wrap.find('BreadcrumbItem').exists()).toBeTruthy();
     });

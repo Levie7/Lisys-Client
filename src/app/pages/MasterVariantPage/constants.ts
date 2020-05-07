@@ -5,11 +5,13 @@ export const variantColumns = [
     {
         dataIndex: 'name',
         key: 'name',
+        sorter: true,
         title: 'Name',
     },
     {
         dataIndex: 'description',
         key: 'description',
+        sorter: true,
         title: 'Description',
     },
 ];

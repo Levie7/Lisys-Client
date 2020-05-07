@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
+import { mockUser } from './mocks/mockData';
 import { USER_LIST } from './schema.gql';
 import { UserList } from './UserList';
 
@@ -16,18 +17,8 @@ describe('UserList', () => {
     let queryHandler = jest.fn().mockResolvedValue({
         data: {
             getUserList: {
-                data: [
-                    {
-                        id: 'id1',
-                        name: 'user1',
-                        password: 'password1',
-                        role: {
-                            name: 'role1',
-                        },
-                        username: 'username1',
-                    },
-                ],
-                total: 1,
+                data: mockUser,
+                total: 11,
             },
         },
     });
@@ -56,9 +47,18 @@ describe('UserList', () => {
             });
         });
 
-        it('should list with data', () => {
-            expect(wrap.find('BodyRow').exists()).toBeTruthy();
-            expect(wrap.find('BodyRow').props().rowKey).toEqual('id1');
+        it('should render crud list table', () => {
+            expect(wrap.find('Memo(CrudListTablePure)').exists()).toBeTruthy();
+        });
+
+        describe('when change page 2', () => {
+            beforeEach(() => {
+                wrap.update();
+                wrap.find('.ant-pagination-item-2').simulate('click');
+            });
+            it('should set current page to 2', () => {
+                expect(wrap.find('Memo(CrudListTablePure)').props().pagination.current).toEqual(2);
+            });
         });
 
         describe('when deleting a data', () => {

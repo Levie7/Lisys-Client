@@ -9,7 +9,7 @@ export function queryList({
     query: any;
     variables?: any;
 }) {
-    let { data, fetchMore, loading } = query({
+    let { data, loading } = query({
         onError(error: any) {
             ErrorHandler(error);
         },
@@ -20,7 +20,6 @@ export function queryList({
 
     return {
         data,
-        fetchMore,
         loading,
     };
 }

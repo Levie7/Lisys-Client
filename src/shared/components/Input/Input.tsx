@@ -12,6 +12,7 @@ interface InputProps {
 
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export const Input = React.memo<InputProps>(
@@ -22,6 +23,7 @@ export const Input = React.memo<InputProps>(
                 disabled,
                 onBlur,
                 onChange,
+                onPressEnter,
                 placeholder,
                 prefix,
                 suffix,
@@ -37,6 +39,7 @@ export const Input = React.memo<InputProps>(
                 disabled={disabled}
                 onBlur={onBlur}
                 onChange={onChange}
+                onPressEnter={onPressEnter}
                 placeholder={placeholder}
                 prefix={prefix}
                 ref={ref}
