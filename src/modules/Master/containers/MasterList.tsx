@@ -41,12 +41,14 @@ export function MasterList({
         pageSize: 10,
         total: 0,
     });
+    let [filters, setFilters] = React.useState([]);
     let [sort, setSort] = React.useState<{ field?: string; order?: string }>({});
     let [search, setSearch] = React.useState('');
     let queryDataList = queryList({
         query: query.list,
         variables: {
             payload: {
+                filters,
                 limit: page.pageSize,
                 page: page.current,
                 search,
@@ -80,6 +82,7 @@ export function MasterList({
                     query: query.refetch,
                     variables: {
                         payload: {
+                            filters,
                             limit: page.pageSize,
                             page: page.current,
                             search,
@@ -108,6 +111,7 @@ export function MasterList({
                     query: query.refetch,
                     variables: {
                         payload: {
+                            filters,
                             limit: page.pageSize,
                             page: page.current,
                             search,
@@ -134,6 +138,7 @@ export function MasterList({
     function handleTableChange(pagination: any, filters: any, sorter: any) {
         setPage({ ...page, current: pagination.current, pageSize: pagination.pageSize });
         setSort(sorter);
+        setFilters(filters.status);
     }
 
     function hasSelected() {

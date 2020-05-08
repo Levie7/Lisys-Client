@@ -4,6 +4,8 @@ import { Column, ColumnProps, Table, TableAction, TableProps } from 'src/shared/
 import { Status } from 'src/shared/components/Status';
 import { Delete } from 'src/shared/utilities/delete';
 
+import { filterStatus } from './constants';
+
 interface CrudListTableProps extends TableProps {
     columns: ColumnProps[];
     hasStatus?: boolean;
@@ -19,6 +21,10 @@ function CrudListTablePure({
     handleRecord,
     ...props
 }: CrudListTableProps) {
+    function handleFilter(value: any, record: any) {
+        return record.status.indexOf(value) === 0;
+    }
+
     return (
         <Table {...props}>
             {columns.map((column: any) => (
@@ -30,7 +36,13 @@ function CrudListTablePure({
                 />
             ))}
             {hasStatus && (
-                <Column title='Status' key='status' render={(text) => <Status text={text} />} />
+                <Column
+                    title='Status'
+                    filters={filterStatus}
+                    key='status'
+                    onFilter={handleFilter}
+                    render={(text) => <Status text={text} />}
+                />
             )}
             <Column
                 title='Action'

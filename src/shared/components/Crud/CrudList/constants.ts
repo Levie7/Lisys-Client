@@ -1,0 +1,10 @@
+export const filterStatus = [
+    {
+        text: 'Active',
+        value: 'active',
+    },
+    {
+        text: 'Inactive',
+        value: 'inactive',
+    },
+];

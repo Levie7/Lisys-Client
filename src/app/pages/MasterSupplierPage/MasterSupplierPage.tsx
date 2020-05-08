@@ -41,7 +41,7 @@ export const MasterSupplierPage = () => {
     }
 
     return (
-        <MasterCard header={{ link: '/category', title: 'Category' }} initSection='category'>
+        <MasterCard header={{ link: '/supplier', title: 'Supplier' }} initSection='supplier'>
             {({ action, recordKey, handleRecord, handleResetAction }) =>
                 ['list', 'active', 'inactive'].includes(action) ? (
                     <MasterList
