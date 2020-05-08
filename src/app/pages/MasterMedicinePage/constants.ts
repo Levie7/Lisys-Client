@@ -5,16 +5,19 @@ export const medicineColumns = [
     {
         dataIndex: 'code',
         key: 'code',
+        sorter: true,
         title: 'Code',
     },
     {
         dataIndex: 'name',
         key: 'name',
+        sorter: true,
         title: 'Name',
     },
     {
         dataIndex: 'stock',
         key: 'stock',
+        sorter: true,
         title: 'Stock',
     },
     {
@@ -35,11 +38,13 @@ export const medicineColumns = [
     {
         dataIndex: 'buy_price',
         key: 'buy_price',
+        sorter: true,
         title: 'Buy Price',
     },
     {
         dataIndex: 'sell_price',
         key: 'sell_price',
+        sorter: true,
         title: 'Sell Price',
     },
     {

@@ -1,6 +1,29 @@
 import { Variant } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
+export const VARIANT_BY_ID = gql`
+    query getVariantById($id: ID!) {
+        getVariantById(id: $id) {
+            name
+            description
+        }
+    }
+`;
+
+export const VARIANT_LIST = gql`
+    query getVariantList($payload: ListPayload) {
+        getVariantList(payload: $payload) {
+            data {
+                id
+                name
+                description
+                status
+            }
+            total
+        }
+    }
+`;
+
 export const VARIANTS = gql`
     query {
         getVariants {
@@ -8,15 +31,6 @@ export const VARIANTS = gql`
             name
             description
             status
-        }
-    }
-`;
-
-export const VARIANT_BY_ID = gql`
-    query getVariantById($id: ID!) {
-        getVariantById(id: $id) {
-            name
-            description
         }
     }
 `;
@@ -55,6 +69,8 @@ const UPDATE_VARIANT = gql`
 
 export const getVariantById = (options: any) =>
     useQuery<{ getVariantById: Variant }>(VARIANT_BY_ID, options);
+export const getVariantList = (options: any) =>
+    useQuery<{ getVariantList: Variant[] }>(VARIANT_LIST, options);
 export const getVariants = (options: any) =>
     useQuery<{ getVariants: Variant[] }>(VARIANTS, options);
 export const createVariant = (options: any) =>

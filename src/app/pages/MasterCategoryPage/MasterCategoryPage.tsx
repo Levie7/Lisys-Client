@@ -6,9 +6,9 @@ import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
 
 import {
-    CATEGORIES,
+    CATEGORY_LIST,
     deleteCategory,
-    getCategories,
+    getCategoryList,
     updateManyCategory,
 } from 'src/shared/graphql/Category/schema.gql';
 
@@ -16,20 +16,24 @@ import { categoryColumns } from './constants';
 import { MasterCategoryForm } from './MasterCategoryForm';
 
 export const MasterCategoryPage = () => {
-    function handleData(data?: any): CategoryData[] {
-        let category = data?.getCategories;
+    function handleData(data?: any): { list: CategoryData[]; total: number } {
+        let category = data?.getCategoryList.data;
+        let total = data?.getCategoryList.total;
         if (!category || !category.length) {
-            return [];
+            return { list: [], total: 0 };
         }
 
-        return category.map((category: Category) => {
-            return {
-                key: category.id!,
-                name: category.name,
-                description: category.description,
-                status: category.status,
-            };
-        });
+        return {
+            list: category.map((category: Category) => {
+                return {
+                    key: category.id!,
+                    name: category.name,
+                    description: category.description,
+                    status: category.status,
+                };
+            }),
+            total,
+        };
     }
 
     return (
@@ -44,8 +48,8 @@ export const MasterCategoryPage = () => {
                             update: updateManyCategory,
                         }}
                         query={{
-                            data: getCategories,
-                            refetch: CATEGORIES,
+                            list: getCategoryList,
+                            refetch: CATEGORY_LIST,
                         }}
                         handleData={handleData}
                         handleRecord={handleRecord}

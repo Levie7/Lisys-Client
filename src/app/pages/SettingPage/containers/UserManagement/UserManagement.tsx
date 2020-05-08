@@ -16,8 +16,7 @@ export function UserManagement() {
     let [init, setInit] = React.useState(false);
     let [recordKey, setRecordKey] = React.useState('');
     let crud = useCrud();
-    let [fetch, { loading }] = updateCrud();
-    if (loading) return null;
+    let [fetch] = updateCrud();
 
     !init && setInit(initialize(init, fetch, 'main'));
 

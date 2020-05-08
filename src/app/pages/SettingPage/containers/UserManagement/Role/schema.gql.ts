@@ -1,19 +1,32 @@
 import { Role } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
-export const ROLES = gql`
-    query {
-        getRoles {
-            id
+export const ROLE_BY_ID = gql`
+    query getRoleById($id: ID!) {
+        getRoleById(id: $id) {
             name
             description
         }
     }
 `;
 
-export const ROLE_BY_ID = gql`
-    query getRoleById($id: ID!) {
-        getRoleById(id: $id) {
+export const ROLE_LIST = gql`
+    query getRoleList($payload: ListPayload) {
+        getRoleList(payload: $payload) {
+            data {
+                id
+                name
+                description
+            }
+            total
+        }
+    }
+`;
+
+export const ROLES = gql`
+    query {
+        getRoles {
+            id
             name
             description
         }
@@ -48,6 +61,7 @@ const UPDATE_ROLE = gql`
 `;
 
 export const getRoleById = (options: any) => useQuery<{ getRoleById: Role }>(ROLE_BY_ID, options);
+export const getRoleList = (options: any) => useQuery<{ getRoleList: Role[] }>(ROLE_LIST, options);
 export const getRoles = (options: any) => useQuery<{ getRoles: Role[] }>(ROLES, options);
 export const createRole = (options: any) => useMutation<{ createRole: Role }>(CREATE_ROLE, options);
 export const deleteRole = (options: any) => useMutation<{ deleteRole: Role }>(DELETE_ROLE, options);

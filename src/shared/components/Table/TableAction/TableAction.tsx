@@ -13,16 +13,22 @@ interface TableActionProps {
 
 require('./TableAction.sass');
 
-export const TableAction = React.memo<TableActionProps>(({ iconType, record, title, onClick }) => {
+function TableActionPure({ iconType, record, title, onClick }: TableActionProps) {
     function handleClick() {
         onClick!(record.key);
     }
 
     return (
         <Tooltip placement='bottom' title={title}>
-            <span className='TableAction mr-2' onClick={handleClick}>
+            <span
+                id={'TableAction-' + iconType + '-' + record.key}
+                className='TableAction mr-2'
+                onClick={handleClick}
+            >
                 {Icon[iconType]}
             </span>
         </Tooltip>
     );
-});
+}
+
+export const TableAction = React.memo(TableActionPure);

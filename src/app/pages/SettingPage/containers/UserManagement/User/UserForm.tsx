@@ -7,7 +7,6 @@ import {
     getUserById,
     updateUser,
     USER_BY_ID,
-    USERS,
 } from 'src/app/pages/SettingPage/containers/UserManagement/User/schema.gql';
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
@@ -30,7 +29,10 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
     let [isPasswordChanged, changePassword] = React.useState(false);
     let [isUsernameChanged, changeUsername] = React.useState(false);
 
-    let mutation = mutationForm(formType === 'create' ? createUser : updateUser, formType);
+    let mutation = mutationForm({
+        formType,
+        mutations: formType === 'create' ? createUser : updateUser,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getUserById,
@@ -39,13 +41,13 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
     let roleQuery = queryForm({ query: getRoles });
     if (mutation.loading || query.loading || roleQuery.loading) return <Spin />;
 
+    let roles = roleQuery.data?.getRoles;
+
     let initialValues = {
         name: query.data?.getUserById.name,
-        role: query.data?.getUserById.role.id,
+        role: query.data?.getUserById.role.id || (roles && roles[0].id),
         username: query.data?.getUserById.username,
     };
-
-    let roles = roleQuery.data?.getRoles;
 
     function handleChangePassword() {
         changePassword(true);
@@ -71,20 +73,15 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: USERS }, { query: USER_MANAGEMENT }];
+                fetchQuery = [{ query: USER_MANAGEMENT }];
                 payload = { ...fetchPayload, id: undefined };
                 form.resetFields(['confirm_password', 'name', 'password', 'role', 'username']);
                 break;
             case 'update':
-                fetchQuery = [
-                    { query: USERS },
-                    { query: USER_BY_ID, variables: { id: recordKey } },
-                ];
+                fetchQuery = [{ query: USER_BY_ID, variables: { id: recordKey } }];
                 payload = { ...fetchPayload, isPasswordChanged, isUsernameChanged };
                 changePassword(false);
                 form.resetFields(['confirm_password', 'password']);
-                break;
-            default:
                 break;
         }
 

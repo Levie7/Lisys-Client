@@ -10,25 +10,29 @@ interface SettingTabsProps {
     position: TabPositions;
 }
 
-export const SettingTabs = React.memo<SettingTabsProps>(({ position }) => (
-    <Tabs defaultActiveKey='3' tabPosition={position}>
-        {tabData.map((tab) => (
-            <Tabs.TabPane
-                key={tab.key}
-                tab={
-                    <SettingTabPaneItem
-                        description={tab.description}
-                        icon={tab.icon}
+function SettingTabsPure({ position }: SettingTabsProps) {
+    return (
+        <Tabs defaultActiveKey='3' tabPosition={position}>
+            {tabData.map((tab) => (
+                <Tabs.TabPane
+                    key={tab.key}
+                    tab={
+                        <SettingTabPaneItem
+                            description={tab.description}
+                            icon={tab.icon}
+                            title={tab.title}
+                        />
+                    }
+                >
+                    <SettingContent
+                        category={tab.category}
+                        isDefault={tab.type === 'default'}
                         title={tab.title}
                     />
-                }
-            >
-                <SettingContent
-                    category={tab.category}
-                    isDefault={tab.type === 'default'}
-                    title={tab.title}
-                />
-            </Tabs.TabPane>
-        ))}
-    </Tabs>
-));
+                </Tabs.TabPane>
+            ))}
+        </Tabs>
+    );
+}
+
+export const SettingTabs = React.memo(SettingTabsPure);

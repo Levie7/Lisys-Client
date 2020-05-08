@@ -4,6 +4,8 @@ export interface UIContextValue {
     isMobile: boolean;
 }
 
-export const UIContext = React.createContext<UIContextValue>({
+const UIContext = React.createContext<UIContextValue>({
     isMobile: true,
 });
+export default UIContext;
+export const useUIContext = () => React.useContext(UIContext);

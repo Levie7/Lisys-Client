@@ -7,13 +7,7 @@ import { Input, InputArea } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm, queryForm } from 'src/shared/graphql';
-import {
-    createUoM,
-    getUoMById,
-    UOM_BY_ID,
-    UOMS,
-    updateUoM,
-} from 'src/shared/graphql/UoM/schema.gql';
+import { createUoM, getUoMById, UOM_BY_ID, updateUoM } from 'src/shared/graphql/UoM/schema.gql';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { alertMessage } from './constants';
@@ -26,11 +20,11 @@ interface UoMFormProps {
 export function MasterUoMForm({ formType, recordKey }: UoMFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(
-        formType === 'create' ? createUoM : updateUoM,
+    let mutation = mutationForm({
         formType,
-        handleResetForm
-    );
+        mutations: formType === 'create' ? createUoM : updateUoM,
+        resetForm: handleResetForm,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getUoMById,
@@ -57,13 +51,10 @@ export function MasterUoMForm({ formType, recordKey }: UoMFormProps) {
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: UOMS }];
                 payload = { ...payload, id: undefined };
                 break;
             case 'update':
-                fetchQuery = [{ query: UOMS }, { query: UOM_BY_ID, variables: { id: recordKey } }];
-                break;
-            default:
+                fetchQuery = [{ query: UOM_BY_ID, variables: { id: recordKey } }];
                 break;
         }
 

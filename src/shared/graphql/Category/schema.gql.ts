@@ -21,6 +21,20 @@ export const CATEGORY_BY_ID = gql`
     }
 `;
 
+export const CATEGORY_LIST = gql`
+    query getCategoryList($payload: ListPayload) {
+        getCategoryList(payload: $payload) {
+            data {
+                id
+                name
+                description
+                status
+            }
+            total
+        }
+    }
+`;
+
 const CREATE_CATEGORY = gql`
     mutation createCategory($payload: CreateCategoryPayload) {
         createCategory(payload: $payload) {
@@ -53,10 +67,12 @@ const UPDATE_CATEGORY = gql`
     }
 `;
 
-export const getCategoryById = (options: any) =>
-    useQuery<{ getCategoryById: Category }>(CATEGORY_BY_ID, options);
 export const getCategories = (options: any) =>
     useQuery<{ getCategories: Category[] }>(CATEGORIES, options);
+export const getCategoryById = (options: any) =>
+    useQuery<{ getCategoryById: Category }>(CATEGORY_BY_ID, options);
+export const getCategoryList = (options: any) =>
+    useQuery<{ getCategoryList: Category[] }>(CATEGORY_LIST, options);
 export const createCategory = (options: any) =>
     useMutation<{ createCategory: Category }>(CREATE_CATEGORY, options);
 export const deleteCategory = (options: any) =>

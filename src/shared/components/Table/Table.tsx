@@ -1,11 +1,14 @@
 import { Table as AntTable } from 'antd';
 import { PaginationConfig } from 'antd/lib/pagination';
-import { SorterResult, TableRowSelection } from 'antd/lib/table/interface';
+import { SorterResult, TablePaginationConfig, TableRowSelection } from 'antd/lib/table/interface';
 import * as React from 'react';
 
-interface TableProps extends TableRowProps {
+export interface TableProps {
     children?: React.ReactNode;
     dataSource?: any[];
+    loading?: boolean;
+    pagination?: false | TablePaginationConfig;
+    rowSelection?: TableRowSelection<any>;
 
     onChange?: (
         pagination: PaginationConfig,
@@ -15,12 +18,16 @@ interface TableProps extends TableRowProps {
     ) => void;
 }
 
-export interface TableRowProps {
-    rowSelection?: TableRowSelection<any>;
-}
-
-export const Table = React.memo<TableProps>(({ children, dataSource, onChange, rowSelection }) => (
-    <AntTable dataSource={dataSource} onChange={onChange} rowSelection={rowSelection}>
-        {children}
-    </AntTable>
-));
+export const Table = React.memo<TableProps>(
+    ({ children, dataSource, loading, pagination, onChange, rowSelection }) => (
+        <AntTable
+            dataSource={dataSource}
+            loading={loading}
+            pagination={pagination}
+            onChange={onChange}
+            rowSelection={rowSelection}
+        >
+            {children}
+        </AntTable>
+    )
+);

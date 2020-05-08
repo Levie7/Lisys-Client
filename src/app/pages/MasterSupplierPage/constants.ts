@@ -5,6 +5,7 @@ export const supplierColumns = [
     {
         dataIndex: 'name',
         key: 'name',
+        sorter: true,
         title: 'Name',
     },
     {

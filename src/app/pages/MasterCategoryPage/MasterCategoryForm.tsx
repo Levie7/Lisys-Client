@@ -7,7 +7,6 @@ import { Input, InputArea } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import {
-    CATEGORIES,
     CATEGORY_BY_ID,
     createCategory,
     getCategoryById,
@@ -26,11 +25,11 @@ interface CategoryFormProps {
 export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
     let [form] = Form.useForm();
 
-    let mutation = mutationForm(
-        formType === 'create' ? createCategory : updateCategory,
+    let mutation = mutationForm({
         formType,
-        handleResetForm
-    );
+        mutations: formType === 'create' ? createCategory : updateCategory,
+        resetForm: handleResetForm,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getCategoryById,
@@ -57,16 +56,10 @@ export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: CATEGORIES }];
                 payload = { ...payload, id: undefined };
                 break;
             case 'update':
-                fetchQuery = [
-                    { query: CATEGORIES },
-                    { query: CATEGORY_BY_ID, variables: { id: recordKey } },
-                ];
-                break;
-            default:
+                fetchQuery = [{ query: CATEGORY_BY_ID, variables: { id: recordKey } }];
                 break;
         }
 

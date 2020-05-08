@@ -9,32 +9,36 @@ import { Currency } from 'src/shared/helpers/formatCurrency';
 
 import { medicineColumns } from './constants';
 import { MasterMedicineForm } from './MasterMedicineForm';
-import { deleteMedicine, getMedicines, MEDICINES, updateManyMedicine } from './schema.gql';
+import { deleteMedicine, getMedicineList, MEDICINE_LIST, updateManyMedicine } from './schema.gql';
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
 export const MasterMedicinePage = () => {
-    function handleData(data?: any): MedicineData[] {
-        let medicine = data?.getMedicines;
+    function handleData(data?: any): { list: MedicineData[]; total: number } {
+        let medicine = data?.getMedicineList.data;
+        let total = data?.getMedicineList.total;
         if (!medicine || !medicine.length) {
-            return [];
+            return { list: [], total: 0 };
         }
 
-        return medicine.map((medicine: Medicine) => {
-            return {
-                barcode: medicine.barcode,
-                buy_price: Currency(formatCommaValue(medicine.buy_price)),
-                category_name: medicine.category!.name,
-                code: medicine.code,
-                key: medicine.id!,
-                min_stock: medicine.min_stock,
-                name: medicine.name,
-                sell_price: Currency(formatCommaValue(medicine.sell_price)),
-                status: medicine.status,
-                stock: medicine.stock,
-                uom_name: medicine.uom!.name,
-                variant_name: medicine.variant!.name,
-            };
-        });
+        return {
+            list: medicine.map((medicine: Medicine) => {
+                return {
+                    barcode: medicine.barcode,
+                    buy_price: Currency(formatCommaValue(medicine.buy_price)),
+                    category_name: medicine.category!.name,
+                    code: medicine.code,
+                    key: medicine.id!,
+                    min_stock: medicine.min_stock,
+                    name: medicine.name,
+                    sell_price: Currency(formatCommaValue(medicine.sell_price)),
+                    status: medicine.status,
+                    stock: medicine.stock,
+                    uom_name: medicine.uom!.name,
+                    variant_name: medicine.variant!.name,
+                };
+            }),
+            total,
+        };
     }
 
     return (
@@ -49,8 +53,8 @@ export const MasterMedicinePage = () => {
                             update: updateManyMedicine,
                         }}
                         query={{
-                            data: getMedicines,
-                            refetch: MEDICINES,
+                            list: getMedicineList,
+                            refetch: MEDICINE_LIST,
                         }}
                         handleData={handleData}
                         handleRecord={handleRecord}

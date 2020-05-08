@@ -19,13 +19,7 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { alertMessage, medicineInfo } from './constants';
-import {
-    createMedicine,
-    getMedicineById,
-    MEDICINE_BY_ID,
-    MEDICINES,
-    updateMedicine,
-} from './schema.gql';
+import { createMedicine, getMedicineById, MEDICINE_BY_ID, updateMedicine } from './schema.gql';
 
 interface MasterMedicineFormProps {
     formType: string;
@@ -37,11 +31,11 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
     let [isBarcodeChanged, changeBarcode] = React.useState(false);
     let [isCodeChanged, changeCode] = React.useState(false);
 
-    let mutation = mutationForm(
-        formType === 'create' ? createMedicine : updateMedicine,
+    let mutation = mutationForm({
         formType,
-        handleResetForm
-    );
+        mutations: formType === 'create' ? createMedicine : updateMedicine,
+        resetForm: handleResetForm,
+    });
     let query = queryForm({
         skip: formType === 'create',
         query: getMedicineById,
@@ -59,10 +53,14 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
     )
         return <Spin />;
 
+    let categories = categoryQuery.data?.getCategories;
+    let uoms = uomQuery.data?.getUoMs;
+    let variants = variantQuery.data?.getVariants;
+
     let initialValues = {
         barcode: query.data?.getMedicineById.barcode,
         buy_price: query.data && Currency(formatCommaValue(query.data.getMedicineById.buy_price)),
-        category: query.data?.getMedicineById.category.id,
+        category: query.data?.getMedicineById.category.id || (categories && categories[0].id),
         code: query.data?.getMedicineById.code,
         key: query.data?.getMedicineById.id!,
         min_stock: query.data?.getMedicineById.min_stock,
@@ -79,12 +77,9 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
             ),
         sell_price: query.data && Currency(formatCommaValue(query.data.getMedicineById.sell_price)),
         stock: query.data?.getMedicineById.stock,
-        uom: query.data?.getMedicineById.uom.id,
-        variant: query.data?.getMedicineById.variant.id,
+        uom: query.data?.getMedicineById.uom.id || (uoms && uoms[0].id),
+        variant: query.data?.getMedicineById.variant.id || (variants && variants[0].id),
     };
-    let categories = categoryQuery.data?.getCategories;
-    let uoms = uomQuery.data?.getUoMs;
-    let variants = variantQuery.data?.getVariants;
 
     function handleChangeBarcode() {
         changeBarcode(initialValues.barcode !== form.getFieldValue('barcode'));
@@ -127,17 +122,11 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
 
         switch (formType) {
             case 'create':
-                fetchQuery = [{ query: MEDICINES }];
                 payload = { ...fetchPayload, id: undefined };
                 break;
             case 'update':
-                fetchQuery = [
-                    { query: MEDICINES },
-                    { query: MEDICINE_BY_ID, variables: { id: recordKey } },
-                ];
+                fetchQuery = [{ query: MEDICINE_BY_ID, variables: { id: recordKey } }];
                 payload = { ...fetchPayload, isBarcodeChanged, isCodeChanged };
-                break;
-            default:
                 break;
         }
 

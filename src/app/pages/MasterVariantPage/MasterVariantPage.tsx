@@ -7,29 +7,33 @@ import { MasterList } from 'src/modules/Master/containers/MasterList';
 
 import {
     deleteVariant,
-    getVariants,
+    getVariantList,
     updateManyVariant,
-    VARIANTS,
+    VARIANT_LIST,
 } from 'src/shared/graphql/Variant/schema.gql';
 
 import { variantColumns } from './constants';
 import { MasterVariantForm } from './MasterVariantForm';
 
-export const MasterVariantPage = () => {
-    function handleData(data?: any): VariantData[] {
-        let variant = data?.getVariants;
+export function MasterVariantPage() {
+    function handleData(data?: any): { list: VariantData[]; total: number } {
+        let variant = data?.getVariantList.data;
+        let total = data?.getVariantList.total;
         if (!variant || !variant.length) {
-            return [];
+            return { list: [], total: 0 };
         }
 
-        return variant.map((variant: Variant) => {
-            return {
-                key: variant.id!,
-                name: variant.name,
-                description: variant.description,
-                status: variant.status,
-            };
-        });
+        return {
+            list: variant.map((variant: Variant) => {
+                return {
+                    key: variant.id!,
+                    name: variant.name,
+                    description: variant.description,
+                    status: variant.status,
+                };
+            }),
+            total,
+        };
     }
 
     return (
@@ -44,8 +48,8 @@ export const MasterVariantPage = () => {
                             update: updateManyVariant,
                         }}
                         query={{
-                            data: getVariants,
-                            refetch: VARIANTS,
+                            list: getVariantList,
+                            refetch: VARIANT_LIST,
                         }}
                         handleData={handleData}
                         handleRecord={handleRecord}
@@ -57,4 +61,4 @@ export const MasterVariantPage = () => {
             }
         </MasterCard>
     );
-};
+}

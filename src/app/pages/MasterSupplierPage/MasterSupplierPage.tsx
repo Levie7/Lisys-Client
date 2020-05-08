@@ -7,37 +7,41 @@ import { MasterList } from 'src/modules/Master/containers/MasterList';
 
 import { supplierColumns } from './constants';
 import { MasterSupplierForm } from './MasterSupplierForm';
-import { deleteSupplier, getSuppliers, SUPPLIERS, updateManySupplier } from './schema.gql';
+import { deleteSupplier, getSupplierList, SUPPLIER_LIST, updateManySupplier } from './schema.gql';
 
 export const MasterSupplierPage = () => {
-    function handleData(data?: any): SupplierData[] {
-        let supplier = data?.getSuppliers;
+    function handleData(data?: any): { list: SupplierData[]; total: number } {
+        let supplier = data?.getSupplierList.data;
+        let total = data?.getSupplierList.total;
         if (!supplier || !supplier.length) {
-            return [];
+            return { list: [], total: 0 };
         }
 
-        return supplier.map((supplier: Supplier) => {
-            return {
-                account_name: supplier.account_name,
-                account_no: supplier.account_no,
-                address: supplier.address,
-                bank: supplier.bank,
-                city: supplier.city,
-                contact: supplier.contact,
-                email: supplier.email,
-                key: supplier.id!,
-                name: supplier.name,
-                npwp: supplier.npwp,
-                phone: supplier.phone,
-                province: supplier.province,
-                status: supplier.status,
-                zip_code: supplier.zip_code,
-            };
-        });
+        return {
+            list: supplier.map((supplier: Supplier) => {
+                return {
+                    account_name: supplier.account_name,
+                    account_no: supplier.account_no,
+                    address: supplier.address,
+                    bank: supplier.bank,
+                    city: supplier.city,
+                    contact: supplier.contact,
+                    email: supplier.email,
+                    key: supplier.id!,
+                    name: supplier.name,
+                    npwp: supplier.npwp,
+                    phone: supplier.phone,
+                    province: supplier.province,
+                    status: supplier.status,
+                    zip_code: supplier.zip_code,
+                };
+            }),
+            total,
+        };
     }
 
     return (
-        <MasterCard header={{ link: '/category', title: 'Category' }} initSection='category'>
+        <MasterCard header={{ link: '/supplier', title: 'Supplier' }} initSection='supplier'>
             {({ action, recordKey, handleRecord, handleResetAction }) =>
                 ['list', 'active', 'inactive'].includes(action) ? (
                     <MasterList
@@ -48,8 +52,8 @@ export const MasterSupplierPage = () => {
                             update: updateManySupplier,
                         }}
                         query={{
-                            data: getSuppliers,
-                            refetch: SUPPLIERS,
+                            list: getSupplierList,
+                            refetch: SUPPLIER_LIST,
                         }}
                         handleData={handleData}
                         handleRecord={handleRecord}

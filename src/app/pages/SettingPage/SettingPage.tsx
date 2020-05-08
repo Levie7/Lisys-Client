@@ -1,17 +1,17 @@
 import React from 'react';
 
 import { Card } from 'src/shared/components/Card';
-import { UIContext } from 'src/shared/contexts/UIContext';
+import { useUIContext } from 'src/shared/contexts/UIContext';
 
 import { SettingTabs } from './components/SettingTabs';
 
 export default function SettingPage() {
+    let isMobile = useUIContext().isMobile;
+
     return (
         <div className='d-flex fj-center m-4'>
             <Card>
-                <UIContext.Consumer>
-                    {({ isMobile }) => <SettingTabs position={isMobile ? 'top' : 'left'} />}
-                </UIContext.Consumer>
+                <SettingTabs position={isMobile ? 'top' : 'left'} />
             </Card>
         </div>
     );

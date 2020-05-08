@@ -1,6 +1,58 @@
 import { Medicine } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
+export const MEDICINE_BY_ID = gql`
+    query getMedicineById($id: ID!) {
+        getMedicineById(id: $id) {
+            barcode
+            buy_price
+            category {
+                id
+            }
+            code
+            min_stock
+            name
+            sell_price
+            status
+            stock
+            uom {
+                id
+            }
+            variant {
+                id
+            }
+        }
+    }
+`;
+
+export const MEDICINE_LIST = gql`
+    query getMedicineList($payload: ListPayload) {
+        getMedicineList(payload: $payload) {
+            data {
+                barcode
+                buy_price
+                category {
+                    name
+                }
+                code
+                id
+                min_stock
+                name
+                sell_price
+                status
+                stock
+                uom {
+                    name
+                }
+                variant {
+                    name
+                }
+            }
+            total
+        }
+    }
+`;
+
 export const MEDICINES = gql`
     query {
         getMedicines {
@@ -21,30 +73,6 @@ export const MEDICINES = gql`
             }
             variant {
                 name
-            }
-        }
-    }
-`;
-
-export const MEDICINE_BY_ID = gql`
-    query getMedicineById($id: ID!) {
-        getMedicineById(id: $id) {
-            barcode
-            buy_price
-            category {
-                id
-            }
-            code
-            min_stock
-            name
-            sell_price
-            status
-            stock
-            uom {
-                id
-            }
-            variant {
-                id
             }
         }
     }
@@ -84,6 +112,8 @@ const UPDATE_MEDICINE = gql`
 
 export const getMedicineById = (options: any) =>
     useQuery<{ getMedicineById: Medicine }>(MEDICINE_BY_ID, options);
+export const getMedicineList = (options: any) =>
+    useQuery<{ getMedicineList: Medicine[] }>(MEDICINE_LIST, options);
 export const getMedicines = (options: any) =>
     useQuery<{ getMedicines: Medicine[] }>(MEDICINES, options);
 export const createMedicine = (options: any) =>

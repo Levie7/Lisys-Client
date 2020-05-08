@@ -1,19 +1,6 @@
 import { User } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
-export const USERS = gql`
-    query {
-        getUsers {
-            id
-            name
-            role {
-                name
-            }
-            username
-        }
-    }
-`;
-
 export const USER_BY_ID = gql`
     query getUserById($id: ID!) {
         getUserById(id: $id) {
@@ -22,6 +9,22 @@ export const USER_BY_ID = gql`
                 id
             }
             username
+        }
+    }
+`;
+
+export const USER_LIST = gql`
+    query getUserList($payload: ListPayload) {
+        getUserList(payload: $payload) {
+            data {
+                id
+                name
+                role {
+                    name
+                }
+                username
+            }
+            total
         }
     }
 `;
@@ -71,7 +74,7 @@ const UPDATE_USER = gql`
 export const checkUsername = (options: any) =>
     useQuery<{ checkUsername: Boolean }>(CHECK_USERNAME, options);
 export const getUserById = (options: any) => useQuery<{ getUserById: User }>(USER_BY_ID, options);
-export const getUsers = (options: any) => useQuery<{ getUsers: User[] }>(USERS, options);
+export const getUserList = (options: any) => useQuery<{ getUserList: User[] }>(USER_LIST, options);
 export const createUser = (options: any) => useMutation<{ createUser: User }>(CREATE_USER, options);
 export const deleteUser = (options: any) => useMutation<{ deleteUser: User }>(DELETE_USER, options);
 export const updateUser = (options: any) => useMutation<{ updateUser: User }>(UPDATE_USER, options);

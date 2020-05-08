@@ -1,30 +1,48 @@
 import * as React from 'react';
 
-import { Column, Table, TableAction, TableRowProps } from 'src/shared/components/Table';
+import { Column, ColumnProps, Table, TableAction, TableProps } from 'src/shared/components/Table';
 import { Status } from 'src/shared/components/Status';
 import { Delete } from 'src/shared/utilities/delete';
 
-interface CrudListTableProps extends TableRowProps {
-    columns: {
-        dataIndex: string;
-        key: string;
-        title: string;
-    }[];
-    data?: any[];
+import { filterStatus } from './constants';
+
+interface CrudListTableProps extends TableProps {
+    columns: ColumnProps[];
     hasStatus?: boolean;
 
     handleDelete: (record: any) => void;
     handleRecord: (recordKey: string) => void;
 }
 
-export const CrudListTable = React.memo<CrudListTableProps>(
-    ({ columns, data, hasStatus, handleDelete, handleRecord, rowSelection }) => (
-        <Table dataSource={data} rowSelection={rowSelection}>
+function CrudListTablePure({
+    columns,
+    hasStatus,
+    handleDelete,
+    handleRecord,
+    ...props
+}: CrudListTableProps) {
+    function handleFilter(value: any, record: any) {
+        return record.status.indexOf(value) === 0;
+    }
+
+    return (
+        <Table {...props}>
             {columns.map((column: any) => (
-                <Column dataIndex={column.dataIndex} key={column.key} title={column.title} />
+                <Column
+                    dataIndex={column.dataIndex}
+                    key={column.key}
+                    sorter={column.sorter}
+                    title={column.title}
+                />
             ))}
             {hasStatus && (
-                <Column title='Status' key='status' render={(text) => <Status text={text} />} />
+                <Column
+                    title='Status'
+                    filters={filterStatus}
+                    key='status'
+                    onFilter={handleFilter}
+                    render={(text) => <Status text={text} />}
+                />
             )}
             <Column
                 title='Action'
@@ -42,5 +60,7 @@ export const CrudListTable = React.memo<CrudListTableProps>(
                 )}
             />
         </Table>
-    )
-);
+    );
+}
+
+export const CrudListTable = React.memo(CrudListTablePure);

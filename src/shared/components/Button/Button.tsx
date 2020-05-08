@@ -7,6 +7,7 @@ interface ButtonProps {
     children?: React.ReactNode;
     className?: string;
     htmlType?: 'button' | 'reset' | 'submit';
+    id?: string;
     type?: ButtonType;
 
     onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
@@ -15,7 +16,7 @@ interface ButtonProps {
 export const Button = React.memo<ButtonProps>(
     React.forwardRef(
         (
-            { children, className, htmlType, onClick, type, ...props },
+            { children, className, htmlType, id, onClick, type, ...props },
             ref?:
                 | string
                 | ((instance: AntButton | null) => void)
@@ -26,6 +27,7 @@ export const Button = React.memo<ButtonProps>(
                 {...props}
                 className={className}
                 htmlType={htmlType}
+                id={id}
                 onClick={onClick}
                 ref={ref}
                 type={type}
