@@ -3,6 +3,7 @@ import React from 'react';
 import { Page } from 'src/app/shell/Page';
 
 import { UoM, UoMData } from 'src/core/api';
+import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
@@ -13,6 +14,8 @@ import { uomColumns } from './constants';
 import { MasterUoMForm } from './MasterUoMForm';
 
 export const MasterUoMPage = () => {
+    let storage = createAuthTokenStorage();
+
     function handleData(data?: any): { list: UoMData[]; total: number } {
         let uom = data?.getUoMList.data;
         let total = data?.getUoMList.total;
@@ -40,6 +43,7 @@ export const MasterUoMPage = () => {
                     ['list', 'active', 'inactive'].includes(action) ? (
                         <MasterList
                             action={action}
+                            auth={storage.getToken()}
                             columns={uomColumns}
                             mutation={{
                                 delete: deleteUoM,
@@ -54,7 +58,11 @@ export const MasterUoMPage = () => {
                             handleResetAction={handleResetAction}
                         />
                     ) : (
-                        <MasterUoMForm formType={action} recordKey={recordKey} />
+                        <MasterUoMForm
+                            auth={storage.getToken()}
+                            formType={action}
+                            recordKey={recordKey}
+                        />
                     )
                 }
             </MasterCard>

@@ -43,7 +43,7 @@ export function RoleList({ handleRecord }: RoleListProps) {
     let prevDataTotal = usePrevious(roles.total);
 
     useEffect(() => {
-        if (prevDataTotal !== roles.total) {
+        if (!queryDataList.loading && prevDataTotal !== roles.total) {
             setPage({ ...page, current: 1, total: roles.total });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

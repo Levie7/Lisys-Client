@@ -14,11 +14,12 @@ import { alertMessage, supplierInfo } from './constants';
 import { createSupplier, getSupplierById, SUPPLIER_BY_ID, updateSupplier } from './schema.gql';
 
 interface MasterSupplierFormProps {
+    auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormProps) {
+export function MasterSupplierForm({ auth, formType, recordKey }: MasterSupplierFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({
@@ -67,7 +68,7 @@ export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormPr
             zip_code = '',
         } = values;
         let fetchQuery;
-        let payload = {
+        let fetchPayload = {
             id: recordKey,
             account_name,
             account_no,
@@ -82,13 +83,15 @@ export function MasterSupplierForm({ formType, recordKey }: MasterSupplierFormPr
             province,
             zip_code,
         };
+        let payload;
 
         switch (formType) {
             case 'create':
-                payload = { ...payload, id: undefined };
+                payload = { ...fetchPayload, id: undefined, created_by: auth };
                 break;
             case 'update':
                 fetchQuery = [{ query: SUPPLIER_BY_ID, variables: { id: recordKey } }];
+                payload = { ...fetchPayload, updated_by: auth };
                 break;
         }
 

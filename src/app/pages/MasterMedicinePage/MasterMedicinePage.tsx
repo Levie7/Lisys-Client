@@ -3,6 +3,7 @@ import React from 'react';
 import { Page } from 'src/app/shell/Page';
 
 import { Medicine, MedicineData } from 'src/core/api';
+import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
@@ -15,6 +16,8 @@ import { MasterMedicineForm } from './MasterMedicineForm';
 import { deleteMedicine, getMedicineList, MEDICINE_LIST, updateManyMedicine } from './schema.gql';
 
 export const MasterMedicinePage = () => {
+    let storage = createAuthTokenStorage();
+
     function handleData(data?: any): { list: MedicineData[]; total: number } {
         let medicine = data?.getMedicineList.data;
         let total = data?.getMedicineList.total;
@@ -50,6 +53,7 @@ export const MasterMedicinePage = () => {
                     ['list', 'active', 'inactive'].includes(action) ? (
                         <MasterList
                             action={action}
+                            auth={storage.getToken()}
                             columns={medicineColumns}
                             mutation={{
                                 delete: deleteMedicine,
@@ -64,7 +68,11 @@ export const MasterMedicinePage = () => {
                             handleResetAction={handleResetAction}
                         />
                     ) : (
-                        <MasterMedicineForm formType={action} recordKey={recordKey} />
+                        <MasterMedicineForm
+                            auth={storage.getToken()}
+                            formType={action}
+                            recordKey={recordKey}
+                        />
                     )
                 }
             </MasterCard>

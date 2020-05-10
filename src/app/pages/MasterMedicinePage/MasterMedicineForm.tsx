@@ -22,11 +22,12 @@ import { alertMessage, medicineInfo } from './constants';
 import { createMedicine, getMedicineById, MEDICINE_BY_ID, updateMedicine } from './schema.gql';
 
 interface MasterMedicineFormProps {
+    auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormProps) {
+export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicineFormProps) {
     let [form] = Form.useForm();
     let [isBarcodeChanged, changeBarcode] = React.useState(false);
     let [isCodeChanged, changeCode] = React.useState(false);
@@ -122,11 +123,11 @@ export function MasterMedicineForm({ formType, recordKey }: MasterMedicineFormPr
 
         switch (formType) {
             case 'create':
-                payload = { ...fetchPayload, id: undefined };
+                payload = { ...fetchPayload, id: undefined, created_by: auth };
                 break;
             case 'update':
                 fetchQuery = [{ query: MEDICINE_BY_ID, variables: { id: recordKey } }];
-                payload = { ...fetchPayload, isBarcodeChanged, isCodeChanged };
+                payload = { ...fetchPayload, isBarcodeChanged, isCodeChanged, updated_by: auth };
                 break;
         }
 

@@ -11,6 +11,7 @@ import { Progress } from 'src/shared/utilities/progress';
 
 interface MasterListProps {
     action: string;
+    auth: string | null;
     columns: ColumnProps[];
     mutation: {
         delete: any;
@@ -28,6 +29,7 @@ interface MasterListProps {
 
 export function MasterList({
     action,
+    auth,
     columns,
     mutation,
     query,
@@ -61,7 +63,7 @@ export function MasterList({
     let prevDataTotal = usePrevious(data.total);
 
     useEffect(() => {
-        if (prevDataTotal !== data.total) {
+        if (!queryDataList.loading && prevDataTotal !== data.total) {
             setPage({ ...page, current: 1, total: data.total });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -93,7 +95,7 @@ export function MasterList({
                 },
             ],
             variables: {
-                payload: { id: selectedRowKeys, status: action },
+                payload: { id: selectedRowKeys, status: action, updated_by: auth },
             },
         });
         handleResetAction();

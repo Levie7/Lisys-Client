@@ -3,6 +3,7 @@ import React from 'react';
 import { Page } from 'src/app/shell/Page';
 
 import { Variant, VariantData } from 'src/core/api';
+import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
@@ -18,6 +19,8 @@ import { variantColumns } from './constants';
 import { MasterVariantForm } from './MasterVariantForm';
 
 export function MasterVariantPage() {
+    let storage = createAuthTokenStorage();
+
     function handleData(data?: any): { list: VariantData[]; total: number } {
         let variant = data?.getVariantList.data;
         let total = data?.getVariantList.total;
@@ -45,6 +48,7 @@ export function MasterVariantPage() {
                     ['list', 'active', 'inactive'].includes(action) ? (
                         <MasterList
                             action={action}
+                            auth={storage.getToken()}
                             columns={variantColumns}
                             mutation={{
                                 delete: deleteVariant,
@@ -59,7 +63,11 @@ export function MasterVariantPage() {
                             handleResetAction={handleResetAction}
                         />
                     ) : (
-                        <MasterVariantForm formType={action} recordKey={recordKey} />
+                        <MasterVariantForm
+                            auth={storage.getToken()}
+                            formType={action}
+                            recordKey={recordKey}
+                        />
                     )
                 }
             </MasterCard>

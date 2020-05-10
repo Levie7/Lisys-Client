@@ -3,6 +3,7 @@ import React from 'react';
 import { Page } from 'src/app/shell/Page';
 
 import { Supplier, SupplierData } from 'src/core/api';
+import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
@@ -12,6 +13,8 @@ import { MasterSupplierForm } from './MasterSupplierForm';
 import { deleteSupplier, getSupplierList, SUPPLIER_LIST, updateManySupplier } from './schema.gql';
 
 export const MasterSupplierPage = () => {
+    let storage = createAuthTokenStorage();
+
     function handleData(data?: any): { list: SupplierData[]; total: number } {
         let supplier = data?.getSupplierList.data;
         let total = data?.getSupplierList.total;
@@ -49,6 +52,7 @@ export const MasterSupplierPage = () => {
                     ['list', 'active', 'inactive'].includes(action) ? (
                         <MasterList
                             action={action}
+                            auth={storage.getToken()}
                             columns={supplierColumns}
                             mutation={{
                                 delete: deleteSupplier,
@@ -63,7 +67,11 @@ export const MasterSupplierPage = () => {
                             handleResetAction={handleResetAction}
                         />
                     ) : (
-                        <MasterSupplierForm formType={action} recordKey={recordKey} />
+                        <MasterSupplierForm
+                            auth={storage.getToken()}
+                            formType={action}
+                            recordKey={recordKey}
+                        />
                     )
                 }
             </MasterCard>
