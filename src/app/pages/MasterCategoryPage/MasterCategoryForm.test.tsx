@@ -29,6 +29,7 @@ let mockInitialValues = {
 describe('MasterCategoryForm', () => {
     let wrap: any;
     let props = {
+        auth: 'username1',
         formType: 'update',
         recordKey: 'id1',
     };

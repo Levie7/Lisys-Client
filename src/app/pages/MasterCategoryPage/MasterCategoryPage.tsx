@@ -3,6 +3,7 @@ import React from 'react';
 import { Page } from 'src/app/shell/Page';
 
 import { Category, CategoryData } from 'src/core/api';
+import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
@@ -18,6 +19,8 @@ import { categoryColumns } from './constants';
 import { MasterCategoryForm } from './MasterCategoryForm';
 
 export const MasterCategoryPage = () => {
+    let storage = createAuthTokenStorage();
+
     function handleData(data?: any): { list: CategoryData[]; total: number } {
         let category = data?.getCategoryList.data;
         let total = data?.getCategoryList.total;
@@ -45,6 +48,7 @@ export const MasterCategoryPage = () => {
                     ['list', 'active', 'inactive'].includes(action) ? (
                         <MasterList
                             action={action}
+                            auth={storage.getToken()}
                             columns={categoryColumns}
                             mutation={{
                                 delete: deleteCategory,
@@ -59,7 +63,11 @@ export const MasterCategoryPage = () => {
                             handleResetAction={handleResetAction}
                         />
                     ) : (
-                        <MasterCategoryForm formType={action} recordKey={recordKey} />
+                        <MasterCategoryForm
+                            auth={storage.getToken()}
+                            formType={action}
+                            recordKey={recordKey}
+                        />
                     )
                 }
             </MasterCard>

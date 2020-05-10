@@ -18,11 +18,12 @@ import { Progress } from 'src/shared/utilities/progress';
 import { alertMessage } from './constants';
 
 interface CategoryFormProps {
+    auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
+export function MasterCategoryForm({ auth, formType, recordKey }: CategoryFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({
@@ -48,17 +49,19 @@ export function MasterCategoryForm({ formType, recordKey }: CategoryFormProps) {
 
         let { name, description = '' } = values;
         let fetchQuery;
-        let payload = {
+        let fetchPayload = {
             id: recordKey,
             name,
             description,
         };
+        let payload;
 
         switch (formType) {
             case 'create':
-                payload = { ...payload, id: undefined };
+                payload = { ...fetchPayload, id: undefined, created_by: auth };
                 break;
             case 'update':
+                payload = { ...fetchPayload, updated_by: auth };
                 fetchQuery = [{ query: CATEGORY_BY_ID, variables: { id: recordKey } }];
                 break;
         }

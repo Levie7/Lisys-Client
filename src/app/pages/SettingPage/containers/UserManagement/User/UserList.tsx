@@ -43,7 +43,7 @@ export function UserList({ handleRecord }: UserListProps) {
     let prevDataTotal = usePrevious(users.total);
 
     useEffect(() => {
-        if (prevDataTotal !== users.total) {
+        if (!queryDataList.loading && prevDataTotal !== users.total) {
             setPage({ ...page, current: 1, total: users.total });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

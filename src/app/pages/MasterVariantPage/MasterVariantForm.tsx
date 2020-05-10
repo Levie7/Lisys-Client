@@ -18,11 +18,12 @@ import { Progress } from 'src/shared/utilities/progress';
 import { alertMessage } from './constants';
 
 interface MasterVariantFormProps {
+    auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterVariantForm({ formType, recordKey }: MasterVariantFormProps) {
+export function MasterVariantForm({ auth, formType, recordKey }: MasterVariantFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({
@@ -47,18 +48,20 @@ export function MasterVariantForm({ formType, recordKey }: MasterVariantFormProp
 
         let { name, description = '' } = values;
         let fetchQuery;
-        let payload = {
+        let fetchPayload = {
             id: recordKey,
             name,
             description,
         };
+        let payload;
 
         switch (formType) {
             case 'create':
-                payload = { ...payload, id: undefined };
+                payload = { ...fetchPayload, id: undefined, created_by: auth };
                 break;
             case 'update':
                 fetchQuery = [{ query: VARIANT_BY_ID, variables: { id: recordKey } }];
+                payload = { ...fetchPayload, updated_by: auth };
                 break;
         }
 
