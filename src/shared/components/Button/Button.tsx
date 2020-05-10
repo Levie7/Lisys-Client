@@ -8,6 +8,7 @@ interface ButtonProps {
     className?: string;
     htmlType?: 'button' | 'reset' | 'submit';
     id?: string;
+    loading?: boolean;
     type?: ButtonType;
 
     onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
@@ -16,7 +17,7 @@ interface ButtonProps {
 export const Button = React.memo<ButtonProps>(
     React.forwardRef(
         (
-            { children, className, htmlType, id, onClick, type, ...props },
+            { children, className, htmlType, id, loading, onClick, type, ...props },
             ref?:
                 | string
                 | ((instance: AntButton | null) => void)
@@ -28,6 +29,7 @@ export const Button = React.memo<ButtonProps>(
                 className={className}
                 htmlType={htmlType}
                 id={id}
+                loading={loading}
                 onClick={onClick}
                 ref={ref}
                 type={type}

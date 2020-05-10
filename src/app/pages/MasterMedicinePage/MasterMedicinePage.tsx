@@ -1,16 +1,18 @@
 import React from 'react';
 
+import { Page } from 'src/app/shell/Page';
+
 import { Medicine, MedicineData } from 'src/core/api';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
 import { MasterList } from 'src/modules/Master/containers/MasterList';
 
 import { Currency } from 'src/shared/helpers/formatCurrency';
+import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
 import { medicineColumns } from './constants';
 import { MasterMedicineForm } from './MasterMedicineForm';
 import { deleteMedicine, getMedicineList, MEDICINE_LIST, updateManyMedicine } from './schema.gql';
-import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
 export const MasterMedicinePage = () => {
     function handleData(data?: any): { list: MedicineData[]; total: number } {
@@ -42,28 +44,30 @@ export const MasterMedicinePage = () => {
     }
 
     return (
-        <MasterCard header={{ link: '/medicine', title: 'Medicine' }} initSection='medicine'>
-            {({ action, recordKey, handleRecord, handleResetAction }) =>
-                ['list', 'active', 'inactive'].includes(action) ? (
-                    <MasterList
-                        action={action}
-                        columns={medicineColumns}
-                        mutation={{
-                            delete: deleteMedicine,
-                            update: updateManyMedicine,
-                        }}
-                        query={{
-                            list: getMedicineList,
-                            refetch: MEDICINE_LIST,
-                        }}
-                        handleData={handleData}
-                        handleRecord={handleRecord}
-                        handleResetAction={handleResetAction}
-                    />
-                ) : (
-                    <MasterMedicineForm formType={action} recordKey={recordKey} />
-                )
-            }
-        </MasterCard>
+        <Page>
+            <MasterCard header={{ link: '/medicine', title: 'Medicine' }} initSection='medicine'>
+                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                    ['list', 'active', 'inactive'].includes(action) ? (
+                        <MasterList
+                            action={action}
+                            columns={medicineColumns}
+                            mutation={{
+                                delete: deleteMedicine,
+                                update: updateManyMedicine,
+                            }}
+                            query={{
+                                list: getMedicineList,
+                                refetch: MEDICINE_LIST,
+                            }}
+                            handleData={handleData}
+                            handleRecord={handleRecord}
+                            handleResetAction={handleResetAction}
+                        />
+                    ) : (
+                        <MasterMedicineForm formType={action} recordKey={recordKey} />
+                    )
+                }
+            </MasterCard>
+        </Page>
     );
 };

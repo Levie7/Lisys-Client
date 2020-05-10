@@ -2,12 +2,6 @@ import * as React from 'react';
 import { Form } from 'antd';
 
 import { getRoles } from 'src/app/pages/SettingPage/containers/UserManagement/Role/schema.gql';
-import {
-    createUser,
-    getUserById,
-    updateUser,
-    USER_BY_ID,
-} from 'src/app/pages/SettingPage/containers/UserManagement/User/schema.gql';
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
 import { Button } from 'src/shared/components/Button';
@@ -17,6 +11,12 @@ import { SaveButton } from 'src/shared/components/SaveButton';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm, queryForm } from 'src/shared/graphql';
+import {
+    createUser,
+    getUserById,
+    updateUser,
+    USER_BY_ID,
+} from 'src/shared/graphql/User/schema.gql';
 import { Progress } from 'src/shared/utilities/progress';
 
 interface UserFormProps {

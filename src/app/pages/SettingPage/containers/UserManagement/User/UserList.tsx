@@ -9,10 +9,10 @@ import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable
 import { Spin } from 'src/shared/components/Spin';
 import { usePrevious } from 'src/shared/helpers/usePrevious';
 import { mutationForm, queryList } from 'src/shared/graphql';
+import { deleteUser, getUserList, USER_LIST } from 'src/shared/graphql/User/schema.gql';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { userColumns } from './constants';
-import { deleteUser, getUserList, USER_LIST } from './schema.gql';
 
 interface UserListProps {
     handleRecord: (recordKey: string) => void;

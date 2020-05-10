@@ -1,5 +1,5 @@
-import { Crud } from './types';
 import { gql, useQuery, useMutation } from './core';
+import { Crud } from './types';
 
 export const createCrudData = (Crud: any) => ({
     data: {

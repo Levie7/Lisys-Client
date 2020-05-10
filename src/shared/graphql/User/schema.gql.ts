@@ -1,6 +1,12 @@
 import { User } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
+const AUTH_LOGIN = gql`
+    query authLogin($payload: AuthLogin) {
+        authLogin(payload: $payload)
+    }
+`;
+
 export const USER_BY_ID = gql`
     query getUserById($id: ID!) {
         getUserById(id: $id) {
@@ -26,12 +32,6 @@ export const USER_LIST = gql`
             }
             total
         }
-    }
-`;
-
-const CHECK_USERNAME = gql`
-    query checkUsername($username: String) {
-        checkUsername(username: $username)
     }
 `;
 
@@ -71,8 +71,7 @@ const UPDATE_USER = gql`
     }
 `;
 
-export const checkUsername = (options: any) =>
-    useQuery<{ checkUsername: Boolean }>(CHECK_USERNAME, options);
+export const authLogin = (options: any) => useQuery<{ authLogin: Boolean }>(AUTH_LOGIN, options);
 export const getUserById = (options: any) => useQuery<{ getUserById: User }>(USER_BY_ID, options);
 export const getUserList = (options: any) => useQuery<{ getUserList: User[] }>(USER_LIST, options);
 export const createUser = (options: any) => useMutation<{ createUser: User }>(CREATE_USER, options);

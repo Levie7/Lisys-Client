@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Page } from 'src/app/shell/Page';
+
 import { Variant, VariantData } from 'src/core/api';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
@@ -37,28 +39,30 @@ export function MasterVariantPage() {
     }
 
     return (
-        <MasterCard header={{ link: '/variant', title: 'Variant' }} initSection='variant'>
-            {({ action, recordKey, handleRecord, handleResetAction }) =>
-                ['list', 'active', 'inactive'].includes(action) ? (
-                    <MasterList
-                        action={action}
-                        columns={variantColumns}
-                        mutation={{
-                            delete: deleteVariant,
-                            update: updateManyVariant,
-                        }}
-                        query={{
-                            list: getVariantList,
-                            refetch: VARIANT_LIST,
-                        }}
-                        handleData={handleData}
-                        handleRecord={handleRecord}
-                        handleResetAction={handleResetAction}
-                    />
-                ) : (
-                    <MasterVariantForm formType={action} recordKey={recordKey} />
-                )
-            }
-        </MasterCard>
+        <Page>
+            <MasterCard header={{ link: '/variant', title: 'Variant' }} initSection='variant'>
+                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                    ['list', 'active', 'inactive'].includes(action) ? (
+                        <MasterList
+                            action={action}
+                            columns={variantColumns}
+                            mutation={{
+                                delete: deleteVariant,
+                                update: updateManyVariant,
+                            }}
+                            query={{
+                                list: getVariantList,
+                                refetch: VARIANT_LIST,
+                            }}
+                            handleData={handleData}
+                            handleRecord={handleRecord}
+                            handleResetAction={handleResetAction}
+                        />
+                    ) : (
+                        <MasterVariantForm formType={action} recordKey={recordKey} />
+                    )
+                }
+            </MasterCard>
+        </Page>
     );
 }

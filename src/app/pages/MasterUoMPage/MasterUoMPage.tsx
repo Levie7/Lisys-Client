@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Page } from 'src/app/shell/Page';
+
 import { UoM, UoMData } from 'src/core/api';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
@@ -32,28 +34,30 @@ export const MasterUoMPage = () => {
     }
 
     return (
-        <MasterCard header={{ link: '/uom', title: 'UoM' }} initSection='uom'>
-            {({ action, recordKey, handleRecord, handleResetAction }) =>
-                ['list', 'active', 'inactive'].includes(action) ? (
-                    <MasterList
-                        action={action}
-                        columns={uomColumns}
-                        mutation={{
-                            delete: deleteUoM,
-                            update: updateManyUoM,
-                        }}
-                        query={{
-                            list: getUoMList,
-                            refetch: UOM_LIST,
-                        }}
-                        handleData={handleData}
-                        handleRecord={handleRecord}
-                        handleResetAction={handleResetAction}
-                    />
-                ) : (
-                    <MasterUoMForm formType={action} recordKey={recordKey} />
-                )
-            }
-        </MasterCard>
+        <Page>
+            <MasterCard header={{ link: '/uom', title: 'UoM' }} initSection='uom'>
+                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                    ['list', 'active', 'inactive'].includes(action) ? (
+                        <MasterList
+                            action={action}
+                            columns={uomColumns}
+                            mutation={{
+                                delete: deleteUoM,
+                                update: updateManyUoM,
+                            }}
+                            query={{
+                                list: getUoMList,
+                                refetch: UOM_LIST,
+                            }}
+                            handleData={handleData}
+                            handleRecord={handleRecord}
+                            handleResetAction={handleResetAction}
+                        />
+                    ) : (
+                        <MasterUoMForm formType={action} recordKey={recordKey} />
+                    )
+                }
+            </MasterCard>
+        </Page>
     );
 };
