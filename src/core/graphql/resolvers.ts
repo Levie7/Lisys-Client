@@ -9,5 +9,19 @@ export const resolvers = {
 
             return data;
         },
+        updateAuth: (
+            _: any,
+            { payload }: { payload: { isSessionAuthenticated: boolean; username: string } },
+            { cache }: { cache: any }
+        ) => {
+            cache.writeData({
+                data: {
+                    isSessionAuthenticated: payload.isSessionAuthenticated,
+                    username: payload.username,
+                },
+            });
+
+            return payload.username;
+        },
     },
 };

@@ -1,11 +1,21 @@
 import { Avatar, Dropdown, Menu } from 'antd';
 import * as React from 'react';
 
+import { exitSession } from 'src/core/graphql/auth';
+import { useHistory } from 'src/core/route';
+
 import { Icon } from 'src/shared/components/Icon';
 
 require('./Header.sass');
 
 export const Header = React.memo(() => {
+    let { replace } = useHistory();
+
+    function handleLogout() {
+        exitSession();
+        replace('/login');
+    }
+
     const menu = (
         <Menu selectable={false}>
             <Menu.Item>
@@ -37,9 +47,9 @@ export const Header = React.memo(() => {
             </Menu.Item>
             <Menu.Divider />
             <Menu.Item>
-                <a href='/'>
+                <div onClick={handleLogout}>
                     <i className='topbar__dropdownMenuIcon icmn-exit' /> Logout
-                </a>
+                </div>
             </Menu.Item>
         </Menu>
     );

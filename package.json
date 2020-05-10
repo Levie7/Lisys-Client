@@ -89,18 +89,22 @@
             "!src/serviceWorker.ts",
             "!src/app/App.tsx",
             "!src/app/Routes.tsx",
+            "!src/app/shell/components/Header/Header.tsx",
             "!src/core/**",
             "!src/shared/components/Upload/**",
             "!src/shared/graphql/**",
             "!**/node_modules/**",
             "!**/vendor/**"
         ],
+        "coveragePathIgnorePatterns": [
+            "Page.tsx"
+        ],
         "coverageThreshold": {
             "global": {
-                "branches": 0,
-                "functions": 0,
-                "lines": 0,
-                "statements": 0
+                "branches": 50,
+                "functions": 20,
+                "lines": 50,
+                "statements": 50
             }
         }
     }

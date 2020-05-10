@@ -17,6 +17,7 @@ import {
     SearchOutlined,
     SettingOutlined,
     ShopOutlined,
+    SmileOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import * as React from 'react';
@@ -41,6 +42,7 @@ export const Icon: Icons = {
     search: <SearchOutlined />,
     setting: <SettingOutlined />,
     shop: <ShopOutlined />,
+    smile: <SmileOutlined style={{ color: '#108ee9' }} />,
     supplier: <AuditOutlined />,
     uom: <GoldOutlined />,
     user: <UserOutlined />,

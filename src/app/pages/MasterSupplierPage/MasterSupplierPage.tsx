@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Page } from 'src/app/shell/Page';
+
 import { Supplier, SupplierData } from 'src/core/api';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
@@ -41,28 +43,30 @@ export const MasterSupplierPage = () => {
     }
 
     return (
-        <MasterCard header={{ link: '/supplier', title: 'Supplier' }} initSection='supplier'>
-            {({ action, recordKey, handleRecord, handleResetAction }) =>
-                ['list', 'active', 'inactive'].includes(action) ? (
-                    <MasterList
-                        action={action}
-                        columns={supplierColumns}
-                        mutation={{
-                            delete: deleteSupplier,
-                            update: updateManySupplier,
-                        }}
-                        query={{
-                            list: getSupplierList,
-                            refetch: SUPPLIER_LIST,
-                        }}
-                        handleData={handleData}
-                        handleRecord={handleRecord}
-                        handleResetAction={handleResetAction}
-                    />
-                ) : (
-                    <MasterSupplierForm formType={action} recordKey={recordKey} />
-                )
-            }
-        </MasterCard>
+        <Page>
+            <MasterCard header={{ link: '/supplier', title: 'Supplier' }} initSection='supplier'>
+                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                    ['list', 'active', 'inactive'].includes(action) ? (
+                        <MasterList
+                            action={action}
+                            columns={supplierColumns}
+                            mutation={{
+                                delete: deleteSupplier,
+                                update: updateManySupplier,
+                            }}
+                            query={{
+                                list: getSupplierList,
+                                refetch: SUPPLIER_LIST,
+                            }}
+                            handleData={handleData}
+                            handleRecord={handleRecord}
+                            handleResetAction={handleResetAction}
+                        />
+                    ) : (
+                        <MasterSupplierForm formType={action} recordKey={recordKey} />
+                    )
+                }
+            </MasterCard>
+        </Page>
     );
 };

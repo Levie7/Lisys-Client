@@ -4,8 +4,9 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
+import { USER_BY_ID } from 'src/shared/graphql/User/schema.gql';
+
 import { ROLES } from '../Role/schema.gql';
-import { USER_BY_ID } from './schema.gql';
 import { UserForm } from './UserForm';
 
 Object.defineProperty(window, 'matchMedia', {

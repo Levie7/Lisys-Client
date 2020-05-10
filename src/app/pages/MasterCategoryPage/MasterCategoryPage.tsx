@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Page } from 'src/app/shell/Page';
+
 import { Category, CategoryData } from 'src/core/api';
 
 import { MasterCard } from 'src/modules/Master/containers/MasterCard';
@@ -37,28 +39,30 @@ export const MasterCategoryPage = () => {
     }
 
     return (
-        <MasterCard header={{ link: '/category', title: 'Category' }} initSection='category'>
-            {({ action, recordKey, handleRecord, handleResetAction }) =>
-                ['list', 'active', 'inactive'].includes(action) ? (
-                    <MasterList
-                        action={action}
-                        columns={categoryColumns}
-                        mutation={{
-                            delete: deleteCategory,
-                            update: updateManyCategory,
-                        }}
-                        query={{
-                            list: getCategoryList,
-                            refetch: CATEGORY_LIST,
-                        }}
-                        handleData={handleData}
-                        handleRecord={handleRecord}
-                        handleResetAction={handleResetAction}
-                    />
-                ) : (
-                    <MasterCategoryForm formType={action} recordKey={recordKey} />
-                )
-            }
-        </MasterCard>
+        <Page>
+            <MasterCard header={{ link: '/category', title: 'Category' }} initSection='category'>
+                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                    ['list', 'active', 'inactive'].includes(action) ? (
+                        <MasterList
+                            action={action}
+                            columns={categoryColumns}
+                            mutation={{
+                                delete: deleteCategory,
+                                update: updateManyCategory,
+                            }}
+                            query={{
+                                list: getCategoryList,
+                                refetch: CATEGORY_LIST,
+                            }}
+                            handleData={handleData}
+                            handleRecord={handleRecord}
+                            handleResetAction={handleResetAction}
+                        />
+                    ) : (
+                        <MasterCategoryForm formType={action} recordKey={recordKey} />
+                    )
+                }
+            </MasterCard>
+        </Page>
     );
 };

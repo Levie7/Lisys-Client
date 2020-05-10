@@ -4,5 +4,6 @@ export const createInMemoryStorage = <T>(name: string) => {
     return {
         get: () => parser(localStorage.getItem(name)),
         set: (value: T) => localStorage.setItem(name, formatter(value)),
+        delete: () => localStorage.removeItem(name),
     };
 };

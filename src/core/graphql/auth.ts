@@ -1,10 +1,12 @@
 import { setContext } from 'apollo-link-context';
 
+import { graphqlClient } from 'src/app';
+
 import { createInMemoryStorage } from 'src/core/storage';
 
-import { gql, Module, useQuery } from './core';
+import { gql, Module, useQuery, useMutation } from './core';
 
-const TOKEN_STORAGE_KEY = 'token';
+const TOKEN_STORAGE_KEY = 'auth';
 
 export const createAuthLink = ({ storage }: { storage: { getToken: () => string | null } }) =>
     setContext((_, { headers, ...prevContext }: { headers: { [key: string]: string } }) => {
@@ -23,6 +25,7 @@ export const createAuthTokenStorage = () => {
     return {
         getToken: storage.get,
         setToken: storage.set,
+        deleteToken: storage.delete,
     };
 };
 
@@ -45,12 +48,34 @@ export const createAuthModule: (dependencies: {
 export const useSession = () =>
     useQuery<{ isSessionAuthenticated: boolean }>(gql`
         query IsSessionAuthenticated {
-            isSessionAuthenticated @client(always: true)
+            isSessionAuthenticated @client
         }
     `);
+
+export const UPDATE_AUTH = gql`
+    mutation updateAuth($payload: UpdateAuthPayload) {
+        updateAuth(payload: $payload) @client
+    }
+`;
+
+export const updateAuth = () =>
+    useMutation<{ updateAuth: string }>(UPDATE_AUTH, {
+        update(cache, { data }) {
+            let token = data?.updateAuth;
+            if (token) {
+                createAuthTokenStorage().setToken(token);
+            }
+        },
+    });
 
 export const useIsAuthenticated = () => {
     let { loading, error, data } = useSession();
     if (loading || error) return false;
     return data?.isSessionAuthenticated || false;
+};
+
+export const exitSession = () => {
+    createAuthTokenStorage().deleteToken();
+    localStorage.removeItem('greeting');
+    graphqlClient.cache.writeData(createAuthData(false));
 };

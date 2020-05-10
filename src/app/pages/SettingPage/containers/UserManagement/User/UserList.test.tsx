@@ -4,8 +4,9 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
+import { USER_LIST } from 'src/shared/graphql/User/schema.gql';
+
 import { mockUser } from './mocks/mockData';
-import { USER_LIST } from './schema.gql';
 import { UserList } from './UserList';
 
 let mockClient = createMockClient();
