@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Route, Router } from 'src/core/route';
 
+import { BuyPriceHistoryPage } from './pages/BuyPriceHistoryPage/chunk';
 import { HomePage } from './pages/HomePage/chunk';
 import { MasterCategoryPage } from './pages/MasterCategoryPage/chunk';
 import { MasterMedicinePage } from './pages/MasterMedicinePage/chunk';
@@ -25,6 +26,12 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
         <Route authenticate component={MasterSupplierPage} exact={true} path='/supplier' />
 
         <Route authenticate component={PurchaseListPage} exact={true} path='/purchase_list' />
+        <Route
+            authenticate
+            component={BuyPriceHistoryPage}
+            exact={true}
+            path='/buy_price_history'
+        />
 
         <Route component={LoginPage} exact={true} path='/login' />
     </Router>

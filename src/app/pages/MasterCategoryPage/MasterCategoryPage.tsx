@@ -45,13 +45,14 @@ export const MasterCategoryPage = () => {
             <MasterCard
                 header={{ link: '/category', title: 'Category' }}
                 initSection='category'
+                isCrud
                 module='Master'
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list', 'active', 'inactive'].includes(action) ? (
+                    ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
-                            action={action}
+                            action={action!}
                             auth={storage.getToken()}
                             columns={categoryColumns}
                             hasStatus
@@ -64,13 +65,13 @@ export const MasterCategoryPage = () => {
                                 refetch: CATEGORY_LIST,
                             }}
                             handleData={handleData}
-                            handleRecord={handleRecord}
-                            handleResetAction={handleResetAction}
+                            handleRecord={handleRecord!}
+                            handleResetAction={handleResetAction!}
                         />
                     ) : (
                         <MasterCategoryForm
                             auth={storage.getToken()}
-                            formType={action}
+                            formType={action!}
                             recordKey={recordKey}
                         />
                     )

@@ -19,21 +19,29 @@ interface MasterCardProps {
         handleRecord,
         handleResetAction,
     }: {
-        action: Action;
-        recordKey: string;
-        handleRecord: (recordKey: string) => void;
-        handleResetAction: () => void;
+        action?: Action;
+        recordKey?: string;
+        handleRecord?: (recordKey: string) => void;
+        handleResetAction?: () => void;
     }) => React.ReactNode;
     header: {
         link: string;
         title: string;
     };
     initSection: string;
+    isCrud?: boolean;
     module: string;
     showAction?: boolean;
 }
 
-export function MasterCard({ children, header, initSection, module, showAction }: MasterCardProps) {
+export function MasterCard({
+    children,
+    header,
+    initSection,
+    isCrud,
+    module,
+    showAction,
+}: MasterCardProps) {
     let [isInit, setInit] = React.useState(false);
     let [recordKey, setRecordKey] = React.useState('');
     let crud = useCrud();
@@ -60,9 +68,18 @@ export function MasterCard({ children, header, initSection, module, showAction }
                     title={header.title}
                     to={header.link}
                 />
-                <Crud showAction={showAction}>
-                    {children({ action: crud.action, recordKey, handleRecord, handleResetAction })}
-                </Crud>
+                {isCrud ? (
+                    <Crud showAction={showAction}>
+                        {children({
+                            action: crud.action,
+                            recordKey,
+                            handleRecord,
+                            handleResetAction,
+                        })}
+                    </Crud>
+                ) : (
+                    children({})
+                )}
             </Card>
         </div>
     );

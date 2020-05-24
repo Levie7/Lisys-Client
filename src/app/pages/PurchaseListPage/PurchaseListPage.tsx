@@ -115,12 +115,13 @@ export const PurchaseListPage = () => {
             <MasterCard
                 header={{ link: '/purchase_list', title: 'Purchase' }}
                 initSection='purchase'
+                isCrud
                 module='Purchasing'
             >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list'].includes(action) ? (
+                    ['list'].includes(action!) ? (
                         <MasterList
-                            action={action}
+                            action={action!}
                             auth={storage.getToken()}
                             columns={purchaseListColumns}
                             customFilter={{
@@ -136,13 +137,13 @@ export const PurchaseListPage = () => {
                             }}
                             softDelete
                             handleData={handleData}
-                            handleRecord={handleRecord}
-                            handleResetAction={handleResetAction}
+                            handleRecord={handleRecord!}
+                            handleResetAction={handleResetAction!}
                         />
                     ) : (
                         <PurchaseListForm
                             auth={storage.getToken()}
-                            formType={action}
+                            formType={action!}
                             recordKey={recordKey}
                         />
                     )

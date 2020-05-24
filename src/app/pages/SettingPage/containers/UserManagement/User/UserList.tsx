@@ -112,6 +112,7 @@ export function UserList({ handleRecord }: UserListProps) {
                 dataSource={users.list}
                 handleDelete={handleDelete}
                 handleRecord={handleRecord}
+                hasAction
                 loading={queryDataList.loading}
                 onChange={handleTableChange}
                 pagination={page}

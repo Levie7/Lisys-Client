@@ -55,13 +55,14 @@ export const MasterSupplierPage = () => {
             <MasterCard
                 header={{ link: '/supplier', title: 'Supplier' }}
                 initSection='supplier'
+                isCrud
                 module='Master'
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list', 'active', 'inactive'].includes(action) ? (
+                    ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
-                            action={action}
+                            action={action!}
                             auth={storage.getToken()}
                             columns={supplierColumns}
                             hasStatus
@@ -74,13 +75,13 @@ export const MasterSupplierPage = () => {
                                 refetch: SUPPLIER_LIST,
                             }}
                             handleData={handleData}
-                            handleRecord={handleRecord}
-                            handleResetAction={handleResetAction}
+                            handleRecord={handleRecord!}
+                            handleResetAction={handleResetAction!}
                         />
                     ) : (
                         <MasterSupplierForm
                             auth={storage.getToken()}
-                            formType={action}
+                            formType={action!}
                             recordKey={recordKey}
                         />
                     )

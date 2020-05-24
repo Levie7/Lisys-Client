@@ -8,14 +8,16 @@ import { filterStatus } from './constants';
 
 interface CrudListTableProps extends TableProps {
     columns: ColumnProps[];
+    hasAction?: boolean;
     hasStatus?: boolean;
 
     handleDelete?: (record: any) => void;
-    handleRecord: (recordKey: string, record?: any) => void;
+    handleRecord?: (recordKey: string, record?: any) => void;
 }
 
 function CrudListTablePure({
     columns,
+    hasAction,
     hasStatus,
     handleDelete,
     handleRecord,
@@ -44,27 +46,29 @@ function CrudListTablePure({
                     render={(text) => <Status text={text} />}
                 />
             )}
-            <Column
-                title='Action'
-                key='action'
-                render={(text, record) => (
-                    <>
-                        <TableAction
-                            iconType='select'
-                            record={record}
-                            title='Select'
-                            onClick={handleRecord}
-                        />
-                        <TableAction
-                            iconType='edit'
-                            record={record}
-                            title='Edit'
-                            onClick={handleRecord}
-                        />
-                        <Delete confirm={handleDelete!} recordKey={record} />
-                    </>
-                )}
-            />
+            {hasAction && (
+                <Column
+                    title='Action'
+                    key='action'
+                    render={(text, record) => (
+                        <>
+                            <TableAction
+                                iconType='select'
+                                record={record}
+                                title='Select'
+                                onClick={handleRecord}
+                            />
+                            <TableAction
+                                iconType='edit'
+                                record={record}
+                                title='Edit'
+                                onClick={handleRecord}
+                            />
+                            <Delete confirm={handleDelete!} recordKey={record} />
+                        </>
+                    )}
+                />
+            )}
         </Table>
     );
 }

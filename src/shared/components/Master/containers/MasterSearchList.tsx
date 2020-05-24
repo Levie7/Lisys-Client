@@ -8,14 +8,16 @@ import { queryList } from 'src/shared/graphql';
 
 interface MasterSearchListProps {
     columns: ColumnProps[];
+    customFilter?: { components: React.ReactNode; value: any };
     query: any;
 
     handleData: (data: any) => { list: any[]; total: number };
-    handleRecord: (recordKey: string, record?: any) => void;
+    handleRecord?: (recordKey: string, record?: any) => void;
 }
 
 export function MasterSearchList({
     columns,
+    customFilter,
     query,
     handleData,
     handleRecord,
@@ -32,6 +34,7 @@ export function MasterSearchList({
         query,
         variables: {
             payload: {
+                customFilter: customFilter && customFilter.value,
                 filters,
                 limit: page.pageSize,
                 page: page.current,
@@ -63,11 +66,12 @@ export function MasterSearchList({
 
     return (
         <>
-            <CrudFilter onSearch={handleSearch} />
+            <CrudFilter customFilter={customFilter?.components} onSearch={handleSearch} />
             <CrudListTable
                 columns={columns}
                 dataSource={data.list}
                 handleRecord={handleRecord}
+                hasAction
                 loading={queryDataList.loading}
                 onChange={handleTableChange}
                 pagination={page}

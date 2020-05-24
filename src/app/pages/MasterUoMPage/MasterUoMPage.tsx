@@ -40,13 +40,14 @@ export const MasterUoMPage = () => {
             <MasterCard
                 header={{ link: '/uom', title: 'UoM' }}
                 initSection='uom'
+                isCrud
                 module='Master'
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list', 'active', 'inactive'].includes(action) ? (
+                    ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
-                            action={action}
+                            action={action!}
                             auth={storage.getToken()}
                             columns={uomColumns}
                             hasStatus
@@ -59,13 +60,13 @@ export const MasterUoMPage = () => {
                                 refetch: UOM_LIST,
                             }}
                             handleData={handleData}
-                            handleRecord={handleRecord}
-                            handleResetAction={handleResetAction}
+                            handleRecord={handleRecord!}
+                            handleResetAction={handleResetAction!}
                         />
                     ) : (
                         <MasterUoMForm
                             auth={storage.getToken()}
-                            formType={action}
+                            formType={action!}
                             recordKey={recordKey}
                         />
                     )

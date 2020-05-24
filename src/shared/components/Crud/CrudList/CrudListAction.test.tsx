@@ -30,7 +30,7 @@ describe('CrudListAction', () => {
             __typename: 'Crud',
         },
         showAction: true,
-        showBack: true,
+        showBack: false,
     };
 
     it('should render CrudListAction', () => {

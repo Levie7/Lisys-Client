@@ -45,13 +45,14 @@ export function MasterVariantPage() {
             <MasterCard
                 header={{ link: '/variant', title: 'Variant' }}
                 initSection='variant'
+                isCrud
                 module='Master'
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list', 'active', 'inactive'].includes(action) ? (
+                    ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
-                            action={action}
+                            action={action!}
                             auth={storage.getToken()}
                             columns={variantColumns}
                             hasStatus
@@ -64,13 +65,13 @@ export function MasterVariantPage() {
                                 refetch: VARIANT_LIST,
                             }}
                             handleData={handleData}
-                            handleRecord={handleRecord}
-                            handleResetAction={handleResetAction}
+                            handleRecord={handleRecord!}
+                            handleResetAction={handleResetAction!}
                         />
                     ) : (
                         <MasterVariantForm
                             auth={storage.getToken()}
-                            formType={action}
+                            formType={action!}
                             recordKey={recordKey}
                         />
                     )

@@ -164,6 +164,7 @@ export function MasterList({
                 dataSource={data.list}
                 handleDelete={handleDelete}
                 handleRecord={handleRecord}
+                hasAction
                 hasStatus={hasStatus}
                 loading={queryDataList.loading}
                 onChange={handleTableChange}

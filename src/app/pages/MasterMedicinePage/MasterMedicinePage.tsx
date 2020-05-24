@@ -25,13 +25,14 @@ export const MasterMedicinePage = () => {
             <MasterCard
                 header={{ link: '/medicine', title: 'Medicine' }}
                 initSection='medicine'
+                isCrud
                 module='Master'
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list', 'active', 'inactive'].includes(action) ? (
+                    ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
-                            action={action}
+                            action={action!}
                             auth={storage.getToken()}
                             columns={medicineColumns}
                             hasStatus
@@ -44,13 +45,13 @@ export const MasterMedicinePage = () => {
                                 refetch: MEDICINE_LIST,
                             }}
                             handleData={handleMedicineData}
-                            handleRecord={handleRecord}
-                            handleResetAction={handleResetAction}
+                            handleRecord={handleRecord!}
+                            handleResetAction={handleResetAction!}
                         />
                     ) : (
                         <MasterMedicineForm
                             auth={storage.getToken()}
-                            formType={action}
+                            formType={action!}
                             recordKey={recordKey}
                         />
                     )
