@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { Select } from '../Select';
+import { Select } from './Select';
 
 describe('Select', () => {
     let wrap: any;

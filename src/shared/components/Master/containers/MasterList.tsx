@@ -13,6 +13,7 @@ interface MasterListProps {
     action: string;
     auth: string | null;
     columns: ColumnProps[];
+    customFilter?: { components: React.ReactNode; value: any };
     hasStatus?: boolean;
     mutation: {
         delete: any;
@@ -33,6 +34,7 @@ export function MasterList({
     action,
     auth,
     columns,
+    customFilter,
     hasStatus,
     mutation,
     query,
@@ -54,6 +56,7 @@ export function MasterList({
         query: query.list,
         variables: {
             payload: {
+                customFilter: customFilter && customFilter.value,
                 filters,
                 limit: page.pageSize,
                 page: page.current,
@@ -155,7 +158,7 @@ export function MasterList({
 
     return (
         <>
-            <CrudFilter onSearch={handleSearch} />
+            <CrudFilter customFilter={customFilter?.components} onSearch={handleSearch} />
             <CrudListTable
                 columns={columns}
                 dataSource={data.list}

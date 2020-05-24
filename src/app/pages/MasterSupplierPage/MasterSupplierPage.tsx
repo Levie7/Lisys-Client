@@ -7,10 +7,15 @@ import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
+import {
+    deleteSupplier,
+    getSupplierList,
+    SUPPLIER_LIST,
+    updateManySupplier,
+} from 'src/shared/graphql/Supplier/schema.gql';
 
 import { supplierColumns } from './constants';
 import { MasterSupplierForm } from './MasterSupplierForm';
-import { deleteSupplier, getSupplierList, SUPPLIER_LIST, updateManySupplier } from './schema.gql';
 
 export const MasterSupplierPage = () => {
     let storage = createAuthTokenStorage();

@@ -7,11 +7,16 @@ import { Input, InputArea } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm, queryForm } from 'src/shared/graphql';
+import {
+    createSupplier,
+    getSupplierById,
+    SUPPLIER_BY_ID,
+    updateSupplier,
+} from 'src/shared/graphql/Supplier/schema.gql';
 import { formatNumeric } from 'src/shared/helpers/formatNumeric';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { alertMessage, supplierInfo } from './constants';
-import { createSupplier, getSupplierById, SUPPLIER_BY_ID, updateSupplier } from './schema.gql';
 
 interface MasterSupplierFormProps {
     auth: string | null;

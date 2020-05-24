@@ -2,7 +2,10 @@ import { Select as AntSelect } from 'antd';
 import * as React from 'react';
 
 interface SelectProps {
+    allowClear?: boolean;
+    className?: string;
     defaultValue?: string;
+    placeholder?: React.ReactNode;
     showSearch?: boolean;
 
     onChange?: (value: string, option: any) => void;
@@ -22,14 +25,26 @@ export class Select extends React.PureComponent<SelectProps> {
     }
 
     render() {
-        let { children, defaultValue, onChange, showSearch, ...props } = this.props;
+        let {
+            allowClear,
+            children,
+            className,
+            defaultValue,
+            onChange,
+            placeholder,
+            showSearch,
+            ...props
+        } = this.props;
 
         return (
             <AntSelect
                 {...props}
+                allowClear={allowClear}
+                className={className}
                 defaultValue={defaultValue}
                 filterOption={showSearch && this.handleFilter}
                 onChange={onChange}
+                placeholder={placeholder}
                 showSearch={showSearch}
             >
                 {children}
