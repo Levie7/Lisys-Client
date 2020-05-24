@@ -13,14 +13,16 @@ interface MasterListProps {
     action: string;
     auth: string | null;
     columns: ColumnProps[];
+    hasStatus?: boolean;
     mutation: {
         delete: any;
-        update: any;
+        update?: any;
     };
     query: {
         list: any;
         refetch: any;
     };
+    softDelete?: boolean;
 
     handleData: (data: any) => { list: any[]; total: number };
     handleRecord: (recordKey: string) => void;
@@ -31,8 +33,10 @@ export function MasterList({
     action,
     auth,
     columns,
+    hasStatus,
     mutation,
     query,
+    softDelete,
     handleData,
     handleRecord,
     handleResetAction,
@@ -74,9 +78,10 @@ export function MasterList({
         onChange: handleSelect,
     };
     let mutationDelete = mutationForm({ formType: 'delete', mutations: mutation.delete });
-    let mutationUpdate = mutationForm({ formType: 'update', mutations: mutation.update });
+    let mutationUpdate =
+        mutation.update && mutationForm({ formType: 'update', mutations: mutation.update });
 
-    if (mutationDelete.loading || mutationUpdate.loading) return <Spin />;
+    if (mutationDelete.loading || mutationUpdate?.loading) return <Spin />;
     if (action !== 'list' && hasSelected()) {
         mutationUpdate.action({
             refetchQueries: [
@@ -107,6 +112,9 @@ export function MasterList({
     function handleDelete(record: any) {
         Progress(true);
 
+        let fetchPayload = { id: record.key };
+        let payload = softDelete ? { ...fetchPayload, updated_by: auth } : fetchPayload;
+
         mutationDelete.action({
             refetchQueries: [
                 {
@@ -123,9 +131,7 @@ export function MasterList({
                     },
                 },
             ],
-            variables: {
-                payload: { id: record.key },
-            },
+            variables: { payload },
         });
     }
 
@@ -155,7 +161,7 @@ export function MasterList({
                 dataSource={data.list}
                 handleDelete={handleDelete}
                 handleRecord={handleRecord}
-                hasStatus
+                hasStatus={hasStatus}
                 loading={queryDataList.loading}
                 onChange={handleTableChange}
                 pagination={page}

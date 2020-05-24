@@ -1,15 +1,15 @@
 import { ErrorHandler } from '../utilities/errors';
 
 export function queryList({
-    skip,
     query,
+    skip,
     variables,
 }: {
-    skip?: boolean;
     query: any;
+    skip?: boolean;
     variables?: any;
 }) {
-    let { data, loading } = query({
+    let { data, fetchMore, loading } = query({
         onError(error: any) {
             ErrorHandler(error);
         },
@@ -20,6 +20,7 @@ export function queryList({
 
     return {
         data,
+        fetchMore,
         loading,
     };
 }

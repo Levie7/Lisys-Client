@@ -8,6 +8,7 @@ import { MasterMedicinePage } from './pages/MasterMedicinePage/chunk';
 import { MasterSupplierPage } from './pages/MasterSupplierPage/chunk';
 import { MasterUoMPage } from './pages/MasterUoMPage/chunk';
 import { MasterVariantPage } from './pages/MasterVariantPage/chunk';
+import { PurchaseListPage } from './pages/PurchaseListPage/chunk';
 import { SettingPage } from './pages/SettingPage/chunk';
 import { LoginPage } from './pages/LoginPage/chunk';
 
@@ -22,6 +23,8 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
         <Route authenticate component={MasterCategoryPage} exact={true} path='/category' />
         <Route authenticate component={MasterVariantPage} exact={true} path='/variant' />
         <Route authenticate component={MasterSupplierPage} exact={true} path='/supplier' />
+
+        <Route authenticate component={PurchaseListPage} exact={true} path='/purchase_list' />
 
         <Route component={LoginPage} exact={true} path='/login' />
     </Router>

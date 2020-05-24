@@ -10,8 +10,8 @@ interface CrudListTableProps extends TableProps {
     columns: ColumnProps[];
     hasStatus?: boolean;
 
-    handleDelete: (record: any) => void;
-    handleRecord: (recordKey: string) => void;
+    handleDelete?: (record: any) => void;
+    handleRecord: (recordKey: string, record?: any) => void;
 }
 
 function CrudListTablePure({
@@ -50,12 +50,18 @@ function CrudListTablePure({
                 render={(text, record) => (
                     <>
                         <TableAction
+                            iconType='select'
+                            record={record}
+                            title='Select'
+                            onClick={handleRecord}
+                        />
+                        <TableAction
                             iconType='edit'
                             record={record}
                             title='Edit'
                             onClick={handleRecord}
                         />
-                        <Delete confirm={handleDelete} recordKey={record} />
+                        <Delete confirm={handleDelete!} recordKey={record} />
                     </>
                 )}
             />

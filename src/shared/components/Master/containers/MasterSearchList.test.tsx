@@ -4,14 +4,9 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
-import {
-    CATEGORY_LIST,
-    deleteCategory,
-    getCategoryList,
-    updateManyCategory,
-} from 'src/shared/graphql/Category/schema.gql';
+import { CATEGORY_LIST, getCategoryList } from 'src/shared/graphql/Category/schema.gql';
 
-import { MasterList } from './MasterList';
+import { MasterSearchList } from './MasterSearchList';
 import { mockCategory } from './mocks/mockData';
 
 Object.defineProperty(window, 'matchMedia', {
@@ -32,10 +27,9 @@ let mockDataCategory = {
     list: mockCategory,
     total: 11,
 };
-describe('MasterList', () => {
+describe('MasterSearchList', () => {
     let wrap: any;
     let props = {
-        action: 'list',
         columns: [
             {
                 dataIndex: 'name',
@@ -53,17 +47,9 @@ describe('MasterList', () => {
                 title: 'Status',
             },
         ],
-        mutation: {
-            delete: deleteCategory,
-            update: updateManyCategory,
-        },
-        query: {
-            list: getCategoryList,
-            refetch: CATEGORY_LIST,
-        },
+        query: getCategoryList,
         handleData: jest.fn().mockImplementation(() => mockDataCategory),
         handleRecord: jest.fn(),
-        handleResetAction: jest.fn(),
     };
     let queryHandler = jest
         .fn()
@@ -71,14 +57,14 @@ describe('MasterList', () => {
     mockClient.setRequestHandler(CATEGORY_LIST, queryHandler);
     const Component = ({ properties }: any) => (
         <ApolloProvider client={mockClient}>
-            <MasterList {...properties} />
+            <MasterSearchList {...properties} />
         </ApolloProvider>
     );
     it('should render master list', async () => {
         await act(async () => {
             wrap = mount(<Component properties={props} />);
         });
-        expect(wrap.find('MasterList').exists()).toBeTruthy();
+        expect(wrap.find('MasterSearchList').exists()).toBeTruthy();
     });
 
     describe('when data is loaded', () => {
@@ -92,37 +78,6 @@ describe('MasterList', () => {
             expect(wrap.find('Memo(CrudListTablePure)').exists()).toBeTruthy();
         });
 
-        // describe('when give action to selected data', () => {
-        //     beforeEach(async () => {
-        //         // await act(async () => {
-        //         props = { ...props, action: 'inactive' };
-        //         wrap.find('input.ant-checkbox-input')
-        //             .at(1)
-        //             .simulate('change', {
-        //                 target: { checked: true },
-        //             });
-        //         wrap.setProps({ properties: props });
-        //         console.log(wrap.find('MasterList').props());
-        //         // });
-        //     });
-
-        //     it('should call reset action', () => {
-        //         expect(wrap.find('MasterList').props().handleResetAction).toHaveBeenCalled();
-        //     });
-        // });
-
-        describe('when action is active', () => {
-            beforeEach(async () => {
-                props = { ...props, action: 'active' };
-                await act(async () => {
-                    wrap = mount(<Component properties={props} />);
-                });
-            });
-            test('if doesnt have selected item should call reset action', () => {
-                expect(wrap.find('MasterList').props().handleResetAction).toHaveBeenCalled();
-            });
-        });
-
         describe('when change page 2', () => {
             beforeEach(() => {
                 wrap.update();
@@ -133,14 +88,19 @@ describe('MasterList', () => {
             });
         });
 
-        describe('when deleting a data', () => {
+        describe('when search', () => {
             beforeEach(() => {
-                wrap.find('#TableAction-delete-id1').simulate('click');
-                wrap.find('button.ant-btn-primary').simulate('click');
+                wrap.find('input#Search').simulate('change', {
+                    target: { name: 'search', value: 'medicine' },
+                });
+                wrap.find('input#Search').simulate('keydown', {
+                    keyCode: 13,
+                    which: 13,
+                    charCode: 0,
+                });
             });
-
-            it('remove list data depend on id', () => {
-                expect(wrap.find('BodyRow').exists()).toBeFalsy();
+            it('should reset page to 1', () => {
+                expect(wrap.find('Memo(CrudListTablePure)').props().pagination.current).toEqual(1);
             });
         });
     });

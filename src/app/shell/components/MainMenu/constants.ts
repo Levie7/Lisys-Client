@@ -70,4 +70,41 @@ export const menuData = [
         status: 'Active',
         url: '/master',
     },
+    {
+        children: [
+            {
+                icon: 'list',
+                key: 'Purchase List',
+                name: 'Purchase List',
+                status: 'Active',
+                url: '/purchase_list',
+            },
+            {
+                icon: 'history',
+                key: 'Buy Price History',
+                name: 'Buy Price History',
+                status: 'Active',
+                url: '/buy_price_history',
+            },
+            {
+                icon: 'payment',
+                key: 'Purchase Payment',
+                name: 'Purchase Payment',
+                status: 'Active',
+                url: '/purchase_payment',
+            },
+            {
+                icon: 'return',
+                key: 'Purchase Return',
+                name: 'Purchase Return',
+                status: 'Active',
+                url: '/purchase_return',
+            },
+        ],
+        icon: 'transaction',
+        key: 'Purchasing',
+        name: 'Purchasing',
+        status: 'Active',
+        url: '/purchasing',
+    },
 ];

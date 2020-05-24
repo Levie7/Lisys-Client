@@ -39,8 +39,6 @@ export const SUPPLIERS = gql`
         getSuppliers {
             id
             name
-            phone
-            status
         }
     }
 `;

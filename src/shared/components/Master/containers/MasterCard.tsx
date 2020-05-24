@@ -10,6 +10,8 @@ import { handleFetchCrud } from 'src/shared/components/Crud/helpers';
 import { MasterContentHeader } from '../components/MasterContentHeader';
 import { initialize } from '../helpers';
 
+require('./MasterCard.sass');
+
 interface MasterCardProps {
     children: ({
         action,
@@ -27,9 +29,11 @@ interface MasterCardProps {
         title: string;
     };
     initSection: string;
+    module: string;
+    showAction?: boolean;
 }
 
-export function MasterCard({ children, header, initSection }: MasterCardProps) {
+export function MasterCard({ children, header, initSection, module, showAction }: MasterCardProps) {
     let [isInit, setInit] = React.useState(false);
     let [recordKey, setRecordKey] = React.useState('');
     let crud = useCrud();
@@ -49,9 +53,14 @@ export function MasterCard({ children, header, initSection }: MasterCardProps) {
 
     return (
         <div className='d-flex fj-center m-4'>
-            <Card>
-                <MasterContentHeader action={crud.action} title={header.title} to={header.link} />
-                <Crud showAction>
+            <Card className='MasterCard'>
+                <MasterContentHeader
+                    action={crud.action}
+                    module={module}
+                    title={header.title}
+                    to={header.link}
+                />
+                <Crud showAction={showAction}>
                     {children({ action: crud.action, recordKey, handleRecord, handleResetAction })}
                 </Crud>
             </Card>

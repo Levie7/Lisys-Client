@@ -41,6 +41,8 @@ describe('MasterCard', () => {
             title: 'Variant',
         },
         initSection: 'variant',
+        module: 'Master',
+        showAction: true,
     };
     let queryHandler = jest.fn().mockResolvedValue({ data: { getCrud: crud } });
     mockClient.setRequestHandler(CRUD, queryHandler);

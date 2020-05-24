@@ -1,15 +1,17 @@
 import { Medicine } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
-export const MEDICINE_BY_ID = gql`
-    query getMedicineById($id: ID!) {
-        getMedicineById(id: $id) {
+export const MEDICINE_BY_QUERY = gql`
+    query getMedicineByQuery($payload: QueryPayload) {
+        getMedicineByQuery(payload: $payload) {
             barcode
             buy_price
             category {
                 id
+                name
             }
             code
+            id
             min_stock
             name
             sell_price
@@ -17,9 +19,11 @@ export const MEDICINE_BY_ID = gql`
             stock
             uom {
                 id
+                name
             }
             variant {
                 id
+                name
             }
         }
     }
@@ -32,6 +36,7 @@ export const MEDICINE_LIST = gql`
                 barcode
                 buy_price
                 category {
+                    id
                     name
                 }
                 code
@@ -42,9 +47,11 @@ export const MEDICINE_LIST = gql`
                 status
                 stock
                 uom {
+                    id
                     name
                 }
                 variant {
+                    id
                     name
                 }
             }
@@ -110,8 +117,8 @@ const UPDATE_MEDICINE = gql`
     }
 `;
 
-export const getMedicineById = (options: any) =>
-    useQuery<{ getMedicineById: Medicine }>(MEDICINE_BY_ID, options);
+export const getMedicineByQuery = (options: any) =>
+    useQuery<{ getMedicineByQuery: Medicine }>(MEDICINE_BY_QUERY, options);
 export const getMedicineList = (options: any) =>
     useQuery<{ getMedicineList: Medicine[] }>(MEDICINE_LIST, options);
 export const getMedicines = (options: any) =>

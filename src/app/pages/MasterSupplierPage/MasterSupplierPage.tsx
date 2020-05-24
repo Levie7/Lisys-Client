@@ -5,8 +5,8 @@ import { Page } from 'src/app/shell/Page';
 import { Supplier, SupplierData } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
-import { MasterCard } from 'src/modules/Master/containers/MasterCard';
-import { MasterList } from 'src/modules/Master/containers/MasterList';
+import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
+import { MasterList } from 'src/shared/components/Master/containers/MasterList';
 
 import { supplierColumns } from './constants';
 import { MasterSupplierForm } from './MasterSupplierForm';
@@ -47,13 +47,19 @@ export const MasterSupplierPage = () => {
 
     return (
         <Page>
-            <MasterCard header={{ link: '/supplier', title: 'Supplier' }} initSection='supplier'>
+            <MasterCard
+                header={{ link: '/supplier', title: 'Supplier' }}
+                initSection='supplier'
+                module='Master'
+                showAction
+            >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
                     ['list', 'active', 'inactive'].includes(action) ? (
                         <MasterList
                             action={action}
                             auth={storage.getToken()}
                             columns={supplierColumns}
+                            hasStatus
                             mutation={{
                                 delete: deleteSupplier,
                                 update: updateManySupplier,

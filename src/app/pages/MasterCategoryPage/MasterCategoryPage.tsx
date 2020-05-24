@@ -5,9 +5,8 @@ import { Page } from 'src/app/shell/Page';
 import { Category, CategoryData } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
-import { MasterCard } from 'src/modules/Master/containers/MasterCard';
-import { MasterList } from 'src/modules/Master/containers/MasterList';
-
+import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
+import { MasterList } from 'src/shared/components/Master/containers/MasterList';
 import {
     CATEGORY_LIST,
     deleteCategory,
@@ -43,13 +42,19 @@ export const MasterCategoryPage = () => {
 
     return (
         <Page>
-            <MasterCard header={{ link: '/category', title: 'Category' }} initSection='category'>
+            <MasterCard
+                header={{ link: '/category', title: 'Category' }}
+                initSection='category'
+                module='Master'
+                showAction
+            >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
                     ['list', 'active', 'inactive'].includes(action) ? (
                         <MasterList
                             action={action}
                             auth={storage.getToken()}
                             columns={categoryColumns}
+                            hasStatus
                             mutation={{
                                 delete: deleteCategory,
                                 update: updateManyCategory,

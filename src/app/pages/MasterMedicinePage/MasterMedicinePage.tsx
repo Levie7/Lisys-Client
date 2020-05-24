@@ -2,59 +2,39 @@ import React from 'react';
 
 import { Page } from 'src/app/shell/Page';
 
-import { Medicine, MedicineData } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
-import { MasterCard } from 'src/modules/Master/containers/MasterCard';
-import { MasterList } from 'src/modules/Master/containers/MasterList';
-
-import { Currency } from 'src/shared/helpers/formatCurrency';
-import { formatCommaValue } from 'src/shared/helpers/formatValue';
+import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
+import { MasterList } from 'src/shared/components/Master/containers/MasterList';
+import { handleMedicineData } from 'src/shared/components/Master/helpers';
+import {
+    deleteMedicine,
+    getMedicineList,
+    MEDICINE_LIST,
+    updateManyMedicine,
+} from 'src/shared/graphql/Medicine/schema.gql';
 
 import { medicineColumns } from './constants';
 import { MasterMedicineForm } from './MasterMedicineForm';
-import { deleteMedicine, getMedicineList, MEDICINE_LIST, updateManyMedicine } from './schema.gql';
 
 export const MasterMedicinePage = () => {
     let storage = createAuthTokenStorage();
 
-    function handleData(data?: any): { list: MedicineData[]; total: number } {
-        let medicine = data?.getMedicineList.data;
-        let total = data?.getMedicineList.total;
-        if (!medicine || !medicine.length) {
-            return { list: [], total: 0 };
-        }
-
-        return {
-            list: medicine.map((medicine: Medicine) => {
-                return {
-                    barcode: medicine.barcode,
-                    buy_price: Currency(formatCommaValue(medicine.buy_price)),
-                    category_name: medicine.category!.name,
-                    code: medicine.code,
-                    key: medicine.id!,
-                    min_stock: medicine.min_stock,
-                    name: medicine.name,
-                    sell_price: Currency(formatCommaValue(medicine.sell_price)),
-                    status: medicine.status,
-                    stock: medicine.stock,
-                    uom_name: medicine.uom!.name,
-                    variant_name: medicine.variant!.name,
-                };
-            }),
-            total,
-        };
-    }
-
     return (
         <Page>
-            <MasterCard header={{ link: '/medicine', title: 'Medicine' }} initSection='medicine'>
+            <MasterCard
+                header={{ link: '/medicine', title: 'Medicine' }}
+                initSection='medicine'
+                module='Master'
+                showAction
+            >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
                     ['list', 'active', 'inactive'].includes(action) ? (
                         <MasterList
                             action={action}
                             auth={storage.getToken()}
                             columns={medicineColumns}
+                            hasStatus
                             mutation={{
                                 delete: deleteMedicine,
                                 update: updateManyMedicine,
@@ -63,7 +43,7 @@ export const MasterMedicinePage = () => {
                                 list: getMedicineList,
                                 refetch: MEDICINE_LIST,
                             }}
-                            handleData={handleData}
+                            handleData={handleMedicineData}
                             handleRecord={handleRecord}
                             handleResetAction={handleResetAction}
                         />

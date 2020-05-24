@@ -5,11 +5,11 @@ import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
 import { CATEGORIES } from 'src/shared/graphql/Category/schema.gql';
+import { MEDICINE_BY_QUERY } from 'src/shared/graphql/Medicine/schema.gql';
 import { UOMS } from 'src/shared/graphql/UoM/schema.gql';
 import { VARIANTS } from 'src/shared/graphql/Variant/schema.gql';
 
 import { MasterMedicineForm } from './MasterMedicineForm';
-import { MEDICINE_BY_ID } from './schema.gql';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -30,7 +30,7 @@ let mockInitialValues = {
     buy_price: '123',
     category: 'id1',
     code: 'code1',
-    key: undefined,
+    key: 'id1',
     min_stock: '1',
     name: 'name1',
     percentage: '0',
@@ -90,13 +90,15 @@ describe('MasterMedicineForm', () => {
     };
     let queryHandler = jest.fn().mockResolvedValue({
         data: {
-            getMedicineById: {
+            getMedicineByQuery: {
                 barcode: '123',
                 buy_price: '123',
                 category: {
                     id: 'id1',
+                    name: 'category1',
                 },
                 code: 'code1',
+                id: 'id1',
                 min_stock: '1',
                 name: 'name1',
                 sell_price: '123',
@@ -104,9 +106,11 @@ describe('MasterMedicineForm', () => {
                 stock: '1',
                 uom: {
                     id: 'id1',
+                    name: 'uom1',
                 },
                 variant: {
                     id: 'id1',
+                    name: 'variant1',
                 },
             },
         },
@@ -119,7 +123,7 @@ describe('MasterMedicineForm', () => {
     mockClient.setRequestHandler(VARIANTS, queryHandlerVariant);
     mockClient.setRequestHandler(UOMS, queryHandlerUoM);
     mockClient.setRequestHandler(CATEGORIES, queryHandlerCategory);
-    mockClient.setRequestHandler(MEDICINE_BY_ID, queryHandler);
+    mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandler);
 
     it('should render master medicine page and master card', async () => {
         await act(async () => {
