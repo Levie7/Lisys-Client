@@ -57,7 +57,6 @@ export const PURCHASING_LIST = gql`
                     id
                     name
                 }
-                status
             }
             total
         }

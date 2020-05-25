@@ -86,3 +86,34 @@ export const purchaseDetailColumns = [
         title: 'Sub Total',
     },
 ];
+
+export const purchaseSearchListColumns = [
+    {
+        dataIndex: 'no',
+        key: 'no',
+        sorter: true,
+        title: 'Transaction No',
+    },
+    {
+        dataIndex: 'date',
+        key: 'date',
+        sorter: true,
+        title: 'Date',
+    },
+    {
+        dataIndex: 'due_date',
+        key: 'due_date',
+        sorter: true,
+        title: 'Due Date',
+    },
+    {
+        dataIndex: 'grand_total',
+        key: 'grand_total',
+        title: 'Total',
+    },
+    {
+        dataIndex: 'credit_total',
+        key: 'credit_total',
+        title: 'Credit Total',
+    },
+];

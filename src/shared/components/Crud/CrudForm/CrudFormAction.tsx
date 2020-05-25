@@ -18,6 +18,6 @@ export const CrudFormAction = React.memo<CrudFormActionProps>(({ crud }) => (
                 title='Back'
             />
         </div>
-        <Divider orientation='left'> {Capitalized(crud.section)} Form </Divider>
+        <Divider orientation='left'> {Capitalized(crud.section.replace(/_/g, ' '))} Form </Divider>
     </>
 ));

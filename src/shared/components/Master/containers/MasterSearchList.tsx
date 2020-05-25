@@ -8,7 +8,7 @@ import { queryList } from 'src/shared/graphql';
 
 interface MasterSearchListProps {
     columns: ColumnProps[];
-    customFilter?: { components: React.ReactNode; value: any };
+    customFilter?: { components?: React.ReactNode; value: any };
     query: any;
 
     handleData: (data: any) => { list: any[]; total: number };

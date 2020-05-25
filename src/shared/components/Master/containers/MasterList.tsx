@@ -124,6 +124,7 @@ export function MasterList({
                     query: query.refetch,
                     variables: {
                         payload: {
+                            customFilter: customFilter && customFilter.value,
                             filters,
                             limit: page.pageSize,
                             page: page.current,

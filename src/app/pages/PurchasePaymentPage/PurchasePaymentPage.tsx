@@ -3,29 +3,31 @@ import React from 'react';
 
 import { Page } from 'src/app/shell/Page';
 
+import { PurchasePayment, PurchasePaymentData } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { DateRangePicker } from 'src/shared/components/DatePicker';
 import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
-import { handlePurchasingData } from 'src/shared/components/Purchasing/helpers';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { useUIContext } from 'src/shared/contexts/UIContext';
 import { queryForm } from 'src/shared/graphql';
-import {
-    deletePurchasing,
-    getPurchasingList,
-    PURCHASING_LIST,
-} from 'src/shared/graphql/Purchasing/schema.gql';
 import { getSuppliers } from 'src/shared/graphql/Supplier/schema.gql';
-import { formatDate, formatDefaultDate } from 'src/shared/helpers/formatDate';
+import { Currency } from 'src/shared/helpers/formatCurrency';
+import {
+    convertMilisecondsToDate,
+    formatDate,
+    formatDefaultDate,
+} from 'src/shared/helpers/formatDate';
+import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { purchaseListColumns } from './constants';
-import { PurchaseListForm } from './PurchaseListForm';
+import { purchasePaymentColumns } from './constants';
+import { PurchasePaymentForm } from './PurchasePaymentForm';
+import { deletePurchasePayment, getPurchasePaymentList, PURCHASE_PAYMENT_LIST } from './schema.gql';
 
-export const PurchaseListPage = () => {
+export const PurchasePaymentPage = () => {
     let storage = createAuthTokenStorage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -42,6 +44,31 @@ export const PurchaseListPage = () => {
             end_date: date.end_date,
             start_date: date.start_date,
             supplier,
+        };
+    }
+
+    function handleData(data?: any): { list: PurchasePaymentData[]; total: number } {
+        let purchasePayment = data?.getPurchasePaymentList.data;
+        let total = data?.getPurchasePaymentList.total;
+        if (!purchasePayment || !purchasePayment.length) {
+            return { list: [], total: 0 };
+        }
+
+        return {
+            list: purchasePayment.map((purchasePayment: PurchasePayment) => {
+                return {
+                    key: purchasePayment.id!,
+                    no: purchasePayment.no,
+                    date: convertMilisecondsToDate(purchasePayment.date),
+                    supplier_name: purchasePayment.supplier!.name,
+                    payment_method: purchasePayment.payment_method,
+                    payment_no: purchasePayment.payment_no,
+                    credit_total: Currency(formatCommaValue(purchasePayment.credit_total)),
+                    payment_total: Currency(formatCommaValue(purchasePayment.payment_total)),
+                    status: purchasePayment.status,
+                };
+            }),
+            total,
         };
     }
 
@@ -86,8 +113,8 @@ export const PurchaseListPage = () => {
     return (
         <Page>
             <MasterCard
-                header={{ link: '/purchase_list', title: 'Purchase' }}
-                initSection='purchase'
+                header={{ link: '/purchase_payment', title: 'Purchase Payment' }}
+                initSection='purchase_payment'
                 isCrud
                 module='Purchasing'
             >
@@ -96,25 +123,25 @@ export const PurchaseListPage = () => {
                         <MasterList
                             action={action!}
                             auth={storage.getToken()}
-                            columns={purchaseListColumns}
+                            columns={purchasePaymentColumns}
                             customFilter={{
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
                             mutation={{
-                                delete: deletePurchasing,
+                                delete: deletePurchasePayment,
                             }}
                             query={{
-                                list: getPurchasingList,
-                                refetch: PURCHASING_LIST,
+                                list: getPurchasePaymentList,
+                                refetch: PURCHASE_PAYMENT_LIST,
                             }}
                             softDelete
-                            handleData={handlePurchasingData}
+                            handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                         />
                     ) : (
-                        <PurchaseListForm
+                        <PurchasePaymentForm
                             auth={storage.getToken()}
                             formType={action!}
                             recordKey={recordKey}

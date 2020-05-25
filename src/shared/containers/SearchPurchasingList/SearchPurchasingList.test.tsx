@@ -6,10 +6,10 @@ import React from 'react';
 
 import { MEDICINE_BY_QUERY } from 'src/shared/graphql/Medicine/schema.gql';
 
-import { SearchMedicineList } from './SearchMedicineList';
+import { SearchPurchasingList } from './SearchPurchasingList';
 
 let mockClient = createMockClient();
-describe('SearchMedicineList', () => {
+describe('SearchPurchasingList', () => {
     let wrap: any;
     let searchMedicine: any;
     const props = {
@@ -44,16 +44,16 @@ describe('SearchMedicineList', () => {
     });
     mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandler);
 
-    it('should render SearchMedicineList', async () => {
+    it('should render SearchPurchasingList', async () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <SearchMedicineList {...props} ref={(ref) => (searchMedicine = ref)} />
+                    <SearchPurchasingList {...props} ref={(ref) => (searchMedicine = ref)} />
                 </ApolloProvider>
             );
         });
 
-        expect(wrap.find('ForwardRef(SearchMedicineListPure)').exists()).toBeTruthy();
+        expect(wrap.find('ForwardRef(SearchPurchasingListPure)').exists()).toBeTruthy();
         expect(searchMedicine.closeList).toBeDefined();
     });
 

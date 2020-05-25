@@ -10,6 +10,7 @@ import { MasterSupplierPage } from './pages/MasterSupplierPage/chunk';
 import { MasterUoMPage } from './pages/MasterUoMPage/chunk';
 import { MasterVariantPage } from './pages/MasterVariantPage/chunk';
 import { PurchaseListPage } from './pages/PurchaseListPage/chunk';
+import { PurchasePaymentPage } from './pages/PurchasePaymentPage/chunk';
 import { SettingPage } from './pages/SettingPage/chunk';
 import { LoginPage } from './pages/LoginPage/chunk';
 
@@ -32,6 +33,7 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
             exact={true}
             path='/buy_price_history'
         />
+        <Route authenticate component={PurchasePaymentPage} exact={true} path='/purchase_payment' />
 
         <Route component={LoginPage} exact={true} path='/login' />
     </Router>

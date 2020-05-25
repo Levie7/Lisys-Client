@@ -11,6 +11,7 @@ import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterSearchList } from 'src/shared/components/Master/containers/MasterSearchList';
 import { SearchMedicineList } from 'src/shared/containers/SearchMedicineList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
+import { getPurchasingList } from 'src/shared/graphql/Purchasing/schema.gql';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import {
     convertMilisecondsToDate,
@@ -21,7 +22,6 @@ import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
 import { buyPriceHistoryColumns } from './constants';
-import { getPurchasingList } from '../PurchaseListPage/schema.gql';
 
 export const BuyPriceHistoryPage = () => {
     let searchMedicine = React.useRef<any>();

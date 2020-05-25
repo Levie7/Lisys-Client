@@ -15,6 +15,12 @@ import { SearchMedicineList } from 'src/shared/containers/SearchMedicineList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
 import { mutationForm, queryForm, queryList } from 'src/shared/graphql';
 import { getMedicineByQuery } from 'src/shared/graphql/Medicine/schema.gql';
+import {
+    createPurchasing,
+    getPurchasingById,
+    PURCHASING_BY_ID,
+    updatePurchasing,
+} from 'src/shared/graphql/Purchasing/schema.gql';
 import { getSuppliers } from 'src/shared/graphql/Supplier/schema.gql';
 import { Currency, formatCurrency } from 'src/shared/helpers/formatCurrency';
 import {
@@ -31,12 +37,6 @@ import { Progress } from 'src/shared/utilities/progress';
 
 import { PurchaseSummary } from './components/PurchaseSummary';
 import { purchaseDetailColumns } from './constants';
-import {
-    createPurchasing,
-    getPurchasingById,
-    PURCHASING_BY_ID,
-    updatePurchasing,
-} from './schema.gql';
 
 require('./PurchaseListForm.sass');
 
@@ -209,10 +209,10 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
             let fetchPayload = {
                 credit_total: grandTotal.credit_total,
                 id: recordKey,
-                date,
+                date: formatDefaultDate(date),
                 description,
                 detail: detailData,
-                due_date,
+                due_date: formatDefaultDate(due_date),
                 grand_total: grandTotal.total,
                 no,
                 qty_total: grandTotal.qty_total,

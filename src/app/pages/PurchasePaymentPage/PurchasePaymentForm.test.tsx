@@ -5,11 +5,11 @@ import { createMockClient } from 'mock-apollo-client';
 import moment from 'moment';
 import React from 'react';
 
-import { MEDICINE_BY_QUERY, MEDICINE_LIST } from 'src/shared/graphql/Medicine/schema.gql';
-import { PURCHASING_BY_ID } from 'src/shared/graphql/Purchasing/schema.gql';
+import { PURCHASING_BY_ID, PURCHASING_LIST } from 'src/shared/graphql/Purchasing/schema.gql';
 import { SUPPLIERS } from 'src/shared/graphql/Supplier/schema.gql';
 
-import { PurchaseListForm } from './PurchaseListForm';
+import { PurchasePaymentForm } from './PurchasePaymentForm';
+import { PURCHASE_PAYMENT_BY_ID } from './schema.gql';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -28,10 +28,9 @@ let mockClient = createMockClient();
 let mockInitialValues = {
     no: 'no1',
     date: moment().format('YYYY-MM-DD'),
-    due_date: moment()
-        .add(1, 'months')
-        .format('YYYY-MM-DD'),
     supplier: 'id1',
+    payment_method: 'cash',
+    payment_no: '123',
     description: 'description1',
 };
 let mockSupplier = [
@@ -48,55 +47,47 @@ let mockSupplier = [
         status: 'active',
     },
 ];
-let mockMedicine = [
+let mockPurchasing = [
     {
-        barcode: '123',
-        buy_price: '2000',
-        category: {
-            id: 'id1',
-            name: 'category1',
-        },
-        code: 'code1',
+        no: 'no1',
+        date: moment().format('YYYY-MM-DD'),
+        due_date: moment()
+            .add(1, 'months')
+            .format('YYYY-MM-DD'),
         id: 'id1',
-        min_stock: 1,
-        name: 'name1',
-        sell_price: '2000',
-        status: 'active',
-        stock: 1,
-        uom: {
+        supplier: {
             id: 'id1',
-            name: 'uom1',
+            name: 'supplier1',
         },
-        variant: {
+        qty_total: 1,
+        grand_total: 2000,
+        credit_total: 2000,
+        updated_by: {
             id: 'id1',
-            name: 'variant1',
+            name: 'name1',
         },
     },
     {
-        barcode: '321',
-        buy_price: '2000',
-        category: {
-            id: 'id2',
-            name: 'category2',
-        },
-        code: 'code2',
+        no: 'no2',
+        date: moment().format('YYYY-MM-DD'),
+        due_date: moment()
+            .add(1, 'months')
+            .format('YYYY-MM-DD'),
         id: 'id2',
-        min_stock: 2,
-        name: 'name2',
-        sell_price: '2000',
-        status: 'active',
-        stock: 2,
-        uom: {
+        supplier: {
             id: 'id2',
-            name: 'uom2',
+            name: 'supplier2',
         },
-        variant: {
-            id: 'id2',
-            name: 'variant2',
+        qty_total: 1,
+        grand_total: 2000,
+        credit_total: 2000,
+        updated_by: {
+            id: 'id1',
+            name: 'name1',
         },
     },
 ];
-describe('PurchaseListForm', () => {
+describe('PurchasePaymentForm', () => {
     let wrap: any;
     let props = {
         auth: 'username1',
@@ -105,67 +96,61 @@ describe('PurchaseListForm', () => {
     };
     let queryHandler = jest.fn().mockResolvedValue({
         data: {
-            getPurchasingById: {
+            getPurchasePaymentById: {
+                credit_total: '2000',
                 no: 'no1',
                 date: moment(),
                 description: 'description1',
-                due_date: moment().add(1, 'months'),
                 detail: [
                     {
-                        batch_no: '',
-                        buy_price: '2000',
-                        expired_date: '2020-06-20',
                         id: 'id1',
-                        medicine: {
+                        purchasing: {
+                            credit_total: 2000,
+                            date: moment(),
+                            due_date: moment().add(1, 'months'),
+                            grand_total: 2000,
                             id: 'id1',
-                            code: 'code1',
-                            name: 'Paramex',
-                            uom: {
-                                id: 'id1',
-                                name: 'uom1',
-                            },
+                            no: 'no1',
                         },
-                        qty: 1,
-                        sell_price: '2000',
-                        sub_total: '2000',
+                        payment_amount: 2000,
                     },
                 ],
                 id: 'id1',
+                payment_method: 'cash',
+                payment_no: '123',
+                payment_total: 2000,
                 supplier: {
                     id: 'id1',
                     name: 'supplier1',
                 },
-                qty_total: 1,
-                grand_total: '2000',
-                credit_total: '2000',
             },
         },
     });
     let queryHandlerSupplier = jest
         .fn()
         .mockResolvedValue({ data: { getSuppliers: mockSupplier } });
-    let queryHandlerMedicine = jest.fn().mockResolvedValue({
+    let queryHandlerPurchasing = jest.fn().mockResolvedValue({
         data: {
-            getMedicineList: {
-                data: mockMedicine,
+            getPurchasingList: {
+                data: mockPurchasing,
                 total: 2,
             },
         },
     });
-    mockClient.setRequestHandler(MEDICINE_LIST, queryHandlerMedicine);
+    mockClient.setRequestHandler(PURCHASING_LIST, queryHandlerPurchasing);
     mockClient.setRequestHandler(SUPPLIERS, queryHandlerSupplier);
-    mockClient.setRequestHandler(PURCHASING_BY_ID, queryHandler);
+    mockClient.setRequestHandler(PURCHASE_PAYMENT_BY_ID, queryHandler);
 
     it('should render master category page and master card', async () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <PurchaseListForm {...props} />
+                    <PurchasePaymentForm {...props} />
                 </ApolloProvider>
             );
         });
 
-        expect(wrap.find('PurchaseListForm').exists()).toBeTruthy();
+        expect(wrap.find('PurchasePaymentForm').exists()).toBeTruthy();
     });
 
     describe('when data is loaded', () => {
@@ -175,17 +160,16 @@ describe('PurchaseListForm', () => {
                 initialUndefined = {
                     no: undefined,
                     date: moment().format('YYYY-MM-DD'),
-                    due_date: moment()
-                        .add(1, 'months')
-                        .format('YYYY-MM-DD'),
                     supplier: 'id1',
+                    payment_method: 'cash',
+                    payment_no: undefined,
                     description: undefined,
                 };
                 props = { ...props, formType: 'create' };
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <PurchaseListForm {...props} />
+                            <PurchasePaymentForm {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -202,56 +186,38 @@ describe('PurchaseListForm', () => {
                     )
                 ).toEqual(initialUndefined.date);
                 expect(
-                    moment(
-                        wrap.find('ForwardRef(InternalForm)').props().initialValues.due_date
-                    ).format('YYYY-MM-DD')
-                ).toEqual(initialUndefined.due_date);
-                expect(
                     wrap.find('ForwardRef(InternalForm)').props().initialValues.supplier
                 ).toEqual(initialUndefined.supplier);
+                expect(
+                    wrap.find('ForwardRef(InternalForm)').props().initialValues.payment_method
+                ).toEqual(initialUndefined.payment_method);
+                expect(
+                    wrap.find('ForwardRef(InternalForm)').props().initialValues.payment_no
+                ).toEqual(initialUndefined.payment_no);
                 expect(
                     wrap.find('ForwardRef(InternalForm)').props().initialValues.description
                 ).toEqual(initialUndefined.description);
             });
 
-            describe('when entry medicine code and code is not exist', () => {
-                beforeEach(async () => {
-                    await act(async () => {
-                        let queryHandlerMedicine = jest.fn().mockResolvedValue({
-                            data: { getMedicineByQuery: null },
-                        });
-                        mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandlerMedicine);
-                        wrap = mount(
-                            <ApolloProvider client={mockClient}>
-                                <PurchaseListForm {...props} />
-                            </ApolloProvider>
-                        );
-                        wrap.find('input.code').simulate('change', {
-                            target: { name: 'code', value: 'code2' },
-                        });
-                        wrap.find('input.code').simulate('keydown', {
-                            keyCode: 13,
-                            which: 13,
-                            charCode: 0,
-                        });
-                    });
+            describe('when change supplier', () => {
+                beforeEach(() => {
+                    wrap
+                        .find('Select#supplier')
+                        .at(0)
+                        .prop('onChange')();
                 });
-                it('should not showing modal data and reset field', () => {
+                it('should show purchasing list', () => {
                     expect(
-                        wrap
-                            .find('.ModalData')
-                            .at(0)
-                            .props().visible
-                    ).toBeFalsy();
-                    expect(wrap.find('input.code').props().value).toEqual('');
+                        wrap.find('ForwardRef(SearchPurchasingListPure)').props().supplier_id
+                    ).toEqual('id1');
                 });
             });
 
-            describe('when entry data using list medicine', () => {
+            describe('when entry data using list purchasing', () => {
                 beforeEach(() => {
                     wrap.find('button#List').simulate('click');
                 });
-                it('should show medicine list', () => {
+                it('should show purchasing list', () => {
                     expect(
                         wrap
                             .find('Memo(CrudListTablePure)')
@@ -266,7 +232,7 @@ describe('PurchaseListForm', () => {
                     await act(async () => {
                         const { container, getByText } = render(
                             <ApolloProvider client={mockClient}>
-                                <PurchaseListForm {...props} />
+                                <PurchasePaymentForm {...props} />
                             </ApolloProvider>
                         );
                         fireEvent.change(container.querySelector('input#no')!, {
@@ -288,7 +254,7 @@ describe('PurchaseListForm', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <PurchaseListForm {...props} />
+                            <PurchasePaymentForm {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -305,13 +271,14 @@ describe('PurchaseListForm', () => {
                     )
                 ).toEqual(mockInitialValues.date);
                 expect(
-                    moment(
-                        wrap.find('ForwardRef(InternalForm)').props().initialValues.due_date
-                    ).format('YYYY-MM-DD')
-                ).toEqual(mockInitialValues.due_date);
-                expect(
                     wrap.find('ForwardRef(InternalForm)').props().initialValues.supplier
                 ).toEqual(mockInitialValues.supplier);
+                expect(
+                    wrap.find('ForwardRef(InternalForm)').props().initialValues.payment_method
+                ).toEqual(mockInitialValues.payment_method);
+                expect(
+                    wrap.find('ForwardRef(InternalForm)').props().initialValues.payment_no
+                ).toEqual(mockInitialValues.payment_no);
                 expect(
                     wrap.find('ForwardRef(InternalForm)').props().initialValues.description
                 ).toEqual(mockInitialValues.description);
@@ -379,7 +346,7 @@ describe('PurchaseListForm', () => {
                     await act(async () => {
                         const { getByText } = render(
                             <ApolloProvider client={mockClient}>
-                                <PurchaseListForm {...props} />
+                                <PurchasePaymentForm {...props} />
                             </ApolloProvider>
                         );
 
@@ -395,13 +362,14 @@ describe('PurchaseListForm', () => {
                         ).format('YYYY-MM-DD')
                     ).toEqual(mockInitialValues.date);
                     expect(
-                        moment(
-                            wrap.find('ForwardRef(InternalForm)').props().initialValues.due_date
-                        ).format('YYYY-MM-DD')
-                    ).toEqual(mockInitialValues.due_date);
-                    expect(
                         wrap.find('ForwardRef(InternalForm)').props().initialValues.supplier
                     ).toEqual(mockInitialValues.supplier);
+                    expect(
+                        wrap.find('ForwardRef(InternalForm)').props().initialValues.payment_method
+                    ).toEqual(mockInitialValues.payment_method);
+                    expect(
+                        wrap.find('ForwardRef(InternalForm)').props().initialValues.payment_no
+                    ).toEqual(mockInitialValues.payment_no);
                     expect(
                         wrap.find('ForwardRef(InternalForm)').props().initialValues.description
                     ).toEqual(mockInitialValues.description);
