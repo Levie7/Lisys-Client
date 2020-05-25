@@ -3,6 +3,7 @@ export * from './column';
 export * from './medicine';
 export * from './menu';
 export * from './purchasePayment';
+export * from './purchaseReturn';
 export * from './purchasing';
 export * from './role';
 export * from './setting';

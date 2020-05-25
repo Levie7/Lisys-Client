@@ -1,4 +1,9 @@
-import { Purchasing, PurchasingData } from 'src/core/api';
+import {
+    Purchasing,
+    PurchasingData,
+    PurchasingDetail,
+    PurchasingWithDetailListData,
+} from 'src/core/api';
 
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import { convertMilisecondsToDate } from 'src/shared/helpers/formatDate';
@@ -22,9 +27,38 @@ export function handlePurchasingData(data?: any): { list: PurchasingData[]; tota
                 qty_total: purchasing.qty_total,
                 grand_total: Currency(formatCommaValue(purchasing.grand_total)),
                 credit_total: Currency(formatCommaValue(purchasing.credit_total)),
-                status: purchasing.status,
             };
         }),
+        total,
+    };
+}
+
+export function handlePurchasingDetailData(
+    data?: any
+): { list: PurchasingWithDetailListData[]; total: number } {
+    let purchasing = data?.getPurchasingList.data;
+    let total = data?.getPurchasingList.total;
+    if (!purchasing || !purchasing.length) {
+        return { list: [], total: 0 };
+    }
+
+    let header: PurchasingWithDetailListData[] = [];
+    purchasing.map((purchase: Purchasing) => {
+        purchase.detail.map((detail: PurchasingDetail) => {
+            header.push({
+                key: purchase.id! + '-' + detail.medicine!.id!,
+                no: purchase.no,
+                code: detail.medicine!.code,
+                medicine: detail.medicine!.name,
+                qty: detail.qty,
+                uom: detail.medicine!.uom!.name,
+                buy_price: Currency(formatCommaValue(detail.buy_price)),
+            });
+        });
+    });
+
+    return {
+        list: header,
         total,
     };
 }

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Page } from 'src/app/shell/Page';
 
-import { PurchasePayment, PurchasePaymentData } from 'src/core/api';
+import { PurchaseReturn, PurchaseReturnData } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { DateRangePicker } from 'src/shared/components/DatePicker';
@@ -23,11 +23,11 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { purchasePaymentColumns } from './constants';
-import { PurchasePaymentForm } from './PurchasePaymentForm';
-import { deletePurchasePayment, getPurchasePaymentList, PURCHASE_PAYMENT_LIST } from './schema.gql';
+import { purchaseReturnColumns } from './constants';
+import { PurchaseReturnForm } from './PurchaseReturnForm';
+import { deletePurchaseReturn, getPurchaseReturnList, PURCHASE_RETURN_LIST } from './schema.gql';
 
-export const PurchasePaymentPage = () => {
+export const PurchaseReturnPage = () => {
     let storage = createAuthTokenStorage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -47,24 +47,26 @@ export const PurchasePaymentPage = () => {
         };
     }
 
-    function handleData(data?: any): { list: PurchasePaymentData[]; total: number } {
-        let purchasePayment = data?.getPurchasePaymentList.data;
-        let total = data?.getPurchasePaymentList.total;
-        if (!purchasePayment || !purchasePayment.length) {
+    function handleData(data?: any): { list: PurchaseReturnData[]; total: number } {
+        let purchaseReturn = data?.getPurchaseReturnList.data;
+        let total = data?.getPurchaseReturnList.total;
+        if (!purchaseReturn || !purchaseReturn.length) {
             return { list: [], total: 0 };
         }
 
         return {
-            list: purchasePayment.map((purchasePayment: PurchasePayment) => {
+            list: purchaseReturn.map((purchaseReturn: PurchaseReturn) => {
                 return {
-                    key: purchasePayment.id!,
-                    no: purchasePayment.no,
-                    date: convertMilisecondsToDate(purchasePayment.date),
-                    supplier_name: purchasePayment.supplier!.name,
-                    payment_method: purchasePayment.payment_method,
-                    payment_no: purchasePayment.payment_no,
-                    credit_total: Currency(formatCommaValue(purchasePayment.credit_total)),
-                    payment_total: Currency(formatCommaValue(purchasePayment.payment_total)),
+                    key: purchaseReturn.id!,
+                    no: purchaseReturn.no,
+                    date: convertMilisecondsToDate(purchaseReturn.date),
+                    supplier_name: purchaseReturn.supplier!.name,
+                    qty_total: purchaseReturn.qty_total,
+                    grand_total: Currency(formatCommaValue(purchaseReturn.grand_total)),
+                    cash_total: Currency(formatCommaValue(purchaseReturn.cash_total)),
+                    credit_discount_total: Currency(
+                        formatCommaValue(purchaseReturn.credit_discount_total)
+                    ),
                 };
             }),
             total,
@@ -112,8 +114,8 @@ export const PurchasePaymentPage = () => {
     return (
         <Page>
             <MasterCard
-                header={{ link: '/purchase_payment', title: 'Purchase Payment' }}
-                initSection='purchase_payment'
+                header={{ link: '/purchase_return', title: 'Purchase Return' }}
+                initSection='purchase_return'
                 isCrud
                 module='Purchasing'
             >
@@ -122,17 +124,17 @@ export const PurchasePaymentPage = () => {
                         <MasterList
                             action={action!}
                             auth={storage.getToken()}
-                            columns={purchasePaymentColumns}
+                            columns={purchaseReturnColumns}
                             customFilter={{
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
                             mutation={{
-                                delete: deletePurchasePayment,
+                                delete: deletePurchaseReturn,
                             }}
                             query={{
-                                list: getPurchasePaymentList,
-                                refetch: PURCHASE_PAYMENT_LIST,
+                                list: getPurchaseReturnList,
+                                refetch: PURCHASE_RETURN_LIST,
                             }}
                             softDelete
                             handleData={handleData}
@@ -140,7 +142,7 @@ export const PurchasePaymentPage = () => {
                             handleResetAction={handleResetAction!}
                         />
                     ) : (
-                        <PurchasePaymentForm
+                        <PurchaseReturnForm
                             auth={storage.getToken()}
                             formType={action!}
                             recordKey={recordKey}

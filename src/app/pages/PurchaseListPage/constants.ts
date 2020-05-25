@@ -117,3 +117,37 @@ export const purchaseSearchListColumns = [
         title: 'Credit Total',
     },
 ];
+
+export const purchaseWithDetailSearchListColumns = [
+    {
+        dataIndex: 'no',
+        key: 'no',
+        sorter: true,
+        title: 'Transaction No',
+    },
+    {
+        dataIndex: 'code',
+        key: 'code',
+        title: 'Code',
+    },
+    {
+        dataIndex: 'medicine',
+        key: 'medicine',
+        title: 'Medicine',
+    },
+    {
+        dataIndex: 'qty',
+        key: 'qty',
+        title: 'Qty',
+    },
+    {
+        dataIndex: 'uom',
+        key: 'uom',
+        title: 'UoM',
+    },
+    {
+        dataIndex: 'buy_price',
+        key: 'buy_price',
+        title: 'Buy Price',
+    },
+];

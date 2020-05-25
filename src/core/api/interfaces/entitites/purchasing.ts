@@ -2,7 +2,7 @@ export interface Purchasing {
     credit_total: number;
     date: string;
     description?: string;
-    detail: PurchasingDetail;
+    detail: PurchasingDetail[];
     due_date: string;
     grand_total: number;
     id?: string;
@@ -41,4 +41,14 @@ export interface PurchasingListData {
     buy_price: string;
     sell_price: string;
     sub_total: string;
+}
+
+export interface PurchasingWithDetailListData {
+    key?: string;
+    no: string;
+    code: string;
+    medicine: string;
+    qty: number;
+    uom: string;
+    buy_price: string;
 }

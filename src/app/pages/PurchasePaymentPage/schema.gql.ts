@@ -51,7 +51,6 @@ export const PURCHASE_PAYMENT_LIST = gql`
                     id
                     name
                 }
-                status
             }
             total
         }

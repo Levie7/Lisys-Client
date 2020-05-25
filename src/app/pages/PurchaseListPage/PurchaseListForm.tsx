@@ -367,7 +367,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                         getValueFromEvent={formatNumeric}
                         label='Qty'
                         name='qty'
-                        rules={[{ required: true, message: 'Please input the purchase no' }]}
+                        rules={[{ required: true, message: 'Please input the Qty' }]}
                     >
                         <Input />
                     </Form.Item>

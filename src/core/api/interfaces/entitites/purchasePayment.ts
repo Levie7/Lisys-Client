@@ -2,7 +2,7 @@ export interface PurchasePayment {
     credit_total: number;
     date: string;
     description?: string;
-    detail: PurchasePaymentDetail;
+    detail: PurchasePaymentDetail[];
     id?: string;
     no: string;
     payment_method: string;

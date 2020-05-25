@@ -44,6 +44,20 @@ export const PURCHASING_LIST = gql`
             data {
                 no
                 date
+                detail {
+                    buy_price
+                    id
+                    medicine {
+                        code
+                        id
+                        name
+                        uom {
+                            id
+                            name
+                        }
+                    }
+                    qty
+                }
                 due_date
                 id
                 supplier {
