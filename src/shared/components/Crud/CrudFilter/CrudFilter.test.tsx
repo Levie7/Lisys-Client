@@ -8,6 +8,7 @@ import { CrudFilter } from './CrudFilter';
 describe('CrudFilter', () => {
     let context = { isMobile: false };
     const props = {
+        customFilter: <>Filter</>,
         onChange: jest.fn(),
     };
     jest.spyOn(UIContextModule, 'useUIContext').mockImplementation(() => context);
@@ -40,7 +41,7 @@ describe('CrudFilter', () => {
         });
 
         it('should not render search with class width-100', () => {
-            expect(wrap.find('#Search').props().className).toEqual('w-100');
+            expect(wrap.find('#Search').props().className).toEqual('mt-2 w-100');
         });
     });
 });

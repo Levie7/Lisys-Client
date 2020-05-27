@@ -5,12 +5,17 @@ import { Page } from 'src/app/shell/Page';
 import { Supplier, SupplierData } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
-import { MasterCard } from 'src/modules/Master/containers/MasterCard';
-import { MasterList } from 'src/modules/Master/containers/MasterList';
+import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
+import { MasterList } from 'src/shared/components/Master/containers/MasterList';
+import {
+    deleteSupplier,
+    getSupplierList,
+    SUPPLIER_LIST,
+    updateManySupplier,
+} from 'src/shared/graphql/Supplier/schema.gql';
 
 import { supplierColumns } from './constants';
 import { MasterSupplierForm } from './MasterSupplierForm';
-import { deleteSupplier, getSupplierList, SUPPLIER_LIST, updateManySupplier } from './schema.gql';
 
 export const MasterSupplierPage = () => {
     let storage = createAuthTokenStorage();
@@ -47,13 +52,20 @@ export const MasterSupplierPage = () => {
 
     return (
         <Page>
-            <MasterCard header={{ link: '/supplier', title: 'Supplier' }} initSection='supplier'>
+            <MasterCard
+                header={{ link: '/supplier', title: 'Supplier' }}
+                initSection='supplier'
+                isCrud
+                module='Master'
+                showAction
+            >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list', 'active', 'inactive'].includes(action) ? (
+                    ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
-                            action={action}
+                            action={action!}
                             auth={storage.getToken()}
                             columns={supplierColumns}
+                            hasStatus
                             mutation={{
                                 delete: deleteSupplier,
                                 update: updateManySupplier,
@@ -63,13 +75,13 @@ export const MasterSupplierPage = () => {
                                 refetch: SUPPLIER_LIST,
                             }}
                             handleData={handleData}
-                            handleRecord={handleRecord}
-                            handleResetAction={handleResetAction}
+                            handleRecord={handleRecord!}
+                            handleResetAction={handleResetAction!}
                         />
                     ) : (
                         <MasterSupplierForm
                             auth={storage.getToken()}
-                            formType={action}
+                            formType={action!}
                             recordKey={recordKey}
                         />
                     )

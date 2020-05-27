@@ -110,6 +110,7 @@ export function RoleList({ handleRecord }: RoleListProps) {
                 dataSource={roles.list}
                 handleDelete={handleDelete}
                 handleRecord={handleRecord}
+                hasAction
                 loading={queryDataList.loading}
                 onChange={handleTableChange}
                 pagination={page}

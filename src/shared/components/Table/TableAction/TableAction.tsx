@@ -8,14 +8,14 @@ interface TableActionProps {
     record: any;
     title: string;
 
-    onClick?: (recordKey: string) => void;
+    onClick?: (recordKey: string, record?: any) => void;
 }
 
 require('./TableAction.sass');
 
 function TableActionPure({ iconType, record, title, onClick }: TableActionProps) {
     function handleClick() {
-        onClick!(record.key);
+        onClick!(record.key, record);
     }
 
     return (

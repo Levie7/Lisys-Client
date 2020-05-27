@@ -5,9 +5,8 @@ import { Page } from 'src/app/shell/Page';
 import { Variant, VariantData } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
-import { MasterCard } from 'src/modules/Master/containers/MasterCard';
-import { MasterList } from 'src/modules/Master/containers/MasterList';
-
+import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
+import { MasterList } from 'src/shared/components/Master/containers/MasterList';
 import {
     deleteVariant,
     getVariantList,
@@ -43,13 +42,20 @@ export function MasterVariantPage() {
 
     return (
         <Page>
-            <MasterCard header={{ link: '/variant', title: 'Variant' }} initSection='variant'>
+            <MasterCard
+                header={{ link: '/variant', title: 'Variant' }}
+                initSection='variant'
+                isCrud
+                module='Master'
+                showAction
+            >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list', 'active', 'inactive'].includes(action) ? (
+                    ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
-                            action={action}
+                            action={action!}
                             auth={storage.getToken()}
                             columns={variantColumns}
+                            hasStatus
                             mutation={{
                                 delete: deleteVariant,
                                 update: updateManyVariant,
@@ -59,13 +65,13 @@ export function MasterVariantPage() {
                                 refetch: VARIANT_LIST,
                             }}
                             handleData={handleData}
-                            handleRecord={handleRecord}
-                            handleResetAction={handleResetAction}
+                            handleRecord={handleRecord!}
+                            handleResetAction={handleResetAction!}
                         />
                     ) : (
                         <MasterVariantForm
                             auth={storage.getToken()}
-                            formType={action}
+                            formType={action!}
                             recordKey={recordKey}
                         />
                     )

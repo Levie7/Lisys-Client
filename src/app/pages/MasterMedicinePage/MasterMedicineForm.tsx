@@ -7,8 +7,14 @@ import { Input } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
-import { getCategories } from 'src/shared/graphql/Category/schema.gql';
 import { mutationForm, queryForm } from 'src/shared/graphql';
+import { getCategories } from 'src/shared/graphql/Category/schema.gql';
+import {
+    createMedicine,
+    getMedicineByQuery,
+    MEDICINE_BY_QUERY,
+    updateMedicine,
+} from 'src/shared/graphql/Medicine/schema.gql';
 import { getUoMs } from 'src/shared/graphql/UoM/schema.gql';
 import { getVariants } from 'src/shared/graphql/Variant/schema.gql';
 import { Currency, formatCurrency } from 'src/shared/helpers/formatCurrency';
@@ -19,7 +25,6 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { alertMessage, medicineInfo } from './constants';
-import { createMedicine, getMedicineById, MEDICINE_BY_ID, updateMedicine } from './schema.gql';
 
 interface MasterMedicineFormProps {
     auth: string | null;
@@ -39,7 +44,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
     });
     let query = queryForm({
         skip: formType === 'create',
-        query: getMedicineById,
+        query: getMedicineByQuery,
         variables: { id: recordKey },
     });
     let categoryQuery = queryForm({ query: getCategories });
@@ -59,27 +64,29 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
     let variants = variantQuery.data?.getVariants;
 
     let initialValues = {
-        barcode: query.data?.getMedicineById.barcode,
-        buy_price: query.data && Currency(formatCommaValue(query.data.getMedicineById.buy_price)),
-        category: query.data?.getMedicineById.category.id || (categories && categories[0].id),
-        code: query.data?.getMedicineById.code,
-        key: query.data?.getMedicineById.id!,
-        min_stock: query.data?.getMedicineById.min_stock,
-        name: query.data?.getMedicineById.name,
+        barcode: query.data?.getMedicineByQuery.barcode,
+        buy_price:
+            query.data && Currency(formatCommaValue(query.data.getMedicineByQuery.buy_price)),
+        category: query.data?.getMedicineByQuery.category.id || (categories && categories[0].id),
+        code: query.data?.getMedicineByQuery.code,
+        key: query.data?.getMedicineByQuery.id!,
+        min_stock: query.data?.getMedicineByQuery.min_stock,
+        name: query.data?.getMedicineByQuery.name,
         percentage:
             query.data &&
             Percentage(
                 formatCommaValue(
-                    ((query.data.getMedicineById.sell_price -
-                        query.data.getMedicineById.buy_price) /
-                        query.data.getMedicineById.buy_price) *
+                    ((query.data.getMedicineByQuery.sell_price -
+                        query.data.getMedicineByQuery.buy_price) /
+                        query.data.getMedicineByQuery.buy_price) *
                         100
                 )
             ),
-        sell_price: query.data && Currency(formatCommaValue(query.data.getMedicineById.sell_price)),
-        stock: query.data?.getMedicineById.stock,
-        uom: query.data?.getMedicineById.uom.id || (uoms && uoms[0].id),
-        variant: query.data?.getMedicineById.variant.id || (variants && variants[0].id),
+        sell_price:
+            query.data && Currency(formatCommaValue(query.data.getMedicineByQuery.sell_price)),
+        stock: query.data?.getMedicineByQuery.stock,
+        uom: query.data?.getMedicineByQuery.uom.id || (uoms && uoms[0].id),
+        variant: query.data?.getMedicineByQuery.variant.id || (variants && variants[0].id),
     };
 
     function handleChangeBarcode() {
@@ -126,7 +133,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                 payload = { ...fetchPayload, id: undefined, created_by: auth };
                 break;
             case 'update':
-                fetchQuery = [{ query: MEDICINE_BY_ID, variables: { id: recordKey } }];
+                fetchQuery = [{ query: MEDICINE_BY_QUERY, variables: { id: recordKey } }];
                 payload = { ...fetchPayload, isBarcodeChanged, isCodeChanged, updated_by: auth };
                 break;
         }

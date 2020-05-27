@@ -10,32 +10,36 @@ interface CrudListActionProps extends CrudConnectedProps {
     showBack?: boolean;
 }
 
-export const CrudListAction = React.memo<CrudListActionProps>(({ crud, showAction, showBack }) => (
-    <>
-        <Divider />
-        <div className='d-flex fj-between mb-4'>
-            <ButtonAction
-                className={classNames('fj-start mr-2', showBack ? '' : 'd-invisible')}
-                buttonType='default'
-                crud={{ ...crud, action: 'back', section: 'main' }}
-                iconType='back'
-                title='Back'
-            />
-            <div className='d-flex fj-end ml-2'>
+function CrudListActionPure({ crud, showAction, showBack }: CrudListActionProps) {
+    return (
+        <>
+            <Divider />
+            <div className='d-flex fj-between mb-4'>
                 <ButtonAction
+                    className={classNames('fj-start mr-2', showBack ? '' : 'd-invisible')}
                     buttonType='default'
-                    className={classNames('mr-2', showAction ? '' : 'd-invisible')}
-                    iconType='action'
-                    crud={{ ...crud, action: 'action' }}
-                    title='Actions'
+                    crud={{ ...crud, action: 'back', section: 'main' }}
+                    iconType='back'
+                    title='Back'
                 />
-                <ButtonAction
-                    buttonType='primary'
-                    crud={{ ...crud, action: 'create' }}
-                    iconType='plus'
-                    title='Create'
-                />
+                <div className='d-flex fj-end ml-2'>
+                    <ButtonAction
+                        buttonType='default'
+                        className={classNames('mr-2', showAction ? '' : 'd-invisible')}
+                        iconType='action'
+                        crud={{ ...crud, action: 'action' }}
+                        title='Actions'
+                    />
+                    <ButtonAction
+                        buttonType='primary'
+                        crud={{ ...crud, action: 'create' }}
+                        iconType='plus'
+                        title='Create'
+                    />
+                </div>
             </div>
-        </div>
-    </>
-));
+        </>
+    );
+}
+
+export const CrudListAction = React.memo(CrudListActionPure);

@@ -6,7 +6,6 @@ import { useHistory } from 'src/core/route';
 
 import { Button } from 'src/shared/components/Button';
 import { Card } from 'src/shared/components/Card';
-import { Divider } from 'src/shared/components/Divider';
 import { Icon } from 'src/shared/components/Icon';
 import { Input } from 'src/shared/components/Input';
 import { Picture } from 'src/shared/components/Picture';
@@ -57,9 +56,6 @@ export function LoginPage() {
         <Layout>
             <Layout.Content className='d-flex fj-center'>
                 <Card bodyStyle={{ width: '100%' }} className='LoginCard m-4'>
-                    <Divider orientation='center'>
-                        <h1>Login</h1>
-                    </Divider>
                     <Form className='mt-7' form={form} layout='vertical' onFinish={handleFinish}>
                         <Form.Item
                             label='Username'
@@ -86,7 +82,7 @@ export function LoginPage() {
                             </Button>
                         </Form.Item>
                     </Form>
-                    <div className='d-flex fd-column ta-center mt-8'>
+                    <div className='d-flex fd-column ta-center'>
                         Powered By
                         <Picture
                             alt='Lisys-Logo'

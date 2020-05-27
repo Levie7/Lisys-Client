@@ -1,8 +1,10 @@
 import { Badge as AntBadge } from 'antd';
 import * as React from 'react';
 
+export type Status = 'success' | 'processing' | 'default' | 'error' | 'warning';
+
 interface BadgeProps {
-    status?: 'success' | 'processing' | 'default' | 'error' | 'warning';
+    status?: Status;
     text?: React.ReactNode;
 }
 

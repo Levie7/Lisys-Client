@@ -4,8 +4,9 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
+import { SUPPLIER_BY_ID } from 'src/shared/graphql/Supplier/schema.gql';
+
 import { MasterSupplierForm } from './MasterSupplierForm';
-import { SUPPLIER_BY_ID } from './schema.gql';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
