@@ -107,4 +107,27 @@ export const menuData = [
         status: 'Active',
         url: '/purchasing',
     },
+    {
+        children: [
+            {
+                icon: 'list',
+                key: 'Sales List',
+                name: 'Sales List',
+                status: 'Active',
+                url: '/sales_list',
+            },
+            {
+                icon: 'return',
+                key: 'Sales Return',
+                name: 'Sales Return',
+                status: 'Active',
+                url: '/sales_return',
+            },
+        ],
+        icon: 'sales',
+        key: 'Sales',
+        name: 'Sales',
+        status: 'Active',
+        url: '/sales',
+    },
 ];

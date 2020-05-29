@@ -6,6 +6,7 @@ export * from './purchasePayment';
 export * from './purchaseReturn';
 export * from './purchasing';
 export * from './role';
+export * from './sales';
 export * from './setting';
 export * from './supplier';
 export * from './uom';

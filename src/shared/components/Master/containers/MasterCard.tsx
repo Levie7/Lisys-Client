@@ -28,6 +28,7 @@ interface MasterCardProps {
         link: string;
         title: string;
     };
+    initAction?: string;
     initSection: string;
     isCrud?: boolean;
     module: string;
@@ -37,6 +38,7 @@ interface MasterCardProps {
 export function MasterCard({
     children,
     header,
+    initAction,
     initSection,
     isCrud,
     module,
@@ -48,7 +50,7 @@ export function MasterCard({
     let [fetch, { loading }] = updateCrud();
     if (loading) return null;
 
-    !isInit && setInit(initialize({ fetch, initSection, isInit }));
+    !isInit && setInit(initialize({ action: initAction, fetch, initSection, isInit }));
 
     function handleRecord(recordKey: string) {
         handleFetchCrud({ ...crud, action: 'update', fetch });

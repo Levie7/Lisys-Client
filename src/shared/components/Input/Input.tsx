@@ -2,8 +2,10 @@ import { Input as AntInput } from 'antd';
 import * as React from 'react';
 
 interface InputProps {
+    autoFocus?: boolean;
     className?: string;
     disabled?: boolean;
+    id?: string;
     placeholder?: string;
     prefix?: React.ReactNode;
     suffix?: React.ReactNode;
@@ -15,12 +17,14 @@ interface InputProps {
     onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export const Input = React.memo<InputProps>(
+export const Input = React.memo<InputProps & { ref?: any }>(
     React.forwardRef(
         (
             {
+                autoFocus,
                 className,
                 disabled,
+                id,
                 onBlur,
                 onChange,
                 onPressEnter,
@@ -31,12 +35,14 @@ export const Input = React.memo<InputProps>(
                 value,
                 ...props
             },
-            ref?: string | ((instance: AntInput | null) => void) | React.RefObject<AntInput> | null
+            ref?: any
         ) => (
             <AntInput
                 {...props}
+                autoFocus
                 className={className}
                 disabled={disabled}
+                id={id}
                 onBlur={onBlur}
                 onChange={onChange}
                 onPressEnter={onPressEnter}

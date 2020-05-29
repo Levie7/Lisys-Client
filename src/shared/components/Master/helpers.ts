@@ -4,17 +4,19 @@ import { Currency } from 'src/shared/helpers/formatCurrency';
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
 export function initialize({
+    action = 'list',
     fetch,
     initSection,
     isInit,
 }: {
+    action?: string;
     fetch: any;
     initSection: string;
     isInit: boolean;
 }) {
     if (!isInit) {
         fetch({
-            variables: { payload: { action: 'list', section: initSection } },
+            variables: { payload: { action, section: initSection } },
         });
         return !isInit;
     }

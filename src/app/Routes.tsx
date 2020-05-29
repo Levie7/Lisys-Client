@@ -12,6 +12,7 @@ import { MasterVariantPage } from './pages/MasterVariantPage/chunk';
 import { PurchaseListPage } from './pages/PurchaseListPage/chunk';
 import { PurchasePaymentPage } from './pages/PurchasePaymentPage/chunk';
 import { PurchaseReturnPage } from './pages/PurchaseReturnPage/chunk';
+import { SalesListPage } from './pages/SalesListPage/chunk';
 import { SettingPage } from './pages/SettingPage/chunk';
 import { LoginPage } from './pages/LoginPage/chunk';
 
@@ -36,6 +37,8 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
         />
         <Route authenticate component={PurchasePaymentPage} exact={true} path='/purchase_payment' />
         <Route authenticate component={PurchaseReturnPage} exact={true} path='/purchase_return' />
+
+        <Route authenticate component={SalesListPage} exact={true} path='/sales_list' />
 
         <Route component={LoginPage} exact={true} path='/login' />
     </Router>
