@@ -152,6 +152,10 @@ describe('PurchaseListForm', () => {
             },
         },
     });
+    let queryHandlerMedicineQuery = jest.fn().mockResolvedValue({
+        data: { getMedicineByQuery: null },
+    });
+    mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandlerMedicineQuery);
     mockClient.setRequestHandler(MEDICINE_LIST, queryHandlerMedicine);
     mockClient.setRequestHandler(SUPPLIERS, queryHandlerSupplier);
     mockClient.setRequestHandler(PURCHASING_BY_ID, queryHandler);
@@ -217,10 +221,6 @@ describe('PurchaseListForm', () => {
             describe('when entry medicine code and code is not exist', () => {
                 beforeEach(async () => {
                     await act(async () => {
-                        let queryHandlerMedicine = jest.fn().mockResolvedValue({
-                            data: { getMedicineByQuery: null },
-                        });
-                        mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandlerMedicine);
                         wrap = mount(
                             <ApolloProvider client={mockClient}>
                                 <PurchaseListForm {...props} />

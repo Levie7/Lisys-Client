@@ -1,4 +1,10 @@
 export function Currency(value: string) {
+    let isMinus = false;
+    if (value.includes('-')) {
+        let minus = value.split('-');
+        value = minus[1];
+        isMinus = true;
+    }
     let split = value.split(',');
     let remainValue = split[0].length % 3;
     let result = split[0].substr(0, remainValue);
@@ -7,6 +13,8 @@ export function Currency(value: string) {
         let separator = remainValue ? '.' : '';
         result += separator + thousands.join('.');
     }
+
+    result = isMinus ? '-' + result : result;
 
     return split[1] !== undefined ? result + ',' + split[1].slice(0, 2) : result;
 }
