@@ -22,9 +22,9 @@ import { classNames } from 'src/shared/utilities/classNames';
 
 import { salesListColumns } from './constants';
 import { deleteSales, getSalesList, SALES_LIST } from './schema.gql';
-import { SalesListForm } from './SalesListForm';
+import { SalesForm } from './SalesForm';
 
-export const SalesListPage = ({ location }: RouteComponentProps) => {
+export const SalesPage = ({ location }: RouteComponentProps) => {
     let storage = createAuthTokenStorage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -85,7 +85,7 @@ export const SalesListPage = ({ location }: RouteComponentProps) => {
     return (
         <Page>
             <MasterCard
-                header={{ link: '/sales_list', title: 'Sales' }}
+                header={{ link: '/sales', title: 'Sales' }}
                 initAction={location.search !== '' ? 'create' : undefined}
                 initSection='sales'
                 isCrud
@@ -114,7 +114,7 @@ export const SalesListPage = ({ location }: RouteComponentProps) => {
                             handleResetAction={handleResetAction!}
                         />
                     ) : (
-                        <SalesListForm auth={storage.getToken()} formType={action!} />
+                        <SalesForm auth={storage.getToken()} formType={action!} />
                     )
                 }
             </MasterCard>

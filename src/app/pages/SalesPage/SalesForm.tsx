@@ -28,14 +28,14 @@ import { salesDetailColumns } from './constants';
 import { createSales } from './schema.gql';
 import { Button } from 'src/shared/components/Button';
 
-require('./SalesListForm.sass');
+require('./SalesForm.sass');
 
-interface SalesListFormProps {
+interface SalesFormProps {
     auth: string | null;
     formType: string;
 }
 
-export function SalesListForm({ auth, formType }: SalesListFormProps) {
+export function SalesForm({ auth, formType }: SalesFormProps) {
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let [paymentForm] = Form.useForm();
@@ -450,7 +450,7 @@ export function SalesListForm({ auth, formType }: SalesListFormProps) {
                             <a
                                 // eslint-disable-next-line react/jsx-no-target-blank
                                 target='_blank'
-                                href={'/sales_list?create'}
+                                href={'/sales?create'}
                             >
                                 <Button type='danger'>{Icon['pending']} Pending</Button>
                             </a>

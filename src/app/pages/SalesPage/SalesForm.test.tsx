@@ -7,7 +7,7 @@ import React from 'react';
 
 import { MEDICINE_BY_QUERY, MEDICINE_LIST } from 'src/shared/graphql/Medicine/schema.gql';
 
-import { SalesListForm } from './SalesListForm';
+import { SalesForm } from './SalesForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -71,7 +71,7 @@ let mockMedicine = [
         },
     },
 ];
-describe('SalesListForm', () => {
+describe('SalesForm', () => {
     let wrap: any;
     let props = {
         auth: 'username1',
@@ -120,12 +120,12 @@ describe('SalesListForm', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <SalesListForm {...props} />
+                    <SalesForm {...props} />
                 </ApolloProvider>
             );
         });
 
-        expect(wrap.find('SalesListForm').exists()).toBeTruthy();
+        expect(wrap.find('SalesForm').exists()).toBeTruthy();
     });
 
     describe('when data is loaded', () => {
@@ -140,7 +140,7 @@ describe('SalesListForm', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <SalesListForm {...props} />
+                            <SalesForm {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -166,7 +166,7 @@ describe('SalesListForm', () => {
                     await act(async () => {
                         wrap = mount(
                             <ApolloProvider client={mockClient}>
-                                <SalesListForm {...props} />
+                                <SalesForm {...props} />
                             </ApolloProvider>
                         );
                         wrap.find('input#code').simulate('change', {
@@ -195,7 +195,7 @@ describe('SalesListForm', () => {
                     await act(async () => {
                         wrap = mount(
                             <ApolloProvider client={mockClient}>
-                                <SalesListForm {...props} />
+                                <SalesForm {...props} />
                             </ApolloProvider>
                         );
                         wrap.find('input#barcode').simulate('change', {
@@ -295,7 +295,7 @@ describe('SalesListForm', () => {
                     await act(async () => {
                         const { container, getByText } = render(
                             <ApolloProvider client={mockClient}>
-                                <SalesListForm {...props} />
+                                <SalesForm {...props} />
                             </ApolloProvider>
                         );
                         fireEvent.change(container.querySelector('input#no')!, {
