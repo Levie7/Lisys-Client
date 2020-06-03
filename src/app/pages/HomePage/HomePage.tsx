@@ -3,6 +3,7 @@ import React from 'react';
 import { Page } from 'src/app/shell/Page';
 
 import { Notification } from 'src/shared/utilities/notification';
+import { MasterStatistic } from './containers/MasterStatistic';
 
 export const HomePage = () => {
     let gretting = localStorage.getItem('greeting');
@@ -17,9 +18,7 @@ export const HomePage = () => {
 
     return (
         <Page>
-            <div className='HomePage' style={{ margin: '24px 16px 0' }}>
-                <header className='HomePage-header'>Home Page</header>
-            </div>
+            <MasterStatistic />
         </Page>
     );
 };

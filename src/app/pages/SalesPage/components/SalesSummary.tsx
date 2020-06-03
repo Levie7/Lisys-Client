@@ -11,10 +11,19 @@ interface SalesSummaryProps {
     total: string;
 }
 
-export const SalesSummary = React.memo<SalesSummaryProps>(
-    ({ amount_total, change_total, isMobile, qty_total, total }) => (
+function SalesSummaryPure({
+    amount_total,
+    change_total,
+    isMobile,
+    qty_total,
+    total,
+}: SalesSummaryProps) {
+    return (
         <>
-            <div className={classNames('d-flex', isMobile ? 'fd-column-reverse' : '')}>
+            <div
+                id='SalesSummary'
+                className={classNames('d-flex', isMobile ? 'fd-column-reverse' : '')}
+            >
                 <div className='col-12 col@md-6'>
                     <Divider orientation='right'>Payment</Divider>
                     <div className='d-flex fj-between'>
@@ -40,5 +49,7 @@ export const SalesSummary = React.memo<SalesSummaryProps>(
             </div>
             <Divider />
         </>
-    )
-);
+    );
+}
+
+export const SalesSummary = React.memo(SalesSummaryPure);

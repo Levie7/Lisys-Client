@@ -39,7 +39,7 @@ export const Input = React.memo<InputProps & { ref?: any }>(
         ) => (
             <AntInput
                 {...props}
-                autoFocus
+                autoFocus={autoFocus}
                 className={className}
                 disabled={disabled}
                 id={id}

@@ -8,6 +8,7 @@ export * from './purchasing';
 export * from './role';
 export * from './sales';
 export * from './setting';
+export * from './statistic';
 export * from './supplier';
 export * from './uom';
 export * from './user';
