@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Page } from 'src/app/shell/Page';
 
-import { Purchasing, PurchasingData } from 'src/core/api';
+import { BuyPriceHistory, BuyPriceHistoryData } from 'src/core/api';
 
 import { DateRangePicker } from 'src/shared/components/DatePicker';
 import { Divider } from 'src/shared/components/Divider';
@@ -11,7 +11,6 @@ import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterSearchList } from 'src/shared/components/Master/containers/MasterSearchList';
 import { SearchMedicineList } from 'src/shared/containers/SearchMedicineList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
-import { getPurchasingList } from 'src/shared/graphql/Purchasing/schema.gql';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import {
     convertMilisecondsToDate,
@@ -22,6 +21,7 @@ import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
 import { buyPriceHistoryColumns } from './constants';
+import { getBuyPriceHistoryList } from './schema.gql';
 
 export const BuyPriceHistoryPage = () => {
     let searchMedicine = React.useRef<any>();
@@ -40,23 +40,23 @@ export const BuyPriceHistoryPage = () => {
         };
     }
 
-    function handleData(data?: any): { list: PurchasingData[]; total: number } {
-        let purchasing = data?.getPurchasingList.data;
-        let total = data?.getPurchasingList.total;
-        if (!purchasing || !purchasing.length) {
+    function handleData(data?: any): { list: BuyPriceHistoryData[]; total: number } {
+        let buyPriceHistory = data?.getBuyPriceHistoryList.data;
+        let total = data?.getBuyPriceHistoryList.total;
+        if (!buyPriceHistory || !buyPriceHistory.length) {
             return { list: [], total: 0 };
         }
 
         return {
-            list: purchasing.map((purchasing: Purchasing) => {
+            list: buyPriceHistory.map((buyPriceHistory: BuyPriceHistory) => {
                 return {
-                    key: purchasing.id!,
-                    no: purchasing.no,
-                    date: convertMilisecondsToDate(purchasing.date),
-                    supplier_name: purchasing.supplier!.name,
-                    medicine_code: purchasing.supplier!.name,
-                    medicine_name: purchasing.supplier!.name,
-                    buy_price: Currency(formatCommaValue(2000)),
+                    date: convertMilisecondsToDate(buyPriceHistory.created_date),
+                    key: buyPriceHistory.id!,
+                    medicine_code: buyPriceHistory.medicine!.code,
+                    medicine_name: buyPriceHistory.medicine!.name,
+                    no: buyPriceHistory.purchasing?.no,
+                    supplier_name: buyPriceHistory.supplier?.name,
+                    buy_price: Currency(formatCommaValue(buyPriceHistory.price)),
                 };
             }),
             total,
@@ -107,7 +107,7 @@ export const BuyPriceHistoryPage = () => {
                                 value: handleCustomFilter(),
                             }}
                             columns={buyPriceHistoryColumns}
-                            query={getPurchasingList}
+                            query={getBuyPriceHistoryList}
                             handleData={handleData}
                         />
                     </>

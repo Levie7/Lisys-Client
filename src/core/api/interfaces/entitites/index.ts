@@ -1,3 +1,4 @@
+export * from './buyPriceHistory';
 export * from './category';
 export * from './column';
 export * from './medicine';
