@@ -37,6 +37,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
     let [isBarcodeChanged, changeBarcode] = React.useState(false);
     let [isBuyPriceChanged, changeBuyPrice] = React.useState(false);
     let [isCodeChanged, changeCode] = React.useState(false);
+    let [isSellPriceChanged, changeSellPrice] = React.useState(false);
 
     let mutation = mutationForm({
         formType,
@@ -102,6 +103,10 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
         changeCode(initialValues.code !== form.getFieldValue('code'));
     }
 
+    function handleChangeSellPrice() {
+        changeSellPrice(initialValues.sell_price !== form.getFieldValue('sell_price'));
+    }
+
     function handleFinish(values: any) {
         Progress(true);
 
@@ -146,6 +151,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                     isBarcodeChanged,
                     isBuyPriceChanged,
                     isCodeChanged,
+                    isSellPriceChanged,
                     updated_by: auth,
                 };
                 break;
@@ -293,7 +299,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                         name='sell_price'
                         rules={[{ required: true, message: 'Please input the sell price' }]}
                     >
-                        <Input prefix='Rp' />
+                        <Input prefix='Rp' onChange={handleChangeSellPrice} />
                     </Form.Item>
                 </Info>
                 <Info
