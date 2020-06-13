@@ -58,7 +58,7 @@ function SearchPurchasingListPure(
                     columns={
                         withDetail ? purchaseWithDetailSearchListColumns : purchaseSearchListColumns
                     }
-                    customFilter={{ value: { supplier: supplier_id } }}
+                    customFilter={{ value: { is_not_paid: true, supplier: supplier_id } }}
                     query={getPurchasingList}
                     handleData={withDetail ? handlePurchasingDetailData : handlePurchasingData}
                     handleRecord={onRecordList}
