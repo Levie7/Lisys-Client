@@ -48,4 +48,5 @@ export interface PurchaseReturnListData {
     uom: string;
     buy_price: string;
     discount_amount: string;
+    sub_total: string;
 }

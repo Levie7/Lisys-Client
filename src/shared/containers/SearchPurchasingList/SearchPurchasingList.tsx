@@ -16,6 +16,7 @@ import { Modal } from 'src/shared/components/Modal';
 import { getPurchasingList } from 'src/shared/graphql/Purchasing/schema.gql';
 
 interface SearchPurchasingListProps {
+    is_not_paid?: boolean;
     supplier_id: string;
     withDetail?: boolean;
 
@@ -23,7 +24,7 @@ interface SearchPurchasingListProps {
 }
 
 function SearchPurchasingListPure(
-    { onRecordList, supplier_id, withDetail }: SearchPurchasingListProps,
+    { is_not_paid, onRecordList, supplier_id, withDetail }: SearchPurchasingListProps,
     ref: any
 ) {
     let [list, showList] = React.useState(false);
@@ -58,7 +59,7 @@ function SearchPurchasingListPure(
                     columns={
                         withDetail ? purchaseWithDetailSearchListColumns : purchaseSearchListColumns
                     }
-                    customFilter={{ value: { is_not_paid: true, supplier: supplier_id } }}
+                    customFilter={{ value: { is_not_paid, supplier: supplier_id } }}
                     query={getPurchasingList}
                     handleData={withDetail ? handlePurchasingDetailData : handlePurchasingData}
                     handleRecord={onRecordList}

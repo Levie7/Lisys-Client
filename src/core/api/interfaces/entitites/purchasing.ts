@@ -51,4 +51,5 @@ export interface PurchasingWithDetailListData {
     qty: number;
     uom: string;
     buy_price: string;
+    credit_total: string;
 }

@@ -378,6 +378,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                     <h1 className='fw-bold'>Detail</h1>
                     <Form.Item label='Purchasing' name='purchasing'>
                         <SearchPurchasingList
+                            is_not_paid
                             onRecordList={handlePurchasingList}
                             ref={searchPurchasing}
                             supplier_id={supplier}

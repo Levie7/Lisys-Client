@@ -150,4 +150,10 @@ export const purchaseWithDetailSearchListColumns = [
         key: 'buy_price',
         title: 'Buy Price',
     },
+    {
+        dataIndex: 'credit_total',
+        hide: true,
+        key: 'credit_total',
+        title: 'Credit Total',
+    },
 ];

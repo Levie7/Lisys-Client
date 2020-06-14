@@ -131,7 +131,16 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         let qty_total = 0;
         // eslint-disable-next-line array-callback-return
         newData.map((data) => {
-            grand_total += formatValue(data.discount_amount);
+            let sub_total = formatValue(data.sub_total);
+            let discount_amount = sub_total;
+            let cash_amount = 0;
+            if (data.discount_amount === '0') {
+                discount_amount = 0;
+                cash_amount = sub_total;
+            }
+            cash_total += formatValue(cash_amount);
+            credit_discount_total += formatValue(discount_amount);
+            grand_total += formatValue(sub_total);
             qty_total += formatValue(data.qty);
         });
         setGrandTotal({ cash_total, credit_discount_total, grand_total, qty_total });
@@ -145,6 +154,8 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         }
 
         return purchaseReturn.map((detail: PurchaseReturnDetail) => {
+            let sub_total = detail.qty * detail.buy_price;
+
             return {
                 key: detail.purchasing!.id + '-' + detail.medicine!.id,
                 no: detail.purchasing!.no,
@@ -155,6 +166,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                 uom: detail.medicine!.uom!.name,
                 buy_price: Currency(formatCommaValue(detail.buy_price)),
                 discount_amount: Currency(formatCommaValue(detail.discount_amount)),
+                sub_total: Currency(formatCommaValue(sub_total)),
             };
         });
     }
@@ -172,8 +184,8 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     discount_amount: formatValue(data.discount_amount),
                     medicine: key[1],
                     purchasing: key[0],
-                    qty: data.qty,
-                    qty_buy: data.qty_buy,
+                    qty: formatValue(data.qty),
+                    qty_buy: formatValue(data.qty_buy),
                 };
             });
             let fetchQuery;
@@ -221,26 +233,44 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             if (qty > selected!.qty_buy) {
                 Message('Qty of items is more than qty purchase', 'error');
             } else {
+                let sub_total = 0;
                 let cash_total = 0;
                 let credit_discount_total = 0;
                 let grand_total = 0;
                 let qty_total = 0;
                 let newData = data.map((data) => {
                     if (data.key !== modal.recordKey) {
-                        let discount_amount = formatValue(data.qty) * formatValue(data.buy_price);
-                        grand_total += formatValue(discount_amount);
+                        sub_total = formatValue(data.qty) * formatValue(data.buy_price);
+                        let discount_amount = sub_total;
+                        let cash_amount = 0;
+                        if (data.discount_amount === '0') {
+                            discount_amount = 0;
+                            cash_amount = sub_total;
+                        }
+                        cash_total += cash_amount;
+                        credit_discount_total += discount_amount;
+                        grand_total += sub_total;
                         qty_total += formatValue(data.qty);
 
                         return data;
                     }
-                    let discount_amount = qty * formatValue(data.buy_price);
-                    grand_total += formatValue(discount_amount);
+                    sub_total = qty * formatValue(data.buy_price);
+                    let discount_amount = sub_total;
+                    let cash_amount = 0;
+                    if (data.discount_amount === '0') {
+                        discount_amount = 0;
+                        cash_amount = sub_total;
+                    }
+                    cash_total += cash_amount;
+                    credit_discount_total += discount_amount;
+                    grand_total += sub_total;
                     qty_total += formatValue(qty);
 
                     return {
                         ...data,
                         qty,
                         discount_amount: Currency(formatCommaValue(discount_amount)),
+                        sub_total: Currency(formatCommaValue(sub_total)),
                     };
                 });
                 setGrandTotal({ cash_total, credit_discount_total, grand_total, qty_total });
@@ -251,7 +281,13 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             if (qty > tempData.qty) {
                 Message('Qty of items is more than qty purchase', 'error');
             } else {
-                let discount_amount = qty * formatValue(tempData.buy_price);
+                let sub_total = qty * formatValue(tempData.buy_price);
+                let cash_total = 0;
+                let discount_amount = sub_total;
+                if (tempData.credit_total === '0') {
+                    discount_amount = 0;
+                    cash_total = sub_total;
+                }
                 let newData = {
                     key: tempData.key!,
                     no: tempData.no,
@@ -262,11 +298,12 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     uom: tempData.uom,
                     buy_price: tempData.buy_price,
                     discount_amount: Currency(formatCommaValue(discount_amount)),
+                    sub_total: Currency(formatCommaValue(sub_total)),
                 };
                 setGrandTotal({
-                    cash_total: grandTotal.cash_total,
-                    credit_discount_total: grandTotal.credit_discount_total,
-                    grand_total: grandTotal.grand_total + discount_amount,
+                    cash_total: grandTotal.cash_total + cash_total,
+                    credit_discount_total: grandTotal.credit_discount_total + discount_amount,
+                    grand_total: grandTotal.grand_total + sub_total,
                     qty_total: grandTotal.qty_total + formatValue(qty),
                 });
                 setData([...data, newData]);

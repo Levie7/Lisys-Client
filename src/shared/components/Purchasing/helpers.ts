@@ -53,6 +53,7 @@ export function handlePurchasingDetailData(
                 qty: detail.qty,
                 uom: detail.medicine!.uom!.name,
                 buy_price: Currency(formatCommaValue(detail.buy_price)),
+                credit_total: Currency(formatCommaValue(purchase.credit_total)),
             });
         });
     });
