@@ -52,7 +52,7 @@ const CREATE_SUPPLIER = gql`
 `;
 
 const DELETE_SUPPLIER = gql`
-    mutation deleteSupplier($payload: DeleteSupplierPayload) {
+    mutation deleteSupplier($payload: DeletePayload) {
         deleteSupplier(payload: $payload) {
             name
         }
@@ -60,7 +60,7 @@ const DELETE_SUPPLIER = gql`
 `;
 
 const UPDATE_MANY_SUPPLIER = gql`
-    mutation updateManySupplier($payload: UpdateManySupplierPayload) {
+    mutation updateManySupplier($payload: UpdateManyPayload) {
         updateManySupplier(payload: $payload) {
             status
         }

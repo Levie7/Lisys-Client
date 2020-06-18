@@ -123,7 +123,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
         });
         setPayment({
             amount_total: payment.amount_total,
-            change_total: payment.amount_total - sub_total,
+            change_total: payment.amount_total - (grandTotal.total + sub_total),
         });
         setData([...data, newData]);
     }
@@ -195,37 +195,41 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
 
     function handleFinish(values: any) {
         if (data.length > 0) {
-            Progress(true);
+            if (payment.change_total >= 0) {
+                Progress(true);
 
-            let { no, date, description = '' } = values;
-            let detailData = data.map((data) => {
-                return {
-                    medicine: data.key,
-                    qty: formatValue(data.qty),
-                    sell_price: formatValue(data.sell_price),
-                    sub_total: formatValue(data.sub_total),
+                let { no, date, description = '' } = values;
+                let detailData = data.map((data) => {
+                    return {
+                        medicine: data.key,
+                        qty: formatValue(data.qty),
+                        sell_price: formatValue(data.sell_price),
+                        sub_total: formatValue(data.sub_total),
+                    };
+                });
+                let fetchQuery;
+                let fetchPayload = {
+                    change_total: payment.change_total,
+                    id: undefined,
+                    date: formatDefaultDate(date),
+                    description,
+                    detail: detailData,
+                    grand_total: grandTotal.total,
+                    no,
+                    payment_total: payment.amount_total,
+                    qty_total: grandTotal.qty_total,
                 };
-            });
-            let fetchQuery;
-            let fetchPayload = {
-                change_total: payment.change_total,
-                id: undefined,
-                date: formatDefaultDate(date),
-                description,
-                detail: detailData,
-                grand_total: grandTotal.total,
-                no,
-                payment_total: payment.amount_total,
-                qty_total: grandTotal.qty_total,
-            };
-            let payload = { ...fetchPayload, created_by: auth };
+                let payload = { ...fetchPayload, created_by: auth };
 
-            mutation.action({
-                refetchQueries: fetchQuery,
-                variables: {
-                    payload,
-                },
-            });
+                mutation.action({
+                    refetchQueries: fetchQuery,
+                    variables: {
+                        payload,
+                    },
+                });
+            } else {
+                Message('Pay first!', 'error');
+            }
         } else {
             Message('Fill detail first!', 'error');
         }

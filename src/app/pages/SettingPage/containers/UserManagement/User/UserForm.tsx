@@ -32,6 +32,7 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
     let mutation = mutationForm({
         formType,
         mutations: formType === 'create' ? createUser : updateUser,
+        resetForm: handleResetForm,
     });
     let query = queryForm({
         skip: formType === 'create',
@@ -75,7 +76,6 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
             case 'create':
                 fetchQuery = [{ query: USER_MANAGEMENT }];
                 payload = { ...fetchPayload, id: undefined };
-                form.resetFields(['confirm_password', 'name', 'password', 'role', 'username']);
                 break;
             case 'update':
                 fetchQuery = [{ query: USER_BY_ID, variables: { id: recordKey } }];
@@ -91,6 +91,10 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
                 payload,
             },
         });
+    }
+
+    function handleResetForm() {
+        form.resetFields(['confirm_password', 'name', 'password', 'role', 'username']);
     }
 
     function renderPassword() {

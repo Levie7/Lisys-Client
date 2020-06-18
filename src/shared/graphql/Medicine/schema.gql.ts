@@ -69,7 +69,7 @@ const CREATE_MEDICINE = gql`
 `;
 
 const DELETE_MEDICINE = gql`
-    mutation deleteMedicine($payload: DeleteMedicinePayload) {
+    mutation deleteMedicine($payload: DeletePayload) {
         deleteMedicine(payload: $payload) {
             name
         }
@@ -77,7 +77,7 @@ const DELETE_MEDICINE = gql`
 `;
 
 const UPDATE_MANY_MEDICINE = gql`
-    mutation updateManyMedicine($payload: UpdateManyMedicinePayload) {
+    mutation updateManyMedicine($payload: UpdateManyPayload) {
         updateManyMedicine(payload: $payload) {
             status
         }

@@ -61,7 +61,7 @@ const CREATE_SALES = gql`
 `;
 
 const DELETE_SALES = gql`
-    mutation deleteSales($payload: DeleteSalesPayload) {
+    mutation deleteSales($payload: SoftDeletePayload) {
         deleteSales(payload: $payload) {
             no
         }

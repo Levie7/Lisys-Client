@@ -205,37 +205,44 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
             let payment_total = 0;
             let newData = data.map((data) => {
                 if (data.key !== modal.recordKey) {
-                    credit_total += formatValue(data.credit_total);
+                    credit_total +=
+                        formatValue(data.grand_total) - formatValue(data.payment_amount);
                     payment_total += formatValue(data.payment_amount);
 
                     return data;
                 }
-                credit_total += formatValue(data.credit_total);
+                credit_total += formatValue(data.grand_total) - formatValue(payment_amount);
                 payment_total += formatValue(payment_amount);
 
                 return {
                     ...data,
+                    credit_total: Currency(formatCommaValue(credit_total)),
                     payment_amount,
                 };
             });
             setGrandTotal({ credit_total, payment_total });
             setData([...newData]);
         } else {
+            let credit_total = formatValue(tempData.credit_total) - formatValue(payment_amount);
             let newData = {
                 key: tempData.id!,
                 no: tempData.no,
                 date: tempData.date,
                 due_date: tempData.due_date,
                 grand_total: tempData.grand_total,
-                credit_total: tempData.credit_total,
-                payment_amount: payment_amount,
+                credit_total: Currency(formatCommaValue(credit_total)),
+                payment_amount,
             };
             setGrandTotal({
-                credit_total: grandTotal.credit_total + formatValue(tempData.credit_total),
+                credit_total:
+                    grandTotal.credit_total +
+                    formatValue(tempData.credit_total) -
+                    formatValue(payment_amount),
                 payment_total: grandTotal.payment_total + formatValue(payment_amount),
             });
             setData([...data, newData]);
         }
+        handleClose();
     }
 
     function handlePurchasingList(recordKey: string, record: any) {
@@ -253,11 +260,6 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                 title: 'Add Invoice',
             });
         }
-    }
-
-    function handleOk() {
-        dataForm.submit();
-        handleClose();
     }
 
     function handlePaymentMethod(value: string) {
@@ -297,8 +299,8 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
         return (
             <Modal
                 className='ModalData'
+                footer={null}
                 onCancel={handleClose}
-                onOk={handleOk}
                 title={modal.title}
                 visible={modal.show}
             >
@@ -308,7 +310,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                         label='Payment Amount'
                         name='payment_amount'
                     >
-                        <Input prefix='Rp' />
+                        <Input autoFocus prefix='Rp' />
                     </Form.Item>
                 </Form>
             </Modal>

@@ -37,6 +37,6 @@ export interface PurchasePaymentListData {
     date: string;
     due_date: string;
     grand_total: number;
-    credit_total: number;
-    payment_amount: number;
+    credit_total: string;
+    payment_amount: string;
 }

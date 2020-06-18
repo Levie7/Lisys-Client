@@ -329,10 +329,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         }
     }
 
-    function handleOk() {
-        dataForm.submit();
-    }
-
     function handleRecord(recordKey: string, record: any) {
         dataForm.setFieldsValue({
             qty: record.qty,
@@ -363,8 +359,8 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         return (
             <Modal
                 className='ModalData'
+                footer={null}
                 onCancel={handleClose}
-                onOk={handleOk}
                 title={modal.title}
                 visible={modal.show}
             >
@@ -375,7 +371,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                         name='qty'
                         rules={[{ required: true, message: 'Please input the Qty' }]}
                     >
-                        <Input />
+                        <Input autoFocus />
                     </Form.Item>
                 </Form>
             </Modal>

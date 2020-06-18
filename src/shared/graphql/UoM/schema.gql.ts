@@ -44,7 +44,7 @@ const CREATE_UOM = gql`
 `;
 
 const DELETE_UOM = gql`
-    mutation deleteUoM($payload: DeleteUoMPayload) {
+    mutation deleteUoM($payload: DeletePayload) {
         deleteUoM(payload: $payload) {
             name
         }
@@ -52,7 +52,7 @@ const DELETE_UOM = gql`
 `;
 
 const UPDATE_MANY_UOM = gql`
-    mutation updateManyUoM($payload: UpdateManyUoMPayload) {
+    mutation updateManyUoM($payload: UpdateManyPayload) {
         updateManyUoM(payload: $payload) {
             status
         }
