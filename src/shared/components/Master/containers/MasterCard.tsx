@@ -62,7 +62,7 @@ export function MasterCard({
     }
 
     return (
-        <div className='d-flex fj-center m-4'>
+        <div className='d-flex mx-8 my-4'>
             <Card className='MasterCard'>
                 <MasterContentHeader
                     action={crud.action}

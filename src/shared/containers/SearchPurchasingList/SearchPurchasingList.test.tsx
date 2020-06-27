@@ -13,6 +13,7 @@ describe('SearchPurchasingList', () => {
     let wrap: any;
     let searchMedicine: any;
     const props = {
+        supplier_id: 'supplier1',
         onRecordList: jest.fn(),
     };
     let queryHandler = jest.fn().mockResolvedValue({

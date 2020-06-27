@@ -66,7 +66,7 @@ const CREATE_PURCHASE_PAYMENT = gql`
 `;
 
 const DELETE_PURCHASE_PAYMENT = gql`
-    mutation deletePurchasePayment($payload: DeletePurchasePaymentPayload) {
+    mutation deletePurchasePayment($payload: SoftDeletePayload) {
         deletePurchasePayment(payload: $payload) {
             status
         }

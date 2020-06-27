@@ -49,7 +49,6 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
     let isMobile = useUIContext().isMobile;
     let searchPurchasing = React.useRef<any>();
     let [supplier, setSupplier] = React.useState('');
-    let [isNoChanged, changeNo] = React.useState(false);
     let [isPaymentNoDisabled, setPaymentNoDisabled] = React.useState(true);
     let [init, setInit] = React.useState(false);
     let [data, setData] = React.useState<PurchasePaymentListData[]>([]);
@@ -110,10 +109,6 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
         }
     }
 
-    function handleChangeNo() {
-        changeNo(initialValues.no !== form.getFieldValue('no'));
-    }
-
     function handleClose() {
         showModal({ ...modal, show: false });
     }
@@ -154,7 +149,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
         if (data.length > 0) {
             Progress(true);
 
-            let { no, date, description = '', payment_method, payment_no = '', supplier } = values;
+            let { date, description = '', payment_method, payment_no = '', supplier } = values;
             let detailData = data.map((data) => {
                 return {
                     payment_amount: formatValue(data.payment_amount),
@@ -168,7 +163,6 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                 description,
                 detail: detailData,
                 id: recordKey,
-                no,
                 payment_method,
                 payment_no,
                 payment_total: grandTotal.payment_total,
@@ -181,7 +175,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                     payload = { ...fetchPayload, id: undefined, created_by: auth };
                     break;
                 case 'update':
-                    payload = { ...fetchPayload, isNoChanged, updated_by: auth };
+                    payload = { ...fetchPayload, updated_by: auth };
                     fetchQuery = [{ query: PURCHASE_PAYMENT_BY_ID, variables: { id: recordKey } }];
                     break;
             }
@@ -205,37 +199,44 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
             let payment_total = 0;
             let newData = data.map((data) => {
                 if (data.key !== modal.recordKey) {
-                    credit_total += formatValue(data.credit_total);
+                    credit_total +=
+                        formatValue(data.grand_total) - formatValue(data.payment_amount);
                     payment_total += formatValue(data.payment_amount);
 
                     return data;
                 }
-                credit_total += formatValue(data.credit_total);
+                credit_total += formatValue(data.grand_total) - formatValue(payment_amount);
                 payment_total += formatValue(payment_amount);
 
                 return {
                     ...data,
+                    credit_total: Currency(formatCommaValue(credit_total)),
                     payment_amount,
                 };
             });
             setGrandTotal({ credit_total, payment_total });
             setData([...newData]);
         } else {
+            let credit_total = formatValue(tempData.credit_total) - formatValue(payment_amount);
             let newData = {
                 key: tempData.id!,
                 no: tempData.no,
                 date: tempData.date,
                 due_date: tempData.due_date,
                 grand_total: tempData.grand_total,
-                credit_total: tempData.credit_total,
-                payment_amount: payment_amount,
+                credit_total: Currency(formatCommaValue(credit_total)),
+                payment_amount,
             };
             setGrandTotal({
-                credit_total: grandTotal.credit_total + formatValue(tempData.credit_total),
+                credit_total:
+                    grandTotal.credit_total +
+                    formatValue(tempData.credit_total) -
+                    formatValue(payment_amount),
                 payment_total: grandTotal.payment_total + formatValue(payment_amount),
             });
             setData([...data, newData]);
         }
+        handleClose();
     }
 
     function handlePurchasingList(recordKey: string, record: any) {
@@ -253,11 +254,6 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                 title: 'Add Invoice',
             });
         }
-    }
-
-    function handleOk() {
-        dataForm.submit();
-        handleClose();
     }
 
     function handlePaymentMethod(value: string) {
@@ -286,7 +282,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
             payment_total: 0,
         });
         setPaymentNoDisabled(true);
-        form.resetFields(['no', 'date', 'supplier', 'payment_method', 'payment_no', 'description']);
+        form.resetFields(['date', 'supplier', 'payment_method', 'payment_no', 'description']);
     }
 
     function handleSupplier(value: string) {
@@ -297,8 +293,8 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
         return (
             <Modal
                 className='ModalData'
+                footer={null}
                 onCancel={handleClose}
-                onOk={handleOk}
                 title={modal.title}
                 visible={modal.show}
             >
@@ -308,7 +304,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                         label='Payment Amount'
                         name='payment_amount'
                     >
-                        <Input prefix='Rp' />
+                        <Input autoFocus prefix='Rp' />
                     </Form.Item>
                 </Form>
             </Modal>
@@ -320,12 +316,8 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item
-                        label='Purchase No'
-                        name='no'
-                        rules={[{ required: true, message: 'Please input the purchase no' }]}
-                    >
-                        <Input onChange={handleChangeNo} />
+                    <Form.Item label='Purchase Payment No' name='no'>
+                        <Input disabled />
                     </Form.Item>
                     <Form.Item
                         label='Purchase Payment Date'
@@ -378,6 +370,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                     <h1 className='fw-bold'>Detail</h1>
                     <Form.Item label='Purchasing' name='purchasing'>
                         <SearchPurchasingList
+                            is_not_paid
                             onRecordList={handlePurchasingList}
                             ref={searchPurchasing}
                             supplier_id={supplier}

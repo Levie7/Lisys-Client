@@ -54,7 +54,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
     let isMobile = useUIContext().isMobile;
     let searchPurchasing = React.useRef<any>();
     let [supplier, setSupplier] = React.useState('');
-    let [isNoChanged, changeNo] = React.useState(false);
     let [init, setInit] = React.useState(false);
     let [data, setData] = React.useState<PurchaseReturnListData[]>([]);
     let [modal, showModal] = React.useState<{
@@ -115,10 +114,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         }
     }
 
-    function handleChangeNo() {
-        changeNo(initialValues.no !== form.getFieldValue('no'));
-    }
-
     function handleClose() {
         showModal({ ...modal, show: false });
     }
@@ -131,7 +126,16 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         let qty_total = 0;
         // eslint-disable-next-line array-callback-return
         newData.map((data) => {
-            grand_total += formatValue(data.discount_amount);
+            let sub_total = formatValue(data.sub_total);
+            let discount_amount = sub_total;
+            let cash_amount = 0;
+            if (data.discount_amount === '0') {
+                discount_amount = 0;
+                cash_amount = sub_total;
+            }
+            cash_total += formatValue(cash_amount);
+            credit_discount_total += formatValue(discount_amount);
+            grand_total += formatValue(sub_total);
             qty_total += formatValue(data.qty);
         });
         setGrandTotal({ cash_total, credit_discount_total, grand_total, qty_total });
@@ -145,6 +149,8 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         }
 
         return purchaseReturn.map((detail: PurchaseReturnDetail) => {
+            let sub_total = detail.qty * detail.buy_price;
+
             return {
                 key: detail.purchasing!.id + '-' + detail.medicine!.id,
                 no: detail.purchasing!.no,
@@ -155,6 +161,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                 uom: detail.medicine!.uom!.name,
                 buy_price: Currency(formatCommaValue(detail.buy_price)),
                 discount_amount: Currency(formatCommaValue(detail.discount_amount)),
+                sub_total: Currency(formatCommaValue(sub_total)),
             };
         });
     }
@@ -163,7 +170,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         if (data.length > 0) {
             Progress(true);
 
-            let { no, date, description = '', supplier } = values;
+            let { date, description = '', supplier } = values;
             let detailData = data.map((data) => {
                 let key = data.key!.split('-');
 
@@ -172,8 +179,8 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     discount_amount: formatValue(data.discount_amount),
                     medicine: key[1],
                     purchasing: key[0],
-                    qty: data.qty,
-                    qty_buy: data.qty_buy,
+                    qty: formatValue(data.qty),
+                    qty_buy: formatValue(data.qty_buy),
                 };
             });
             let fetchQuery;
@@ -185,7 +192,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                 detail: detailData,
                 grand_total: grandTotal.grand_total,
                 id: recordKey,
-                no,
                 qty_total: grandTotal.qty_total,
                 supplier,
             };
@@ -196,7 +202,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     payload = { ...fetchPayload, id: undefined, created_by: auth };
                     break;
                 case 'update':
-                    payload = { ...fetchPayload, isNoChanged, updated_by: auth };
+                    payload = { ...fetchPayload, updated_by: auth };
                     fetchQuery = [{ query: PURCHASE_RETURN_BY_ID, variables: { id: recordKey } }];
                     break;
             }
@@ -221,26 +227,44 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             if (qty > selected!.qty_buy) {
                 Message('Qty of items is more than qty purchase', 'error');
             } else {
+                let sub_total = 0;
                 let cash_total = 0;
                 let credit_discount_total = 0;
                 let grand_total = 0;
                 let qty_total = 0;
                 let newData = data.map((data) => {
                     if (data.key !== modal.recordKey) {
-                        let discount_amount = formatValue(data.qty) * formatValue(data.buy_price);
-                        grand_total += formatValue(discount_amount);
+                        sub_total = formatValue(data.qty) * formatValue(data.buy_price);
+                        let discount_amount = sub_total;
+                        let cash_amount = 0;
+                        if (data.discount_amount === '0') {
+                            discount_amount = 0;
+                            cash_amount = sub_total;
+                        }
+                        cash_total += cash_amount;
+                        credit_discount_total += discount_amount;
+                        grand_total += sub_total;
                         qty_total += formatValue(data.qty);
 
                         return data;
                     }
-                    let discount_amount = qty * formatValue(data.buy_price);
-                    grand_total += formatValue(discount_amount);
+                    sub_total = qty * formatValue(data.buy_price);
+                    let discount_amount = sub_total;
+                    let cash_amount = 0;
+                    if (data.discount_amount === '0') {
+                        discount_amount = 0;
+                        cash_amount = sub_total;
+                    }
+                    cash_total += cash_amount;
+                    credit_discount_total += discount_amount;
+                    grand_total += sub_total;
                     qty_total += formatValue(qty);
 
                     return {
                         ...data,
                         qty,
                         discount_amount: Currency(formatCommaValue(discount_amount)),
+                        sub_total: Currency(formatCommaValue(sub_total)),
                     };
                 });
                 setGrandTotal({ cash_total, credit_discount_total, grand_total, qty_total });
@@ -251,7 +275,13 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             if (qty > tempData.qty) {
                 Message('Qty of items is more than qty purchase', 'error');
             } else {
-                let discount_amount = qty * formatValue(tempData.buy_price);
+                let sub_total = qty * formatValue(tempData.buy_price);
+                let cash_total = 0;
+                let discount_amount = sub_total;
+                if (tempData.credit_total === '0') {
+                    discount_amount = 0;
+                    cash_total = sub_total;
+                }
                 let newData = {
                     key: tempData.key!,
                     no: tempData.no,
@@ -262,11 +292,12 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     uom: tempData.uom,
                     buy_price: tempData.buy_price,
                     discount_amount: Currency(formatCommaValue(discount_amount)),
+                    sub_total: Currency(formatCommaValue(sub_total)),
                 };
                 setGrandTotal({
-                    cash_total: grandTotal.cash_total,
-                    credit_discount_total: grandTotal.credit_discount_total,
-                    grand_total: grandTotal.grand_total + discount_amount,
+                    cash_total: grandTotal.cash_total + cash_total,
+                    credit_discount_total: grandTotal.credit_discount_total + discount_amount,
+                    grand_total: grandTotal.grand_total + sub_total,
                     qty_total: grandTotal.qty_total + formatValue(qty),
                 });
                 setData([...data, newData]);
@@ -292,10 +323,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         }
     }
 
-    function handleOk() {
-        dataForm.submit();
-    }
-
     function handleRecord(recordKey: string, record: any) {
         dataForm.setFieldsValue({
             qty: record.qty,
@@ -315,7 +342,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             grand_total: 0,
             qty_total: 0,
         });
-        form.resetFields(['no', 'date', 'supplier', 'description']);
+        form.resetFields(['date', 'supplier', 'description']);
     }
 
     function handleSupplier(value: string) {
@@ -326,8 +353,8 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         return (
             <Modal
                 className='ModalData'
+                footer={null}
                 onCancel={handleClose}
-                onOk={handleOk}
                 title={modal.title}
                 visible={modal.show}
             >
@@ -338,7 +365,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                         name='qty'
                         rules={[{ required: true, message: 'Please input the Qty' }]}
                     >
-                        <Input />
+                        <Input autoFocus />
                     </Form.Item>
                 </Form>
             </Modal>
@@ -350,15 +377,11 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item
-                        label='Purchase No'
-                        name='no'
-                        rules={[{ required: true, message: 'Please input the purchase no' }]}
-                    >
-                        <Input onChange={handleChangeNo} />
+                    <Form.Item label='Purchase Return No' name='no'>
+                        <Input disabled />
                     </Form.Item>
                     <Form.Item
-                        label='Purchase Payment Date'
+                        label='Purchase Return Date'
                         name='date'
                         rules={[
                             {

@@ -29,14 +29,17 @@ function CrudListTablePure({
 
     return (
         <Table {...props}>
-            {columns.map((column: any) => (
-                <Column
-                    dataIndex={column.dataIndex}
-                    key={column.key}
-                    sorter={column.sorter}
-                    title={column.title}
-                />
-            ))}
+            {columns.map(
+                (column: any) =>
+                    !column.hide && (
+                        <Column
+                            dataIndex={column.dataIndex}
+                            key={column.key}
+                            sorter={column.sorter}
+                            title={column.title}
+                        />
+                    )
+            )}
             {hasStatus && (
                 <Column
                     title='Status'

@@ -123,7 +123,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
         });
         setPayment({
             amount_total: payment.amount_total,
-            change_total: payment.amount_total - sub_total,
+            change_total: payment.amount_total - (grandTotal.total + sub_total),
         });
         setData([...data, newData]);
     }
@@ -195,37 +195,40 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
 
     function handleFinish(values: any) {
         if (data.length > 0) {
-            Progress(true);
+            if (payment.change_total >= 0) {
+                Progress(true);
 
-            let { no, date, description = '' } = values;
-            let detailData = data.map((data) => {
-                return {
-                    medicine: data.key,
-                    qty: formatValue(data.qty),
-                    sell_price: formatValue(data.sell_price),
-                    sub_total: formatValue(data.sub_total),
+                let { date, description = '' } = values;
+                let detailData = data.map((data) => {
+                    return {
+                        medicine: data.key,
+                        qty: formatValue(data.qty),
+                        sell_price: formatValue(data.sell_price),
+                        sub_total: formatValue(data.sub_total),
+                    };
+                });
+                let fetchQuery;
+                let fetchPayload = {
+                    change_total: payment.change_total,
+                    id: undefined,
+                    date: formatDefaultDate(date),
+                    description,
+                    detail: detailData,
+                    grand_total: grandTotal.total,
+                    payment_total: payment.amount_total,
+                    qty_total: grandTotal.qty_total,
                 };
-            });
-            let fetchQuery;
-            let fetchPayload = {
-                change_total: payment.change_total,
-                id: undefined,
-                date: formatDefaultDate(date),
-                description,
-                detail: detailData,
-                grand_total: grandTotal.total,
-                no,
-                payment_total: payment.amount_total,
-                qty_total: grandTotal.qty_total,
-            };
-            let payload = { ...fetchPayload, created_by: auth };
+                let payload = { ...fetchPayload, created_by: auth };
 
-            mutation.action({
-                refetchQueries: fetchQuery,
-                variables: {
-                    payload,
-                },
-            });
+                mutation.action({
+                    refetchQueries: fetchQuery,
+                    variables: {
+                        payload,
+                    },
+                });
+            } else {
+                Message('Pay first!', 'error');
+            }
         } else {
             Message('Fill detail first!', 'error');
         }
@@ -307,7 +310,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
             amount_total: 0,
             change_total: 0,
         });
-        form.resetFields(['no', 'date', 'description']);
+        form.resetFields(['date', 'description']);
     }
 
     function renderDataForm() {
@@ -360,12 +363,8 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item
-                        label='Sales No'
-                        name='no'
-                        rules={[{ required: true, message: 'Please input the sales no' }]}
-                    >
-                        <Input />
+                    <Form.Item label='Sales No' name='no'>
+                        <Input disabled />
                     </Form.Item>
                     <Form.Item
                         label='Sales Date'
@@ -377,7 +376,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                             },
                         ]}
                     >
-                        <DatePicker defaultValue={moment()} />
+                        <DatePicker defaultValue={moment()} disabled />
                     </Form.Item>
                     <Form.Item label='Description' name='description'>
                         <InputArea />

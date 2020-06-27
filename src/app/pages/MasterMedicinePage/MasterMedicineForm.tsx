@@ -35,7 +35,9 @@ interface MasterMedicineFormProps {
 export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicineFormProps) {
     let [form] = Form.useForm();
     let [isBarcodeChanged, changeBarcode] = React.useState(false);
+    let [isBuyPriceChanged, changeBuyPrice] = React.useState(false);
     let [isCodeChanged, changeCode] = React.useState(false);
+    let [isSellPriceChanged, changeSellPrice] = React.useState(false);
 
     let mutation = mutationForm({
         formType,
@@ -45,7 +47,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
     let query = queryForm({
         skip: formType === 'create',
         query: getMedicineByQuery,
-        variables: { id: recordKey },
+        variables: { payload: { id: recordKey } },
     });
     let categoryQuery = queryForm({ query: getCategories });
     let uomQuery = queryForm({ query: getUoMs });
@@ -93,8 +95,16 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
         changeBarcode(initialValues.barcode !== form.getFieldValue('barcode'));
     }
 
+    function handleChangeBuyPrice() {
+        changeBuyPrice(initialValues.buy_price !== form.getFieldValue('buy_price'));
+    }
+
     function handleChangeCode() {
         changeCode(initialValues.code !== form.getFieldValue('code'));
+    }
+
+    function handleChangeSellPrice() {
+        changeSellPrice(initialValues.sell_price !== form.getFieldValue('sell_price'));
     }
 
     function handleFinish(values: any) {
@@ -133,8 +143,17 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                 payload = { ...fetchPayload, id: undefined, created_by: auth };
                 break;
             case 'update':
-                fetchQuery = [{ query: MEDICINE_BY_QUERY, variables: { id: recordKey } }];
-                payload = { ...fetchPayload, isBarcodeChanged, isCodeChanged, updated_by: auth };
+                fetchQuery = [
+                    { query: MEDICINE_BY_QUERY, variables: { payload: { id: recordKey } } },
+                ];
+                payload = {
+                    ...fetchPayload,
+                    isBarcodeChanged,
+                    isBuyPriceChanged,
+                    isCodeChanged,
+                    isSellPriceChanged,
+                    updated_by: auth,
+                };
                 break;
         }
 
@@ -207,7 +226,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                         name='code'
                         rules={[{ required: true, message: 'Please input the code' }]}
                     >
-                        <Input onChange={handleChangeCode} />
+                        <Input autoFocus onChange={handleChangeCode} />
                     </Form.Item>
                     <Form.Item
                         label='Name'
@@ -269,7 +288,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                         name='buy_price'
                         rules={[{ required: true, message: 'Please input the buy price' }]}
                     >
-                        <Input prefix='Rp' />
+                        <Input prefix='Rp' onChange={handleChangeBuyPrice} />
                     </Form.Item>
                     <Form.Item getValueFromEvent={handlePercentage} name='percentage'>
                         <Input suffix='%' />
@@ -280,7 +299,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                         name='sell_price'
                         rules={[{ required: true, message: 'Please input the sell price' }]}
                     >
-                        <Input prefix='Rp' />
+                        <Input prefix='Rp' onChange={handleChangeSellPrice} />
                     </Form.Item>
                 </Info>
                 <Info

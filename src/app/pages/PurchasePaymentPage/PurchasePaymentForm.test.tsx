@@ -5,7 +5,7 @@ import { createMockClient } from 'mock-apollo-client';
 import moment from 'moment';
 import React from 'react';
 
-import { PURCHASING_BY_ID, PURCHASING_LIST } from 'src/shared/graphql/Purchasing/schema.gql';
+import { PURCHASING_LIST } from 'src/shared/graphql/Purchasing/schema.gql';
 import { SUPPLIERS } from 'src/shared/graphql/Supplier/schema.gql';
 
 import { PurchasePaymentForm } from './PurchasePaymentForm';

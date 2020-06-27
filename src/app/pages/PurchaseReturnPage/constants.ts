@@ -79,4 +79,9 @@ export const purchaseReturnDetailColumns = [
         key: 'discount_amount',
         title: 'Discount Amount',
     },
+    {
+        dataIndex: 'sub_total',
+        key: 'sub_total',
+        title: 'Sub Total',
+    },
 ];

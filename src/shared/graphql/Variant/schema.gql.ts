@@ -44,7 +44,7 @@ const CREATE_VARIANT = gql`
 `;
 
 const DELETE_VARIANT = gql`
-    mutation deleteVariant($payload: DeleteVariantPayload) {
+    mutation deleteVariant($payload: DeletePayload) {
         deleteVariant(payload: $payload) {
             name
         }
@@ -52,7 +52,7 @@ const DELETE_VARIANT = gql`
 `;
 
 const UPDATE_MANY_VARIANT = gql`
-    mutation updateManyVariant($payload: UpdateManyVariantPayload) {
+    mutation updateManyVariant($payload: UpdateManyPayload) {
         updateManyVariant(payload: $payload) {
             status
         }

@@ -74,7 +74,7 @@ const CREATE_PURCHASE_RETURN = gql`
 `;
 
 const DELETE_PURCHASE_RETURN = gql`
-    mutation deletePurchaseReturn($payload: DeletePurchaseReturnPayload) {
+    mutation deletePurchaseReturn($payload: SoftDeletePayload) {
         deletePurchaseReturn(payload: $payload) {
             status
         }

@@ -4,6 +4,7 @@ import * as React from 'react';
 
 interface DatePickerProps {
     defaultValue?: Moment;
+    disabled?: boolean;
     format?: string | string[];
     value?: Moment;
 
@@ -11,9 +12,10 @@ interface DatePickerProps {
 }
 
 export const DatePicker = React.memo<DatePickerProps>(
-    ({ defaultValue, format = 'DD-MM-YYYY', onChange, value }) => (
+    ({ defaultValue, disabled, format = 'DD-MM-YYYY', onChange, value }) => (
         <AntDatePicker
             defaultValue={defaultValue}
+            disabled={disabled}
             format={format}
             onChange={onChange}
             value={value}

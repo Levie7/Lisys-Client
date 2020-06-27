@@ -44,7 +44,7 @@ const CREATE_CATEGORY = gql`
 `;
 
 const DELETE_CATEGORY = gql`
-    mutation deleteCategory($payload: DeleteCategoryPayload) {
+    mutation deleteCategory($payload: DeletePayload) {
         deleteCategory(payload: $payload) {
             name
         }
@@ -52,7 +52,7 @@ const DELETE_CATEGORY = gql`
 `;
 
 const UPDATE_MANY_CATEGORY = gql`
-    mutation updateManyCategory($payload: UpdateManyCategoryPayload) {
+    mutation updateManyCategory($payload: UpdateManyPayload) {
         updateManyCategory(payload: $payload) {
             status
         }
