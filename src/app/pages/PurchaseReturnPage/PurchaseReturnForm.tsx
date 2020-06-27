@@ -54,7 +54,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
     let isMobile = useUIContext().isMobile;
     let searchPurchasing = React.useRef<any>();
     let [supplier, setSupplier] = React.useState('');
-    let [isNoChanged, changeNo] = React.useState(false);
     let [init, setInit] = React.useState(false);
     let [data, setData] = React.useState<PurchaseReturnListData[]>([]);
     let [modal, showModal] = React.useState<{
@@ -115,10 +114,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         }
     }
 
-    function handleChangeNo() {
-        changeNo(initialValues.no !== form.getFieldValue('no'));
-    }
-
     function handleClose() {
         showModal({ ...modal, show: false });
     }
@@ -175,7 +170,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         if (data.length > 0) {
             Progress(true);
 
-            let { no, date, description = '', supplier } = values;
+            let { date, description = '', supplier } = values;
             let detailData = data.map((data) => {
                 let key = data.key!.split('-');
 
@@ -197,7 +192,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                 detail: detailData,
                 grand_total: grandTotal.grand_total,
                 id: recordKey,
-                no,
                 qty_total: grandTotal.qty_total,
                 supplier,
             };
@@ -208,7 +202,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     payload = { ...fetchPayload, id: undefined, created_by: auth };
                     break;
                 case 'update':
-                    payload = { ...fetchPayload, isNoChanged, updated_by: auth };
+                    payload = { ...fetchPayload, updated_by: auth };
                     fetchQuery = [{ query: PURCHASE_RETURN_BY_ID, variables: { id: recordKey } }];
                     break;
             }
@@ -348,7 +342,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             grand_total: 0,
             qty_total: 0,
         });
-        form.resetFields(['no', 'date', 'supplier', 'description']);
+        form.resetFields(['date', 'supplier', 'description']);
     }
 
     function handleSupplier(value: string) {
@@ -383,15 +377,11 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item
-                        label='Purchase No'
-                        name='no'
-                        rules={[{ required: true, message: 'Please input the purchase no' }]}
-                    >
-                        <Input onChange={handleChangeNo} />
+                    <Form.Item label='Purchase Return No' name='no'>
+                        <Input disabled />
                     </Form.Item>
                     <Form.Item
-                        label='Purchase Payment Date'
+                        label='Purchase Return Date'
                         name='date'
                         rules={[
                             {

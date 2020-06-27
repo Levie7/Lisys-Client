@@ -198,7 +198,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
             if (payment.change_total >= 0) {
                 Progress(true);
 
-                let { no, date, description = '' } = values;
+                let { date, description = '' } = values;
                 let detailData = data.map((data) => {
                     return {
                         medicine: data.key,
@@ -215,7 +215,6 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                     description,
                     detail: detailData,
                     grand_total: grandTotal.total,
-                    no,
                     payment_total: payment.amount_total,
                     qty_total: grandTotal.qty_total,
                 };
@@ -311,7 +310,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
             amount_total: 0,
             change_total: 0,
         });
-        form.resetFields(['no', 'date', 'description']);
+        form.resetFields(['date', 'description']);
     }
 
     function renderDataForm() {
@@ -364,12 +363,8 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item
-                        label='Sales No'
-                        name='no'
-                        rules={[{ required: true, message: 'Please input the sales no' }]}
-                    >
-                        <Input />
+                    <Form.Item label='Sales No' name='no'>
+                        <Input disabled />
                     </Form.Item>
                     <Form.Item
                         label='Sales Date'
@@ -381,7 +376,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                             },
                         ]}
                     >
-                        <DatePicker defaultValue={moment()} />
+                        <DatePicker defaultValue={moment()} disabled />
                     </Form.Item>
                     <Form.Item label='Description' name='description'>
                         <InputArea />
