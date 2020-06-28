@@ -41,7 +41,10 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
     let [paymentForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
     let searchMedicine = React.useRef<any>();
-    let [filter, setFilter] = React.useState({ barcode: '', code: '' });
+    let [filter, setFilter] = React.useState<{ barcode: string; code: string; id?: string }>({
+        barcode: '',
+        code: '',
+    });
     let [data, setData] = React.useState<SalesListData[]>([]);
     let [modal, showModal] = React.useState<{
         recordKey?: string;
@@ -61,11 +64,12 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
         amount_total: 0,
         change_total: 0,
     });
+    let [updateQty, setUpdateQty] = React.useState(0);
 
     let medicineQuery = queryList({
-        skip: filter.code === '' && filter.barcode === '',
+        skip: filter.code === '' && filter.barcode === '' && !filter.id,
         query: getMedicineByQuery,
-        variables: { payload: { barcode: filter.barcode, code: filter.code } },
+        variables: { payload: { barcode: filter.barcode, code: filter.code, id: filter.id } },
     });
     let mutation = mutationForm({
         formType,
@@ -75,9 +79,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
 
     if (mutation.loading || medicineQuery.loading) return <Spin />;
 
-    let initialValues = {
-        date: moment(),
-    };
+    let initialValues = { date: moment() };
 
     let medicine = medicineQuery.data?.getMedicineByQuery;
     if (medicine) {
@@ -98,6 +100,14 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                     show: true,
                     title: 'Add Product',
                 });
+            }
+        } else if (filter.id) {
+            let checkStock = medicine.stock - updateQty >= 0;
+            if (checkStock) {
+                handleChangeProduct({ qty: updateQty, recordKey: modal.recordKey! });
+                handleClose();
+            } else {
+                Message('Stock is not enough', 'error');
             }
         }
         handleResetFindData();
@@ -236,15 +246,20 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
 
     function handleFinishData(values: any) {
         let { qty = 0 } = values;
-        let tempData = modal.tempData!;
-        if (modal.recordKey) {
-            handleChangeProduct({ qty, recordKey: modal.recordKey });
-        } else {
-            handleAddProduct({ medicine: tempData, qty });
-        }
 
-        dataForm.resetFields(['qty', 'batch_no', 'expired_date']);
-        handleClose();
+        if (modal.recordKey) {
+            setFilter({ ...filter, id: modal.recordKey });
+            setUpdateQty(qty);
+        } else {
+            let tempData = modal.tempData!;
+            if (tempData.stock - qty >= 0) {
+                handleAddProduct({ medicine: tempData, qty });
+                dataForm.resetFields(['qty']);
+                handleClose();
+            } else {
+                Message('Stock is not enough', 'error');
+            }
+        }
     }
 
     function handleFinishPayment(values: any) {
