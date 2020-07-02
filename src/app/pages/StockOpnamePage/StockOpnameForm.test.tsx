@@ -7,7 +7,8 @@ import React from 'react';
 
 import { MEDICINE_BY_QUERY, MEDICINE_LIST } from 'src/shared/graphql/Medicine/schema.gql';
 
-import { SalesForm } from './SalesForm';
+import { StockOpnameForm } from './StockOpnameForm';
+import { STOCK_OPNAME_BY_ID } from './schema.gql';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -23,6 +24,7 @@ Object.defineProperty(window, 'matchMedia', {
     })),
 });
 let mockClient = createMockClient();
+let mockInitialValues = { date: moment().format('YYYY-MM-DD') };
 let mockMedicine = [
     {
         barcode: '123',
@@ -71,13 +73,51 @@ let mockMedicine = [
         },
     },
 ];
-describe('SalesForm', () => {
+describe('StockOpnameForm', () => {
     let wrap: any;
     let props = {
         auth: 'username1',
-        formType: 'create',
+        formType: 'update',
         recordKey: 'id1',
     };
+    let queryHandler = jest.fn().mockResolvedValue({
+        data: {
+            getPurchasingById: {
+                no: 'no1',
+                date: moment(),
+                description: 'description1',
+                due_date: moment().add(1, 'months'),
+                detail: [
+                    {
+                        batch_no: '',
+                        buy_price: '2000',
+                        expired_date: '2020-06-20',
+                        id: 'id1',
+                        medicine: {
+                            id: 'id1',
+                            code: 'code1',
+                            name: 'Paramex',
+                            uom: {
+                                id: 'id1',
+                                name: 'uom1',
+                            },
+                        },
+                        qty: 1,
+                        sell_price: '2000',
+                        sub_total: '2000',
+                    },
+                ],
+                id: 'id1',
+                supplier: {
+                    id: 'id1',
+                    name: 'supplier1',
+                },
+                qty_total: 1,
+                grand_total: '2000',
+                credit_total: '2000',
+            },
+        },
+    });
     let queryHandlerMedicine = jest.fn().mockResolvedValue({
         data: {
             getMedicineList: {
@@ -86,60 +126,35 @@ describe('SalesForm', () => {
             },
         },
     });
-    let queryHandlerMedicineByQuery = jest.fn().mockResolvedValue({
-        data: {
-            getMedicineByQuery: {
-                barcode: 'barcode1',
-                buy_price: '1000',
-                category: {
-                    id: 'id1',
-                    name: 'category1',
-                },
-                code: 'code1',
-                id: 'id1',
-                min_stock: 1,
-                name: 'medicine1',
-                sell_price: '2000',
-                status: 'active',
-                stock: 12,
-                uom: {
-                    id: 'id1',
-                    name: 'uom1',
-                },
-                variant: {
-                    id: 'id1',
-                    name: 'variant1',
-                },
-            },
-        },
+    let queryHandlerMedicineQuery = jest.fn().mockResolvedValue({
+        data: { getMedicineByQuery: null },
     });
-    mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandlerMedicineByQuery);
+    mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandlerMedicineQuery);
     mockClient.setRequestHandler(MEDICINE_LIST, queryHandlerMedicine);
+    mockClient.setRequestHandler(STOCK_OPNAME_BY_ID, queryHandler);
 
-    it('should render sales form', async () => {
+    it('should render stock opname form', async () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <SalesForm {...props} />
+                    <StockOpnameForm {...props} />
                 </ApolloProvider>
             );
         });
 
-        expect(wrap.find('SalesForm').exists()).toBeTruthy();
+        expect(wrap.find('StockOpnameForm').exists()).toBeTruthy();
     });
 
     describe('when data is loaded', () => {
         describe('when formType is create', () => {
             let initialUndefined: any;
             beforeEach(async () => {
-                initialUndefined = {
-                    date: moment().format('YYYY-MM-DD'),
-                    description: undefined,
-                };
+                initialUndefined = { date: moment().format('YYYY-MM-DD') };
+                props = { ...props, formType: 'create' };
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <SalesForm {...props} />
+                            <StockOpnameForm {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -152,9 +167,6 @@ describe('SalesForm', () => {
                         'YYYY-MM-DD'
                     )
                 ).toEqual(initialUndefined.date);
-                expect(
-                    wrap.find('ForwardRef(InternalForm)').props().initialValues.description
-                ).toEqual(initialUndefined.description);
             });
 
             describe('when entry medicine code and code is not exist', () => {
@@ -162,13 +174,13 @@ describe('SalesForm', () => {
                     await act(async () => {
                         wrap = mount(
                             <ApolloProvider client={mockClient}>
-                                <SalesForm {...props} />
+                                <StockOpnameForm {...props} />
                             </ApolloProvider>
                         );
-                        wrap.find('input#code').simulate('change', {
+                        wrap.find('input.code').simulate('change', {
                             target: { name: 'code', value: 'code2' },
                         });
-                        wrap.find('input#code').simulate('keydown', {
+                        wrap.find('input.code').simulate('keydown', {
                             keyCode: 13,
                             which: 13,
                             charCode: 0,
@@ -182,25 +194,7 @@ describe('SalesForm', () => {
                             .at(0)
                             .props().visible
                     ).toBeFalsy();
-                    expect(wrap.find('input#code').props().value).toEqual('');
-                });
-            });
-
-            describe('when entry medicine barcode and barcode is not exist', () => {
-                beforeEach(async () => {
-                    await act(async () => {
-                        wrap = mount(
-                            <ApolloProvider client={mockClient}>
-                                <SalesForm {...props} />
-                            </ApolloProvider>
-                        );
-                        wrap.find('input#barcode').simulate('change', {
-                            target: { name: 'barcode', value: 'barcode1' },
-                        });
-                    });
-                });
-                it('should not showing modal data and reset field', () => {
-                    expect(wrap.find('input#barcode').props().value).toEqual('');
+                    expect(wrap.find('input.code').props().value).toEqual('');
                 });
             });
 
@@ -218,77 +212,12 @@ describe('SalesForm', () => {
                 });
             });
 
-            describe('when pay', () => {
-                beforeEach(() => {
-                    wrap.find('button#pay').simulate('click');
-                });
-
-                it('should show modal payment', () => {
-                    expect(
-                        wrap
-                            .find('.ModalPayment')
-                            .at(0)
-                            .props().visible
-                    ).toBeTruthy();
-                });
-
-                describe('when enter payment amount', () => {
-                    beforeEach(() => {
-                        wrap.find('input#payment').simulate('change', {
-                            target: { name: 'payment', value: '10.000' },
-                        });
-                        wrap.find('input#payment').simulate('keydown', {
-                            keyCode: 13,
-                            which: 13,
-                            charCode: 0,
-                        });
-                    });
-                    it('should resolve validating and reset fields', () => {
-                        expect(wrap.find('input#payment').props().value).toEqual('');
-                    });
-                });
-
-                describe('when cancel pay', () => {
-                    beforeEach(() => {
-                        wrap.find('button.ant-modal-close')
-                            .at(0)
-                            .simulate('click');
-                    });
-
-                    it('should pay', () => {
-                        expect(
-                            wrap
-                                .find('.ModalPayment')
-                                .at(0)
-                                .props().visible
-                        ).toBeFalsy();
-                    });
-                });
-            });
-
-            describe('when entry new sales', () => {
-                beforeEach(() => {
-                    wrap.find('button#new').simulate('click');
-                });
-
-                it('should reset all form', () => {
-                    expect(
-                        moment(
-                            wrap.find('ForwardRef(InternalForm)').props().initialValues.date
-                        ).format('YYYY-MM-DD')
-                    ).toEqual(initialUndefined.date);
-                    expect(
-                        wrap.find('ForwardRef(InternalForm)').props().initialValues.description
-                    ).toEqual(initialUndefined.description);
-                });
-            });
-
             describe('when user submit form', () => {
                 test('should resolve validating and reset fields', async () => {
                     await act(async () => {
                         const { container, getByText } = render(
                             <ApolloProvider client={mockClient}>
-                                <SalesForm {...props} />
+                                <StockOpnameForm {...props} />
                             </ApolloProvider>
                         );
                         fireEvent.change(container.querySelector('textarea#description')!, {
@@ -296,7 +225,7 @@ describe('SalesForm', () => {
                         });
                         fireEvent.submit(getByText('Save'));
                     });
-                    expect(wrap.find('textarea#description').props().value).toEqual('');
+                    expect(wrap.find('input#no').props().value).toEqual('');
                 });
             });
         });
