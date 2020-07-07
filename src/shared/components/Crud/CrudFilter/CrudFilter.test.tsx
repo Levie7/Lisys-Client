@@ -9,6 +9,7 @@ describe('CrudFilter', () => {
     let context = { isMobile: false };
     const props = {
         customFilter: <>Filter</>,
+        showSearch: true,
         onChange: jest.fn(),
     };
     jest.spyOn(UIContextModule, 'useUIContext').mockImplementation(() => context);
