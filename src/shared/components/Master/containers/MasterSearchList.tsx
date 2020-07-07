@@ -10,8 +10,11 @@ interface MasterSearchListProps {
     columns: ColumnProps[];
     customFilter?: { components?: React.ReactNode; value: any };
     query: any;
+    showAction?: boolean;
+    showSearch?: boolean;
+    usePagination?: boolean;
 
-    handleData: (data: any) => { list: any[]; total: number };
+    handleData: (data: any, isLoading?: boolean) => { list: any[]; total: number };
     handleRecord?: (recordKey: string, record?: any) => void;
 }
 
@@ -21,6 +24,9 @@ export function MasterSearchList({
     query,
     handleData,
     handleRecord,
+    showAction,
+    showSearch,
+    usePagination,
 }: MasterSearchListProps) {
     let [page, setPage] = React.useState({
         current: 1,
@@ -44,7 +50,7 @@ export function MasterSearchList({
             },
         },
     });
-    let data = handleData(queryDataList.data);
+    let data = handleData(queryDataList.data, queryDataList.loading);
     let prevDataTotal = usePrevious(data.total);
 
     useEffect(() => {
@@ -66,15 +72,19 @@ export function MasterSearchList({
 
     return (
         <>
-            <CrudFilter customFilter={customFilter?.components} onSearch={handleSearch} />
+            <CrudFilter
+                customFilter={customFilter?.components}
+                onSearch={handleSearch}
+                showSearch={showSearch}
+            />
             <CrudListTable
                 columns={columns}
                 dataSource={data.list}
                 handleRecord={handleRecord}
-                hasAction
+                hasAction={showAction}
                 loading={queryDataList.loading}
                 onChange={handleTableChange}
-                pagination={page}
+                pagination={!!usePagination && page}
             />
         </>
     );

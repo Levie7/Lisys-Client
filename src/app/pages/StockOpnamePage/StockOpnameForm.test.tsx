@@ -8,7 +8,6 @@ import React from 'react';
 import { MEDICINE_BY_QUERY, MEDICINE_LIST } from 'src/shared/graphql/Medicine/schema.gql';
 
 import { StockOpnameForm } from './StockOpnameForm';
-import { STOCK_OPNAME_BY_ID } from './schema.gql';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -24,7 +23,6 @@ Object.defineProperty(window, 'matchMedia', {
     })),
 });
 let mockClient = createMockClient();
-let mockInitialValues = { date: moment().format('YYYY-MM-DD') };
 let mockMedicine = [
     {
         barcode: '123',
@@ -80,44 +78,6 @@ describe('StockOpnameForm', () => {
         formType: 'update',
         recordKey: 'id1',
     };
-    let queryHandler = jest.fn().mockResolvedValue({
-        data: {
-            getPurchasingById: {
-                no: 'no1',
-                date: moment(),
-                description: 'description1',
-                due_date: moment().add(1, 'months'),
-                detail: [
-                    {
-                        batch_no: '',
-                        buy_price: '2000',
-                        expired_date: '2020-06-20',
-                        id: 'id1',
-                        medicine: {
-                            id: 'id1',
-                            code: 'code1',
-                            name: 'Paramex',
-                            uom: {
-                                id: 'id1',
-                                name: 'uom1',
-                            },
-                        },
-                        qty: 1,
-                        sell_price: '2000',
-                        sub_total: '2000',
-                    },
-                ],
-                id: 'id1',
-                supplier: {
-                    id: 'id1',
-                    name: 'supplier1',
-                },
-                qty_total: 1,
-                grand_total: '2000',
-                credit_total: '2000',
-            },
-        },
-    });
     let queryHandlerMedicine = jest.fn().mockResolvedValue({
         data: {
             getMedicineList: {
@@ -131,7 +91,6 @@ describe('StockOpnameForm', () => {
     });
     mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandlerMedicineQuery);
     mockClient.setRequestHandler(MEDICINE_LIST, queryHandlerMedicine);
-    mockClient.setRequestHandler(STOCK_OPNAME_BY_ID, queryHandler);
 
     it('should render stock opname form', async () => {
         await act(async () => {
@@ -225,7 +184,7 @@ describe('StockOpnameForm', () => {
                         });
                         fireEvent.submit(getByText('Save'));
                     });
-                    expect(wrap.find('input#no').props().value).toEqual('');
+                    expect(wrap.find('textarea#description').props().value).toEqual('');
                 });
             });
         });

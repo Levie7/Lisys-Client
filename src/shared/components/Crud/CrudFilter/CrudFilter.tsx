@@ -6,11 +6,12 @@ import { classNames } from 'src/shared/utilities/classNames';
 
 interface CrudFilterProps extends React.HTMLAttributes<any> {
     customFilter?: React.ReactNode;
+    showSearch?: boolean;
 
     onSearch?: (value: any) => void;
 }
 
-function CrudFilterPure({ className, customFilter, onSearch }: CrudFilterProps) {
+function CrudFilterPure({ className, customFilter, onSearch, showSearch }: CrudFilterProps) {
     let isMobile = useUIContext().isMobile;
 
     return (
@@ -19,12 +20,14 @@ function CrudFilterPure({ className, customFilter, onSearch }: CrudFilterProps) 
             className={classNames('mb-2 d-flex fj-between', isMobile ? 'fd-column' : '')}
         >
             {customFilter ? customFilter : <div className='d-flex d-invisible'>Filter</div>}
-            <Search
-                className={isMobile ? 'mt-2 w-100' : 'w-25'}
-                id='Search'
-                onSearch={onSearch}
-                placeholder='Search'
-            />
+            {showSearch && (
+                <Search
+                    className={isMobile ? 'mt-2 w-100' : 'w-25'}
+                    id='Search'
+                    onSearch={onSearch}
+                    placeholder='Search'
+                />
+            )}
         </div>
     );
 }
