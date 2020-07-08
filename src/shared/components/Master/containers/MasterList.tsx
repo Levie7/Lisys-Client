@@ -159,7 +159,11 @@ export function MasterList({
 
     return (
         <>
-            <CrudFilter customFilter={customFilter?.components} onSearch={handleSearch} />
+            <CrudFilter
+                customFilter={customFilter?.components}
+                onSearch={handleSearch}
+                showSearch
+            />
             <CrudListTable
                 columns={columns}
                 dataSource={data.list}

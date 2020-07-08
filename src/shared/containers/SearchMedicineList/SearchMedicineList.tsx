@@ -47,6 +47,9 @@ function SearchMedicineListPure({ onRecordList }: SearchMedicineListProps, ref: 
                     query={getMedicineList}
                     handleData={handleMedicineData}
                     handleRecord={onRecordList}
+                    showAction
+                    showSearch
+                    usePagination
                 />
             </Modal>
         </>

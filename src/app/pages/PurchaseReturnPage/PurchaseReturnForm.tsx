@@ -17,7 +17,7 @@ import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { SearchPurchasingList } from 'src/shared/containers/SearchPurchasingList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
-import { mutationForm, queryForm } from 'src/shared/graphql';
+import { mutationForm, queryForm, queryList } from 'src/shared/graphql';
 import { getSuppliers } from 'src/shared/graphql/Supplier/schema.gql';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import {
@@ -39,6 +39,7 @@ import {
     updatePurchaseReturn,
 } from './schema.gql';
 import { formatNumeric } from 'src/shared/helpers/formatNumeric';
+import { getMedicineByQuery } from 'src/shared/graphql/Medicine/schema.gql';
 
 require('./PurchaseReturnForm.sass');
 
@@ -71,6 +72,8 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         grand_total: 0,
         qty_total: 0,
     });
+    let [filter, setFilter] = React.useState<{ id?: string }>({});
+    let [formQty, setFormQty] = React.useState(0);
 
     let supplierQuery = queryForm({ query: getSuppliers });
     let mutation = mutationForm({
@@ -83,8 +86,14 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         query: getPurchaseReturnById,
         variables: { id: recordKey },
     });
+    let medicineQuery = queryList({
+        skip: !filter.id,
+        query: getMedicineByQuery,
+        variables: { payload: { id: filter.id } },
+    });
 
-    if (mutation.loading || query.loading || supplierQuery.loading) return <Spin />;
+    if (mutation.loading || query.loading || supplierQuery.loading || medicineQuery.loading)
+        return <Spin />;
 
     let suppliers = supplierQuery.data?.getSuppliers;
     let initialValues = {
@@ -111,6 +120,114 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         } else {
             setSupplier(initialValues.supplier);
             setInit(true);
+        }
+    }
+
+    let medicine = medicineQuery.data?.getMedicineByQuery;
+    if (medicine) {
+        if (filter.id) {
+            let checkStock = medicine.stock - formQty >= 0;
+            if (checkStock) {
+                if (modal.recordKey) {
+                    handleChangeItemList();
+                } else {
+                    handleAddItemList();
+                }
+            } else {
+                Message('Stock is not enough', 'error');
+            }
+        }
+        setFilter({});
+    }
+
+    function handleAddItemList() {
+        let tempData = modal.tempData!;
+        if (formQty > tempData.qty) {
+            Message('Qty of items is more than qty purchase', 'error');
+        } else {
+            let sub_total = formQty * formatValue(tempData.buy_price);
+            let cash_total = 0;
+            let discount_amount = sub_total;
+            if (tempData.credit_total === '0') {
+                discount_amount = 0;
+                cash_total = sub_total;
+            }
+            let newData = {
+                key: tempData.key!,
+                no: tempData.no,
+                code: tempData.code,
+                medicine: tempData.medicine,
+                qty_buy: tempData.qty,
+                qty: formQty,
+                uom: tempData.uom,
+                buy_price: tempData.buy_price,
+                discount_amount: Currency(formatCommaValue(discount_amount)),
+                sub_total: Currency(formatCommaValue(sub_total)),
+            };
+            setGrandTotal({
+                cash_total: grandTotal.cash_total + cash_total,
+                credit_discount_total: grandTotal.credit_discount_total + discount_amount,
+                grand_total: grandTotal.grand_total + sub_total,
+                qty_total: grandTotal.qty_total + formatValue(formQty),
+            });
+            setData([...data, newData]);
+            handleClose();
+        }
+    }
+
+    function handleChangeItemList() {
+        let selected = data.find((data) => data.key === modal.recordKey);
+        if (formQty > selected!.qty_buy) {
+            Message('Qty of items is more than qty purchase', 'error');
+        } else {
+            let sub_total = 0;
+            let cash_total = 0;
+            let credit_discount_total = 0;
+            let grand_total = 0;
+            let qty_total = 0;
+            let newData = data.map((data) => {
+                if (data.key !== modal.recordKey) {
+                    sub_total = formatValue(data.qty) * formatValue(data.buy_price);
+                    let discount_amount = sub_total;
+                    let cash_amount = 0;
+                    if (data.discount_amount === '0') {
+                        discount_amount = 0;
+                        cash_amount = sub_total;
+                    }
+                    cash_total += cash_amount;
+                    credit_discount_total += discount_amount;
+                    grand_total += sub_total;
+                    qty_total += formatValue(data.qty);
+
+                    return data;
+                }
+                sub_total = formQty * formatValue(data.buy_price);
+                let discount_amount = sub_total;
+                let cash_amount = 0;
+                if (data.discount_amount === '0') {
+                    discount_amount = 0;
+                    cash_amount = sub_total;
+                }
+                cash_total += cash_amount;
+                credit_discount_total += discount_amount;
+                grand_total += sub_total;
+                qty_total += formatValue(formQty);
+
+                return {
+                    ...data,
+                    qty: formQty,
+                    discount_amount: Currency(formatCommaValue(discount_amount)),
+                    sub_total: Currency(formatCommaValue(sub_total)),
+                };
+            });
+            setGrandTotal({
+                cash_total,
+                credit_discount_total,
+                grand_total,
+                qty_total,
+            });
+            setData([...newData]);
+            handleClose();
         }
     }
 
@@ -222,88 +339,15 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         let { qty } = values;
         let tempData = modal.tempData!;
 
+        let medicineId;
         if (modal.recordKey) {
-            let selected = data.find((data) => data.key === modal.recordKey);
-            if (qty > selected!.qty_buy) {
-                Message('Qty of items is more than qty purchase', 'error');
-            } else {
-                let sub_total = 0;
-                let cash_total = 0;
-                let credit_discount_total = 0;
-                let grand_total = 0;
-                let qty_total = 0;
-                let newData = data.map((data) => {
-                    if (data.key !== modal.recordKey) {
-                        sub_total = formatValue(data.qty) * formatValue(data.buy_price);
-                        let discount_amount = sub_total;
-                        let cash_amount = 0;
-                        if (data.discount_amount === '0') {
-                            discount_amount = 0;
-                            cash_amount = sub_total;
-                        }
-                        cash_total += cash_amount;
-                        credit_discount_total += discount_amount;
-                        grand_total += sub_total;
-                        qty_total += formatValue(data.qty);
-
-                        return data;
-                    }
-                    sub_total = qty * formatValue(data.buy_price);
-                    let discount_amount = sub_total;
-                    let cash_amount = 0;
-                    if (data.discount_amount === '0') {
-                        discount_amount = 0;
-                        cash_amount = sub_total;
-                    }
-                    cash_total += cash_amount;
-                    credit_discount_total += discount_amount;
-                    grand_total += sub_total;
-                    qty_total += formatValue(qty);
-
-                    return {
-                        ...data,
-                        qty,
-                        discount_amount: Currency(formatCommaValue(discount_amount)),
-                        sub_total: Currency(formatCommaValue(sub_total)),
-                    };
-                });
-                setGrandTotal({ cash_total, credit_discount_total, grand_total, qty_total });
-                setData([...newData]);
-                handleClose();
-            }
+            medicineId = modal.recordKey.split('-')[1];
         } else {
-            if (qty > tempData.qty) {
-                Message('Qty of items is more than qty purchase', 'error');
-            } else {
-                let sub_total = qty * formatValue(tempData.buy_price);
-                let cash_total = 0;
-                let discount_amount = sub_total;
-                if (tempData.credit_total === '0') {
-                    discount_amount = 0;
-                    cash_total = sub_total;
-                }
-                let newData = {
-                    key: tempData.key!,
-                    no: tempData.no,
-                    code: tempData.code,
-                    medicine: tempData.medicine,
-                    qty_buy: tempData.qty,
-                    qty,
-                    uom: tempData.uom,
-                    buy_price: tempData.buy_price,
-                    discount_amount: Currency(formatCommaValue(discount_amount)),
-                    sub_total: Currency(formatCommaValue(sub_total)),
-                };
-                setGrandTotal({
-                    cash_total: grandTotal.cash_total + cash_total,
-                    credit_discount_total: grandTotal.credit_discount_total + discount_amount,
-                    grand_total: grandTotal.grand_total + sub_total,
-                    qty_total: grandTotal.qty_total + formatValue(qty),
-                });
-                setData([...data, newData]);
-                handleClose();
-            }
+            medicineId = tempData.key!.split('-')[1];
         }
+
+        setFilter({ id: medicineId });
+        setFormQty(qty);
     }
 
     function handlePurchasingList(recordKey: string, record: any) {

@@ -3,45 +3,55 @@ import React from 'react';
 
 import { Page } from 'src/app/shell/Page';
 
+import { StockOpname, StockOpnameData } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { DateRangePicker } from 'src/shared/components/DatePicker';
 import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
-import { handlePurchasingData } from 'src/shared/components/Purchasing/helpers';
-import { Select } from 'src/shared/components/Select';
-import { Spin } from 'src/shared/components/Spin';
 import { useUIContext } from 'src/shared/contexts/UIContext';
-import { queryForm } from 'src/shared/graphql';
 import {
-    deletePurchasing,
-    getPurchasingList,
-    PURCHASING_LIST,
-} from 'src/shared/graphql/Purchasing/schema.gql';
-import { getSuppliers } from 'src/shared/graphql/Supplier/schema.gql';
-import { formatDate, formatDefaultDate } from 'src/shared/helpers/formatDate';
+    convertMilisecondsToDate,
+    formatDate,
+    formatDefaultDate,
+} from 'src/shared/helpers/formatDate';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { purchaseListColumns } from './constants';
-import { PurchaseListForm } from './PurchaseListForm';
+import { stockOpnameColumns } from './constants';
+import { deleteStockOpname, getStockOpnameList, STOCK_OPNAME_LIST } from './schema.gql';
+import { StockOpnameForm } from './StockOpnameForm';
 
-export const PurchaseListPage = () => {
+export const StockOpnamePage = () => {
     let storage = createAuthTokenStorage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
     });
-    let [supplier, setSupplier] = React.useState('');
     let isMobile = useUIContext().isMobile;
-    let supplierQuery = queryForm({ query: getSuppliers });
-    if (supplierQuery.loading) return <Spin />;
-    let suppliers = supplierQuery.data?.getSuppliers;
+
+    function handleData(data?: any): { list: StockOpnameData[]; total: number } {
+        let stockOpname = data?.getStockOpnameList.data;
+        let total = data?.getStockOpnameList.total;
+        if (!stockOpname || !stockOpname.length) {
+            return { list: [], total: 0 };
+        }
+
+        return {
+            list: stockOpname.map((stockOpname: StockOpname) => {
+                return {
+                    key: stockOpname.id!,
+                    no: stockOpname.no,
+                    date: convertMilisecondsToDate(stockOpname.date),
+                };
+            }),
+            total,
+        };
+    }
 
     function handleCustomFilter() {
         return {
             end_date: date.end_date,
             start_date: date.start_date,
-            supplier,
         };
     }
 
@@ -50,10 +60,6 @@ export const PurchaseListPage = () => {
             end_date: formatDefaultDate(dateString[1]),
             start_date: formatDefaultDate(dateString[0]),
         });
-    }
-
-    function handleSupplier(value: string) {
-        setSupplier(value);
     }
 
     function renderCustomFilter() {
@@ -65,20 +71,6 @@ export const PurchaseListPage = () => {
                     onChange={handleDateRange}
                     placeholder={['Start Date', 'End Date']}
                 />
-                <Select
-                    allowClear
-                    className='ml-4 w-100'
-                    onChange={handleSupplier}
-                    placeholder='Supplier'
-                    showSearch
-                >
-                    {suppliers &&
-                        suppliers.map((supplier: any) => (
-                            <Select.Option key={supplier.id} value={supplier.id}>
-                                {supplier.name}
-                            </Select.Option>
-                        ))}
-                </Select>
             </div>
         );
     }
@@ -86,33 +78,34 @@ export const PurchaseListPage = () => {
     return (
         <Page>
             <MasterCard
-                header={{ link: '/purchase_list', title: 'Purchase' }}
-                initSection='purchase'
+                header={{ link: '/stock_opname', title: 'Stock Opname' }}
+                initSection='stock_opname'
                 isCrud
-                module='Purchasing'
+                module='Stock'
+                showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction }) =>
-                    ['list'].includes(action!) ? (
+                    ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
                             action={action!}
                             auth={storage.getToken()}
-                            columns={purchaseListColumns}
+                            columns={stockOpnameColumns}
                             customFilter={{
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
-                            mutation={{ delete: deletePurchasing }}
+                            mutation={{ delete: deleteStockOpname }}
                             query={{
-                                list: getPurchasingList,
-                                refetch: PURCHASING_LIST,
+                                list: getStockOpnameList,
+                                refetch: STOCK_OPNAME_LIST,
                             }}
                             softDelete
-                            handleData={handlePurchasingData}
+                            handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                         />
                     ) : (
-                        <PurchaseListForm
+                        <StockOpnameForm
                             auth={storage.getToken()}
                             formType={action!}
                             recordKey={recordKey}

@@ -48,6 +48,8 @@ describe('MasterSearchList', () => {
             },
         ],
         query: getCategoryList,
+        showSearch: true,
+        usePagination: true,
         handleData: jest.fn().mockImplementation(() => mockDataCategory),
         handleRecord: jest.fn(),
     };

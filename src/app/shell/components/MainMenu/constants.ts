@@ -73,6 +73,29 @@ export const menuData = [
     {
         children: [
             {
+                icon: 'stock_card',
+                key: 'Stock Card',
+                name: 'Stock Card',
+                status: 'Active',
+                url: '/stock_card',
+            },
+            {
+                icon: 'stock_opname',
+                key: 'Stock Opname',
+                name: 'Stock Opname',
+                status: 'Active',
+                url: '/stock_opname',
+            },
+        ],
+        icon: 'stock',
+        key: 'Stock',
+        name: 'Stock',
+        status: 'Active',
+        url: '/stock',
+    },
+    {
+        children: [
+            {
                 icon: 'list',
                 key: 'Purchase List',
                 name: 'Purchase List',

@@ -4,6 +4,7 @@ import { Route, Router } from 'src/core/route';
 
 import { BuyPriceHistoryPage } from './pages/BuyPriceHistoryPage/chunk';
 import { HomePage } from './pages/HomePage/chunk';
+import { LoginPage } from './pages/LoginPage/chunk';
 import { MasterCategoryPage } from './pages/MasterCategoryPage/chunk';
 import { MasterMedicinePage } from './pages/MasterMedicinePage/chunk';
 import { MasterSupplierPage } from './pages/MasterSupplierPage/chunk';
@@ -14,7 +15,8 @@ import { PurchasePaymentPage } from './pages/PurchasePaymentPage/chunk';
 import { PurchaseReturnPage } from './pages/PurchaseReturnPage/chunk';
 import { SalesPage } from './pages/SalesPage/chunk';
 import { SettingPage } from './pages/SettingPage/chunk';
-import { LoginPage } from './pages/LoginPage/chunk';
+import { StockCardPage } from './pages/StockCardPage/chunk';
+import { StockOpnamePage } from './pages/StockOpnamePage/chunk';
 
 export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
     <Router authPath='/login' isAuth={isAuth}>
@@ -27,6 +29,9 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
         <Route authenticate component={MasterCategoryPage} exact={true} path='/category' />
         <Route authenticate component={MasterVariantPage} exact={true} path='/variant' />
         <Route authenticate component={MasterSupplierPage} exact={true} path='/supplier' />
+
+        <Route authenticate component={StockCardPage} exact={true} path='/stock_card' />
+        <Route authenticate component={StockOpnamePage} exact={true} path='/stock_opname' />
 
         <Route authenticate component={PurchaseListPage} exact={true} path='/purchase_list' />
         <Route

@@ -10,6 +10,8 @@ export * from './role';
 export * from './sales';
 export * from './setting';
 export * from './statistic';
+export * from './stockCard';
+export * from './stockOpname';
 export * from './supplier';
 export * from './uom';
 export * from './user';

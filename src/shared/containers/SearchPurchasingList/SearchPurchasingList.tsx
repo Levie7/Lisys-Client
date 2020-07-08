@@ -63,6 +63,9 @@ function SearchPurchasingListPure(
                     query={getPurchasingList}
                     handleData={withDetail ? handlePurchasingDetailData : handlePurchasingData}
                     handleRecord={onRecordList}
+                    showAction
+                    showSearch
+                    usePagination
                 />
             </Modal>
         </>

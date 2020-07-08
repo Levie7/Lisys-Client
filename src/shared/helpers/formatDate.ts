@@ -15,3 +15,7 @@ export function formatDefaultDate(date: string) {
 export function formatMoment(date: string) {
     return moment(date, 'DD-MM-YYYY');
 }
+
+export function formatPresentDate(date: string) {
+    return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY');
+}

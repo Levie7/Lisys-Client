@@ -101,9 +101,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
-                            mutation={{
-                                delete: deleteSales,
-                            }}
+                            mutation={{ delete: deleteSales }}
                             query={{
                                 list: getSalesList,
                                 refetch: SALES_LIST,

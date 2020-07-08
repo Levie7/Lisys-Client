@@ -109,6 +109,8 @@ export const BuyPriceHistoryPage = () => {
                             columns={buyPriceHistoryColumns}
                             query={getBuyPriceHistoryList}
                             handleData={handleData}
+                            showSearch
+                            usePagination
                         />
                     </>
                 )}
