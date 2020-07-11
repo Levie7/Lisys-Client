@@ -8,9 +8,10 @@ import { classNames } from 'src/shared/utilities/classNames';
 interface CrudListActionProps extends CrudConnectedProps {
     showAction?: boolean;
     showBack?: boolean;
+    showCreate?: boolean;
 }
 
-function CrudListActionPure({ crud, showAction, showBack }: CrudListActionProps) {
+function CrudListActionPure({ crud, showAction, showBack, showCreate }: CrudListActionProps) {
     return (
         <>
             <Divider />
@@ -32,6 +33,7 @@ function CrudListActionPure({ crud, showAction, showBack }: CrudListActionProps)
                     />
                     <ButtonAction
                         buttonType='primary'
+                        className={showCreate ? '' : 'd-invisible'}
                         crud={{ ...crud, action: 'create' }}
                         iconType='plus'
                         title='Create'

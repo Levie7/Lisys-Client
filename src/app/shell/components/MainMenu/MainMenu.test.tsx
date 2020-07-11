@@ -3,11 +3,12 @@ import React from 'react';
 
 import UIContext, * as UIContextModule from 'src/shared/contexts/UIContext';
 
-import { MainMenu } from '../MainMenu';
+import { MainMenu } from './MainMenu';
 
 describe('MainMenu', () => {
     let context = { isMobile: false };
     let props = {
+        auth: 'sa',
         isMenuTop: false,
     };
     jest.spyOn(UIContextModule, 'useUIContext').mockImplementation(() => context);
@@ -17,10 +18,6 @@ describe('MainMenu', () => {
         </UIContext.Provider>,
         { context }
     );
-
-    it('<MainMenu/> - should render MainMenu component correctly', () => {
-        expect(wrap).toMatchSnapshot();
-    });
 
     it('should render main menu component', () => {
         expect(wrap.find('Memo(MainMenuPure)').exists()).toBeTruthy();
@@ -50,7 +47,7 @@ describe('MainMenu', () => {
 
         describe('and is menu top', () => {
             beforeEach(() => {
-                props = { isMenuTop: true };
+                props = { auth: 'sa', isMenuTop: true };
                 wrap = shallow(
                     <UIContext.Provider value={context}>
                         <MainMenu {...props} />
@@ -66,7 +63,7 @@ describe('MainMenu', () => {
 
         describe('and is not menu top', () => {
             beforeEach(() => {
-                props = { isMenuTop: false };
+                props = { auth: 'sa', isMenuTop: false };
                 wrap = shallow(
                     <UIContext.Provider value={context}>
                         <MainMenu {...props} />

@@ -5,14 +5,14 @@ import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManage
 import { Role } from 'src/core/api';
 
 import { Spin } from 'src/shared/components/Spin';
+import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { mutationForm, queryList } from 'src/shared/graphql';
+import { usePrevious } from 'src/shared/helpers/usePrevious';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { roleColumns } from './constants';
 import { deleteRole, getRoleList, ROLE_LIST } from './schema.gql';
-import { usePrevious } from 'src/shared/helpers/usePrevious';
-import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 
 interface RoleListProps {
     handleRecord: (recordKey: string) => void;

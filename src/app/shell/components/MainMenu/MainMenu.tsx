@@ -9,20 +9,21 @@ import { MenuTop } from './MenuTop';
 require('./MainMenu.sass');
 
 interface MainMenuProps {
+    auth: string | null;
     isMenuTop?: boolean;
 }
 
-function MainMenuPure({ isMenuTop }: MainMenuProps) {
+function MainMenuPure({ auth, isMenuTop }: MainMenuProps) {
     let isMobile = useUIContext().isMobile;
 
     return isMobile ? (
         <Drawer className='MainMenu_DarkDrawer' getContainer={null} level={null}>
-            <MenuLeft isMobile={isMobile} />
+            <MenuLeft auth={auth} isMobile={isMobile} />
         </Drawer>
     ) : isMenuTop ? (
-        <MenuTop />
+        <MenuTop auth={auth} />
     ) : (
-        <MenuLeft isMobile={isMobile} />
+        <MenuLeft auth={auth} isMobile={isMobile} />
     );
 }
 

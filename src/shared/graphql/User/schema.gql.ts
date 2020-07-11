@@ -19,6 +19,18 @@ export const USER_BY_ID = gql`
     }
 `;
 
+export const USER_BY_USERNAME = gql`
+    query getUserByUsername($username: String) {
+        getUserByUsername(username: $username) {
+            name
+            role {
+                id
+            }
+            username
+        }
+    }
+`;
+
 export const USER_LIST = gql`
     query getUserList($payload: ListPayload) {
         getUserList(payload: $payload) {
@@ -73,6 +85,8 @@ const UPDATE_USER = gql`
 
 export const authLogin = (options: any) => useQuery<{ authLogin: Boolean }>(AUTH_LOGIN, options);
 export const getUserById = (options: any) => useQuery<{ getUserById: User }>(USER_BY_ID, options);
+export const getUserByUsername = (options: any) =>
+    useQuery<{ getUserByUsername: User }>(USER_BY_USERNAME, options);
 export const getUserList = (options: any) => useQuery<{ getUserList: User[] }>(USER_LIST, options);
 export const createUser = (options: any) => useMutation<{ createUser: User }>(CREATE_USER, options);
 export const deleteUser = (options: any) => useMutation<{ deleteUser: User }>(DELETE_USER, options);

@@ -5,7 +5,11 @@ import { Picture } from 'src/shared/components/Picture';
 import { logo } from './constants';
 import { Menu } from './Menu';
 
-function MenuTopPure() {
+interface MenuTopProps {
+    auth: string | null;
+}
+
+function MenuTopPure({ auth }: MenuTopProps) {
     return (
         <div id='MenuTop' className='d-flex'>
             <Picture
@@ -15,7 +19,7 @@ function MenuTopPure() {
                 src={logo.light.url}
                 title={logo.light.title}
             />
-            <Menu className='w-100' mode='horizontal' theme='dark' />
+            <Menu auth={auth} className='w-100' mode='horizontal' theme='dark' />
         </div>
     );
 }
