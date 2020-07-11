@@ -7,6 +7,7 @@ import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
+
 import {
     CATEGORY_LIST,
     deleteCategory,
@@ -56,6 +57,7 @@ export const MasterCategoryPage = () => {
                             auth={storage.getToken()}
                             columns={categoryColumns}
                             hasStatus
+                            module='Category'
                             mutation={{
                                 delete: deleteCategory,
                                 update: updateManyCategory,

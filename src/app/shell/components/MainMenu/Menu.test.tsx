@@ -5,7 +5,7 @@ import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
 import { MENUS } from 'src/shared/graphql/Menu/schema.gql';
-import { PERMISSIONS } from 'src/shared/graphql/Permission/schema.gql';
+import { GET_ACCESS_PERMISSIONS } from 'src/shared/graphql/Permission/schema.gql';
 import { USER_BY_USERNAME } from 'src/shared/graphql/User/schema.gql';
 
 import { Menu } from './Menu';
@@ -71,7 +71,7 @@ describe('Menu', () => {
         .mockResolvedValue({ data: { getAccessPermissionByRoleId: mockPermission } });
     mockClient.setRequestHandler(MENUS, queryHandler);
     mockClient.setRequestHandler(USER_BY_USERNAME, userQueryHandler);
-    mockClient.setRequestHandler(PERMISSIONS, permissionQueryHandler);
+    mockClient.setRequestHandler(GET_ACCESS_PERMISSIONS, permissionQueryHandler);
 
     it('should render menu', async () => {
         await act(async () => {
@@ -97,8 +97,8 @@ describe('Menu', () => {
         });
 
         it('should contains all Menu children', () => {
-            expect(wrap.find('Menu').exists()).toBeFalsy();
-            expect(wrap.find('SubMenu').exists()).toBeFalsy();
+            expect(wrap.find('Menu').exists()).toBeTruthy();
+            expect(wrap.find('SubMenu').exists()).toBeTruthy();
         });
     });
 });

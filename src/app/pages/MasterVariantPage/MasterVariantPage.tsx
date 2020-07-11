@@ -56,6 +56,7 @@ export function MasterVariantPage() {
                             auth={storage.getToken()}
                             columns={variantColumns}
                             hasStatus
+                            module='Variant'
                             mutation={{
                                 delete: deleteVariant,
                                 update: updateManyVariant,

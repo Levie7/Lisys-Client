@@ -66,6 +66,7 @@ export const MasterSupplierPage = () => {
                             auth={storage.getToken()}
                             columns={supplierColumns}
                             hasStatus
+                            module='Supplier'
                             mutation={{
                                 delete: deleteSupplier,
                                 update: updateManySupplier,

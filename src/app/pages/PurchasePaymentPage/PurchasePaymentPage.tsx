@@ -127,6 +127,7 @@ export const PurchasePaymentPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            module='Purchase Payment'
                             mutation={{
                                 delete: deletePurchasePayment,
                             }}

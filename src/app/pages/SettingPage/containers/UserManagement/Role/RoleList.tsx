@@ -114,6 +114,8 @@ export function RoleList({ handleRecord }: RoleListProps) {
                 loading={queryDataList.loading}
                 onChange={handleTableChange}
                 pagination={page}
+                showDelete
+                showUpdate
             />
         </>
     );

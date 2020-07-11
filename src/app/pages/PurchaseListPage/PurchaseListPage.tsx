@@ -101,6 +101,7 @@ export const PurchaseListPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            module='Purchase List'
                             mutation={{ delete: deletePurchasing }}
                             query={{
                                 list: getPurchasingList,

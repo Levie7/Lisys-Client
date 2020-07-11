@@ -4,10 +4,16 @@ import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { Spin } from 'src/shared/components/Spin';
 import { ColumnProps } from 'src/shared/components/Table';
+import { mutationForm, queryForm, queryList } from 'src/shared/graphql';
+import {
+    getDeletePermissionByRoleId,
+    getUpdatePermissionByRoleId,
+} from 'src/shared/graphql/Permission/schema.gql';
+import { getUserByUsername } from 'src/shared/graphql/User/schema.gql';
 import { usePrevious } from 'src/shared/helpers/usePrevious';
-import { mutationForm, queryList } from 'src/shared/graphql';
 import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
+import { Permission } from 'src/core/api';
 
 interface MasterListProps {
     action: string;
@@ -15,6 +21,7 @@ interface MasterListProps {
     columns: ColumnProps[];
     customFilter?: { components: React.ReactNode; value: any };
     hasStatus?: boolean;
+    module: string;
     mutation: {
         delete: any;
         update?: any;
@@ -36,6 +43,7 @@ export function MasterList({
     columns,
     customFilter,
     hasStatus,
+    module,
     mutation,
     query,
     softDelete,
@@ -52,6 +60,24 @@ export function MasterList({
     let [filters, setFilters] = React.useState([]);
     let [sort, setSort] = React.useState<{ field?: string; order?: string }>({});
     let [search, setSearch] = React.useState('');
+    let queryUser = queryForm({
+        query: getUserByUsername,
+        variables: { username: auth },
+    });
+    let queryDeletePermission = queryForm({
+        skip: !queryUser.data,
+        query: getDeletePermissionByRoleId,
+        variables: { role_id: queryUser.data?.getUserByUsername.role.id },
+    });
+    let queryUpdatePermission = queryForm({
+        skip: !queryUser.data,
+        query: getUpdatePermissionByRoleId,
+        variables: { role_id: queryUser.data?.getUserByUsername.role.id },
+    });
+    let deletePermission = queryDeletePermission.data?.getDeletePermissionByRoleId;
+    let updatePermission = queryUpdatePermission.data?.getUpdatePermissionByRoleId;
+    let canDelete = handlePermission(deletePermission);
+    let canUpdate = handlePermission(updatePermission);
     let queryDataList = queryList({
         query: query.list,
         variables: {
@@ -84,7 +110,13 @@ export function MasterList({
     let mutationUpdate =
         mutation.update && mutationForm({ formType: 'update', mutations: mutation.update });
 
-    if (mutationDelete.loading || mutationUpdate?.loading) return <Spin />;
+    if (
+        queryDeletePermission.loading ||
+        queryUpdatePermission.loading ||
+        mutationDelete.loading ||
+        mutationUpdate?.loading
+    )
+        return <Spin />;
     if (action !== 'list' && hasSelected()) {
         mutationUpdate.action({
             refetchQueries: [
@@ -139,6 +171,16 @@ export function MasterList({
         });
     }
 
+    function handlePermission(permission?: Permission[]) {
+        return (
+            permission &&
+            permission.find(
+                (permission: Permission) =>
+                    permission.menu?.name === module && permission.status === 'active'
+            )
+        );
+    }
+
     function handleSearch(value: any) {
         setSearch(value);
     }
@@ -175,6 +217,8 @@ export function MasterList({
                 onChange={handleTableChange}
                 pagination={page}
                 rowSelection={rowSelection}
+                showDelete={!!canDelete}
+                showUpdate={!!canUpdate}
             />
         </>
     );

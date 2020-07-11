@@ -101,6 +101,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            module='Sales'
                             mutation={{ delete: deleteSales }}
                             query={{
                                 list: getSalesList,

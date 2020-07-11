@@ -51,6 +51,7 @@ export const MasterUoMPage = () => {
                             auth={storage.getToken()}
                             columns={uomColumns}
                             hasStatus
+                            module='UoM'
                             mutation={{
                                 delete: deleteUoM,
                                 update: updateManyUoM,

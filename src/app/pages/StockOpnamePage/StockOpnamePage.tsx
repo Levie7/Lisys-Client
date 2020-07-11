@@ -94,6 +94,7 @@ export const StockOpnamePage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            module='Stock Opname'
                             mutation={{ delete: deleteStockOpname }}
                             query={{
                                 list: getStockOpnameList,

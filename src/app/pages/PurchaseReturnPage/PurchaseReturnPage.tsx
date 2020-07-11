@@ -129,6 +129,7 @@ export const PurchaseReturnPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            module='Purchase Return'
                             mutation={{
                                 delete: deletePurchaseReturn,
                             }}

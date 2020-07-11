@@ -33,7 +33,7 @@ function MenuPure({ auth, className, mode, theme }: MenuProps) {
         return null;
     }
 
-    let accessPermission = queryPermission.data?.getAccessPermissionByRoleId || [];
+    let accessPermission = queryPermission.data?.getAccessPermissionByRoleId;
 
     function generateMenu(menuItems: any) {
         return menuItems

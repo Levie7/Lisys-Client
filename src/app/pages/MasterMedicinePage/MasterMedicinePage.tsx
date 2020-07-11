@@ -36,6 +36,7 @@ export const MasterMedicinePage = () => {
                             auth={storage.getToken()}
                             columns={medicineColumns}
                             hasStatus
+                            module='Medicine'
                             mutation={{
                                 delete: deleteMedicine,
                                 update: updateManyMedicine,
