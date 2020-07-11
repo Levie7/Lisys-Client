@@ -434,6 +434,8 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                         handleDelete={handleDelete}
                         handleRecord={handleRecord}
                         hasAction
+                        showDelete
+                        showUpdate
                     />
                     <SalesSummary
                         amount_total={Currency(formatCommaValue(payment.amount_total))}

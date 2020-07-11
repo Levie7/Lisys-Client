@@ -49,13 +49,14 @@ export function MasterVariantPage() {
                 module='Master'
                 showAction
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
                             action={action!}
                             auth={storage.getToken()}
                             columns={variantColumns}
                             hasStatus
+                            module='Variant'
                             mutation={{
                                 delete: deleteVariant,
                                 update: updateManyVariant,
@@ -67,6 +68,7 @@ export function MasterVariantPage() {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <MasterVariantForm

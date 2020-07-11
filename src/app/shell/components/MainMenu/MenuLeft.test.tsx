@@ -1,17 +1,14 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { MenuLeft } from '../MenuLeft';
+import { MenuLeft } from './MenuLeft';
 
 describe('MenuLeft', () => {
-    let props = { isMobile: true };
+    let props = { auth: 'sa', isMobile: true };
     const setState = jest.fn();
 
     let wrap = shallow(<MenuLeft {...props} />);
 
-    it('<MenuLeft/> - should render MenuLeft component correctly', () => {
-        expect(wrap).toMatchSnapshot();
-    });
     it('should render drawer wrapper component', () => {
         expect(wrap.find('Sider').exists()).toBeTruthy();
         expect(wrap.find('Scrollbars').exists()).toBeTruthy();
@@ -20,7 +17,7 @@ describe('MenuLeft', () => {
 
     describe('when is mobile', () => {
         beforeEach(() => {
-            props = { isMobile: true };
+            props = { auth: 'sa', isMobile: true };
             wrap = shallow(<MenuLeft {...props} />);
         });
 
@@ -31,7 +28,7 @@ describe('MenuLeft', () => {
 
     describe('when is not mobile', () => {
         beforeEach(() => {
-            props = { isMobile: false };
+            props = { auth: 'sa', isMobile: false };
             wrap = shallow(<MenuLeft {...props} />);
         });
 

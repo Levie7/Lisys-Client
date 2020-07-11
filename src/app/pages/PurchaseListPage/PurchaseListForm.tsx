@@ -477,6 +477,8 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                         handleDelete={handleDelete}
                         handleRecord={handleRecord}
                         hasAction
+                        showDelete
+                        showUpdate
                     />
                     <PurchaseSummary
                         credit_total={Currency(formatCommaValue(grandTotal.credit_total))}

@@ -91,7 +91,7 @@ export const PurchaseListPage = () => {
                 isCrud
                 module='Purchasing'
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list'].includes(action!) ? (
                         <MasterList
                             action={action!}
@@ -101,6 +101,7 @@ export const PurchaseListPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            module='Purchase List'
                             mutation={{ delete: deletePurchasing }}
                             query={{
                                 list: getPurchasingList,
@@ -110,6 +111,7 @@ export const PurchaseListPage = () => {
                             handleData={handlePurchasingData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <PurchaseListForm

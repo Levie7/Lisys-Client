@@ -116,6 +116,8 @@ export function UserList({ handleRecord }: UserListProps) {
                 loading={queryDataList.loading}
                 onChange={handleTableChange}
                 pagination={page}
+                showDelete
+                showUpdate
             />
         </>
     );

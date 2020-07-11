@@ -471,6 +471,8 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                         handleDelete={handleDelete}
                         handleRecord={handleRecord}
                         hasAction
+                        showDelete
+                        showUpdate
                     />
                     <PurchaseReturnSummary
                         cash_total={Currency(formatCommaValue(grandTotal.cash_total))}

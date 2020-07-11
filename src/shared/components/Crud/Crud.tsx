@@ -10,6 +10,7 @@ interface CrudProps {
     children?: React.ReactNode;
     showAction?: boolean;
     showBack?: boolean;
+    showCreate?: boolean;
 }
 
 export interface CrudConnectedProps {

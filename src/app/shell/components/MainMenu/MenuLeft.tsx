@@ -8,6 +8,7 @@ import { logo } from './constants';
 import { Menu } from './Menu';
 
 interface MenuLeftProps {
+    auth: string | null;
     isMobile: boolean;
 }
 interface MenuLeftState {
@@ -35,7 +36,7 @@ export class MenuLeft extends React.PureComponent<MenuLeftProps, MenuLeftState> 
     }
 
     render() {
-        let { isMobile } = this.props;
+        let { auth, isMobile } = this.props;
         let { onCollapsed } = this.state;
 
         let paramsMobile = {
@@ -70,7 +71,7 @@ export class MenuLeft extends React.PureComponent<MenuLeftProps, MenuLeftState> 
                     autoHide
                     style={{ height: isMobile ? 'calc(100vh - 64px)' : 'calc(100vh - 112px)' }}
                 >
-                    <Menu className='MenuLeft_Navigation' mode='inline' theme='dark' />
+                    <Menu auth={auth} className='MenuLeft_Navigation' mode='inline' theme='dark' />
                 </Scrollbars>
             </Layout.Sider>
         );

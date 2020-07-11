@@ -1,6 +1,8 @@
 import { Layout } from 'antd';
 import React from 'react';
 
+import { createAuthTokenStorage } from 'src/core/graphql/auth';
+
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { MainMenu } from './components/MainMenu/MainMenu';
@@ -10,9 +12,11 @@ interface PageProps {
 }
 
 export function Page({ children }: PageProps) {
+    let storage = createAuthTokenStorage();
+
     return (
         <Layout>
-            <MainMenu isMenuTop />
+            <MainMenu auth={storage.getToken()} isMenuTop />
             <Layout>
                 <Layout.Header>
                     <Header />

@@ -117,7 +117,7 @@ export const PurchasePaymentPage = () => {
                 isCrud
                 module='Purchasing'
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list'].includes(action!) ? (
                         <MasterList
                             action={action!}
@@ -127,6 +127,7 @@ export const PurchasePaymentPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            module='Purchase Payment'
                             mutation={{
                                 delete: deletePurchasePayment,
                             }}
@@ -138,6 +139,7 @@ export const PurchasePaymentPage = () => {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <PurchasePaymentForm

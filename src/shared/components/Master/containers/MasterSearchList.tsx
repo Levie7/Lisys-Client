@@ -85,6 +85,7 @@ export function MasterSearchList({
                 loading={queryDataList.loading}
                 onChange={handleTableChange}
                 pagination={!!usePagination && page}
+                showSelect
             />
         </>
     );

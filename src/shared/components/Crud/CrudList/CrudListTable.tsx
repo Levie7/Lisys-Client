@@ -10,6 +10,9 @@ interface CrudListTableProps extends TableProps {
     columns: ColumnProps[];
     hasAction?: boolean;
     hasStatus?: boolean;
+    showDelete?: boolean;
+    showSelect?: boolean;
+    showUpdate?: boolean;
 
     handleDelete?: (record: any) => void;
     handleRecord?: (recordKey: string, record?: any) => void;
@@ -21,6 +24,9 @@ function CrudListTablePure({
     hasStatus,
     handleDelete,
     handleRecord,
+    showDelete,
+    showSelect,
+    showUpdate,
     ...props
 }: CrudListTableProps) {
     function handleFilter(value: any, record: any) {
@@ -55,19 +61,24 @@ function CrudListTablePure({
                     key='action'
                     render={(text, record) => (
                         <>
-                            <TableAction
-                                iconType='select'
-                                record={record}
-                                title='Select'
-                                onClick={handleRecord}
-                            />
-                            <TableAction
-                                iconType='edit'
-                                record={record}
-                                title='Edit'
-                                onClick={handleRecord}
-                            />
-                            <Delete confirm={handleDelete!} recordKey={record} />
+                            {showSelect && (
+                                <TableAction
+                                    iconType='select'
+                                    record={record}
+                                    title='Select'
+                                    onClick={handleRecord}
+                                />
+                            )}
+                            {showUpdate && (
+                                <TableAction
+                                    iconType='edit'
+                                    record={record}
+                                    title='Edit'
+                                    onClick={handleRecord}
+                                />
+                            )}
+                            {showDelete && <Delete confirm={handleDelete!} recordKey={record} />}
+                            {!showSelect && !showUpdate && !showDelete && 'No Action'}
                         </>
                     )}
                 />

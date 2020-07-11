@@ -276,6 +276,8 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
                         handleDelete={handleDelete}
                         handleRecord={handleRecord}
                         hasAction
+                        showDelete
+                        showUpdate
                     />
                     <Form.Item>
                         <SaveButton />

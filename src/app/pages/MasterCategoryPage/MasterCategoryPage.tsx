@@ -7,6 +7,7 @@ import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
+
 import {
     CATEGORY_LIST,
     deleteCategory,
@@ -49,13 +50,14 @@ export const MasterCategoryPage = () => {
                 module='Master'
                 showAction
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
                             action={action!}
                             auth={storage.getToken()}
                             columns={categoryColumns}
                             hasStatus
+                            module='Category'
                             mutation={{
                                 delete: deleteCategory,
                                 update: updateManyCategory,
@@ -67,6 +69,7 @@ export const MasterCategoryPage = () => {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <MasterCategoryForm
