@@ -29,7 +29,7 @@ export const MasterMedicinePage = () => {
                 module='Master'
                 showAction
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
                             action={action!}
@@ -48,6 +48,7 @@ export const MasterMedicinePage = () => {
                             handleData={handleMedicineData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <MasterMedicineForm

@@ -59,7 +59,7 @@ export const MasterSupplierPage = () => {
                 module='Master'
                 showAction
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
                             action={action!}
@@ -78,6 +78,7 @@ export const MasterSupplierPage = () => {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <MasterSupplierForm

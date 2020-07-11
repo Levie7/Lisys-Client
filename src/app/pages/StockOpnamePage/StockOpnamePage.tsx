@@ -84,7 +84,7 @@ export const StockOpnamePage = () => {
                 module='Stock'
                 showAction
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
                             action={action!}
@@ -104,6 +104,7 @@ export const StockOpnamePage = () => {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <StockOpnameForm

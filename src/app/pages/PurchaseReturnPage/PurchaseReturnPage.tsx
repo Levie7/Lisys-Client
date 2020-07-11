@@ -119,7 +119,7 @@ export const PurchaseReturnPage = () => {
                 isCrud
                 module='Purchasing'
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list'].includes(action!) ? (
                         <MasterList
                             action={action!}
@@ -141,6 +141,7 @@ export const PurchaseReturnPage = () => {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <PurchaseReturnForm

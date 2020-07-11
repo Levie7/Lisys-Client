@@ -11,6 +11,7 @@ import {
     updateManyCategory,
 } from 'src/shared/graphql/Category/schema.gql';
 import {
+    GET_CREATE_PERMISSIONS,
     GET_DELETE_PERMISSIONS,
     GET_UPDATE_PERMISSIONS,
 } from 'src/shared/graphql/Permission/schema.gql';
@@ -99,11 +100,15 @@ describe('MasterList', () => {
         handleData: jest.fn().mockImplementation(() => mockDataCategory),
         handleRecord: jest.fn(),
         handleResetAction: jest.fn(),
+        handleShowCreate: jest.fn(),
     };
     let queryHandler = jest
         .fn()
         .mockResolvedValue({ data: { getCategoryList: { data: mockCategory, total: 11 } } });
     let userQueryHandler = jest.fn().mockResolvedValue({ data: { getUserByUsername: mockUser } });
+    let permissionCreateQueryHandler = jest
+        .fn()
+        .mockResolvedValue({ data: { getCreatePermissionByRoleId: mockPermission } });
     let permissionDeleteQueryHandler = jest
         .fn()
         .mockResolvedValue({ data: { getDeletePermissionByRoleId: mockPermission } });
@@ -112,6 +117,7 @@ describe('MasterList', () => {
         .mockResolvedValue({ data: { getUpdatePermissionByRoleId: mockPermission } });
     mockClient.setRequestHandler(CATEGORY_LIST, queryHandler);
     mockClient.setRequestHandler(USER_BY_USERNAME, userQueryHandler);
+    mockClient.setRequestHandler(GET_CREATE_PERMISSIONS, permissionCreateQueryHandler);
     mockClient.setRequestHandler(GET_DELETE_PERMISSIONS, permissionDeleteQueryHandler);
     mockClient.setRequestHandler(GET_UPDATE_PERMISSIONS, permissionUpdateQueryHandler);
     const Component = ({ properties }: any) => (

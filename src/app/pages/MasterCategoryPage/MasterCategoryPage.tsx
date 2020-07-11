@@ -50,7 +50,7 @@ export const MasterCategoryPage = () => {
                 module='Master'
                 showAction
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
                             action={action!}
@@ -69,6 +69,7 @@ export const MasterCategoryPage = () => {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <MasterCategoryForm

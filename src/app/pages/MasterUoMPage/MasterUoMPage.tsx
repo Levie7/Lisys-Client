@@ -44,14 +44,14 @@ export const MasterUoMPage = () => {
                 module='Master'
                 showAction
             >
-                {({ action, recordKey, handleRecord, handleResetAction }) =>
+                {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list', 'active', 'inactive'].includes(action!) ? (
                         <MasterList
                             action={action!}
                             auth={storage.getToken()}
                             columns={uomColumns}
                             hasStatus
-                            module='UoM'
+                            module='Unit of Measurement'
                             mutation={{
                                 delete: deleteUoM,
                                 update: updateManyUoM,
@@ -63,6 +63,7 @@ export const MasterUoMPage = () => {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <MasterUoMForm

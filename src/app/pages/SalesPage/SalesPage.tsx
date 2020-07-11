@@ -91,7 +91,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                 isCrud
                 module='Sales'
             >
-                {({ action, handleRecord, handleResetAction }) =>
+                {({ action, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list'].includes(action!) ? (
                         <MasterList
                             action={action!}
@@ -111,6 +111,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                             handleData={handleData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
+                            handleShowCreate={handleShowCreate!}
                         />
                     ) : (
                         <SalesForm auth={storage.getToken()} formType={action!} />

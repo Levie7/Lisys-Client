@@ -23,6 +23,7 @@ interface MasterCardProps {
         recordKey?: string;
         handleRecord?: (recordKey: string) => void;
         handleResetAction?: () => void;
+        handleShowCreate?: (show: boolean) => void;
     }) => React.ReactNode;
     header: {
         link: string;
@@ -45,6 +46,7 @@ export function MasterCard({
     showAction,
 }: MasterCardProps) {
     let [isInit, setInit] = React.useState(false);
+    let [showCreate, setShowCreate] = React.useState(false);
     let [recordKey, setRecordKey] = React.useState('');
     let crud = useCrud();
     let [fetch, { loading }] = updateCrud();
@@ -61,6 +63,10 @@ export function MasterCard({
         handleFetchCrud({ ...crud, action: 'list', fetch });
     }
 
+    function handleShowCreate(show: boolean) {
+        setShowCreate(show);
+    }
+
     return (
         <div className='d-flex mx-8 my-4'>
             <Card className='MasterCard'>
@@ -71,12 +77,13 @@ export function MasterCard({
                     to={header.link}
                 />
                 {isCrud ? (
-                    <Crud showAction={showAction}>
+                    <Crud showAction={showAction} showCreate={showCreate}>
                         {children({
                             action: crud.action,
                             recordKey,
                             handleRecord,
                             handleResetAction,
+                            handleShowCreate,
                         })}
                     </Crud>
                 ) : (
