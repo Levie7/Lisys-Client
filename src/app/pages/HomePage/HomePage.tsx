@@ -4,6 +4,7 @@ import { Page } from 'src/app/shell/Page';
 
 import { Notification } from 'src/shared/utilities/notification';
 import { MasterStatistic } from './containers/MasterStatistic';
+import { SalesGraph } from './containers/SalesGraph';
 
 export const HomePage = () => {
     let gretting = localStorage.getItem('greeting');
@@ -19,6 +20,7 @@ export const HomePage = () => {
     return (
         <Page>
             <MasterStatistic />
+            <SalesGraph />
         </Page>
     );
 };

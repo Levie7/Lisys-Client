@@ -14,19 +14,17 @@ interface StatisticCardProps {
 
 function StatisticCardPure({ icon, title, value }: StatisticCardProps) {
     return (
-        <div className='d-flex mx-8 my-4'>
-            <Card className='StatisticCard'>
-                <div className='d-flex fa-center fd-row'>
-                    <div className='d-flex fd-column mr-4'>
-                        <div className='StatisticCard_Title fg-gray-light'>{title}</div>
-                        <div className='StatisticCard_Value fg-green-light fw-bold ta-center'>
-                            {Currency(value.toString())}
-                        </div>
+        <Card className='StatisticCard'>
+            <div className='d-flex fa-center fd-row'>
+                <div className='d-flex fd-column mr-4'>
+                    <div className='StatisticCard_Title fg-gray-light'>{title}</div>
+                    <div className='StatisticCard_Value fg-green-light fw-bold ta-center'>
+                        {Currency(value.toString())}
                     </div>
-                    <div className='StatisticCard_Icon fg-gray-light'>{Icon[icon]}</div>
                 </div>
-            </Card>
-        </div>
+                <div className='StatisticCard_Icon fg-gray-light'>{Icon[icon]}</div>
+            </div>
+        </Card>
     );
 }
 

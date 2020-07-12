@@ -8,13 +8,11 @@ import { masterTotalStatistic } from './constants';
 import { getMasterTotal } from './schema.gql';
 
 export function MasterStatistic() {
-    let getMasterStatistic = queryList({
-        query: getMasterTotal,
-    });
+    let getMasterStatistic = queryList({ query: getMasterTotal });
     if (getMasterStatistic.loading) return <Spin />;
 
     return (
-        <div className='d-flex fd-row'>
+        <div className='d-flex fd-row fj-around mx-8 my-8'>
             {masterTotalStatistic.map((masterTotal) => (
                 <StatisticCard
                     key={masterTotal.value}

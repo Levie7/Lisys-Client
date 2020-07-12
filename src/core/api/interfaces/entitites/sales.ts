@@ -11,6 +11,11 @@ export interface Sales {
     status: string;
 }
 
+export interface SalesByPeriod {
+    _id: string;
+    grand_total: number;
+}
+
 export interface SalesDetail {
     id?: string;
     medicine?: { code: string; id: string; name: string; uom?: { name: string } };
