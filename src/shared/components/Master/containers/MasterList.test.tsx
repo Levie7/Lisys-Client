@@ -64,6 +64,7 @@ let mockUser = {
     name: 'sa',
     role: {
         id: 'id1',
+        name: 'role1',
     },
     username: 'sa',
 };

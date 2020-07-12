@@ -1,7 +1,8 @@
 import { Layout } from 'antd';
 import React from 'react';
 
-import { createAuthTokenStorage } from 'src/core/graphql/auth';
+import { createAuthTokenStorage, exitSession } from 'src/core/graphql/auth';
+import { useHistory } from 'src/core/route';
 
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
@@ -13,13 +14,19 @@ interface PageProps {
 
 export function Page({ children }: PageProps) {
     let storage = createAuthTokenStorage();
+    let { replace } = useHistory();
+
+    function handleLogout() {
+        exitSession();
+        replace('/login');
+    }
 
     return (
         <Layout>
             <MainMenu auth={storage.getToken()} isMenuTop />
             <Layout>
                 <Layout.Header>
-                    <Header />
+                    <Header auth={storage.getToken()} logout={handleLogout} />
                 </Layout.Header>
                 <Layout.Content>{children}</Layout.Content>
                 <Layout.Footer>
