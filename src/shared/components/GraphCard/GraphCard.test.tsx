@@ -19,7 +19,6 @@ describe('GraphCard', () => {
 
     it('should render GraphCard', () => {
         wrap = mount(<GraphCard {...props} />);
-        console.log(wrap.debug());
         expect(wrap.find('Memo(GraphCardPure)').exists()).toBeTruthy();
     });
 });
