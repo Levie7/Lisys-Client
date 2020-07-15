@@ -25,6 +25,7 @@ export const USER_BY_USERNAME = gql`
             name
             role {
                 id
+                name
             }
             username
         }

@@ -6,18 +6,20 @@ interface DatePickerProps {
     defaultValue?: Moment;
     disabled?: boolean;
     format?: string | string[];
+    picker?: any;
     value?: Moment;
 
     onChange?: (value: Moment | null, dateString: string) => void;
 }
 
 export const DatePicker = React.memo<DatePickerProps>(
-    ({ defaultValue, disabled, format = 'DD-MM-YYYY', onChange, value }) => (
+    ({ defaultValue, disabled, format = 'DD-MM-YYYY', onChange, picker, value }) => (
         <AntDatePicker
             defaultValue={defaultValue}
             disabled={disabled}
             format={format}
             onChange={onChange}
+            picker={picker}
             value={value}
         />
     )
