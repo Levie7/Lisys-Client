@@ -1,4 +1,4 @@
-import { Medicine } from 'src/core/api';
+import { Medicine, MedicineAlmostExpired } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
 export const MEDICINE_BY_QUERY = gql`
@@ -86,6 +86,22 @@ export const MEDICINE_ALMOST_DEPLETED = gql`
     }
 `;
 
+export const MEDICINE_ALMOST_EXPIRED = gql`
+    query getMedicineAlmostExpired {
+        getMedicineAlmostExpired {
+            batch_no
+            expired_date
+            medicine {
+                code
+                name
+            }
+            supplier {
+                name
+            }
+        }
+    }
+`;
+
 const CREATE_MEDICINE = gql`
     mutation createMedicine($payload: CreateMedicinePayload) {
         createMedicine(payload: $payload) {
@@ -120,6 +136,11 @@ const UPDATE_MEDICINE = gql`
 
 export const getMedicineAlmostDepleted = (options: any) =>
     useQuery<{ getMedicineAlmostDepleted: Medicine[] }>(MEDICINE_ALMOST_DEPLETED, options);
+export const getMedicineAlmostExpired = (options: any) =>
+    useQuery<{ getMedicineAlmostExpired: MedicineAlmostExpired[] }>(
+        MEDICINE_ALMOST_EXPIRED,
+        options
+    );
 export const getMedicines = (options: any) =>
     useQuery<{ getMedicines: Medicine[] }>(MEDICINES, options);
 export const getMedicineByQuery = (options: any) =>

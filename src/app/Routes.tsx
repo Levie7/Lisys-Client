@@ -11,6 +11,7 @@ import { MasterSupplierPage } from './pages/MasterSupplierPage/chunk';
 import { MasterUoMPage } from './pages/MasterUoMPage/chunk';
 import { MasterVariantPage } from './pages/MasterVariantPage/chunk';
 import { MedicineAlmostDepletedReportPage } from './pages/MedicineAlmostDepletedReportPage/chunk';
+import { MedicineAlmostExpiredReportPage } from './pages/MedicineAlmostExpiredReportPage/chunk';
 import { MedicineListReportPage } from './pages/MedicineListReportPage/chunk';
 import { PurchaseListPage } from './pages/PurchaseListPage/chunk';
 import { PurchasePaymentPage } from './pages/PurchasePaymentPage/chunk';
@@ -53,6 +54,12 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
             component={MedicineAlmostDepletedReportPage}
             exact={true}
             path='/medicine_almost_depleted'
+        />
+        <Route
+            authenticate
+            component={MedicineAlmostExpiredReportPage}
+            exact={true}
+            path='/medicine_almost_expired'
         />
 
         <Route component={LoginPage} exact={true} path='/login' />
