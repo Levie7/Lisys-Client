@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { Permission } from 'src/core/api';
+
 import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { Spin } from 'src/shared/components/Spin';
@@ -14,7 +16,6 @@ import { getUserByUsername } from 'src/shared/graphql/User/schema.gql';
 import { usePrevious } from 'src/shared/helpers/usePrevious';
 import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
-import { Permission } from 'src/core/api';
 
 interface MasterListProps {
     action: string;

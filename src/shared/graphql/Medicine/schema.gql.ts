@@ -60,6 +60,20 @@ export const MEDICINE_LIST = gql`
     }
 `;
 
+export const MEDICINES = gql`
+    query getMedicines {
+        getMedicines {
+            code
+            name
+            stock
+            uom {
+                name
+            }
+            sell_price
+        }
+    }
+`;
+
 const CREATE_MEDICINE = gql`
     mutation createMedicine($payload: CreateMedicinePayload) {
         createMedicine(payload: $payload) {
@@ -92,6 +106,8 @@ const UPDATE_MEDICINE = gql`
     }
 `;
 
+export const getMedicines = (options: any) =>
+    useQuery<{ getMedicines: Medicine[] }>(MEDICINES, options);
 export const getMedicineByQuery = (options: any) =>
     useQuery<{ getMedicineByQuery: Medicine }>(MEDICINE_BY_QUERY, options);
 export const getMedicineList = (options: any) =>
