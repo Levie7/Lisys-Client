@@ -74,6 +74,18 @@ export const MEDICINES = gql`
     }
 `;
 
+export const MEDICINE_ALMOST_DEPLETED = gql`
+    query getMedicineAlmostDepleted {
+        getMedicineAlmostDepleted {
+            code
+            name
+            stock
+            min_stock
+            sell_price
+        }
+    }
+`;
+
 const CREATE_MEDICINE = gql`
     mutation createMedicine($payload: CreateMedicinePayload) {
         createMedicine(payload: $payload) {
@@ -106,6 +118,8 @@ const UPDATE_MEDICINE = gql`
     }
 `;
 
+export const getMedicineAlmostDepleted = (options: any) =>
+    useQuery<{ getMedicineAlmostDepleted: Medicine[] }>(MEDICINE_ALMOST_DEPLETED, options);
 export const getMedicines = (options: any) =>
     useQuery<{ getMedicines: Medicine[] }>(MEDICINES, options);
 export const getMedicineByQuery = (options: any) =>
