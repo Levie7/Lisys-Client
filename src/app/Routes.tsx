@@ -10,11 +10,15 @@ import { MasterMedicinePage } from './pages/MasterMedicinePage/chunk';
 import { MasterSupplierPage } from './pages/MasterSupplierPage/chunk';
 import { MasterUoMPage } from './pages/MasterUoMPage/chunk';
 import { MasterVariantPage } from './pages/MasterVariantPage/chunk';
+import { MedicineAlmostDepletedReportPage } from './pages/MedicineAlmostDepletedReportPage/chunk';
+import { MedicineAlmostExpiredReportPage } from './pages/MedicineAlmostExpiredReportPage/chunk';
+import { MedicineListReportPage } from './pages/MedicineListReportPage/chunk';
 import { PurchaseListPage } from './pages/PurchaseListPage/chunk';
 import { PurchasePaymentPage } from './pages/PurchasePaymentPage/chunk';
 import { PurchaseReturnPage } from './pages/PurchaseReturnPage/chunk';
 import { SalesPage } from './pages/SalesPage/chunk';
 import { SettingPage } from './pages/SettingPage/chunk';
+import { SoldMedicineReportPage } from './pages/SoldMedicineReportPage/chunk';
 import { StockCardPage } from './pages/StockCardPage/chunk';
 import { StockOpnamePage } from './pages/StockOpnamePage/chunk';
 
@@ -44,6 +48,21 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
         <Route authenticate component={PurchaseReturnPage} exact={true} path='/purchase_return' />
 
         <Route authenticate component={SalesPage} exact={true} path='/sales' />
+
+        <Route authenticate component={MedicineListReportPage} exact={true} path='/medicine_list' />
+        <Route
+            authenticate
+            component={MedicineAlmostDepletedReportPage}
+            exact={true}
+            path='/medicine_almost_depleted'
+        />
+        <Route
+            authenticate
+            component={MedicineAlmostExpiredReportPage}
+            exact={true}
+            path='/medicine_almost_expired'
+        />
+        <Route authenticate component={SoldMedicineReportPage} exact={true} path='/sold_medicine' />
 
         <Route component={LoginPage} exact={true} path='/login' />
     </Router>

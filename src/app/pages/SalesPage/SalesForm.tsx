@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { Medicine, SalesListData } from 'src/core/api';
 
+import { Button } from 'src/shared/components/Button';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
 import { Icon } from 'src/shared/components/Icon';
@@ -15,6 +16,7 @@ import { SearchMedicineList } from 'src/shared/containers/SearchMedicineList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
 import { mutationForm, queryList } from 'src/shared/graphql';
 import { getMedicineByQuery } from 'src/shared/graphql/Medicine/schema.gql';
+import { createSales } from 'src/shared/graphql/Sales/schema.gql';
 import { Currency, formatCurrency } from 'src/shared/helpers/formatCurrency';
 import { formatDefaultDate } from 'src/shared/helpers/formatDate';
 import { formatNumeric } from 'src/shared/helpers/formatNumeric';
@@ -25,8 +27,6 @@ import { Progress } from 'src/shared/utilities/progress';
 
 import { SalesSummary } from './components/SalesSummary';
 import { salesDetailColumns } from './constants';
-import { createSales } from './schema.gql';
-import { Button } from 'src/shared/components/Button';
 
 require('./SalesForm.sass');
 

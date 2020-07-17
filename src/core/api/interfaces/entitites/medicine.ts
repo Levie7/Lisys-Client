@@ -13,6 +13,13 @@ export interface Medicine {
     variant?: { name: string };
 }
 
+export interface MedicineAlmostExpired {
+    batch_no: string;
+    expired_date: string;
+    medicine?: { code: string; name: string };
+    supplier?: { name: string };
+}
+
 export interface MedicineData extends Medicine {
     category_name: string;
     key: string;

@@ -11,6 +11,7 @@ import { DateRangePicker } from 'src/shared/components/DatePicker';
 import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
+import { deleteSales, getSalesList, SALES_LIST } from 'src/shared/graphql/Sales/schema.gql';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import {
     convertMilisecondsToDate,
@@ -21,7 +22,6 @@ import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
 import { salesListColumns } from './constants';
-import { deleteSales, getSalesList, SALES_LIST } from './schema.gql';
 import { SalesForm } from './SalesForm';
 
 export const SalesPage = ({ location }: RouteComponentProps) => {
