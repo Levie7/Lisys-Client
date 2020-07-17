@@ -52,7 +52,6 @@ describe('PurchasingGraph', () => {
                 </ApolloProvider>
             );
         });
-        console.log(wrap.debug());
         expect(wrap.find('PurchasingGraph').exists()).toBeTruthy();
     });
 });
