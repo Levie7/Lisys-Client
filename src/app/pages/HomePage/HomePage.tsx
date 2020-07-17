@@ -4,7 +4,7 @@ import { Page } from 'src/app/shell/Page';
 
 import { Notification } from 'src/shared/utilities/notification';
 import { MasterStatistic } from './containers/MasterStatistic';
-import { SalesGraph } from './containers/SalesGraph';
+import { PurchasingGraph, SalesGraph } from './containers/DashboardGraph';
 
 export const HomePage = () => {
     let gretting = localStorage.getItem('greeting');
@@ -21,6 +21,7 @@ export const HomePage = () => {
         <Page>
             <MasterStatistic />
             <SalesGraph />
+            <PurchasingGraph />
         </Page>
     );
 };

@@ -57,6 +57,10 @@ export const options = {
     },
 };
 
+export const purchasingGraph = [
+    { period: 'month', title: 'Purchasing Debt Per Month Graph', type: 'bar' },
+];
+
 export const salesGraph = [
     { period: 'day', title: 'Sales Per Day Graph', type: 'line' },
     { period: 'month', title: 'Sales Per Month Graph', type: 'bar' },
