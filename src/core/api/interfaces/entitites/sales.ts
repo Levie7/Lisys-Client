@@ -39,3 +39,9 @@ export interface SalesListData {
     sell_price: string;
     sub_total: string;
 }
+
+export interface SoldMedicine {
+    date: string;
+    medicine?: { code: string; name: string };
+    sold: number;
+}

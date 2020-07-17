@@ -18,6 +18,7 @@ import { PurchasePaymentPage } from './pages/PurchasePaymentPage/chunk';
 import { PurchaseReturnPage } from './pages/PurchaseReturnPage/chunk';
 import { SalesPage } from './pages/SalesPage/chunk';
 import { SettingPage } from './pages/SettingPage/chunk';
+import { SoldMedicineReportPage } from './pages/SoldMedicineReportPage/chunk';
 import { StockCardPage } from './pages/StockCardPage/chunk';
 import { StockOpnamePage } from './pages/StockOpnamePage/chunk';
 
@@ -61,6 +62,7 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
             exact={true}
             path='/medicine_almost_expired'
         />
+        <Route authenticate component={SoldMedicineReportPage} exact={true} path='/sold_medicine' />
 
         <Route component={LoginPage} exact={true} path='/login' />
     </Router>
