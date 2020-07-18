@@ -13,6 +13,7 @@ import { getSoldMedicine } from 'src/shared/graphql/Sales/schema.gql';
 import {
     formatDate,
     formatDefaultDate,
+    formatDefaultMoment,
     formatDefaultNextDate,
     formatDefaultPreviousMoment,
 } from 'src/shared/helpers/formatDate';
@@ -66,7 +67,10 @@ export const SoldMedicineReportPage = () => {
                 <ReportCard title='Sold Medicine' url='/sold_medicine'>
                     <DateRangePicker
                         className='w-100'
-                        defaultValue={[moment(), formatDefaultPreviousMoment(date.end_date)]}
+                        defaultValue={[
+                            formatDefaultMoment(date.start_date),
+                            formatDefaultPreviousMoment(date.end_date),
+                        ]}
                         onChange={handleDateRange}
                         placeholder={['Start Date', 'End Date']}
                     />

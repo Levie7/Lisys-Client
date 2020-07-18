@@ -101,7 +101,6 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
         if (!readData) return null;
 
         let data: Sales = readData.getSalesById;
-        let amount_total = data.grand_total + data.change_total;
 
         return (
             <div className='row'>
@@ -109,7 +108,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                 <SalesDetail data={readData} />
                 <div className='col-12'>
                     <SalesSummary
-                        amount_total={Currency(formatCommaValue(amount_total))}
+                        amount_total={Currency(formatCommaValue(data.payment_total))}
                         change_total={Currency(formatCommaValue(data.change_total))}
                         isMobile={false}
                         qty_total={data.qty_total}

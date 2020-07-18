@@ -45,3 +45,13 @@ export interface SoldMedicine {
     medicine?: { code: string; name: string };
     sold: number;
 }
+
+export interface SummarySales {
+    created_by?: {
+        name: string;
+    };
+    date: string;
+    grand_total: number;
+    sold: number;
+    transaction: number;
+}

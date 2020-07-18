@@ -22,6 +22,7 @@ export const USER_BY_ID = gql`
 export const USER_BY_USERNAME = gql`
     query getUserByUsername($username: String) {
         getUserByUsername(username: $username) {
+            id
             name
             role {
                 id

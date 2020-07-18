@@ -1,4 +1,4 @@
-import { Sales, SoldMedicine } from 'src/core/api';
+import { Sales, SoldMedicine, SummarySales } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
 export const SALES_BY_ID = gql`
@@ -65,6 +65,20 @@ export const SOLD_MEDICINE = gql`
     }
 `;
 
+export const SUMMARY_SALES = gql`
+    query getSummarySalesByUser($payload: CustomFilter) {
+        getSummarySalesByUser(payload: $payload) {
+            created_by {
+                name
+            }
+            date
+            grand_total
+            sold
+            transaction
+        }
+    }
+`;
+
 const CREATE_SALES = gql`
     mutation createSales($payload: CreateSalesPayload) {
         createSales(payload: $payload) {
@@ -87,6 +101,8 @@ export const getSalesList = (options: any) =>
     useQuery<{ getSalesList: Sales[] }>(SALES_LIST, options);
 export const getSoldMedicine = (options: any) =>
     useQuery<{ getSoldMedicine: SoldMedicine }>(SOLD_MEDICINE, options);
+export const getSummarySalesByUser = (options: any) =>
+    useQuery<{ getSummarySalesByUser: SummarySales }>(SUMMARY_SALES, options);
 export const createSales = (options: any) =>
     useMutation<{ createSales: Sales }>(CREATE_SALES, options);
 export const deleteSales = (options: any) =>
