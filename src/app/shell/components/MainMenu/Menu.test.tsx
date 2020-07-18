@@ -54,6 +54,7 @@ let mockPermission = [
     },
 ];
 let mockUser = {
+    id: 'id1',
     name: 'sa',
     role: {
         id: 'id1',

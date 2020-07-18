@@ -7,9 +7,9 @@ import React from 'react';
 import {
     CATEGORY_LIST,
     deleteCategory,
+    getCategoryById,
     getCategoryList,
     updateManyCategory,
-    getCategoryById,
 } from 'src/shared/graphql/Category/schema.gql';
 import {
     GET_CREATE_PERMISSIONS,
@@ -63,6 +63,7 @@ let mockPermission = [
     },
 ];
 let mockUser = {
+    id: 'id1',
     name: 'sa',
     role: {
         id: 'id1',

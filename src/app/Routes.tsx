@@ -17,10 +17,13 @@ import { PurchaseListPage } from './pages/PurchaseListPage/chunk';
 import { PurchasePaymentPage } from './pages/PurchasePaymentPage/chunk';
 import { PurchaseReturnPage } from './pages/PurchaseReturnPage/chunk';
 import { SalesPage } from './pages/SalesPage/chunk';
+import { SalesDetailResultPage } from './pages/SalesPage/SalesDetailResultPage';
 import { SettingPage } from './pages/SettingPage/chunk';
 import { SoldMedicineReportPage } from './pages/SoldMedicineReportPage/chunk';
 import { StockCardPage } from './pages/StockCardPage/chunk';
 import { StockOpnamePage } from './pages/StockOpnamePage/chunk';
+import { SummarySalesReportPage } from './pages/SummarySalesReportPage/chunk';
+import { SummarySalesReportResultPage } from './pages/SummarySalesReportPage/SummarySalesReportResultPage';
 
 export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
     <Router authPath='/login' isAuth={isAuth}>
@@ -48,6 +51,7 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
         <Route authenticate component={PurchaseReturnPage} exact={true} path='/purchase_return' />
 
         <Route authenticate component={SalesPage} exact={true} path='/sales' />
+        <Route authenticate component={SalesDetailResultPage} exact={true} path='/sales_report' />
 
         <Route authenticate component={MedicineListReportPage} exact={true} path='/medicine_list' />
         <Route
@@ -63,6 +67,13 @@ export const Routes: React.FC<{ isAuth: boolean }> = ({ isAuth }) => (
             path='/medicine_almost_expired'
         />
         <Route authenticate component={SoldMedicineReportPage} exact={true} path='/sold_medicine' />
+        <Route authenticate component={SummarySalesReportPage} exact={true} path='/summary_sales' />
+        <Route
+            authenticate
+            component={SummarySalesReportResultPage}
+            exact={true}
+            path='/summary_sales_report'
+        />
 
         <Route component={LoginPage} exact={true} path='/login' />
     </Router>

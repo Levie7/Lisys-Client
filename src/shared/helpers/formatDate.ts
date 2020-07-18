@@ -18,8 +18,16 @@ export function formatDefaultNextDate(date: string) {
         .format('YYYY-MM-DD');
 }
 
+export function formatDefaultMoment(date: string) {
+    return moment(date, 'YYYY-MM-DD');
+}
+
 export function formatDefaultPreviousMoment(date: string) {
     return moment(date, 'YYYY-MM-DD').subtract('days', 1);
+}
+
+export function formatFullDateTime(date: Moment) {
+    return moment(date).format('DD MMM YYYY HH:mm:ss');
 }
 
 export function formatMoment(date: string) {

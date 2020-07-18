@@ -3,14 +3,15 @@ import TextArea from 'antd/lib/input/TextArea';
 import * as React from 'react';
 
 interface InputAreaProps {
+    disabled?: boolean;
     rows?: number;
 }
 
 export const InputArea = React.memo<InputAreaProps>(
     React.forwardRef(
         (
-            { rows, ...props },
+            { disabled, rows, ...props },
             ref?: string | ((instance: TextArea | null) => void) | React.RefObject<TextArea> | null
-        ) => <AntInput.TextArea {...props} ref={ref} rows={rows} />
+        ) => <AntInput.TextArea {...props} disabled={disabled} ref={ref} rows={rows} />
     )
 );

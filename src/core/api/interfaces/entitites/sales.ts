@@ -1,5 +1,6 @@
 export interface Sales {
     change_total: number;
+    created_by?: { name: string };
     date: string;
     description?: string;
     detail: SalesDetail[];
@@ -44,4 +45,14 @@ export interface SoldMedicine {
     date: string;
     medicine?: { code: string; name: string };
     sold: number;
+}
+
+export interface SummarySales {
+    created_by?: {
+        name: string;
+    };
+    date: string;
+    grand_total: number;
+    sold: number;
+    transaction: number;
 }

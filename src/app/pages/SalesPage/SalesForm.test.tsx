@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import moment from 'moment';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import { MEDICINE_BY_QUERY, MEDICINE_LIST } from 'src/shared/graphql/Medicine/schema.gql';
 
@@ -120,7 +121,9 @@ describe('SalesForm', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <SalesForm {...props} />
+                    <BrowserRouter>
+                        <SalesForm {...props} />
+                    </BrowserRouter>
                 </ApolloProvider>
             );
         });
@@ -139,7 +142,9 @@ describe('SalesForm', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <SalesForm {...props} />
+                            <BrowserRouter>
+                                <SalesForm {...props} />
+                            </BrowserRouter>
                         </ApolloProvider>
                     );
                 });
@@ -162,7 +167,9 @@ describe('SalesForm', () => {
                     await act(async () => {
                         wrap = mount(
                             <ApolloProvider client={mockClient}>
-                                <SalesForm {...props} />
+                                <BrowserRouter>
+                                    <SalesForm {...props} />
+                                </BrowserRouter>
                             </ApolloProvider>
                         );
                         wrap.find('input#code').simulate('change', {
@@ -191,7 +198,9 @@ describe('SalesForm', () => {
                     await act(async () => {
                         wrap = mount(
                             <ApolloProvider client={mockClient}>
-                                <SalesForm {...props} />
+                                <BrowserRouter>
+                                    <SalesForm {...props} />
+                                </BrowserRouter>
                             </ApolloProvider>
                         );
                         wrap.find('input#barcode').simulate('change', {
@@ -288,7 +297,9 @@ describe('SalesForm', () => {
                     await act(async () => {
                         const { container, getByText } = render(
                             <ApolloProvider client={mockClient}>
-                                <SalesForm {...props} />
+                                <BrowserRouter>
+                                    <SalesForm {...props} />
+                                </BrowserRouter>
                             </ApolloProvider>
                         );
                         fireEvent.change(container.querySelector('textarea#description')!, {

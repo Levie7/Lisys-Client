@@ -9,6 +9,7 @@ import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable
 import { DatePicker } from 'src/shared/components/DatePicker';
 import { Icon } from 'src/shared/components/Icon';
 import { Input, InputArea } from 'src/shared/components/Input';
+import { Link } from 'src/shared/components/Link';
 import { Modal } from 'src/shared/components/Modal';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
@@ -18,7 +19,7 @@ import { mutationForm, queryList } from 'src/shared/graphql';
 import { getMedicineByQuery } from 'src/shared/graphql/Medicine/schema.gql';
 import { createSales } from 'src/shared/graphql/Sales/schema.gql';
 import { Currency, formatCurrency } from 'src/shared/helpers/formatCurrency';
-import { formatDefaultDate } from 'src/shared/helpers/formatDate';
+import { convertMilisecondsToDate, formatDefaultDate } from 'src/shared/helpers/formatDate';
 import { formatNumeric } from 'src/shared/helpers/formatNumeric';
 import { formatCommaValue, formatValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
@@ -41,6 +42,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
     let [paymentForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
     let searchMedicine = React.useRef<any>();
+    let [saved, setSaved] = React.useState(false);
     let [filter, setFilter] = React.useState<{ barcode: string; code: string; id?: string }>({
         barcode: '',
         code: '',
@@ -71,11 +73,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
         query: getMedicineByQuery,
         variables: { payload: { barcode: filter.barcode, code: filter.code, id: filter.id } },
     });
-    let mutation = mutationForm({
-        formType,
-        mutations: createSales,
-        resetForm: handleResetForm,
-    });
+    let mutation = mutationForm({ formType, mutations: createSales });
 
     if (mutation.loading || medicineQuery.loading) return <Spin />;
 
@@ -236,6 +234,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                         payload,
                     },
                 });
+                setSaved(true);
             } else {
                 Message('Pay first!', 'error');
             }
@@ -295,6 +294,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
 
     function handleNew() {
         handleResetForm();
+        setSaved(false);
     }
 
     function handleShowPay() {
@@ -373,6 +373,8 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
         );
     }
 
+    let created = mutation.data?.createSales;
+
     return (
         <Form form={form} initialValues={initialValues} layout='vertical' onFinish={handleFinish}>
             <div className='row'>
@@ -394,7 +396,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                         <DatePicker defaultValue={moment()} disabled />
                     </Form.Item>
                     <Form.Item label='Description' name='description'>
-                        <InputArea />
+                        <InputArea disabled={saved} />
                     </Form.Item>
                 </div>
                 <div className={classNames('col-12 col@md-9', !isMobile ? 'Detail-Bordered' : '')}>
@@ -403,6 +405,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                         <div className='row'>
                             <div className='col-9 col@md-4'>
                                 <Input
+                                    disabled={saved}
                                     id='code'
                                     onPressEnter={handleCode}
                                     placeholder='Code'
@@ -410,13 +413,16 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                                 />
                             </div>
                             <div className='col-3 col@md-4'>
-                                <SearchMedicineList
-                                    onRecordList={handleMedicineList}
-                                    ref={searchMedicine}
-                                />
+                                {!saved && (
+                                    <SearchMedicineList
+                                        onRecordList={handleMedicineList}
+                                        ref={searchMedicine}
+                                    />
+                                )}
                             </div>
                             <div className='col-12 col@md-4'>
                                 <Input
+                                    disabled={saved}
                                     autoFocus
                                     id='barcode'
                                     onChange={handleBarcode}
@@ -434,8 +440,8 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                         handleDelete={handleDelete}
                         handleRecord={handleRecord}
                         hasAction
-                        showDelete
-                        showUpdate
+                        showDelete={!saved}
+                        showUpdate={!saved}
                     />
                     <SalesSummary
                         amount_total={Currency(formatCommaValue(payment.amount_total))}
@@ -446,15 +452,39 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                     />
                     <Form.Item>
                         <div className='d-flex fj-between'>
-                            <SaveButton />
-                            <Button
-                                className='bg-green fg-white'
-                                id='pay'
-                                onClick={handleShowPay}
-                                type='dashed'
-                            >
-                                {Icon['payment']} Pay
-                            </Button>
+                            {!saved && (
+                                <>
+                                    <SaveButton />
+                                    <Button
+                                        className='bg-green fg-white'
+                                        id='pay'
+                                        onClick={handleShowPay}
+                                        type='dashed'
+                                    >
+                                        {Icon['payment']} Pay
+                                    </Button>
+                                </>
+                            )}
+                            {saved && (
+                                <Link
+                                    to={{
+                                        pathname: `/sales_report`,
+                                        state: {
+                                            cashier: created.created_by!.name,
+                                            change: payment.change_total,
+                                            date: convertMilisecondsToDate(created.date),
+                                            detail: created.detail,
+                                            no: created.no,
+                                            payment: payment.amount_total,
+                                            total: grandTotal.total,
+                                        },
+                                    }}
+                                >
+                                    <Button className='bg-green fg-white' type='default'>
+                                        {Icon['print']} Print
+                                    </Button>
+                                </Link>
+                            )}
                             <Button
                                 className='bg-orange fg-white'
                                 id='new'
@@ -463,13 +493,11 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                             >
                                 {Icon['plus']} New
                             </Button>
-                            <a
-                                // eslint-disable-next-line react/jsx-no-target-blank
-                                target='_blank'
-                                href={'/sales?create'}
-                            >
-                                <Button type='danger'>{Icon['pending']} Pending</Button>
-                            </a>
+                            {!saved && (
+                                <Link target='_blank' to={'/sales?create'}>
+                                    <Button type='danger'>{Icon['pending']} Pending</Button>
+                                </Link>
+                            )}
                         </div>
                     </Form.Item>
                 </div>
