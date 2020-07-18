@@ -14,7 +14,7 @@ export function mutationForm({
     mutations: any;
     resetForm?: () => void;
 }) {
-    let [fetchUser, { loading }] = mutations({
+    let [fetchUser, { data, loading }] = mutations({
         onCompleted() {
             Progress(false);
             resetForm && formType === 'create' && resetForm();
@@ -29,6 +29,7 @@ export function mutationForm({
 
     return {
         action: fetchUser,
+        data,
         loading,
     };
 }

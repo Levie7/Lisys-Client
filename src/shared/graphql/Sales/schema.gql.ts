@@ -5,6 +5,9 @@ export const SALES_BY_ID = gql`
     query getSalesById($id: ID!) {
         getSalesById(id: $id) {
             change_total
+            created_by {
+                name
+            }
             no
             date
             description
@@ -82,7 +85,26 @@ export const SUMMARY_SALES = gql`
 const CREATE_SALES = gql`
     mutation createSales($payload: CreateSalesPayload) {
         createSales(payload: $payload) {
+            created_by {
+                name
+            }
             no
+            date
+            detail {
+                id
+                medicine {
+                    id
+                    code
+                    name
+                    uom {
+                        id
+                        name
+                    }
+                }
+                qty
+                sell_price
+                sub_total
+            }
         }
     }
 `;

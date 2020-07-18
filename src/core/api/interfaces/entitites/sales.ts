@@ -1,5 +1,6 @@
 export interface Sales {
     change_total: number;
+    created_by?: { name: string };
     date: string;
     description?: string;
     detail: SalesDetail[];
