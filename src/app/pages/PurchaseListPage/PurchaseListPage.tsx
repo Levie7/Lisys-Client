@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Page } from 'src/app/shell/Page';
 
+import { Purchasing } from 'src/core/api';
 import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { DateRangePicker } from 'src/shared/components/DatePicker';
@@ -15,14 +16,24 @@ import { useUIContext } from 'src/shared/contexts/UIContext';
 import { queryForm } from 'src/shared/graphql';
 import {
     deletePurchasing,
+    getPurchasingById,
     getPurchasingList,
     PURCHASING_LIST,
 } from 'src/shared/graphql/Purchasing/schema.gql';
 import { getSuppliers } from 'src/shared/graphql/Supplier/schema.gql';
-import { formatDate, formatDefaultDate } from 'src/shared/helpers/formatDate';
+import { Currency } from 'src/shared/helpers/formatCurrency';
+import {
+    convertMilisecondsToDate,
+    formatDate,
+    formatDefaultDate,
+} from 'src/shared/helpers/formatDate';
+import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { purchaseListColumns } from './constants';
+import { PurchaseDetail } from './components/PurchaseDetail';
+import { PurchaseHeader } from './components/PurchaseHeader';
+import { PurchaseSummary } from './components/PurchaseSummary';
+import { moduleName, purchaseListColumns, title } from './constants';
 import { PurchaseListForm } from './PurchaseListForm';
 
 export const PurchaseListPage = () => {
@@ -31,6 +42,7 @@ export const PurchaseListPage = () => {
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
     });
+    let [readData, setReadData] = React.useState<any>();
     let [supplier, setSupplier] = React.useState('');
     let isMobile = useUIContext().isMobile;
     let supplierQuery = queryForm({ query: getSuppliers });
@@ -83,13 +95,48 @@ export const PurchaseListPage = () => {
         );
     }
 
+    function handleReadData(data?: any) {
+        setReadData(data);
+
+        return data?.getPurchasingById;
+    }
+
+    function renderCustomContent() {
+        if (!readData) return null;
+
+        let data: Purchasing = readData.getPurchasingById;
+
+        return (
+            <div className='row'>
+                <PurchaseHeader
+                    date={convertMilisecondsToDate(data.date)}
+                    due_date={convertMilisecondsToDate(data.due_date)}
+                    no={data.no}
+                    supplier={data.supplier!.name}
+                />
+                <PurchaseDetail data={readData} />
+                <div className='col-12'>
+                    <PurchaseSummary
+                        credit_total={Currency(formatCommaValue(data.credit_total))}
+                        qty_total={data.qty_total}
+                        total={Currency(formatCommaValue(data.grand_total))}
+                    />
+                </div>
+                <div className='col-12'>
+                    <h3>Description : </h3>
+                    {data.description}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <Page>
             <MasterCard
-                header={{ link: '/purchase_list', title: 'Purchase' }}
+                header={{ link: '/purchase_list', title }}
                 initSection='purchase'
                 isCrud
-                module='Purchasing'
+                module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list'].includes(action!) ? (
@@ -97,18 +144,22 @@ export const PurchaseListPage = () => {
                             action={action!}
                             auth={storage.getToken()}
                             columns={purchaseListColumns}
+                            customContentDrawer={renderCustomContent()}
                             customFilter={{
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
-                            module='Purchase List'
+                            module={moduleName}
                             mutation={{ delete: deletePurchasing }}
                             query={{
                                 list: getPurchasingList,
+                                read: getPurchasingById,
                                 refetch: PURCHASING_LIST,
                             }}
                             softDelete
+                            title={title}
                             handleData={handlePurchasingData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}

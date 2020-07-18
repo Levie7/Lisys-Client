@@ -11,7 +11,12 @@ import { DateRangePicker } from 'src/shared/components/DatePicker';
 import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
-import { deleteSales, getSalesList, SALES_LIST } from 'src/shared/graphql/Sales/schema.gql';
+import {
+    deleteSales,
+    getSalesById,
+    getSalesList,
+    SALES_LIST,
+} from 'src/shared/graphql/Sales/schema.gql';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import {
     convertMilisecondsToDate,
@@ -21,11 +26,15 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { salesListColumns } from './constants';
+import { SalesDetail } from './components/SalesDetail';
+import { SalesHeader } from './components/SalesHeader';
+import { moduleName, salesListColumns, title } from './constants';
 import { SalesForm } from './SalesForm';
+import { SalesSummary } from './components/SalesSummary';
 
 export const SalesPage = ({ location }: RouteComponentProps) => {
     let storage = createAuthTokenStorage();
+    let [readData, setReadData] = React.useState<any>();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
@@ -82,14 +91,47 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
         );
     }
 
+    function handleReadData(data?: any) {
+        setReadData(data);
+
+        return data?.getSalesById;
+    }
+
+    function renderCustomContent() {
+        if (!readData) return null;
+
+        let data: Sales = readData.getSalesById;
+        let amount_total = data.grand_total + data.change_total;
+
+        return (
+            <div className='row'>
+                <SalesHeader date={convertMilisecondsToDate(data.date)} no={data.no} />
+                <SalesDetail data={readData} />
+                <div className='col-12'>
+                    <SalesSummary
+                        amount_total={Currency(formatCommaValue(amount_total))}
+                        change_total={Currency(formatCommaValue(data.change_total))}
+                        isMobile={false}
+                        qty_total={data.qty_total}
+                        total={Currency(formatCommaValue(data.grand_total))}
+                    />
+                </div>
+                <div className='col-12'>
+                    <h3>Description : </h3>
+                    {data.description}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <Page>
             <MasterCard
-                header={{ link: '/sales', title: 'Sales' }}
+                header={{ link: '/sales', title }}
                 initAction={location.search !== '' ? 'create' : undefined}
                 initSection='sales'
                 isCrud
-                module='Sales'
+                module={moduleName}
             >
                 {({ action, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list'].includes(action!) ? (
@@ -97,18 +139,22 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                             action={action!}
                             auth={storage.getToken()}
                             columns={salesListColumns}
+                            customContentDrawer={renderCustomContent()}
                             customFilter={{
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
-                            module='Sales'
+                            module={moduleName}
                             mutation={{ delete: deleteSales }}
                             query={{
                                 list: getSalesList,
+                                read: getSalesById,
                                 refetch: SALES_LIST,
                             }}
                             softDelete
+                            title={title}
                             handleData={handleData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}

@@ -9,12 +9,13 @@ import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
 import {
     deleteVariant,
+    getVariantById,
     getVariantList,
     updateManyVariant,
     VARIANT_LIST,
 } from 'src/shared/graphql/Variant/schema.gql';
 
-import { variantColumns } from './constants';
+import { moduleName, title, variantColumns } from './constants';
 import { MasterVariantForm } from './MasterVariantForm';
 
 export function MasterVariantPage() {
@@ -40,13 +41,17 @@ export function MasterVariantPage() {
         };
     }
 
+    function handleReadData(data?: any) {
+        return data?.getVariantById;
+    }
+
     return (
         <Page>
             <MasterCard
-                header={{ link: '/variant', title: 'Variant' }}
+                header={{ link: '/variant', title }}
                 initSection='variant'
                 isCrud
-                module='Master'
+                module={moduleName}
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -56,16 +61,19 @@ export function MasterVariantPage() {
                             auth={storage.getToken()}
                             columns={variantColumns}
                             hasStatus
-                            module='Variant'
+                            module={moduleName}
                             mutation={{
                                 delete: deleteVariant,
                                 update: updateManyVariant,
                             }}
                             query={{
                                 list: getVariantList,
+                                read: getVariantById,
                                 refetch: VARIANT_LIST,
                             }}
+                            title={title}
                             handleData={handleData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}

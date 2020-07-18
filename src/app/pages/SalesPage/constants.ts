@@ -65,3 +65,6 @@ export const salesDetailColumns = [
         title: 'Sub Total',
     },
 ];
+
+export const moduleName = 'Sales';
+export const title = 'Sales';

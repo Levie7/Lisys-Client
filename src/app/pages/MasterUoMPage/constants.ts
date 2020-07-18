@@ -15,3 +15,6 @@ export const uomColumns = [
         title: 'Description',
     },
 ];
+
+export const moduleName = 'Master';
+export const title = 'Unit of Measurement';

@@ -70,3 +70,6 @@ export const purchasePaymentDetailColumns = [
         title: 'Payment Amount',
     },
 ];
+
+export const moduleName = 'Purchasing';
+export const title = 'Purchase Payment';

@@ -29,3 +29,6 @@ export const supplierInfo = {
         title: 'General Information',
     },
 };
+
+export const moduleName = 'Master';
+export const title = 'Supplier';

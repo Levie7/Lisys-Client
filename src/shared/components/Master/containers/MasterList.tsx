@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Permission } from 'src/core/api';
 
+import { CrudDrawer } from 'src/shared/components/Crud/CrudDrawer';
 import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { Spin } from 'src/shared/components/Spin';
@@ -10,6 +11,7 @@ import { mutationForm, queryForm, queryList } from 'src/shared/graphql';
 import {
     getCreatePermissionByRoleId,
     getDeletePermissionByRoleId,
+    getReadPermissionByRoleId,
     getUpdatePermissionByRoleId,
 } from 'src/shared/graphql/Permission/schema.gql';
 import { getUserByUsername } from 'src/shared/graphql/User/schema.gql';
@@ -22,6 +24,7 @@ interface MasterListProps {
     auth: string | null;
     columns: ColumnProps[];
     customFilter?: { components: React.ReactNode; value: any };
+    customContentDrawer?: React.ReactNode;
     hasStatus?: boolean;
     module: string;
     mutation: {
@@ -30,11 +33,14 @@ interface MasterListProps {
     };
     query: {
         list: any;
+        read: any;
         refetch: any;
     };
     softDelete?: boolean;
+    title: string;
 
     handleData: (data: any) => { list: any[]; total: number };
+    handleReadData: (data: any) => any;
     handleRecord: (recordKey: string) => void;
     handleResetAction: () => void;
     handleShowCreate: (canCreate: boolean) => void;
@@ -45,12 +51,15 @@ export function MasterList({
     auth,
     columns,
     customFilter,
+    customContentDrawer,
     hasStatus,
     module,
     mutation,
     query,
     softDelete,
+    title,
     handleData,
+    handleReadData,
     handleRecord,
     handleResetAction,
     handleShowCreate,
@@ -65,6 +74,13 @@ export function MasterList({
     let [filters, setFilters] = React.useState([]);
     let [sort, setSort] = React.useState<{ field?: string; order?: string }>({});
     let [search, setSearch] = React.useState('');
+    let [read, showRead] = React.useState(false);
+    let [readRecord, setReadRecord] = React.useState('');
+    let queryRead = queryForm({
+        skip: readRecord === '',
+        query: query.read,
+        variables: { id: readRecord, payload: { id: readRecord } },
+    });
     let queryUser = queryForm({
         query: getUserByUsername,
         variables: { username: auth },
@@ -79,6 +95,11 @@ export function MasterList({
         query: getDeletePermissionByRoleId,
         variables: { role_id: queryUser.data?.getUserByUsername.role.id },
     });
+    let queryReadPermission = queryForm({
+        skip: !queryUser.data,
+        query: getReadPermissionByRoleId,
+        variables: { role_id: queryUser.data?.getUserByUsername.role.id },
+    });
     let queryUpdatePermission = queryForm({
         skip: !queryUser.data,
         query: getUpdatePermissionByRoleId,
@@ -86,9 +107,11 @@ export function MasterList({
     });
     let createPermission = queryCreatePermission.data?.getCreatePermissionByRoleId;
     let deletePermission = queryDeletePermission.data?.getDeletePermissionByRoleId;
+    let readPermission = queryReadPermission.data?.getReadPermissionByRoleId;
     let updatePermission = queryUpdatePermission.data?.getUpdatePermissionByRoleId;
     let canCreate = handlePermission(createPermission);
     let canDelete = handlePermission(deletePermission);
+    let canRead = handlePermission(readPermission);
     let canUpdate = handlePermission(updatePermission);
 
     let queryDataList = queryList({
@@ -106,6 +129,7 @@ export function MasterList({
         },
     });
     let data = handleData(queryDataList.data);
+    let readData = handleReadData(queryRead.data);
     let prevDataTotal = usePrevious(data.total);
 
     useEffect(() => {
@@ -126,6 +150,7 @@ export function MasterList({
     if (
         queryCreatePermission.loading ||
         queryDeletePermission.loading ||
+        queryReadPermission.loading ||
         queryUpdatePermission.loading ||
         mutationDelete.loading ||
         mutationUpdate?.loading
@@ -195,7 +220,7 @@ export function MasterList({
             permission &&
             permission.find(
                 (permission: Permission) =>
-                    permission.menu?.name === module && permission.status === 'active'
+                    permission.menu?.name === title && permission.status === 'active'
             )
         );
     }
@@ -218,8 +243,27 @@ export function MasterList({
         return selectedRowKeys.length > 0;
     }
 
+    function handleRead(recordKey: string) {
+        setReadRecord(recordKey);
+        showRead(true);
+    }
+
+    function handleCloseRead() {
+        setReadRecord('');
+        showRead(false);
+    }
+
     return (
         <>
+            <CrudDrawer
+                customContent={customContentDrawer}
+                data={readData}
+                loading={queryRead.loading}
+                handleClose={handleCloseRead}
+                module={module}
+                title={title}
+                visible={read}
+            />
             <CrudFilter
                 customFilter={customFilter?.components}
                 onSearch={handleSearch}
@@ -229,6 +273,7 @@ export function MasterList({
                 columns={columns}
                 dataSource={data.list}
                 handleDelete={handleDelete}
+                handleRead={handleRead}
                 handleRecord={handleRecord}
                 hasAction
                 hasStatus={hasStatus}
@@ -237,6 +282,7 @@ export function MasterList({
                 pagination={page}
                 rowSelection={rowSelection}
                 showDelete={!!canDelete}
+                showRead={!!canRead}
                 showUpdate={!!canUpdate}
             />
         </>

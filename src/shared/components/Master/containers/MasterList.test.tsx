@@ -9,10 +9,12 @@ import {
     deleteCategory,
     getCategoryList,
     updateManyCategory,
+    getCategoryById,
 } from 'src/shared/graphql/Category/schema.gql';
 import {
     GET_CREATE_PERMISSIONS,
     GET_DELETE_PERMISSIONS,
+    GET_READ_PERMISSIONS,
     GET_UPDATE_PERMISSIONS,
 } from 'src/shared/graphql/Permission/schema.gql';
 import { USER_BY_USERNAME } from 'src/shared/graphql/User/schema.gql';
@@ -55,7 +57,7 @@ let mockPermission = [
         },
         id: 'id2',
         menu: {
-            name: 'Medicine',
+            name: 'Category',
         },
         status: 'active',
     },
@@ -72,6 +74,7 @@ describe('MasterList', () => {
     let wrap: any;
     let props = {
         action: 'list',
+        auth: 'sa',
         columns: [
             {
                 dataIndex: 'name',
@@ -89,16 +92,19 @@ describe('MasterList', () => {
                 title: 'Status',
             },
         ],
-        module: 'Medicine',
+        module: 'Master',
         mutation: {
             delete: deleteCategory,
             update: updateManyCategory,
         },
         query: {
             list: getCategoryList,
+            read: getCategoryById,
             refetch: CATEGORY_LIST,
         },
+        title: 'Category',
         handleData: jest.fn().mockImplementation(() => mockDataCategory),
+        handleReadData: jest.fn(),
         handleRecord: jest.fn(),
         handleResetAction: jest.fn(),
         handleShowCreate: jest.fn(),
@@ -113,6 +119,9 @@ describe('MasterList', () => {
     let permissionDeleteQueryHandler = jest
         .fn()
         .mockResolvedValue({ data: { getDeletePermissionByRoleId: mockPermission } });
+    let permissionReadQueryHandler = jest
+        .fn()
+        .mockResolvedValue({ data: { getReadPermissionByRoleId: mockPermission } });
     let permissionUpdateQueryHandler = jest
         .fn()
         .mockResolvedValue({ data: { getUpdatePermissionByRoleId: mockPermission } });
@@ -120,6 +129,7 @@ describe('MasterList', () => {
     mockClient.setRequestHandler(USER_BY_USERNAME, userQueryHandler);
     mockClient.setRequestHandler(GET_CREATE_PERMISSIONS, permissionCreateQueryHandler);
     mockClient.setRequestHandler(GET_DELETE_PERMISSIONS, permissionDeleteQueryHandler);
+    mockClient.setRequestHandler(GET_READ_PERMISSIONS, permissionReadQueryHandler);
     mockClient.setRequestHandler(GET_UPDATE_PERMISSIONS, permissionUpdateQueryHandler);
     const Component = ({ properties }: any) => (
         <ApolloProvider client={mockClient}>

@@ -15,3 +15,6 @@ export const categoryColumns = [
         title: 'Description',
     },
 ];
+
+export const moduleName = 'Master';
+export const title = 'Category';

@@ -106,3 +106,6 @@ export const medicineInfo = {
         title: 'Pricing Information',
     },
 };
+
+export const moduleName = 'Master';
+export const title = 'Medicine';

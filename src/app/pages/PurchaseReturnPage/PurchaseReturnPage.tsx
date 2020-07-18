@@ -23,9 +23,17 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { purchaseReturnColumns } from './constants';
+import { PurchaseReturnDetail } from './components/PurchaseReturnDetail';
+import { PurchaseReturnHeader } from './components/PurchaseReturnHeader';
+import { PurchaseReturnSummary } from './components/PurchaseReturnSummary';
+import { moduleName, purchaseReturnColumns, title } from './constants';
 import { PurchaseReturnForm } from './PurchaseReturnForm';
-import { deletePurchaseReturn, getPurchaseReturnList, PURCHASE_RETURN_LIST } from './schema.gql';
+import {
+    deletePurchaseReturn,
+    getPurchaseReturnById,
+    getPurchaseReturnList,
+    PURCHASE_RETURN_LIST,
+} from './schema.gql';
 
 export const PurchaseReturnPage = () => {
     let storage = createAuthTokenStorage();
@@ -33,6 +41,7 @@ export const PurchaseReturnPage = () => {
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
     });
+    let [readData, setReadData] = React.useState<any>();
     let [supplier, setSupplier] = React.useState('');
     let isMobile = useUIContext().isMobile;
     let supplierQuery = queryForm({ query: getSuppliers });
@@ -80,6 +89,12 @@ export const PurchaseReturnPage = () => {
         });
     }
 
+    function handleReadData(data?: any) {
+        setReadData(data);
+
+        return data?.getPurchaseReturnById;
+    }
+
     function handleSupplier(value: string) {
         setSupplier(value);
     }
@@ -111,13 +126,44 @@ export const PurchaseReturnPage = () => {
         );
     }
 
+    function renderCustomContent() {
+        if (!readData) return null;
+
+        let data: PurchaseReturn = readData.getPurchaseReturnById;
+
+        return (
+            <div className='row'>
+                <PurchaseReturnHeader
+                    date={convertMilisecondsToDate(data.date)}
+                    no={data.no}
+                    supplier={data.supplier!.name}
+                />
+                <PurchaseReturnDetail data={readData} />
+                <div className='col-12'>
+                    <PurchaseReturnSummary
+                        cash_total={Currency(formatCommaValue(data.cash_total))}
+                        credit_discount_total={Currency(
+                            formatCommaValue(data.credit_discount_total)
+                        )}
+                        grand_total={Currency(formatCommaValue(data.grand_total))}
+                        qty_total={data.qty_total}
+                    />
+                </div>
+                <div className='col-12'>
+                    <h3>Description : </h3>
+                    {data.description}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <Page>
             <MasterCard
-                header={{ link: '/purchase_return', title: 'Purchase Return' }}
+                header={{ link: '/purchase_return', title }}
                 initSection='purchase_return'
                 isCrud
-                module='Purchasing'
+                module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list'].includes(action!) ? (
@@ -125,20 +171,24 @@ export const PurchaseReturnPage = () => {
                             action={action!}
                             auth={storage.getToken()}
                             columns={purchaseReturnColumns}
+                            customContentDrawer={renderCustomContent()}
                             customFilter={{
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
-                            module='Purchase Return'
+                            module={moduleName}
                             mutation={{
                                 delete: deletePurchaseReturn,
                             }}
                             query={{
                                 list: getPurchaseReturnList,
+                                read: getPurchaseReturnById,
                                 refetch: PURCHASE_RETURN_LIST,
                             }}
                             softDelete
+                            title={title}
                             handleData={handleData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}

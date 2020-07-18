@@ -157,3 +157,6 @@ export const purchaseWithDetailSearchListColumns = [
         title: 'Credit Total',
     },
 ];
+
+export const moduleName = 'Purchasing';
+export const title = 'Purchase List';

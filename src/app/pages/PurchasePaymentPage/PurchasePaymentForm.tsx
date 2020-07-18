@@ -2,12 +2,13 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { PurchasePaymentDetail, PurchasePaymentListData, Purchasing } from 'src/core/api';
+import { PurchasePaymentListData, Purchasing } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
 import { Input, InputArea } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
+import { handlePurchasePaymentDetail } from 'src/shared/components/Purchasing/helpers';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
@@ -92,7 +93,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
         description: query.data?.getPurchasePaymentById.description,
     };
 
-    let detail = handleDetail(query.data);
+    let detail = handlePurchasePaymentDetail(query.data);
     if (!init) {
         if (formType === 'update' && recordKey && detail.length > 0) {
             setData([...detail]);
@@ -124,25 +125,6 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
         });
         setGrandTotal({ credit_total, payment_total });
         setData([...newData]);
-    }
-
-    function handleDetail(data?: any): PurchasePaymentListData[] {
-        let purchasePayment = data?.getPurchasePaymentById.detail;
-        if (!purchasePayment || !purchasePayment.length) {
-            return [];
-        }
-
-        return purchasePayment.map((detail: PurchasePaymentDetail) => {
-            return {
-                key: detail.purchasing!.id,
-                no: detail.purchasing!.no,
-                date: convertMilisecondsToDate(detail.purchasing!.date),
-                due_date: convertMilisecondsToDate(detail.purchasing!.due_date),
-                grand_total: Currency(formatCommaValue(detail.purchasing!.grand_total)),
-                credit_total: Currency(formatCommaValue(detail.purchasing!.credit_total)),
-                payment_amount: Currency(formatCommaValue(detail.payment_amount)),
-            };
-        });
     }
 
     function handleFinish(values: any) {

@@ -27,22 +27,22 @@ function SalesSummaryPure({
                 <div className='col-12 col@md-6'>
                     <Divider orientation='right'>Payment</Divider>
                     <div className='d-flex fj-between'>
-                        <h1>Paid Total</h1>
+                        <h3>Paid Total</h3>
                         <div id='amount_total'>{amount_total}</div>
                     </div>
                     <div className='d-flex fj-between'>
-                        <h1>Change</h1>
+                        <h3>Change</h3>
                         <div id='change_total'>{change_total}</div>
                     </div>
                 </div>
                 <div className='col-12 col@md-6'>
                     <Divider orientation='right'>Grand Total</Divider>
                     <div className='d-flex fj-between'>
-                        <h1>Qty Total</h1>
+                        <h3>Qty Total</h3>
                         <div id='qty_total'>{qty_total}</div>
                     </div>
                     <div className='d-flex fj-between'>
-                        <h1>Total</h1>
+                        <h3>Total</h3>
                         <div id='total'>{total}</div>
                     </div>
                 </div>

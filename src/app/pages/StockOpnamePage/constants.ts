@@ -48,3 +48,6 @@ export const stockOpnameDetailColumns = [
         title: 'Difference',
     },
 ];
+
+export const moduleName = 'Stock';
+export const title = 'Stock Opname';

@@ -2,11 +2,12 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { Medicine, PurchasingDetail, PurchasingListData } from 'src/core/api';
+import { Medicine, PurchasingListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
 import { Input, InputArea } from 'src/shared/components/Input';
+import { handlePurchaseListDetail } from 'src/shared/components/Purchasing/helpers';
 import { Modal } from 'src/shared/components/Modal';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Select } from 'src/shared/components/Select';
@@ -102,7 +103,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
         supplier: query.data?.getPurchasingById.supplier.id || (suppliers && suppliers[0].id),
         description: query.data?.getPurchasingById.description,
     };
-    let detail = handleDetail(query.data);
+    let detail = handlePurchaseListDetail(query.data);
     if (!init && recordKey && detail.length > 0) {
         setData([...detail]);
         setGrandTotal({
@@ -165,28 +166,6 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
         });
         setGrandTotal({ credit_total, qty_total, total });
         setData([...newData]);
-    }
-
-    function handleDetail(data?: any): PurchasingListData[] {
-        let purchasing = data?.getPurchasingById.detail;
-        if (!purchasing || !purchasing.length) {
-            return [];
-        }
-
-        return purchasing.map((detail: PurchasingDetail) => {
-            return {
-                key: detail.medicine!.id,
-                code: detail.medicine!.code,
-                medicine: detail.medicine!.name,
-                batch_no: detail.batch_no,
-                expired_date: convertMilisecondsToDate(detail.expired_date),
-                qty: detail.qty,
-                uom: detail.medicine!.uom!.name,
-                buy_price: Currency(formatCommaValue(detail.buy_price)),
-                sell_price: Currency(formatCommaValue(detail.sell_price)),
-                sub_total: Currency(formatCommaValue(detail.sub_total)),
-            };
-        });
     }
 
     function handleFinish(values: any) {
