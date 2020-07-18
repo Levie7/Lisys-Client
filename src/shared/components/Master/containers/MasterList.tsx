@@ -11,8 +11,8 @@ import { mutationForm, queryForm, queryList } from 'src/shared/graphql';
 import {
     getCreatePermissionByRoleId,
     getDeletePermissionByRoleId,
-    getUpdatePermissionByRoleId,
     getReadPermissionByRoleId,
+    getUpdatePermissionByRoleId,
 } from 'src/shared/graphql/Permission/schema.gql';
 import { getUserByUsername } from 'src/shared/graphql/User/schema.gql';
 import { usePrevious } from 'src/shared/helpers/usePrevious';
@@ -150,6 +150,7 @@ export function MasterList({
     if (
         queryCreatePermission.loading ||
         queryDeletePermission.loading ||
+        queryReadPermission.loading ||
         queryUpdatePermission.loading ||
         mutationDelete.loading ||
         mutationUpdate?.loading

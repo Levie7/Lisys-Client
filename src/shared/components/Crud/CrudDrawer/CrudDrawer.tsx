@@ -31,7 +31,7 @@ function CrudDrawerPure({
         return dataKeys
             .filter((key) => key !== '__typename')
             .map((key) => (
-                <p>
+                <p key={key}>
                     <b>{Capitalized(key.replace('_', ' '))} : </b>
                     {typeof data[key] === 'object' ? data[key].name : data[key]}
                 </p>

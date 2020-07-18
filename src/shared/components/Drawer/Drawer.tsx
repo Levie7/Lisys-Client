@@ -16,6 +16,7 @@ interface DrawerProps {
 export const Drawer = React.memo<DrawerProps>(
     ({ children, loading, onClose, title, visible, width }) => {
         if (loading) return <Spin />;
+
         return (
             <>
                 <AntDrawer
