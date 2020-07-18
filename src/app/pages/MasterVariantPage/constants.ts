@@ -15,3 +15,6 @@ export const variantColumns = [
         title: 'Description',
     },
 ];
+
+export const moduleName = 'Master';
+export const title = 'Variant';

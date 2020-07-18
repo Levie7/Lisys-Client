@@ -11,11 +11,12 @@ import { MasterList } from 'src/shared/components/Master/containers/MasterList';
 import {
     CATEGORY_LIST,
     deleteCategory,
+    getCategoryById,
     getCategoryList,
     updateManyCategory,
 } from 'src/shared/graphql/Category/schema.gql';
 
-import { categoryColumns } from './constants';
+import { categoryColumns, moduleName, title } from './constants';
 import { MasterCategoryForm } from './MasterCategoryForm';
 
 export const MasterCategoryPage = () => {
@@ -41,13 +42,17 @@ export const MasterCategoryPage = () => {
         };
     }
 
+    function handleReadData(data?: any) {
+        return data?.getCategoryById;
+    }
+
     return (
         <Page>
             <MasterCard
-                header={{ link: '/category', title: 'Category' }}
+                header={{ link: '/category', title }}
                 initSection='category'
                 isCrud
-                module='Master'
+                module={moduleName}
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -57,16 +62,19 @@ export const MasterCategoryPage = () => {
                             auth={storage.getToken()}
                             columns={categoryColumns}
                             hasStatus
-                            module='Category'
+                            module={moduleName}
                             mutation={{
                                 delete: deleteCategory,
                                 update: updateManyCategory,
                             }}
                             query={{
                                 list: getCategoryList,
+                                read: getCategoryById,
                                 refetch: CATEGORY_LIST,
                             }}
+                            title={title}
                             handleData={handleData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}

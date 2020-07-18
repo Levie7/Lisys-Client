@@ -2,22 +2,20 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import {
-    PurchaseReturnDetail,
-    PurchaseReturnListData,
-    PurchasingWithDetailListData,
-} from 'src/core/api';
+import { PurchaseReturnListData, PurchasingWithDetailListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
 import { Input, InputArea } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
+import { handlePurchaseReturnDetail } from 'src/shared/components/Purchasing/helpers';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Select } from 'src/shared/components/Select';
 import { Spin } from 'src/shared/components/Spin';
 import { SearchPurchasingList } from 'src/shared/containers/SearchPurchasingList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
 import { mutationForm, queryForm, queryList } from 'src/shared/graphql';
+import { getMedicineByQuery } from 'src/shared/graphql/Medicine/schema.gql';
 import { getSuppliers } from 'src/shared/graphql/Supplier/schema.gql';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import {
@@ -25,6 +23,7 @@ import {
     formatDefaultDate,
     formatMoment,
 } from 'src/shared/helpers/formatDate';
+import { formatNumeric } from 'src/shared/helpers/formatNumeric';
 import { formatCommaValue, formatValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 import { Message } from 'src/shared/utilities/message';
@@ -38,8 +37,6 @@ import {
     PURCHASE_RETURN_BY_ID,
     updatePurchaseReturn,
 } from './schema.gql';
-import { formatNumeric } from 'src/shared/helpers/formatNumeric';
-import { getMedicineByQuery } from 'src/shared/graphql/Medicine/schema.gql';
 
 require('./PurchaseReturnForm.sass');
 
@@ -105,7 +102,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         description: query.data?.getPurchaseReturnById.description,
     };
 
-    let detail = handleDetail(query.data);
+    let detail = handlePurchaseReturnDetail(query.data);
     if (!init) {
         if (formType === 'update' && recordKey && detail.length > 0) {
             setData([...detail]);
@@ -257,30 +254,6 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         });
         setGrandTotal({ cash_total, credit_discount_total, grand_total, qty_total });
         setData([...newData]);
-    }
-
-    function handleDetail(data?: any): PurchaseReturnListData[] {
-        let purchaseReturn = data?.getPurchaseReturnById.detail;
-        if (!purchaseReturn || !purchaseReturn.length) {
-            return [];
-        }
-
-        return purchaseReturn.map((detail: PurchaseReturnDetail) => {
-            let sub_total = detail.qty * detail.buy_price;
-
-            return {
-                key: detail.purchasing!.id + '-' + detail.medicine!.id,
-                no: detail.purchasing!.no,
-                code: detail.medicine!.code,
-                medicine: detail.medicine!.name,
-                qty_buy: detail.qty_buy,
-                qty: detail.qty,
-                uom: detail.medicine!.uom!.name,
-                buy_price: Currency(formatCommaValue(detail.buy_price)),
-                discount_amount: Currency(formatCommaValue(detail.discount_amount)),
-                sub_total: Currency(formatCommaValue(sub_total)),
-            };
-        });
     }
 
     function handleFinish(values: any) {

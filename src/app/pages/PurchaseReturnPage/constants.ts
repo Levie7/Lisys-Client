@@ -85,3 +85,6 @@ export const purchaseReturnDetailColumns = [
         title: 'Sub Total',
     },
 ];
+
+export const moduleName = 'Purchasing';
+export const title = 'Purchase Return';

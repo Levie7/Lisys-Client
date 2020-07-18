@@ -7,9 +7,15 @@ import { createAuthTokenStorage } from 'src/core/graphql/auth';
 
 import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
-import { deleteUoM, getUoMList, UOM_LIST, updateManyUoM } from 'src/shared/graphql/UoM/schema.gql';
+import {
+    deleteUoM,
+    getUoMById,
+    getUoMList,
+    UOM_LIST,
+    updateManyUoM,
+} from 'src/shared/graphql/UoM/schema.gql';
 
-import { uomColumns } from './constants';
+import { moduleName, title, uomColumns } from './constants';
 import { MasterUoMForm } from './MasterUoMForm';
 
 export const MasterUoMPage = () => {
@@ -35,13 +41,17 @@ export const MasterUoMPage = () => {
         };
     }
 
+    function handleReadData(data?: any) {
+        return data?.getUoMById;
+    }
+
     return (
         <Page>
             <MasterCard
-                header={{ link: '/uom', title: 'UoM' }}
+                header={{ link: '/uom', title }}
                 initSection='uom'
                 isCrud
-                module='Master'
+                module={moduleName}
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -51,16 +61,19 @@ export const MasterUoMPage = () => {
                             auth={storage.getToken()}
                             columns={uomColumns}
                             hasStatus
-                            module='Unit of Measurement'
+                            module={moduleName}
                             mutation={{
                                 delete: deleteUoM,
                                 update: updateManyUoM,
                             }}
                             query={{
                                 list: getUoMList,
+                                read: getUoMById,
                                 refetch: UOM_LIST,
                             }}
+                            title={title}
                             handleData={handleData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}

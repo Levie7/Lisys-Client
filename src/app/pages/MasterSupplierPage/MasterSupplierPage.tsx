@@ -9,12 +9,13 @@ import { MasterCard } from 'src/shared/components/Master/containers/MasterCard';
 import { MasterList } from 'src/shared/components/Master/containers/MasterList';
 import {
     deleteSupplier,
+    getSupplierById,
     getSupplierList,
     SUPPLIER_LIST,
     updateManySupplier,
 } from 'src/shared/graphql/Supplier/schema.gql';
 
-import { supplierColumns } from './constants';
+import { moduleName, supplierColumns, title } from './constants';
 import { MasterSupplierForm } from './MasterSupplierForm';
 
 export const MasterSupplierPage = () => {
@@ -50,13 +51,17 @@ export const MasterSupplierPage = () => {
         };
     }
 
+    function handleReadData(data?: any) {
+        return data?.getSupplierById;
+    }
+
     return (
         <Page>
             <MasterCard
-                header={{ link: '/supplier', title: 'Supplier' }}
+                header={{ link: '/supplier', title }}
                 initSection='supplier'
                 isCrud
-                module='Master'
+                module={moduleName}
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -66,16 +71,19 @@ export const MasterSupplierPage = () => {
                             auth={storage.getToken()}
                             columns={supplierColumns}
                             hasStatus
-                            module='Supplier'
+                            module={moduleName}
                             mutation={{
                                 delete: deleteSupplier,
                                 update: updateManySupplier,
                             }}
                             query={{
                                 list: getSupplierList,
+                                read: getSupplierById,
                                 refetch: SUPPLIER_LIST,
                             }}
+                            title={title}
                             handleData={handleData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}

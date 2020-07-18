@@ -11,9 +11,11 @@ interface CrudListTableProps extends TableProps {
     hasAction?: boolean;
     hasStatus?: boolean;
     showDelete?: boolean;
+    showRead?: boolean;
     showSelect?: boolean;
     showUpdate?: boolean;
 
+    handleRead?: (recordKey: string) => void;
     handleDelete?: (record: any) => void;
     handleRecord?: (recordKey: string, record?: any) => void;
 }
@@ -23,8 +25,10 @@ function CrudListTablePure({
     hasAction,
     hasStatus,
     handleDelete,
+    handleRead,
     handleRecord,
     showDelete,
+    showRead,
     showSelect,
     showUpdate,
     ...props
@@ -67,6 +71,14 @@ function CrudListTablePure({
                                     record={record}
                                     title='Select'
                                     onClick={handleRecord}
+                                />
+                            )}
+                            {showRead && (
+                                <TableAction
+                                    iconType='read'
+                                    record={record}
+                                    title='Read'
+                                    onClick={handleRead}
                                 />
                             )}
                             {showUpdate && (

@@ -17,12 +17,20 @@ import {
 } from 'src/shared/helpers/formatDate';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { stockOpnameColumns } from './constants';
-import { deleteStockOpname, getStockOpnameList, STOCK_OPNAME_LIST } from './schema.gql';
+import { StockOpnameDetail } from './components/StockOpnameDetail';
+import { StockOpnameHeader } from './components/StockOpnameHeader';
+import { moduleName, stockOpnameColumns, title } from './constants';
+import {
+    deleteStockOpname,
+    getStockOpnameById,
+    getStockOpnameList,
+    STOCK_OPNAME_LIST,
+} from './schema.gql';
 import { StockOpnameForm } from './StockOpnameForm';
 
 export const StockOpnamePage = () => {
     let storage = createAuthTokenStorage();
+    let [readData, setReadData] = React.useState<any>();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
@@ -62,6 +70,12 @@ export const StockOpnamePage = () => {
         });
     }
 
+    function handleReadData(data?: any) {
+        setReadData(data);
+
+        return data?.getStockOpnameById;
+    }
+
     function renderCustomFilter() {
         return (
             <div className={classNames('d-flex w-50', isMobile ? 'w-100' : '')}>
@@ -75,13 +89,30 @@ export const StockOpnamePage = () => {
         );
     }
 
+    function renderCustomContent() {
+        if (!readData) return null;
+
+        let data: StockOpname = readData.getStockOpnameById;
+
+        return (
+            <div className='row'>
+                <StockOpnameHeader date={convertMilisecondsToDate(data.date)} no={data.no} />
+                <StockOpnameDetail data={readData} />
+                <div className='col-12'>
+                    <h3>Description : </h3>
+                    {data.description}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <Page>
             <MasterCard
-                header={{ link: '/stock_opname', title: 'Stock Opname' }}
+                header={{ link: '/stock_opname', title }}
                 initSection='stock_opname'
                 isCrud
-                module='Stock'
+                module={moduleName}
                 showAction
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -90,18 +121,22 @@ export const StockOpnamePage = () => {
                             action={action!}
                             auth={storage.getToken()}
                             columns={stockOpnameColumns}
+                            customContentDrawer={renderCustomContent()}
                             customFilter={{
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
-                            module='Stock Opname'
+                            module={moduleName}
                             mutation={{ delete: deleteStockOpname }}
                             query={{
                                 list: getStockOpnameList,
+                                read: getStockOpnameById,
                                 refetch: STOCK_OPNAME_LIST,
                             }}
                             softDelete
+                            title={title}
                             handleData={handleData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}

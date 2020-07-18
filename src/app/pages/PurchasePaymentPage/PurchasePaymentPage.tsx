@@ -23,9 +23,17 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { purchasePaymentColumns } from './constants';
+import { PurchasePaymentDetail } from './components/PurchasePaymentDetail';
+import { PurchasePaymentHeader } from './components/PurchasePaymentHeader';
+import { PurchasePaymentSummary } from './components/PurchasePaymentSummary';
+import { moduleName, purchasePaymentColumns, title } from './constants';
 import { PurchasePaymentForm } from './PurchasePaymentForm';
-import { deletePurchasePayment, getPurchasePaymentList, PURCHASE_PAYMENT_LIST } from './schema.gql';
+import {
+    deletePurchasePayment,
+    getPurchasePaymentById,
+    getPurchasePaymentList,
+    PURCHASE_PAYMENT_LIST,
+} from './schema.gql';
 
 export const PurchasePaymentPage = () => {
     let storage = createAuthTokenStorage();
@@ -33,6 +41,7 @@ export const PurchasePaymentPage = () => {
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
     });
+    let [readData, setReadData] = React.useState<any>();
     let [supplier, setSupplier] = React.useState('');
     let isMobile = useUIContext().isMobile;
     let supplierQuery = queryForm({ query: getSuppliers });
@@ -78,8 +87,43 @@ export const PurchasePaymentPage = () => {
         });
     }
 
+    function handleReadData(data?: any) {
+        setReadData(data);
+
+        return data?.getPurchasePaymentById;
+    }
+
     function handleSupplier(value: string) {
         setSupplier(value);
+    }
+
+    function renderCustomContent() {
+        if (!readData) return null;
+
+        let data: PurchasePayment = readData.getPurchasePaymentById;
+
+        return (
+            <div className='row'>
+                <PurchasePaymentHeader
+                    date={convertMilisecondsToDate(data.date)}
+                    no={data.no}
+                    payment_method={data.payment_method}
+                    payment_no={data.payment_no}
+                    supplier={data.supplier!.name}
+                />
+                <PurchasePaymentDetail data={readData} />
+                <div className='col-12'>
+                    <PurchasePaymentSummary
+                        credit_total={Currency(formatCommaValue(data.credit_total))}
+                        payment_total={Currency(formatCommaValue(data.payment_total))}
+                    />
+                </div>
+                <div className='col-12'>
+                    <h3>Description : </h3>
+                    {data.description}
+                </div>
+            </div>
+        );
     }
 
     function renderCustomFilter() {
@@ -112,10 +156,10 @@ export const PurchasePaymentPage = () => {
     return (
         <Page>
             <MasterCard
-                header={{ link: '/purchase_payment', title: 'Purchase Payment' }}
+                header={{ link: '/purchase_payment', title }}
                 initSection='purchase_payment'
                 isCrud
-                module='Purchasing'
+                module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
                     ['list'].includes(action!) ? (
@@ -123,20 +167,24 @@ export const PurchasePaymentPage = () => {
                             action={action!}
                             auth={storage.getToken()}
                             columns={purchasePaymentColumns}
+                            customContentDrawer={renderCustomContent()}
                             customFilter={{
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
-                            module='Purchase Payment'
+                            module={moduleName}
                             mutation={{
                                 delete: deletePurchasePayment,
                             }}
                             query={{
                                 list: getPurchasePaymentList,
+                                read: getPurchasePaymentById,
                                 refetch: PURCHASE_PAYMENT_LIST,
                             }}
                             softDelete
+                            title={title}
                             handleData={handleData}
+                            handleReadData={handleReadData}
                             handleRecord={handleRecord!}
                             handleResetAction={handleResetAction!}
                             handleShowCreate={handleShowCreate!}
