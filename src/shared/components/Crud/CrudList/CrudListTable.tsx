@@ -14,7 +14,7 @@ import { Delete } from 'src/shared/utilities/delete';
 
 import { crudAction, crudColumn, filterStatus } from './constants';
 
-interface CrudListTableProps extends Lang, TableProps {
+export interface CrudListTableProps extends Lang, TableProps {
     columns: ColumnWithLangProps[];
     hasAction?: boolean;
     hasStatus?: boolean;
