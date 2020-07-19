@@ -50,3 +50,10 @@ export const stockCardColumns = [
         title: { en: 'Qty Ending', id: 'Jumlah Akhir' },
     },
 ];
+
+export const stockCardSummary = {
+    stock_in: { en: 'Stock In', id: 'Stok Masuk' },
+    stock_out: { en: 'Stock Out', id: 'Stok Keluar' },
+    stock_begin: { en: 'Stock Begin', id: 'Stok Awal' },
+    stock_ending: { en: 'Stock Ending', id: 'Stok Akhir' },
+};

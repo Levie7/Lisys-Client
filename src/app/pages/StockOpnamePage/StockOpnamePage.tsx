@@ -20,7 +20,7 @@ import { classNames } from 'src/shared/utilities/classNames';
 import { getLanguage } from '../SettingPage/helpers';
 import { StockOpnameDetail } from './components/StockOpnameDetail';
 import { StockOpnameHeader } from './components/StockOpnameHeader';
-import { moduleName, stockOpnameColumns, title } from './constants';
+import { moduleName, stockOpnameColumns, title, stockOpnameForm } from './constants';
 import {
     deleteStockOpname,
     getStockOpnameById,
@@ -98,10 +98,14 @@ export const StockOpnamePage = () => {
 
         return (
             <div className='row'>
-                <StockOpnameHeader date={convertMilisecondsToDate(data.date)} no={data.no} />
+                <StockOpnameHeader
+                    date={convertMilisecondsToDate(data.date)}
+                    lang={lang}
+                    no={data.no}
+                />
                 <StockOpnameDetail data={readData} lang={lang} />
                 <div className='col-12'>
-                    <h3>Description : </h3>
+                    <h3>{stockOpnameForm.description.label[lang]} : </h3>
                     {data.description}
                 </div>
             </div>

@@ -21,7 +21,7 @@ import { usePrevious } from 'src/shared/helpers/usePrevious';
 import { classNames } from 'src/shared/utilities/classNames';
 
 import { getLanguage } from '../SettingPage/helpers';
-import { stockCardColumns } from './constants';
+import { stockCardColumns, stockCardSummary } from './constants';
 import { getStockCardList } from './schema.gql';
 
 export const StockCardPage = () => {
@@ -191,19 +191,19 @@ export const StockCardPage = () => {
                         />
                         <Divider orientation='right'>Total</Divider>
                         <div className='d-flex fj-between'>
-                            <h1>Stock In</h1>
+                            <h3>{stockCardSummary.stock_in[lang]}</h3>
                             <div id='qty_in'>{total.qty_in}</div>
                         </div>
                         <div className='d-flex fj-between'>
-                            <h1>Stock Out</h1>
+                            <h3>{stockCardSummary.stock_out[lang]}</h3>
                             <div id='qty_out'>{total.qty_out}</div>
                         </div>
                         <div className='d-flex fj-between'>
-                            <h1>Stock Begin</h1>
+                            <h3>{stockCardSummary.stock_begin[lang]}</h3>
                             <div id='qty_begin'>{total.qty_begin}</div>
                         </div>
                         <div className='d-flex fj-between'>
-                            <h1>Stock Ending</h1>
+                            <h3>{stockCardSummary.stock_ending[lang]}</h3>
                             <div id='qty_ending'>{total.qty_ending}</div>
                         </div>
                     </>
