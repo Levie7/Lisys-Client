@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
-import { RoleForm } from './RoleForm';
+import { RoleForm, RoleFormProps } from './RoleForm';
 import { ROLE_BY_ID } from './schema.gql';
 
 Object.defineProperty(window, 'matchMedia', {
@@ -24,8 +24,9 @@ let mockClient = createMockClient();
 let mockRole = { name: 'role1', description: 'role1' };
 describe('RoleForm', () => {
     let wrap: any;
-    let props = {
+    let props: RoleFormProps = {
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

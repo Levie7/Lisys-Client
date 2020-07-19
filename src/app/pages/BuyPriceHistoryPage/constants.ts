@@ -3,32 +3,32 @@ export const buyPriceHistoryColumns = [
         dataIndex: 'no',
         key: 'no',
         sorter: true,
-        title: 'Transaction No',
+        title: { en: 'Transaction No', id: 'No Transaksi' },
     },
     {
         dataIndex: 'date',
         key: 'date',
         sorter: true,
-        title: 'Date',
+        title: { en: 'Date', id: 'Tanggal' },
     },
     {
         dataIndex: 'supplier_name',
         key: 'supplier_name',
-        title: 'Supplier',
+        title: { en: 'Supplier', id: 'Pemasok' },
     },
     {
         dataIndex: 'medicine_code',
         key: 'medicine_code',
-        title: 'Code',
+        title: { en: 'Code', id: 'Kode' },
     },
     {
         dataIndex: 'medicine_name',
         key: 'medicine_name',
-        title: 'Medicine',
+        title: { en: 'Medicine', id: 'Obat' },
     },
     {
         dataIndex: 'buy_price',
         key: 'buy_price',
-        title: 'Buy Price',
+        title: { en: 'Buy Price', id: 'Harga Beli' },
     },
 ];

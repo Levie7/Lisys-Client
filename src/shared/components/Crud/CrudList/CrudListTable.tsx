@@ -1,13 +1,21 @@
 import * as React from 'react';
 
-import { Column, ColumnProps, Table, TableAction, TableProps } from 'src/shared/components/Table';
+import { Lang } from 'src/core/api';
+
+import {
+    Column,
+    ColumnWithLangProps,
+    Table,
+    TableAction,
+    TableProps,
+} from 'src/shared/components/Table';
 import { Status } from 'src/shared/components/Status';
 import { Delete } from 'src/shared/utilities/delete';
 
-import { filterStatus } from './constants';
+import { crudAction, crudColumn, filterStatus } from './constants';
 
-interface CrudListTableProps extends TableProps {
-    columns: ColumnProps[];
+interface CrudListTableProps extends Lang, TableProps {
+    columns: ColumnWithLangProps[];
     hasAction?: boolean;
     hasStatus?: boolean;
     showDelete?: boolean;
@@ -27,6 +35,7 @@ function CrudListTablePure({
     handleDelete,
     handleRead,
     handleRecord,
+    lang,
     showDelete,
     showRead,
     showSelect,
@@ -46,14 +55,14 @@ function CrudListTablePure({
                             dataIndex={column.dataIndex}
                             key={column.key}
                             sorter={column.sorter}
-                            title={column.title}
+                            title={column.title[lang]}
                         />
                     )
             )}
             {hasStatus && (
                 <Column
                     title='Status'
-                    filters={filterStatus}
+                    filters={filterStatus[lang]}
                     key='status'
                     onFilter={handleFilter}
                     render={(text) => <Status text={text} />}
@@ -61,7 +70,7 @@ function CrudListTablePure({
             )}
             {hasAction && (
                 <Column
-                    title='Action'
+                    title={crudColumn.action.title[lang]}
                     key='action'
                     render={(text, record) => (
                         <>
@@ -69,7 +78,7 @@ function CrudListTablePure({
                                 <TableAction
                                     iconType='select'
                                     record={record}
-                                    title='Select'
+                                    title={crudAction.select.title[lang]}
                                     onClick={handleRecord}
                                 />
                             )}
@@ -77,7 +86,7 @@ function CrudListTablePure({
                                 <TableAction
                                     iconType='read'
                                     record={record}
-                                    title='Read'
+                                    title={crudAction.read.title[lang]}
                                     onClick={handleRead}
                                 />
                             )}
@@ -85,12 +94,21 @@ function CrudListTablePure({
                                 <TableAction
                                     iconType='edit'
                                     record={record}
-                                    title='Edit'
+                                    title={crudAction.update.title[lang]}
                                     onClick={handleRecord}
                                 />
                             )}
-                            {showDelete && <Delete confirm={handleDelete!} recordKey={record} />}
-                            {!showSelect && !showUpdate && !showDelete && 'No Action'}
+                            {showDelete && (
+                                <Delete
+                                    confirm={handleDelete!}
+                                    recordKey={record}
+                                    title={crudAction.delete.title[lang]}
+                                />
+                            )}
+                            {!showSelect &&
+                                !showUpdate &&
+                                !showDelete &&
+                                crudAction.no_action.message[lang]}
                         </>
                     )}
                 />

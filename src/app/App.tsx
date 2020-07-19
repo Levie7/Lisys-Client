@@ -11,6 +11,9 @@ import {
 import { createCrudModule } from 'src/core/graphql/crud';
 import { createLogger } from 'src/core/log';
 
+import { queryForm } from 'src/shared/graphql';
+import { getSettings } from 'src/shared/graphql/Setting/schema.gql';
+
 import { createConfig } from './config';
 import { Routes } from './Routes';
 import { ErrorBoundary } from './shell/ErrorBoundary';
@@ -41,6 +44,14 @@ export const App = () => {
 
 const AppRoutes = () => {
     const isAuthenticated = useIsAuthenticated();
+    let query = queryForm({ query: getSettings, variables: { category: 'general' } });
+
+    if (query.loading) return null;
+
+    let setting = query.data?.getSettingsByCategory.find(
+        (setting: any) => setting.type === 'language'
+    );
+    localStorage.setItem('language', setting.value);
 
     return <Routes isAuth={isAuthenticated} />;
 };

@@ -16,11 +16,13 @@ import {
     updateManyCategory,
 } from 'src/shared/graphql/Category/schema.gql';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { categoryColumns, moduleName, title } from './constants';
 import { MasterCategoryForm } from './MasterCategoryForm';
 
 export const MasterCategoryPage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
 
     function handleData(data?: any): { list: CategoryData[]; total: number } {
         let category = data?.getCategoryList.data;
@@ -62,6 +64,7 @@ export const MasterCategoryPage = () => {
                             auth={storage.getToken()}
                             columns={categoryColumns}
                             hasStatus
+                            lang={lang}
                             module={moduleName}
                             mutation={{
                                 delete: deleteCategory,

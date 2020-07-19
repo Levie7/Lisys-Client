@@ -1,20 +1,22 @@
 import * as React from 'react';
 
+import { Lang } from 'src/core/api';
+
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { handlePurchaseReturnDetail } from 'src/shared/components/Purchasing/helpers';
 
 import { purchaseReturnDetailColumns } from '../constants';
 
-interface PurchaseReturnDetailProps {
+export interface PurchaseReturnDetailProps extends Lang {
     data: any;
 }
 
-export const PurchaseReturnDetail = React.memo<PurchaseReturnDetailProps>(({ data }) => {
+export const PurchaseReturnDetail = React.memo<PurchaseReturnDetailProps>(({ data, ...props }) => {
     let detail = handlePurchaseReturnDetail(data);
 
     return (
         <div className='col-12'>
-            <CrudListTable columns={purchaseReturnDetailColumns} dataSource={detail} />
+            <CrudListTable {...props} columns={purchaseReturnDetailColumns} dataSource={detail} />
         </div>
     );
 });

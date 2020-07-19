@@ -33,7 +33,7 @@ describe('CrudDrawer', () => {
         loading: false,
         module: 'Master',
         visible: true,
-        title: 'Medicine',
+        title: { en: 'Medicine', id: 'Obat' },
         handleClose: jest.fn(),
     };
     it('should render CrudDrawer', () => {

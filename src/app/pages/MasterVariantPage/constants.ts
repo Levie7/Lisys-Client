@@ -6,13 +6,13 @@ export const variantColumns = [
         dataIndex: 'name',
         key: 'name',
         sorter: true,
-        title: 'Name',
+        title: { en: 'Name', id: 'Nama' },
     },
     {
         dataIndex: 'description',
         key: 'description',
         sorter: true,
-        title: 'Description',
+        title: { en: 'Description', id: 'Deskripsi' },
     },
 ];
 

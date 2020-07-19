@@ -4,6 +4,8 @@ import { Form } from 'antd';
 import { getRoles } from 'src/app/pages/SettingPage/containers/UserManagement/Role/schema.gql';
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
+import { Lang } from 'src/core/api';
+
 import { Button } from 'src/shared/components/Button';
 import { Icon } from 'src/shared/components/Icon';
 import { Input } from 'src/shared/components/Input';
@@ -19,12 +21,14 @@ import {
 } from 'src/shared/graphql/User/schema.gql';
 import { Progress } from 'src/shared/utilities/progress';
 
-interface UserFormProps {
+import { userForm } from './constants';
+
+export interface UserFormProps extends Lang {
     formType: string;
     recordKey?: string;
 }
 
-export function UserForm({ formType, recordKey }: UserFormProps) {
+export function UserForm({ formType, lang, recordKey }: UserFormProps) {
     let [form] = Form.useForm();
     let [isPasswordChanged, changePassword] = React.useState(false);
     let [isUsernameChanged, changeUsername] = React.useState(false);
@@ -102,28 +106,26 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
             <>
                 <Form.Item
                     hasFeedback
-                    label='Password'
+                    label={userForm.password.label[lang]}
                     name='password'
-                    rules={[{ required: true, message: 'Please input the password' }]}
+                    rules={[{ required: true, message: userForm.password.message[lang] }]}
                 >
                     <Input type='password' />
                 </Form.Item>
                 <Form.Item
                     dependencies={['password']}
                     hasFeedback
-                    label='Confirm Password'
+                    label={userForm.confirm_password.label[lang]}
                     name='confirm_password'
                     rules={[
-                        { required: true, message: 'Please confirm your password' },
+                        { required: true, message: userForm.confirm_password.label[lang] },
                         ({ getFieldValue }) => ({
                             validator(rule, value) {
                                 if (!value || getFieldValue('password') === value) {
                                     return Promise.resolve();
                                 }
 
-                                return Promise.reject(
-                                    'The two passwords that you entered do not match!'
-                                );
+                                return Promise.reject(userForm.confirm_password.feedback[lang]);
                             },
                         }),
                     ]}
@@ -137,23 +139,23 @@ export function UserForm({ formType, recordKey }: UserFormProps) {
     return (
         <Form form={form} initialValues={initialValues} layout='vertical' onFinish={handleFinish}>
             <Form.Item
-                label='Username'
+                label={userForm.username.label[lang]}
                 name='username'
-                rules={[{ required: true, message: 'Please input the username' }]}
+                rules={[{ required: true, message: userForm.username.message[lang] }]}
             >
                 <Input onChange={handleChangeUsername} />
             </Form.Item>
             <Form.Item
-                label='Name'
+                label={userForm.name.label[lang]}
                 name='name'
-                rules={[{ required: true, message: 'Please input the name' }]}
+                rules={[{ required: true, message: userForm.name.message[lang] }]}
             >
                 <Input />
             </Form.Item>
             <Form.Item
-                label='Role'
+                label={userForm.role.label[lang]}
                 name='role'
-                rules={[{ required: true, message: 'Please select the role' }]}
+                rules={[{ required: true, message: userForm.role.message[lang] }]}
             >
                 <Select>
                     {roles &&

@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import { medicineSearchListColumns } from 'src/app/pages/MasterMedicinePage/constants';
 
+import { Lang } from 'src/core/api';
+
 import { Button } from 'src/shared/components/Button';
 import { Icon } from 'src/shared/components/Icon';
 import { MasterSearchList } from 'src/shared/components/Master/containers/MasterSearchList';
@@ -9,11 +11,11 @@ import { handleMedicineData } from 'src/shared/components/Master/helpers';
 import { Modal } from 'src/shared/components/Modal';
 import { getMedicineList } from 'src/shared/graphql/Medicine/schema.gql';
 
-interface SearchMedicineListProps {
+export interface SearchMedicineListProps extends Lang {
     onRecordList: (recordKey: string, record?: any) => void;
 }
 
-function SearchMedicineListPure({ onRecordList }: SearchMedicineListProps, ref: any) {
+function SearchMedicineListPure({ onRecordList, ...props }: SearchMedicineListProps, ref: any) {
     let [list, showList] = React.useState(false);
 
     React.useImperativeHandle(ref, () => ({
@@ -43,6 +45,7 @@ function SearchMedicineListPure({ onRecordList }: SearchMedicineListProps, ref: 
                 width={750}
             >
                 <MasterSearchList
+                    {...props}
                     columns={medicineSearchListColumns}
                     query={getMedicineList}
                     handleData={handleMedicineData}

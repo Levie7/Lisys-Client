@@ -1,11 +1,12 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { SettingContent } from './SettingContent';
+import { SettingContent, SettingContentProps } from './SettingContent';
 
 describe('SettingContent', () => {
-    let props = {
+    let props: SettingContentProps = {
         category: 'company',
+        lang: 'en',
         isDefault: true,
         title: 'title',
     };
@@ -19,6 +20,7 @@ describe('SettingContent', () => {
         beforeEach(() => {
             props = {
                 category: 'category',
+                lang: 'en',
                 isDefault: false,
                 title: 'title',
             };
@@ -34,6 +36,7 @@ describe('SettingContent', () => {
         beforeEach(() => {
             props = {
                 category: 'category',
+                lang: 'en',
                 isDefault: true,
                 title: 'title',
             };
@@ -48,6 +51,7 @@ describe('SettingContent', () => {
             beforeEach(() => {
                 props = {
                     category: 'company',
+                    lang: 'en',
                     isDefault: true,
                     title: 'title',
                 };
@@ -63,6 +67,7 @@ describe('SettingContent', () => {
             beforeEach(() => {
                 props = {
                     category: 'general',
+                    lang: 'en',
                     isDefault: true,
                     title: 'title',
                 };

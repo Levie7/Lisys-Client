@@ -6,17 +6,19 @@ import { Card } from 'src/shared/components/Card';
 import { useUIContext } from 'src/shared/contexts/UIContext';
 
 import { SettingTabs } from './components/SettingTabs';
+import { getLanguage } from './helpers';
 
 require('./SettingPage.sass');
 
 export default function SettingPage() {
     let isMobile = useUIContext().isMobile;
+    let lang = getLanguage();
 
     return (
         <Page>
             <div className='d-flex fj-center m-4'>
                 <Card className='SettingCard'>
-                    <SettingTabs position={isMobile ? 'top' : 'left'} />
+                    <SettingTabs lang={lang} position={isMobile ? 'top' : 'left'} />
                 </Card>
             </div>
         </Page>

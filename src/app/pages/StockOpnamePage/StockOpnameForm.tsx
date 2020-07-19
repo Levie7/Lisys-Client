@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { Medicine, StockOpnameListData } from 'src/core/api';
+import { Lang, Medicine, StockOpnameListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
@@ -26,13 +26,13 @@ import { createStockOpname, STOCK_OPNAME_BY_ID } from './schema.gql';
 
 require('./StockOpnameForm.sass');
 
-interface StockOpnameFormProps {
+export interface StockOpnameFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormProps) {
+export function StockOpnameForm({ auth, formType, recordKey, ...props }: StockOpnameFormProps) {
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -263,6 +263,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
                             </div>
                             <div className='col@md-4'>
                                 <SearchMedicineList
+                                    {...props}
                                     onRecordList={handleMedicineList}
                                     ref={searchMedicine}
                                 />
@@ -271,6 +272,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable
+                        {...props}
                         columns={stockOpnameDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}

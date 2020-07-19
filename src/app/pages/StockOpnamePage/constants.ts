@@ -6,13 +6,13 @@ export const stockOpnameColumns = [
         dataIndex: 'no',
         key: 'no',
         sorter: true,
-        title: 'Transaction No',
+        title: { en: 'Transaction No', id: 'No Transaksi' },
     },
     {
         dataIndex: 'date',
         key: 'date',
         sorter: true,
-        title: 'Date',
+        title: { en: 'Date', id: 'Tanggal' },
     },
 ];
 
@@ -20,32 +20,32 @@ export const stockOpnameDetailColumns = [
     {
         dataIndex: 'code',
         key: 'code',
-        title: 'Code',
+        title: { en: 'Code', id: 'Kode' },
     },
     {
         dataIndex: 'medicine',
         key: 'medicine',
-        title: 'Medicine',
+        title: { en: 'Medicine', id: 'Obat' },
     },
     {
         dataIndex: 'uom',
         key: 'uom',
-        title: 'UoM',
+        title: { en: 'UoM', id: 'Satuan' },
     },
     {
         dataIndex: 'system_stock',
         key: 'system_stock',
-        title: 'System Stock',
+        title: { en: 'System Stock', id: 'Stok Sistem' },
     },
     {
         dataIndex: 'physical_stock',
         key: 'physical_stock',
-        title: 'Physical Stock',
+        title: { en: 'Physical Stock', id: 'Stok Fisik' },
     },
     {
         dataIndex: 'difference',
         key: 'difference',
-        title: 'Difference',
+        title: { en: 'Difference', id: 'Selisih' },
     },
 ];
 

@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { PurchasePaymentListData, Purchasing } from 'src/core/api';
+import { Lang, PurchasePaymentListData, Purchasing } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
@@ -38,13 +38,18 @@ import {
 
 require('./PurchasePaymentForm.sass');
 
-interface PurchasePaymentFormProps {
+export interface PurchasePaymentFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePaymentFormProps) {
+export function PurchasePaymentForm({
+    auth,
+    formType,
+    recordKey,
+    ...props
+}: PurchasePaymentFormProps) {
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -352,6 +357,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                     <h1 className='fw-bold'>Detail</h1>
                     <Form.Item label='Purchasing' name='purchasing'>
                         <SearchPurchasingList
+                            {...props}
                             is_not_paid
                             onRecordList={handlePurchasingList}
                             ref={searchPurchasing}
@@ -360,6 +366,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable
+                        {...props}
                         columns={purchasePaymentDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}

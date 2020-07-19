@@ -17,13 +17,15 @@ import {
     formatDefaultDate,
     formatPresentDate,
 } from 'src/shared/helpers/formatDate';
+import { usePrevious } from 'src/shared/helpers/usePrevious';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { stockCardColumns } from './constants';
 import { getStockCardList } from './schema.gql';
-import { usePrevious } from 'src/shared/helpers/usePrevious';
 
 export const StockCardPage = () => {
+    let lang = getLanguage();
     let searchMedicine = React.useRef<any>();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -157,7 +159,11 @@ export const StockCardPage = () => {
                     placeholder={['Start Date', 'End Date']}
                 />
                 <div className='ml-2 w-100'>
-                    <SearchMedicineList onRecordList={handleMedicineList} ref={searchMedicine} />
+                    <SearchMedicineList
+                        lang={lang}
+                        onRecordList={handleMedicineList}
+                        ref={searchMedicine}
+                    />
                 </div>
             </div>
         );
@@ -179,6 +185,7 @@ export const StockCardPage = () => {
                                 value: handleCustomFilter(),
                             }}
                             columns={stockCardColumns}
+                            lang={lang}
                             query={getStockCardList}
                             handleData={handleData}
                         />

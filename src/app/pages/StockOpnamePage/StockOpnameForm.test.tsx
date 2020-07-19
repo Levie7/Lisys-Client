@@ -7,7 +7,7 @@ import React from 'react';
 
 import { MEDICINE_BY_QUERY, MEDICINE_LIST } from 'src/shared/graphql/Medicine/schema.gql';
 
-import { StockOpnameForm } from './StockOpnameForm';
+import { StockOpnameForm, StockOpnameFormProps } from './StockOpnameForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -73,10 +73,10 @@ let mockMedicine = [
 ];
 describe('StockOpnameForm', () => {
     let wrap: any;
-    let props = {
+    let props: StockOpnameFormProps = {
         auth: 'username1',
         formType: 'update',
-        recordKey: 'id1',
+        lang: 'en',
     };
     let queryHandlerMedicine = jest.fn().mockResolvedValue({
         data: {

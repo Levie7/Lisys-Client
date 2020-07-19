@@ -8,7 +8,7 @@ import React from 'react';
 import { CRUD } from 'src/core/graphql/crud';
 import { resolvers } from 'src/core/graphql/resolvers';
 
-import { UserManagement } from './UserManagement';
+import { UserManagement, UserManagementProps } from './UserManagement';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -33,6 +33,7 @@ cache.writeData({ data: { getCrud: crud } });
 let mockClient = createMockClient({ cache, resolvers });
 describe('UserManagement', () => {
     let wrap: any;
+    let props: UserManagementProps = { lang: 'en' };
     let queryHandler = jest.fn().mockResolvedValue({ data: { getCrud: crud } });
     mockClient.setRequestHandler(CRUD, queryHandler);
 
@@ -40,7 +41,7 @@ describe('UserManagement', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <UserManagement />
+                    <UserManagement {...props} />
                 </ApolloProvider>
             );
         });
@@ -52,7 +53,7 @@ describe('UserManagement', () => {
             await act(async () => {
                 wrap = mount(
                     <ApolloProvider client={mockClient}>
-                        <UserManagement />
+                        <UserManagement {...props} />
                     </ApolloProvider>
                 );
             });
@@ -78,7 +79,7 @@ describe('UserManagement', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <UserManagement />
+                            <UserManagement {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -100,7 +101,7 @@ describe('UserManagement', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <UserManagement />
+                            <UserManagement {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -128,7 +129,7 @@ describe('UserManagement', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <UserManagement />
+                            <UserManagement {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -150,7 +151,7 @@ describe('UserManagement', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <UserManagement />
+                            <UserManagement {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -178,7 +179,7 @@ describe('UserManagement', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <UserManagement />
+                            <UserManagement {...props} />
                         </ApolloProvider>
                     );
                 });
@@ -200,7 +201,7 @@ describe('UserManagement', () => {
                 await act(async () => {
                     wrap = mount(
                         <ApolloProvider client={mockClient}>
-                            <UserManagement />
+                            <UserManagement {...props} />
                         </ApolloProvider>
                     );
                 });

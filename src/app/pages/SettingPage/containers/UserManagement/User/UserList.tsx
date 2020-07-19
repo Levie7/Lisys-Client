@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
-import { User, UserData } from 'src/core/api';
+import { Lang, User, UserData } from 'src/core/api';
 
 import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
@@ -14,11 +14,11 @@ import { Progress } from 'src/shared/utilities/progress';
 
 import { userColumns } from './constants';
 
-interface UserListProps {
+export interface UserListProps extends Lang {
     handleRecord: (recordKey: string) => void;
 }
 
-export function UserList({ handleRecord }: UserListProps) {
+export function UserList({ handleRecord, ...props }: UserListProps) {
     let [page, setPage] = React.useState({
         current: 1,
         pageSize: 10,
@@ -108,6 +108,7 @@ export function UserList({ handleRecord }: UserListProps) {
         <>
             <CrudFilter onSearch={handleSearch} />
             <CrudListTable
+                {...props}
                 columns={userColumns}
                 dataSource={users.list}
                 handleDelete={handleDelete}

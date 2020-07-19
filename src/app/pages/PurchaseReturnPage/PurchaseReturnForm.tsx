@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { PurchaseReturnListData, PurchasingWithDetailListData } from 'src/core/api';
+import { Lang, PurchaseReturnListData, PurchasingWithDetailListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
@@ -40,13 +40,18 @@ import {
 
 require('./PurchaseReturnForm.sass');
 
-interface PurchaseReturnFormProps {
+export interface PurchaseReturnFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturnFormProps) {
+export function PurchaseReturnForm({
+    auth,
+    formType,
+    recordKey,
+    ...props
+}: PurchaseReturnFormProps) {
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -431,6 +436,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     <h1 className='fw-bold'>Detail</h1>
                     <Form.Item label='Purchasing' name='purchasing'>
                         <SearchPurchasingList
+                            {...props}
                             onRecordList={handlePurchasingList}
                             ref={searchPurchasing}
                             supplier_id={supplier}
@@ -439,6 +445,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable
+                        {...props}
                         columns={purchaseReturnDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}

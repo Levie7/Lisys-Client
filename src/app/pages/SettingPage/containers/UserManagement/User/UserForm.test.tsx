@@ -7,7 +7,7 @@ import React from 'react';
 import { USER_BY_ID } from 'src/shared/graphql/User/schema.gql';
 
 import { ROLES } from '../Role/schema.gql';
-import { UserForm } from './UserForm';
+import { UserForm, UserFormProps } from './UserForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -47,8 +47,9 @@ let mockRole = [
 ];
 describe('UserForm', () => {
     let wrap: any;
-    let props = {
+    let props: UserFormProps = {
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({ data: { getUserById: mockUser } });
@@ -160,11 +161,11 @@ describe('UserForm', () => {
                         wrap.find('input#confirm_password').simulate('change', {
                             target: { value: 'passwords' },
                         });
-                        return Promise.reject('The two passwords that you entered do not match!');
+                        return Promise.reject('The passwords that you entered do not match!');
                     });
                     test('should reject validating', async () => {
                         return expect(validator()).rejects.toMatch(
-                            'The two passwords that you entered do not match!'
+                            'The passwords that you entered do not match!'
                         );
                     });
                 });

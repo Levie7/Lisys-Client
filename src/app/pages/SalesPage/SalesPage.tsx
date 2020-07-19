@@ -29,6 +29,7 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { SalesDetail } from './components/SalesDetail';
 import { SalesHeader } from './components/SalesHeader';
 import { SalesSummary } from './components/SalesSummary';
@@ -37,6 +38,7 @@ import { SalesForm } from './SalesForm';
 
 export const SalesPage = ({ location }: RouteComponentProps) => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let [readData, setReadData] = React.useState<any>();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -109,7 +111,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
         return (
             <div className='row'>
                 <SalesHeader date={date} no={data.no} />
-                <SalesDetail data={readData} />
+                <SalesDetail data={readData} lang={lang} />
                 <div className='col-12'>
                     <SalesSummary
                         amount_total={Currency(formatCommaValue(data.payment_total))}
@@ -166,6 +168,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            lang={lang}
                             module={moduleName}
                             mutation={{ delete: deleteSales }}
                             query={{
@@ -182,7 +185,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                             handleShowCreate={handleShowCreate!}
                         />
                     ) : (
-                        <SalesForm auth={storage.getToken()} formType={action!} />
+                        <SalesForm auth={storage.getToken()} formType={action!} lang={lang} />
                     )
                 }
             </MasterCard>

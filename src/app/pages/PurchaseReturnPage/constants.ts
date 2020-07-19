@@ -3,38 +3,38 @@ export const purchaseReturnColumns = [
         dataIndex: 'no',
         key: 'no',
         sorter: true,
-        title: 'Transaction No',
+        title: { en: 'Transaction No', id: 'No Transaksi' },
     },
     {
         dataIndex: 'date',
         key: 'date',
         sorter: true,
-        title: 'Date',
+        title: { en: 'Date', id: 'Tanggal' },
     },
     {
         dataIndex: 'supplier_name',
         key: 'supplier_name',
-        title: 'Supplier',
+        title: { en: 'Supplier', id: 'Pemasok' },
     },
     {
         dataIndex: 'qty_total',
         key: 'qty_total',
-        title: 'Qty Total',
+        title: { en: 'Qty Total', id: 'Jumlah Total' },
     },
     {
         dataIndex: 'grand_total',
         key: 'grand_total',
-        title: 'Total',
+        title: { en: 'Total', id: 'Total' },
     },
     {
         dataIndex: 'cash_total',
         key: 'cash_total',
-        title: 'Cash Total',
+        title: { en: 'Cash Total', id: 'Total Tunai' },
     },
     {
         dataIndex: 'credit_discount_total',
         key: 'credit_discount_total',
-        title: 'Credit Discount Total',
+        title: { en: 'Credit Discount Total', id: 'Total Diskon Kredit' },
     },
 ];
 
@@ -42,47 +42,47 @@ export const purchaseReturnDetailColumns = [
     {
         dataIndex: 'no',
         key: 'no',
-        title: 'No',
+        title: { en: 'Transaction No', id: 'No Transaksi' },
     },
     {
         dataIndex: 'code',
         key: 'code',
-        title: 'Code',
+        title: { en: 'Code', id: 'Kode' },
     },
     {
         dataIndex: 'medicine',
         key: 'medicine',
-        title: 'Medicine',
+        title: { en: 'Medicine', id: 'Obat' },
     },
     {
         dataIndex: 'qty_buy',
         key: 'qty_buy',
-        title: 'Qty Buy',
+        title: { en: 'Qty Buy', id: 'Jumlah Beli' },
     },
     {
         dataIndex: 'qty',
         key: 'qty',
-        title: 'Qty',
+        title: { en: 'Qty', id: 'Jumlah' },
     },
     {
         dataIndex: 'uom',
         key: 'uom',
-        title: 'UoM',
+        title: { en: 'UoM', id: 'Satuan' },
     },
     {
         dataIndex: 'buy_price',
         key: 'buy_price',
-        title: 'Buy Price',
+        title: { en: 'Buy Price', id: 'Harga Beli' },
     },
     {
         dataIndex: 'discount_amount',
         key: 'discount_amount',
-        title: 'Discount Amount',
+        title: { en: 'Discount Amount', id: 'Jumlah Diskon' },
     },
     {
         dataIndex: 'sub_total',
         key: 'sub_total',
-        title: 'Sub Total',
+        title: { en: 'Sub Total', id: 'Sub Total' },
     },
 ];
 

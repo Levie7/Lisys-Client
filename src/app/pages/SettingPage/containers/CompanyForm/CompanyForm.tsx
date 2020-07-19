@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { SettingCompany } from 'src/core/api';
+import { Lang, SettingCompany } from 'src/core/api';
 
 import { Info } from 'src/shared/components/Info';
 import { Input } from 'src/shared/components/Input';
@@ -12,9 +12,11 @@ import { mutationForm, queryForm } from 'src/shared/graphql';
 import { getSettings, SETTING, setUpdateSettings } from 'src/shared/graphql/Setting/schema.gql';
 import { convertArrayOfObjectsToObject } from 'src/shared/helpers/convertArrayOfObjects';
 
-import { companyInfo } from './constants';
+import { companyInfo, formInfo } from './constants';
 
-export function CompanyForm() {
+export interface CompanyFormProps extends Lang {}
+
+export function CompanyForm({ lang }: CompanyFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({ formType: 'update', mutations: setUpdateSettings });
@@ -41,30 +43,30 @@ export function CompanyForm() {
     return (
         <Form form={form} initialValues={initialValues} layout='vertical' onFinish={handleFinish}>
             <Info
-                description={companyInfo.companyInformation.description}
-                title={companyInfo.companyInformation.title}
+                description={companyInfo.companyInformation.description[lang]}
+                title={companyInfo.companyInformation.title[lang]}
             >
                 <Form.Item
-                    label='Company Name'
+                    label={formInfo.companyName.label[lang]}
                     name='company_name'
-                    rules={[{ required: true, message: 'Please input the company name' }]}
+                    rules={[{ required: true, message: formInfo.companyName.message[lang] }]}
                 >
                     <Input placeholder='PT. Lisys' />
                 </Form.Item>
                 <Form.Item
-                    extra='Year the company was founded until now'
-                    label='Company Year'
+                    extra={formInfo.companyYear.extra[lang]}
+                    label={formInfo.companyYear.label[lang]}
                     name='company_year'
-                    rules={[{ required: true, message: 'Please input the company year' }]}
+                    rules={[{ required: true, message: formInfo.companyYear.message[lang] }]}
                 >
                     <Input placeholder='2019' />
                 </Form.Item>
             </Info>
             <Info
-                description={companyInfo.companyLogo.description}
-                title={companyInfo.companyLogo.title}
+                description={companyInfo.companyLogo.description[lang]}
+                title={companyInfo.companyLogo.title[lang]}
             >
-                <Form.Item label='Company Logo'>
+                <Form.Item label={formInfo.companyLogo.label[lang]}>
                     <Upload name='company_logo' listType='picture-card' />
                 </Form.Item>
                 <Form.Item>

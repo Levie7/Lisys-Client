@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { Medicine, PurchasingListData } from 'src/core/api';
+import { Lang, Medicine, PurchasingListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
@@ -41,13 +41,13 @@ import { purchaseDetailColumns } from './constants';
 
 require('./PurchaseListForm.sass');
 
-interface PurchaseListFormProps {
+interface PurchaseListFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListFormProps) {
+export function PurchaseListForm({ auth, formType, recordKey, ...props }: PurchaseListFormProps) {
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -443,6 +443,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                             </div>
                             <div className='col@md-4'>
                                 <SearchMedicineList
+                                    {...props}
                                     onRecordList={handleMedicineList}
                                     ref={searchMedicine}
                                 />
@@ -451,6 +452,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable
+                        {...props}
                         columns={purchaseDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}

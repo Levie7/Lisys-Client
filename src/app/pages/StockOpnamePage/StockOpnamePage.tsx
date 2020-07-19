@@ -17,6 +17,7 @@ import {
 } from 'src/shared/helpers/formatDate';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { StockOpnameDetail } from './components/StockOpnameDetail';
 import { StockOpnameHeader } from './components/StockOpnameHeader';
 import { moduleName, stockOpnameColumns, title } from './constants';
@@ -30,6 +31,7 @@ import { StockOpnameForm } from './StockOpnameForm';
 
 export const StockOpnamePage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let [readData, setReadData] = React.useState<any>();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -97,7 +99,7 @@ export const StockOpnamePage = () => {
         return (
             <div className='row'>
                 <StockOpnameHeader date={convertMilisecondsToDate(data.date)} no={data.no} />
-                <StockOpnameDetail data={readData} />
+                <StockOpnameDetail data={readData} lang={lang} />
                 <div className='col-12'>
                     <h3>Description : </h3>
                     {data.description}
@@ -126,6 +128,7 @@ export const StockOpnamePage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            lang={lang}
                             module={moduleName}
                             mutation={{ delete: deleteStockOpname }}
                             query={{
@@ -145,6 +148,7 @@ export const StockOpnamePage = () => {
                         <StockOpnameForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

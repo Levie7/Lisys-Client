@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { Medicine, SalesListData } from 'src/core/api';
+import { Lang, Medicine, SalesListData } from 'src/core/api';
 
 import { Button } from 'src/shared/components/Button';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
@@ -31,12 +31,12 @@ import { salesDetailColumns } from './constants';
 
 require('./SalesForm.sass');
 
-interface SalesFormProps {
+export interface SalesFormProps extends Lang {
     auth: string | null;
     formType: string;
 }
 
-export function SalesForm({ auth, formType }: SalesFormProps) {
+export function SalesForm({ auth, formType, ...props }: SalesFormProps) {
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let [paymentForm] = Form.useForm();
@@ -415,6 +415,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                             <div className='col-3 col@md-4'>
                                 {!saved && (
                                     <SearchMedicineList
+                                        {...props}
                                         onRecordList={handleMedicineList}
                                         ref={searchMedicine}
                                     />
@@ -435,6 +436,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                     {renderDataForm()}
                     {renderPayment()}
                     <CrudListTable
+                        {...props}
                         columns={salesDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}

@@ -8,7 +8,7 @@ describe('Drawer', () => {
     let props = {
         children: jest.fn(),
         loading: true,
-        title: 'Medicine',
+        title: { en: 'Medicine', id: 'Obat' },
         visible: true,
     };
     it('should render Drawer', () => {

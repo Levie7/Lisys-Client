@@ -5,13 +5,14 @@ import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
 import { mockRole } from './mocks/mockData';
-import { RoleList } from './RoleList';
+import { RoleList, RoleListProps } from './RoleList';
 import { ROLE_LIST } from './schema.gql';
 
 let mockClient = createMockClient();
 describe('RoleList', () => {
     let wrap: any;
-    const props = {
+    let props: RoleListProps = {
+        lang: 'en',
         handleRecord: jest.fn(),
     };
     let queryHandler = jest.fn().mockResolvedValue({

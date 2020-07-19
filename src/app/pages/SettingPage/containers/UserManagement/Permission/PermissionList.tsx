@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 import React from 'react';
 
-import { Column, Menu, Permission } from 'src/core/api';
+import { Column, Lang, Menu, Permission } from 'src/core/api';
 
 import { Spin } from 'src/shared/components/Spin';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
@@ -20,7 +20,9 @@ import { classNames } from 'src/shared/utilities/classNames';
 
 import { getRoles } from '../Role/schema.gql';
 
-export function PermissionList() {
+export interface PermissionListProps extends Lang {}
+
+export function PermissionList({ ...props }: PermissionListProps) {
     let isMobile = useUIContext().isMobile;
     let [role, setRole] = React.useState('');
     let queryDataList = queryForm({
@@ -44,7 +46,7 @@ export function PermissionList() {
         {
             dataIndex: 'menu',
             key: 'menu',
-            title: 'Menu',
+            title: { en: 'Menu', id: 'Menu' },
         },
     ];
     actions &&
@@ -52,7 +54,7 @@ export function PermissionList() {
             permissionColumn.push({
                 dataIndex: action.name,
                 key: action.name,
-                title: action.name,
+                title: { en: action.name, id: action.name },
             })
         );
 
@@ -162,6 +164,7 @@ export function PermissionList() {
         <>
             {renderCustomFilter()}
             <CrudListTable
+                {...props}
                 columns={permissionColumn}
                 dataSource={permission}
                 loading={queryDataList.loading}

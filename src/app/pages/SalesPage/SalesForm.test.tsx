@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { MEDICINE_BY_QUERY, MEDICINE_LIST } from 'src/shared/graphql/Medicine/schema.gql';
 
-import { SalesForm } from './SalesForm';
+import { SalesForm, SalesFormProps } from './SalesForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -74,10 +74,10 @@ let mockMedicine = [
 ];
 describe('SalesForm', () => {
     let wrap: any;
-    let props = {
+    let props: SalesFormProps = {
         auth: 'username1',
         formType: 'create',
-        recordKey: 'id1',
+        lang: 'en',
     };
     let queryHandlerMedicine = jest.fn().mockResolvedValue({
         data: {

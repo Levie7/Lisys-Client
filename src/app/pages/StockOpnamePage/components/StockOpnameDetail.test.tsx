@@ -1,11 +1,11 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { StockOpnameDetail } from './StockOpnameDetail';
+import { StockOpnameDetail, StockOpnameDetailProps } from './StockOpnameDetail';
 
 describe('StockOpnameDetail', () => {
     let wrap: any;
-    let props = {
+    let props: StockOpnameDetailProps = {
         data: {
             getStockOpnameById: {
                 detail: [
@@ -24,6 +24,7 @@ describe('StockOpnameDetail', () => {
                 ],
             },
         },
+        lang: 'en',
     };
 
     it('should render StockOpnameDetail', () => {
@@ -33,7 +34,7 @@ describe('StockOpnameDetail', () => {
 
     describe('when render StockOpnameDetail with empty data', () => {
         beforeEach(() => {
-            props = { data: { getStockOpnameById: { detail: [] } } };
+            props = { data: { getStockOpnameById: { detail: [] } }, lang: 'en' };
             wrap = mount(<StockOpnameDetail {...props} />);
         });
         it('should render StockOpnameDetail with empty data', () => {

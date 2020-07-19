@@ -30,6 +30,7 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { PurchaseDetail } from './components/PurchaseDetail';
 import { PurchaseHeader } from './components/PurchaseHeader';
 import { PurchaseSummary } from './components/PurchaseSummary';
@@ -38,6 +39,7 @@ import { PurchaseListForm } from './PurchaseListForm';
 
 export const PurchaseListPage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
@@ -114,7 +116,7 @@ export const PurchaseListPage = () => {
                     no={data.no}
                     supplier={data.supplier!.name}
                 />
-                <PurchaseDetail data={readData} />
+                <PurchaseDetail lang={lang} data={readData} />
                 <div className='col-12'>
                     <PurchaseSummary
                         credit_total={Currency(formatCommaValue(data.credit_total))}
@@ -149,6 +151,7 @@ export const PurchaseListPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            lang={lang}
                             module={moduleName}
                             mutation={{ delete: deletePurchasing }}
                             query={{
@@ -168,6 +171,7 @@ export const PurchaseListPage = () => {
                         <PurchaseListForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

@@ -23,6 +23,7 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { PurchaseReturnDetail } from './components/PurchaseReturnDetail';
 import { PurchaseReturnHeader } from './components/PurchaseReturnHeader';
 import { PurchaseReturnSummary } from './components/PurchaseReturnSummary';
@@ -37,6 +38,7 @@ import {
 
 export const PurchaseReturnPage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
@@ -138,7 +140,7 @@ export const PurchaseReturnPage = () => {
                     no={data.no}
                     supplier={data.supplier!.name}
                 />
-                <PurchaseReturnDetail data={readData} />
+                <PurchaseReturnDetail data={readData} lang={lang} />
                 <div className='col-12'>
                     <PurchaseReturnSummary
                         cash_total={Currency(formatCommaValue(data.cash_total))}
@@ -176,6 +178,7 @@ export const PurchaseReturnPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            lang={lang}
                             module={moduleName}
                             mutation={{
                                 delete: deletePurchaseReturn,
@@ -197,6 +200,7 @@ export const PurchaseReturnPage = () => {
                         <PurchaseReturnForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

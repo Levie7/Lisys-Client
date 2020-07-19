@@ -15,11 +15,13 @@ import {
     updateManySupplier,
 } from 'src/shared/graphql/Supplier/schema.gql';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { moduleName, supplierColumns, title } from './constants';
 import { MasterSupplierForm } from './MasterSupplierForm';
 
 export const MasterSupplierPage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
 
     function handleData(data?: any): { list: SupplierData[]; total: number } {
         let supplier = data?.getSupplierList.data;
@@ -71,6 +73,7 @@ export const MasterSupplierPage = () => {
                             auth={storage.getToken()}
                             columns={supplierColumns}
                             hasStatus
+                            lang={lang}
                             module={moduleName}
                             mutation={{
                                 delete: deleteSupplier,

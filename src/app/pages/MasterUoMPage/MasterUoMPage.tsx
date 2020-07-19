@@ -15,11 +15,13 @@ import {
     updateManyUoM,
 } from 'src/shared/graphql/UoM/schema.gql';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { moduleName, title, uomColumns } from './constants';
 import { MasterUoMForm } from './MasterUoMForm';
 
 export const MasterUoMPage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
 
     function handleData(data?: any): { list: UoMData[]; total: number } {
         let uom = data?.getUoMList.data;
@@ -60,6 +62,7 @@ export const MasterUoMPage = () => {
                             action={action!}
                             auth={storage.getToken()}
                             columns={uomColumns}
+                            lang={lang}
                             hasStatus
                             module={moduleName}
                             mutation={{

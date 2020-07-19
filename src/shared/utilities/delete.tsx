@@ -5,11 +5,12 @@ import { TableAction } from 'src/shared/components/Table';
 
 interface DeleteProps {
     recordKey: any;
+    title: string;
 
     confirm: (recordKey: string) => void;
 }
 
-function DeletePure({ recordKey, confirm }: DeleteProps) {
+function DeletePure({ recordKey, title, confirm }: DeleteProps) {
     function handleConfirm(e: any) {
         confirm(recordKey);
     }
@@ -21,7 +22,7 @@ function DeletePure({ recordKey, confirm }: DeleteProps) {
             okText='Yes'
             cancelText='No'
         >
-            <TableAction iconType='delete' record={recordKey} title='Delete' />
+            <TableAction iconType='delete' record={recordKey} title={title} />
         </Popconfirm>
     );
 }

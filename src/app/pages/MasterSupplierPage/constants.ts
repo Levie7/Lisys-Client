@@ -6,12 +6,12 @@ export const supplierColumns = [
         dataIndex: 'name',
         key: 'name',
         sorter: true,
-        title: 'Name',
+        title: { en: 'Name', id: 'Nama' },
     },
     {
         dataIndex: 'phone',
         key: 'phone',
-        title: 'Phone',
+        title: { en: 'Phone', id: 'Telepon' },
     },
 ];
 

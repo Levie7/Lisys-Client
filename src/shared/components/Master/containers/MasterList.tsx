@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { Permission } from 'src/core/api';
+import { Lang, Permission } from 'src/core/api';
 
 import { CrudDrawer } from 'src/shared/components/Crud/CrudDrawer';
 import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { Spin } from 'src/shared/components/Spin';
-import { ColumnProps } from 'src/shared/components/Table';
+import { ColumnWithLangProps } from 'src/shared/components/Table';
 import { mutationForm, queryForm, queryList } from 'src/shared/graphql';
 import {
     getCreatePermissionByRoleId,
@@ -19,10 +19,10 @@ import { usePrevious } from 'src/shared/helpers/usePrevious';
 import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
-interface MasterListProps {
+export interface MasterListProps extends Lang {
     action: string;
     auth: string | null;
-    columns: ColumnProps[];
+    columns: ColumnWithLangProps[];
     customFilter?: { components: React.ReactNode; value: any };
     customContentDrawer?: React.ReactNode;
     hasStatus?: boolean;
@@ -63,6 +63,7 @@ export function MasterList({
     handleRecord,
     handleResetAction,
     handleShowCreate,
+    ...props
 }: MasterListProps) {
     let [initCreatePermission, setInitCreatePermission] = React.useState(false);
     let [selectedRowKeys, selectRowKeys] = React.useState([]);
@@ -270,6 +271,7 @@ export function MasterList({
                 showSearch
             />
             <CrudListTable
+                {...props}
                 columns={columns}
                 dataSource={data.list}
                 handleDelete={handleDelete}

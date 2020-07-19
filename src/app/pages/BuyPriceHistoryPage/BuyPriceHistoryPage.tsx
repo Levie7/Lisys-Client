@@ -20,10 +20,12 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { buyPriceHistoryColumns } from './constants';
 import { getBuyPriceHistoryList } from './schema.gql';
 
 export const BuyPriceHistoryPage = () => {
+    let lang = getLanguage();
     let searchMedicine = React.useRef<any>();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -85,7 +87,11 @@ export const BuyPriceHistoryPage = () => {
                     placeholder={['Start Date', 'End Date']}
                 />
                 <div className='ml-2 w-100'>
-                    <SearchMedicineList onRecordList={handleMedicineList} ref={searchMedicine} />
+                    <SearchMedicineList
+                        lang={lang}
+                        onRecordList={handleMedicineList}
+                        ref={searchMedicine}
+                    />
                 </div>
             </div>
         );
@@ -107,6 +113,7 @@ export const BuyPriceHistoryPage = () => {
                                 value: handleCustomFilter(),
                             }}
                             columns={buyPriceHistoryColumns}
+                            lang={lang}
                             query={getBuyPriceHistoryList}
                             handleData={handleData}
                             showSearch

@@ -3,20 +3,23 @@ import { Form } from 'antd';
 
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
+import { Lang } from 'src/core/api';
+
 import { Input, InputArea } from 'src/shared/components/Input';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
 import { mutationForm, queryForm } from 'src/shared/graphql';
 import { Progress } from 'src/shared/utilities/progress';
 
+import { roleForms } from './constants';
 import { createRole, getRoleById, ROLE_BY_ID, updateRole } from './schema.gql';
 
-interface RoleFormProps {
+export interface RoleFormProps extends Lang {
     formType: string;
     recordKey?: string;
 }
 
-export function RoleForm({ formType, recordKey }: RoleFormProps) {
+export function RoleForm({ formType, lang, recordKey }: RoleFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({
@@ -63,13 +66,13 @@ export function RoleForm({ formType, recordKey }: RoleFormProps) {
     return (
         <Form form={form} initialValues={initialValues} layout='vertical' onFinish={handleFinish}>
             <Form.Item
-                label='Role Name'
+                label={roleForms.name.label[lang]}
                 name='name'
-                rules={[{ required: true, message: 'Please input the role name' }]}
+                rules={[{ required: true, message: roleForms.name.message[lang] }]}
             >
                 <Input />
             </Form.Item>
-            <Form.Item label='Description' name='description'>
+            <Form.Item label={roleForms.description.label[lang]} name='description'>
                 <InputArea />
             </Form.Item>
             <Form.Item>

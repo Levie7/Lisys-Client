@@ -3,38 +3,38 @@ export const purchasePaymentColumns = [
         dataIndex: 'no',
         key: 'no',
         sorter: true,
-        title: 'Transaction No',
+        title: { en: 'Transaction No', id: 'No Transaksi' },
     },
     {
         dataIndex: 'date',
         key: 'date',
         sorter: true,
-        title: 'Date',
+        title: { en: 'Date', id: 'Tanggal' },
     },
     {
         dataIndex: 'supplier_name',
         key: 'supplier_name',
-        title: 'Supplier',
+        title: { en: 'Supplier', id: 'Pemasok' },
     },
     {
         dataIndex: 'payment_method',
         key: 'payment_method',
-        title: 'Payment Method',
+        title: { en: 'Payment Method', id: 'Metode Pembayaran' },
     },
     {
         dataIndex: 'payment_no',
         key: 'payment_no',
-        title: 'Payment No',
+        title: { en: 'Payment No', id: 'No Pembayaran' },
     },
     {
         dataIndex: 'credit_total',
         key: 'credit_total',
-        title: 'Credit Total',
+        title: { en: 'Credit Total', id: 'Total Kredit' },
     },
     {
         dataIndex: 'payment_total',
         key: 'payment_total',
-        title: 'Payment Total',
+        title: { en: 'Payment Total', id: 'Total Pembayaran' },
     },
 ];
 
@@ -42,32 +42,32 @@ export const purchasePaymentDetailColumns = [
     {
         dataIndex: 'no',
         key: 'no',
-        title: 'Transaction No',
+        title: { en: 'Transaction No', id: 'No Transaksi' },
     },
     {
         dataIndex: 'date',
         key: 'date',
-        title: 'Date',
+        title: { en: 'Date', id: 'Tanggal' },
     },
     {
         dataIndex: 'due_date',
         key: 'due_date',
-        title: 'Due Date',
+        title: { en: 'Due Date', id: 'Tanggal Jatuh Tempo' },
     },
     {
         dataIndex: 'grand_total',
         key: 'grand_total',
-        title: 'Total',
+        title: { en: 'Total', id: 'Total' },
     },
     {
         dataIndex: 'credit_total',
         key: 'credit_total',
-        title: 'Credit Total',
+        title: { en: 'Credit Total', id: 'Total Kredit' },
     },
     {
         dataIndex: 'payment_amount',
         key: 'payment_amount',
-        title: 'Payment Amount',
+        title: { en: 'Payment Amount', id: 'Jumlah Pembayaran' },
     },
 ];
 

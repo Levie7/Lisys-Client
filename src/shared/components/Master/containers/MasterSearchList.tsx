@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 
+import { Lang } from 'src/core/api';
+
 import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
-import { ColumnProps } from 'src/shared/components/Table';
+import { ColumnWithLangProps } from 'src/shared/components/Table';
 import { usePrevious } from 'src/shared/helpers/usePrevious';
 import { queryList } from 'src/shared/graphql';
 
-interface MasterSearchListProps {
-    columns: ColumnProps[];
+export interface MasterSearchListProps extends Lang {
+    columns: ColumnWithLangProps[];
     customFilter?: { components?: React.ReactNode; value: any };
     query: any;
     showAction?: boolean;
@@ -27,6 +29,7 @@ export function MasterSearchList({
     showAction,
     showSearch,
     usePagination,
+    ...props
 }: MasterSearchListProps) {
     let [page, setPage] = React.useState({
         current: 1,
@@ -78,6 +81,7 @@ export function MasterSearchList({
                 showSearch={showSearch}
             />
             <CrudListTable
+                {...props}
                 columns={columns}
                 dataSource={data.list}
                 handleRecord={handleRecord}
