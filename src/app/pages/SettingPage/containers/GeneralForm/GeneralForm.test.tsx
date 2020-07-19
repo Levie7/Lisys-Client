@@ -6,7 +6,7 @@ import React from 'react';
 
 import { SETTING } from 'src/shared/graphql/Setting/schema.gql';
 
-import { GeneralForm } from './GeneralForm';
+import { GeneralForm, GeneralFormProps } from './GeneralForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -30,6 +30,7 @@ let mockGeneral = [
 let initialValues = { date_format: 'date1', language: 'language1', time_format: 'time1' };
 describe('GeneralForm', () => {
     let wrap: any;
+    let props: GeneralFormProps = { lang: 'en' };
     let queryHandler = jest.fn().mockResolvedValue({
         data: { getSettingsByCategory: mockGeneral },
     });
@@ -39,7 +40,7 @@ describe('GeneralForm', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <GeneralForm />
+                    <GeneralForm {...props} />
                 </ApolloProvider>
             );
         });
@@ -52,7 +53,7 @@ describe('GeneralForm', () => {
             await act(async () => {
                 wrap = mount(
                     <ApolloProvider client={mockClient}>
-                        <GeneralForm />
+                        <GeneralForm {...props} />
                     </ApolloProvider>
                 );
             });
@@ -69,7 +70,7 @@ describe('GeneralForm', () => {
                 await act(async () => {
                     const { getByText } = render(
                         <ApolloProvider client={mockClient}>
-                            <GeneralForm />
+                            <GeneralForm {...props} />
                         </ApolloProvider>
                     );
                     fireEvent.submit(getByText('Save'));

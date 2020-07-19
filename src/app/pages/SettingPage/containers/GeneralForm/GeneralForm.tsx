@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
-import { SettingGeneral } from 'src/core/api';
+import { Lang, SettingGeneral } from 'src/core/api';
 
 import { Info } from 'src/shared/components/Info';
 import { SaveButton } from 'src/shared/components/SaveButton/SaveButton';
@@ -11,9 +11,11 @@ import { mutationForm, queryForm } from 'src/shared/graphql';
 import { getSettings, SETTING, setUpdateSettings } from 'src/shared/graphql/Setting/schema.gql';
 import { convertArrayOfObjectsToObject } from 'src/shared/helpers/convertArrayOfObjects';
 
-import { generalInfo } from './constants';
+import { formInfo, generalInfo } from './constants';
 
-export function GeneralForm() {
+export interface GeneralFormProps extends Lang {}
+
+export function GeneralForm({ lang }: GeneralFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({ formType: 'update', mutations: setUpdateSettings });
@@ -44,8 +46,11 @@ export function GeneralForm() {
 
     return (
         <Form form={form} initialValues={initialValues} layout='vertical' onFinish={onHandleFinish}>
-            <Info description={generalInfo.dateTime.description} title={generalInfo.dateTime.title}>
-                <Form.Item label='Date Format' name='date_format'>
+            <Info
+                description={generalInfo.dateTime.description[lang]}
+                title={generalInfo.dateTime.title[lang]}
+            >
+                <Form.Item label={formInfo.date.label[lang]} name='date_format'>
                     <Select>
                         <Select.Option value='D-M-YYYY'>1-1-2020</Select.Option>
                         <Select.Option value='DD-MM-YYYY'>01-01-2020</Select.Option>
@@ -53,7 +58,7 @@ export function GeneralForm() {
                         <Select.Option value='DD MMM YYYY'>01 Jan 2020</Select.Option>
                     </Select>
                 </Form.Item>
-                <Form.Item label='Time Format' name='time_format'>
+                <Form.Item label={formInfo.time.label[lang]} name='time_format'>
                     <Select>
                         <Select.Option value='HH:mm'>08:00</Select.Option>
                         <Select.Option value='hh:mm A'>08:00 AM</Select.Option>
@@ -62,15 +67,18 @@ export function GeneralForm() {
                     </Select>
                 </Form.Item>
             </Info>
-            <Info description={generalInfo.language.description} title={generalInfo.language.title}>
-                <Form.Item label={generalInfo.language.title} name='language'>
+            <Info
+                description={generalInfo.language.description[lang]}
+                title={generalInfo.language.title[lang]}
+            >
+                <Form.Item label={generalInfo.language.title[lang]} name='language'>
                     <Select>
                         <Select.Option value='English'>English</Select.Option>
                         <Select.Option value='Indonesia'>Indonesia</Select.Option>
                     </Select>
                 </Form.Item>
                 <Form.Item>
-                    <SaveButton />
+                    <SaveButton lang={lang} />
                 </Form.Item>
             </Info>
         </Form>

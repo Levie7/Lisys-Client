@@ -19,7 +19,7 @@ import {
 } from 'src/shared/graphql/Permission/schema.gql';
 import { USER_BY_USERNAME } from 'src/shared/graphql/User/schema.gql';
 
-import { MasterList } from './MasterList';
+import { MasterList, MasterListProps } from './MasterList';
 import { mockCategory } from './mocks/mockData';
 
 Object.defineProperty(window, 'matchMedia', {
@@ -73,26 +73,27 @@ let mockUser = {
 };
 describe('MasterList', () => {
     let wrap: any;
-    let props = {
+    let props: MasterListProps = {
         action: 'list',
         auth: 'sa',
         columns: [
             {
                 dataIndex: 'name',
                 key: 'name',
-                title: 'Name',
+                title: { en: 'Name', id: 'Nama' },
             },
             {
                 dataIndex: 'description',
                 key: 'description',
-                title: 'Description',
+                title: { en: 'Description', id: 'Deskripsi' },
             },
             {
                 dataIndex: 'status',
                 key: 'status',
-                title: 'Status',
+                title: { en: 'Status', id: 'Status' },
             },
         ],
+        lang: 'en',
         module: 'Master',
         mutation: {
             delete: deleteCategory,

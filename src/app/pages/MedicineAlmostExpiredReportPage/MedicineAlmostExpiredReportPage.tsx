@@ -11,9 +11,12 @@ import { queryForm } from 'src/shared/graphql';
 import { getMedicineAlmostExpired } from 'src/shared/graphql/Medicine/schema.gql';
 import { convertMilisecondsToDate } from 'src/shared/helpers/formatDate';
 
+import { medicineTitle } from '../MedicineAlmostDepletedReportPage/constants';
+import { getLanguage } from '../SettingPage/helpers';
 import { medicineExcelColumns, medicineExcelFileName, medicineExcelSheet } from './constants';
 
 export const MedicineAlmostExpiredReportPage = () => {
+    let lang = getLanguage();
     let queryMedicine = queryForm({ query: getMedicineAlmostExpired });
     if (queryMedicine.loading) return <Spin />;
 
@@ -41,12 +44,12 @@ export const MedicineAlmostExpiredReportPage = () => {
             <div className='d-flex fd-row fj-around mx-8 my-8'>
                 <ReportCard title='Medicine Almost Expired' url='/medicine_almost_expired'>
                     <div className='d-flex fa-center fd-row'>
-                        <div className='tw-bold mr-4'>Generate Report :</div>
+                        <div className='tw-bold mr-4'>{medicineTitle[lang]} :</div>
                         <Excel
-                            column={medicineExcelColumns}
+                            column={medicineExcelColumns[lang]}
                             data={medicine}
-                            fileName={medicineExcelFileName}
-                            sheetName={medicineExcelSheet}
+                            fileName={medicineExcelFileName[lang]}
+                            sheetName={medicineExcelSheet[lang]}
                         />
                     </div>
                 </ReportCard>

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
+import { Lang } from 'src/core/api';
+
 import { Alert } from 'src/shared/components/Alert';
 import { Info } from 'src/shared/components/Info';
 import { Input, InputArea } from 'src/shared/components/Input';
@@ -10,15 +12,15 @@ import { mutationForm, queryForm } from 'src/shared/graphql';
 import { createUoM, getUoMById, UOM_BY_ID, updateUoM } from 'src/shared/graphql/UoM/schema.gql';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { alertMessage } from './constants';
+import { alertMessage, uomForm, uomInfo } from './constants';
 
-interface UoMFormProps {
+export interface UoMFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterUoMForm({ auth, formType, recordKey }: UoMFormProps) {
+export function MasterUoMForm({ auth, formType, lang, recordKey }: UoMFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({
@@ -75,7 +77,7 @@ export function MasterUoMForm({ auth, formType, recordKey }: UoMFormProps) {
 
     return (
         <>
-            <Alert message={alertMessage} type='info' showIcon />
+            <Alert message={alertMessage[lang]} type='info' showIcon />
             <Form
                 form={form}
                 initialValues={initialValues}
@@ -83,21 +85,21 @@ export function MasterUoMForm({ auth, formType, recordKey }: UoMFormProps) {
                 onFinish={handleFinish}
             >
                 <Info
-                    description='General fields to create or update UoM data'
-                    title='General Information'
+                    description={uomInfo.general.description[lang]}
+                    title={uomInfo.general.title[lang]}
                 >
                     <Form.Item
-                        label='Name'
+                        label={uomForm.name.label[lang]}
                         name='name'
-                        rules={[{ required: true, message: 'Please input the name' }]}
+                        rules={[{ required: true, message: uomForm.name.message[lang] }]}
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item label={uomForm.description.label[lang]} name='description'>
                         <InputArea />
                     </Form.Item>
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </Info>
             </Form>

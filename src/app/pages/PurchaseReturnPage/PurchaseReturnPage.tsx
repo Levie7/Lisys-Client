@@ -23,10 +23,11 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { PurchaseReturnDetail } from './components/PurchaseReturnDetail';
 import { PurchaseReturnHeader } from './components/PurchaseReturnHeader';
 import { PurchaseReturnSummary } from './components/PurchaseReturnSummary';
-import { moduleName, purchaseReturnColumns, title } from './constants';
+import { moduleName, purchaseReturnColumns, purchaseReturnForm, title } from './constants';
 import { PurchaseReturnForm } from './PurchaseReturnForm';
 import {
     deletePurchaseReturn,
@@ -37,6 +38,7 @@ import {
 
 export const PurchaseReturnPage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
@@ -135,22 +137,24 @@ export const PurchaseReturnPage = () => {
             <div className='row'>
                 <PurchaseReturnHeader
                     date={convertMilisecondsToDate(data.date)}
+                    lang={lang}
                     no={data.no}
                     supplier={data.supplier!.name}
                 />
-                <PurchaseReturnDetail data={readData} />
+                <PurchaseReturnDetail data={readData} lang={lang} />
                 <div className='col-12'>
                     <PurchaseReturnSummary
                         cash_total={Currency(formatCommaValue(data.cash_total))}
                         credit_discount_total={Currency(
                             formatCommaValue(data.credit_discount_total)
                         )}
+                        lang={lang}
                         grand_total={Currency(formatCommaValue(data.grand_total))}
                         qty_total={data.qty_total}
                     />
                 </div>
                 <div className='col-12'>
-                    <h3>Description : </h3>
+                    <h3>{purchaseReturnForm.description.label[lang]} : </h3>
                     {data.description}
                 </div>
             </div>
@@ -163,6 +167,7 @@ export const PurchaseReturnPage = () => {
                 header={{ link: '/purchase_return', title }}
                 initSection='purchase_return'
                 isCrud
+                lang={lang}
                 module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -176,6 +181,7 @@ export const PurchaseReturnPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            lang={lang}
                             module={moduleName}
                             mutation={{
                                 delete: deletePurchaseReturn,
@@ -197,6 +203,7 @@ export const PurchaseReturnPage = () => {
                         <PurchaseReturnForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

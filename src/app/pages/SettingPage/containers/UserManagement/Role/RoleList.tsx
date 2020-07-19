@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { USER_MANAGEMENT } from 'src/app/pages/SettingPage/containers/UserManagement/schema.gql';
 
-import { Role } from 'src/core/api';
+import { Lang, Role } from 'src/core/api';
 
 import { Spin } from 'src/shared/components/Spin';
 import { CrudFilter } from 'src/shared/components/Crud/CrudFilter';
@@ -14,11 +14,11 @@ import { Progress } from 'src/shared/utilities/progress';
 import { roleColumns } from './constants';
 import { deleteRole, getRoleList, ROLE_LIST } from './schema.gql';
 
-interface RoleListProps {
+export interface RoleListProps extends Lang {
     handleRecord: (recordKey: string) => void;
 }
 
-export function RoleList({ handleRecord }: RoleListProps) {
+export function RoleList({ handleRecord, ...props }: RoleListProps) {
     let [page, setPage] = React.useState({
         current: 1,
         pageSize: 10,
@@ -106,6 +106,7 @@ export function RoleList({ handleRecord }: RoleListProps) {
         <>
             <CrudFilter onSearch={handleSearch} />
             <CrudListTable
+                {...props}
                 columns={roleColumns}
                 dataSource={roles.list}
                 handleDelete={handleDelete}

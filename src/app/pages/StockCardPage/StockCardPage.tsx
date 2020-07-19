@@ -17,13 +17,15 @@ import {
     formatDefaultDate,
     formatPresentDate,
 } from 'src/shared/helpers/formatDate';
+import { usePrevious } from 'src/shared/helpers/usePrevious';
 import { classNames } from 'src/shared/utilities/classNames';
 
-import { stockCardColumns } from './constants';
+import { getLanguage } from '../SettingPage/helpers';
+import { stockCardColumns, stockCardSummary } from './constants';
 import { getStockCardList } from './schema.gql';
-import { usePrevious } from 'src/shared/helpers/usePrevious';
 
 export const StockCardPage = () => {
+    let lang = getLanguage();
     let searchMedicine = React.useRef<any>();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -157,7 +159,11 @@ export const StockCardPage = () => {
                     placeholder={['Start Date', 'End Date']}
                 />
                 <div className='ml-2 w-100'>
-                    <SearchMedicineList onRecordList={handleMedicineList} ref={searchMedicine} />
+                    <SearchMedicineList
+                        lang={lang}
+                        onRecordList={handleMedicineList}
+                        ref={searchMedicine}
+                    />
                 </div>
             </div>
         );
@@ -168,6 +174,7 @@ export const StockCardPage = () => {
             <MasterCard
                 header={{ link: '/stock_card', title: 'Stock Card' }}
                 initSection='stock_card'
+                lang={lang}
                 module='Stock'
             >
                 {() => (
@@ -179,24 +186,25 @@ export const StockCardPage = () => {
                                 value: handleCustomFilter(),
                             }}
                             columns={stockCardColumns}
+                            lang={lang}
                             query={getStockCardList}
                             handleData={handleData}
                         />
                         <Divider orientation='right'>Total</Divider>
                         <div className='d-flex fj-between'>
-                            <h1>Stock In</h1>
+                            <h3>{stockCardSummary.stock_in[lang]}</h3>
                             <div id='qty_in'>{total.qty_in}</div>
                         </div>
                         <div className='d-flex fj-between'>
-                            <h1>Stock Out</h1>
+                            <h3>{stockCardSummary.stock_out[lang]}</h3>
                             <div id='qty_out'>{total.qty_out}</div>
                         </div>
                         <div className='d-flex fj-between'>
-                            <h1>Stock Begin</h1>
+                            <h3>{stockCardSummary.stock_begin[lang]}</h3>
                             <div id='qty_begin'>{total.qty_begin}</div>
                         </div>
                         <div className='d-flex fj-between'>
-                            <h1>Stock Ending</h1>
+                            <h3>{stockCardSummary.stock_ending[lang]}</h3>
                             <div id='qty_ending'>{total.qty_ending}</div>
                         </div>
                     </>

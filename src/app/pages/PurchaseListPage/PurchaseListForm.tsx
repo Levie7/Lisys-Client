@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { Medicine, PurchasingListData } from 'src/core/api';
+import { Lang, Medicine, PurchasingListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
@@ -37,17 +37,18 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { PurchaseSummary } from './components/PurchaseSummary';
-import { purchaseDetailColumns } from './constants';
+import { purchaseDetailColumns, purchaseError, purchaseForm, purchaseModal } from './constants';
 
 require('./PurchaseListForm.sass');
 
-interface PurchaseListFormProps {
+export interface PurchaseListFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListFormProps) {
+export function PurchaseListForm({ auth, formType, recordKey, ...props }: PurchaseListFormProps) {
+    let { lang } = { ...props };
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -63,7 +64,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
         title: string;
     }>({
         show: false,
-        title: 'Add Product',
+        title: purchaseModal.add.title[lang],
     });
     let [grandTotal, setGrandTotal] = React.useState({
         credit_total: 0,
@@ -118,7 +119,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
     if (medicine) {
         let checkData = data.find((data) => data.key === medicine.id);
         if (checkData) {
-            Message('Data already exist!', 'error');
+            Message(purchaseError.duplicate[lang], 'error');
         } else {
             dataForm.setFieldsValue({
                 qty: 1,
@@ -130,12 +131,12 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
             showModal({
                 tempData: medicine as Medicine,
                 show: true,
-                title: 'Add Product',
+                title: purchaseModal.add.title[lang],
             });
         }
         handleResetFindData();
     } else if (medicine === null) {
-        Message('Medicine not found!', 'error');
+        Message(purchaseError.not_found[lang], 'error');
         handleResetFindData();
     }
 
@@ -216,7 +217,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                 },
             });
         } else {
-            Message('Fill detail first!', 'error');
+            Message(purchaseError.required[lang], 'error');
         }
     }
 
@@ -279,7 +280,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
     function handleMedicineList(recordKey: string, record: any) {
         let checkData = data.find((data) => data.key === recordKey);
         if (checkData) {
-            Message('Data already exist!', 'error');
+            Message(purchaseError.duplicate[lang], 'error');
         } else {
             dataForm.setFieldsValue({
                 qty: 1,
@@ -292,7 +293,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
             showModal({
                 tempData: { ...record, id: recordKey, uom: { name: record.uom_name } } as Medicine,
                 show: true,
-                title: 'Add Product',
+                title: purchaseModal.add.title[lang],
             });
         }
     }
@@ -313,7 +314,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
         showModal({
             recordKey,
             show: true,
-            title: 'Update Product',
+            title: purchaseModal.update.title[lang],
         });
     }
 
@@ -344,33 +345,37 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                 <Form form={dataForm} layout='vertical' onFinish={handleFinishData}>
                     <Form.Item
                         getValueFromEvent={formatNumeric}
-                        label='Qty'
+                        label={purchaseForm.qty.label[lang]}
                         name='qty'
-                        rules={[{ required: true, message: 'Please input the Qty' }]}
+                        rules={[{ required: true, message: purchaseForm.qty.message[lang] }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         getValueFromEvent={formatCurrency}
-                        label='Buy Price'
+                        label={purchaseForm.buy_price.label[lang]}
                         name='buy_price'
+                        rules={[{ required: true, message: purchaseForm.buy_price.message[lang] }]}
                     >
                         <Input prefix='Rp' />
                     </Form.Item>
                     <Form.Item
                         getValueFromEvent={formatCurrency}
-                        label='Sell Price'
+                        label={purchaseForm.sell_price.label[lang]}
                         name='sell_price'
+                        rules={[{ required: true, message: purchaseForm.sell_price.message[lang] }]}
                     >
                         <Input prefix='Rp' />
                     </Form.Item>
-                    <Form.Item label='Batch No' name='batch_no'>
+                    <Form.Item label={purchaseForm.batch_no.label[lang]} name='batch_no'>
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label='Expired Date'
+                        label={purchaseForm.expired_date.label[lang]}
                         name='expired_date'
-                        rules={[{ required: true, message: 'Please select the expired date' }]}
+                        rules={[
+                            { required: true, message: purchaseForm.expired_date.message[lang] },
+                        ]}
                     >
                         <DatePicker />
                     </Form.Item>
@@ -385,21 +390,21 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
                     <Form.Item
-                        label='Purchase No'
+                        label={purchaseForm.no.label[lang]}
                         name='no'
-                        rules={[{ required: true, message: 'Please input the purchase no' }]}
+                        rules={[{ required: true, message: purchaseForm.no.message[lang] }]}
                     >
                         <Input onChange={handleChangeNo} />
                     </Form.Item>
                     <div className='row'>
                         <div className='col-6'>
                             <Form.Item
-                                label='Purchase Date'
+                                label={purchaseForm.date.label[lang]}
                                 name='date'
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please select the purchase date',
+                                        message: purchaseForm.date.message[lang],
                                     },
                                 ]}
                             >
@@ -408,18 +413,23 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                         </div>
                         <div className='col-6'>
                             <Form.Item
-                                label='Due Date'
+                                label={purchaseForm.due_date.label[lang]}
                                 name='due_date'
-                                rules={[{ required: true, message: 'Please select the due date' }]}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: purchaseForm.due_date.message[lang],
+                                    },
+                                ]}
                             >
                                 <DatePicker defaultValue={moment().add(1, 'months')} />
                             </Form.Item>
                         </div>
                     </div>
                     <Form.Item
-                        label='Supplier'
+                        label={purchaseForm.supplier.label[lang]}
                         name='supplier'
-                        rules={[{ required: true, message: 'Please select the supplier' }]}
+                        rules={[{ required: true, message: purchaseForm.supplier.message[lang] }]}
                     >
                         <Select showSearch>
                             {suppliers &&
@@ -430,19 +440,20 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                                 ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item label={purchaseForm.description.label[lang]} name='description'>
                         <InputArea />
                     </Form.Item>
                 </div>
                 <div className={classNames('col-12 col@md-9', !isMobile ? 'Detail-Bordered' : '')}>
                     <h1 className='fw-bold'>Detail</h1>
-                    <Form.Item label='Code' name='code'>
+                    <Form.Item label={purchaseForm.code.label[lang]} name='code'>
                         <div className='row'>
                             <div className='col@md-4'>
                                 <Input className='code' onPressEnter={handleCode} />
                             </div>
                             <div className='col@md-4'>
                                 <SearchMedicineList
+                                    {...props}
                                     onRecordList={handleMedicineList}
                                     ref={searchMedicine}
                                 />
@@ -451,6 +462,7 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable
+                        {...props}
                         columns={purchaseDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}
@@ -461,11 +473,12 @@ export function PurchaseListForm({ auth, formType, recordKey }: PurchaseListForm
                     />
                     <PurchaseSummary
                         credit_total={Currency(formatCommaValue(grandTotal.credit_total))}
+                        lang={lang}
                         qty_total={grandTotal.qty_total}
                         total={Currency(formatCommaValue(grandTotal.total))}
                     />
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </div>
             </div>

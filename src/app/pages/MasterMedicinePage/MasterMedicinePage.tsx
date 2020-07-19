@@ -15,11 +15,13 @@ import {
     updateManyMedicine,
 } from 'src/shared/graphql/Medicine/schema.gql';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { medicineColumns, moduleName, title } from './constants';
 import { MasterMedicineForm } from './MasterMedicineForm';
 
 export const MasterMedicinePage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
 
     function handleReadData(data?: any) {
         return data?.getMedicineByQuery;
@@ -31,6 +33,7 @@ export const MasterMedicinePage = () => {
                 header={{ link: '/medicine', title }}
                 initSection='medicine'
                 isCrud
+                lang={lang}
                 module={moduleName}
                 showAction
             >
@@ -41,6 +44,7 @@ export const MasterMedicinePage = () => {
                             auth={storage.getToken()}
                             columns={medicineColumns}
                             hasStatus
+                            lang={lang}
                             module={moduleName}
                             mutation={{
                                 delete: deleteMedicine,
@@ -62,6 +66,7 @@ export const MasterMedicinePage = () => {
                         <MasterMedicineForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

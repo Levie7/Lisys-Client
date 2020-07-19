@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Lang } from 'src/core/api';
 import { updateCrud } from 'src/core/graphql/crud';
 
 import { Button, ButtonType } from 'src/shared/components/Button';
@@ -8,8 +9,11 @@ import { Dropdown } from 'src/shared/components/Dropdown';
 import { Icon } from 'src/shared/components/Icon';
 import { Menu } from 'src/shared/components/Menu';
 
-interface ButtonActionProps extends React.HTMLAttributes<any>, CrudConnectedProps {
+import { buttonAction } from './constants';
+
+export interface ButtonActionProps extends CrudConnectedProps, Lang {
     buttonType: ButtonType;
+    className?: string;
     iconType?: string;
     title: string;
 }
@@ -19,6 +23,7 @@ export const ButtonAction = ({
     className,
     crud,
     iconType,
+    lang,
     title,
 }: ButtonActionProps) => {
     let [fetch] = updateCrud();
@@ -34,15 +39,15 @@ export const ButtonAction = ({
     function renderActions() {
         let menu = (
             <Menu onClick={handleMenuClick}>
-                <Menu.Item key='active'>Activate</Menu.Item>
-                <Menu.Item key='inactive'>Inactivate</Menu.Item>
+                <Menu.Item key='active'>{buttonAction.activate[lang]}</Menu.Item>
+                <Menu.Item key='inactive'>{buttonAction.inactivate[lang]}</Menu.Item>
             </Menu>
         );
 
         return (
             <Dropdown overlay={menu}>
                 <Button className={className} id='ButtonActions'>
-                    Actions {Icon['action']}
+                    {title} {Icon['action']}
                 </Button>
             </Dropdown>
         );

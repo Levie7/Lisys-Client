@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { SalesDetail as SalesDetailAPI, StockOpnameListData } from 'src/core/api';
+import { Lang, SalesDetail as SalesDetailAPI, StockOpnameListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { Currency } from 'src/shared/helpers/formatCurrency';
@@ -8,11 +8,11 @@ import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
 import { salesDetailColumns } from '../constants';
 
-interface SalesDetailProps {
+export interface SalesDetailProps extends Lang {
     data: any;
 }
 
-export const SalesDetail = React.memo<SalesDetailProps>(({ data }) => {
+export const SalesDetail = React.memo<SalesDetailProps>(({ data, ...props }) => {
     let detail = handleSalesDetail(data);
 
     function handleSalesDetail(data?: any): StockOpnameListData[] {
@@ -38,7 +38,7 @@ export const SalesDetail = React.memo<SalesDetailProps>(({ data }) => {
 
     return (
         <div className='col-12'>
-            <CrudListTable columns={salesDetailColumns} dataSource={detail} />
+            <CrudListTable {...props} columns={salesDetailColumns} dataSource={detail} />
         </div>
     );
 });

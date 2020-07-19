@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { SettingContentHeader } from 'src/app/pages/SettingPage/components/SettingContentHeader';
 
+import { Lang } from 'src/core/api';
 import { updateCrud, useCrud } from 'src/core/graphql/crud';
 
 import { Crud } from 'src/shared/components/Crud';
@@ -12,8 +13,11 @@ import { PermissionList } from './Permission';
 import { RoleForm, RoleList } from './Role';
 import { UserForm, UserList } from './User';
 import { UserManagementForm } from './UserManagementForm';
+import { userManagementTitle } from './constants';
 
-export function UserManagement() {
+export interface UserManagementProps extends Lang {}
+
+export function UserManagement({ ...props }: UserManagementProps) {
     let [init, setInit] = React.useState(false);
     let [recordKey, setRecordKey] = React.useState('');
     let crud = useCrud();
@@ -33,9 +37,9 @@ export function UserManagement() {
     function renderForm() {
         switch (crud.section) {
             case 'role':
-                return <RoleForm formType={crud.action} recordKey={recordKey} />;
+                return <RoleForm {...props} formType={crud.action} recordKey={recordKey} />;
             case 'user':
-                return <UserForm formType={crud.action} recordKey={recordKey} />;
+                return <UserForm {...props} formType={crud.action} recordKey={recordKey} />;
             default:
                 return null;
         }
@@ -44,23 +48,25 @@ export function UserManagement() {
     function renderList() {
         switch (crud.section) {
             case 'role':
-                return <RoleList handleRecord={handleRecord} />;
+                return <RoleList {...props} handleRecord={handleRecord} />;
             case 'user':
-                return <UserList handleRecord={handleRecord} />;
+                return <UserList {...props} handleRecord={handleRecord} />;
             case 'permission':
-                return <PermissionList />;
+                return <PermissionList {...props} />;
             default:
                 return null;
         }
     }
 
+    let { lang } = { ...props };
+
     return (
         <>
-            <SettingContentHeader crud={{ ...crud }} title='User Management' />
+            <SettingContentHeader crud={{ ...crud }} title={userManagementTitle[lang]} />
             {crud.section === 'main' ? (
-                <UserManagementForm crud={crud} />
+                <UserManagementForm {...props} crud={crud} />
             ) : (
-                <Crud showBack showCreate={crud.section !== 'permission'}>
+                <Crud {...props} showBack showCreate={crud.section !== 'permission'}>
                     {renderCrud()}
                 </Crud>
             )}

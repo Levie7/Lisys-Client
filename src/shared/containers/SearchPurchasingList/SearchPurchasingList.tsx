@@ -5,6 +5,8 @@ import {
     purchaseWithDetailSearchListColumns,
 } from 'src/app/pages/PurchaseListPage/constants';
 
+import { Lang } from 'src/core/api';
+
 import { Button } from 'src/shared/components/Button';
 import { Icon } from 'src/shared/components/Icon';
 import { MasterSearchList } from 'src/shared/components/Master/containers/MasterSearchList';
@@ -15,7 +17,7 @@ import {
 import { Modal } from 'src/shared/components/Modal';
 import { getPurchasingList } from 'src/shared/graphql/Purchasing/schema.gql';
 
-interface SearchPurchasingListProps {
+export interface SearchPurchasingListProps extends Lang {
     is_not_paid?: boolean;
     supplier_id: string;
     withDetail?: boolean;
@@ -24,7 +26,7 @@ interface SearchPurchasingListProps {
 }
 
 function SearchPurchasingListPure(
-    { is_not_paid, onRecordList, supplier_id, withDetail }: SearchPurchasingListProps,
+    { is_not_paid, onRecordList, supplier_id, withDetail, ...props }: SearchPurchasingListProps,
     ref: any
 ) {
     let [list, showList] = React.useState(false);
@@ -56,6 +58,7 @@ function SearchPurchasingListPure(
                 width={750}
             >
                 <MasterSearchList
+                    {...props}
                     columns={
                         withDetail ? purchaseWithDetailSearchListColumns : purchaseSearchListColumns
                     }

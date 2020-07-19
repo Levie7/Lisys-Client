@@ -6,12 +6,16 @@ import { withQueryParams } from 'src/core/route/withQueryParams';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
+import { getLanguage } from '../SettingPage/helpers';
+import { summarySalesField } from './constants';
+
 interface SummarySalesReportResultPageProps {
     query: { date: string; sold: string; total: string; transaction: string; user: string };
 }
 
 export const SummarySalesReportResultPage = withQueryParams(
     ({ query }: SummarySalesReportResultPageProps) => {
+        let lang = getLanguage();
         let [init, setInit] = React.useState(false);
         if (!init) {
             window.print();
@@ -24,30 +28,32 @@ export const SummarySalesReportResultPage = withQueryParams(
                 <div>Palazzo Park blok A 5012, Sidoarjo</div>
                 <div>Telp: 031-99031371</div>
                 <br />
-                <div>Summary Sales</div>
+                <div>{summarySalesField.title[lang]}</div>
                 <div>--------------------------------------------------------</div>
                 <div className='d-flex fj-between'>
-                    <div>User</div>
+                    <div>{summarySalesField.user[lang]}</div>
                     <div>{query.user}</div>
                 </div>
                 <div className='d-flex fj-between'>
-                    <div>Tanggal</div>
+                    <div>{summarySalesField.date[lang]}</div>
                     <div>{formatPresentDate(query.date)}</div>
                 </div>
                 <div>--------------------------------------------------------</div>
                 <div className='d-flex fj-between'>
-                    <div>Total Medicine Sold</div>
+                    <div>{summarySalesField.total_medicine[lang]}</div>
                     <div>{query.sold}</div>
                 </div>
                 <div className='d-flex fj-between'>
-                    <div>Total Transaction</div>
+                    <div>{summarySalesField.total_transaction[lang]}</div>
                     <div>{query.transaction}</div>
                 </div>
                 <div className='d-flex fj-between'>
-                    <div>Total</div>
+                    <div>{summarySalesField.total[lang]}</div>
                     <div>{Currency(formatCommaValue(query.total))}</div>
                 </div>
-                <div>Printed at : {formatFullDateTime(moment())}</div>
+                <div>
+                    {summarySalesField.printed[lang]} : {formatFullDateTime(moment())}
+                </div>
             </div>
         );
     }

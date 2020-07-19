@@ -8,7 +8,7 @@ import React from 'react';
 import { PURCHASING_LIST } from 'src/shared/graphql/Purchasing/schema.gql';
 import { SUPPLIERS } from 'src/shared/graphql/Supplier/schema.gql';
 
-import { PurchasePaymentForm } from './PurchasePaymentForm';
+import { PurchasePaymentForm, PurchasePaymentFormProps } from './PurchasePaymentForm';
 import { PURCHASE_PAYMENT_BY_ID } from './schema.gql';
 
 Object.defineProperty(window, 'matchMedia', {
@@ -89,9 +89,10 @@ let mockPurchasing = [
 ];
 describe('PurchasePaymentForm', () => {
     let wrap: any;
-    let props = {
+    let props: PurchasePaymentFormProps = {
         auth: 'username1',
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

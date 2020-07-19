@@ -6,13 +6,14 @@ import React from 'react';
 
 import { MEDICINE_BY_QUERY } from 'src/shared/graphql/Medicine/schema.gql';
 
-import { SearchPurchasingList } from './SearchPurchasingList';
+import { SearchPurchasingList, SearchPurchasingListProps } from './SearchPurchasingList';
 
 let mockClient = createMockClient();
 describe('SearchPurchasingList', () => {
     let wrap: any;
     let searchMedicine: any;
-    const props = {
+    let props: SearchPurchasingListProps = {
+        lang: 'en',
         supplier_id: 'supplier1',
         onRecordList: jest.fn(),
     };

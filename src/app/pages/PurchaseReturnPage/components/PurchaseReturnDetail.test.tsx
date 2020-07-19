@@ -1,11 +1,14 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { PurchaseReturnDetail } from './PurchaseReturnDetail';
+import { PurchaseReturnDetail, PurchaseReturnDetailProps } from './PurchaseReturnDetail';
 
 describe('PurchaseReturnDetail', () => {
     let wrap: any;
-    let props = { data: { getPurchaseReturnById: { detail: [] } } };
+    let props: PurchaseReturnDetailProps = {
+        data: { getPurchaseReturnById: { detail: [] } },
+        lang: 'en',
+    };
 
     it('should render PurchaseReturnDetail', () => {
         wrap = mount(<PurchaseReturnDetail {...props} />);

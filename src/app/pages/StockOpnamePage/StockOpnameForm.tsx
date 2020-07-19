@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { Medicine, StockOpnameListData } from 'src/core/api';
+import { Lang, Medicine, StockOpnameListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
@@ -21,18 +21,24 @@ import { classNames } from 'src/shared/utilities/classNames';
 import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { stockOpnameDetailColumns } from './constants';
+import {
+    stockOpnameDetailColumns,
+    stockOpnameError,
+    stockOpnameForm,
+    stockOpnameModal,
+} from './constants';
 import { createStockOpname, STOCK_OPNAME_BY_ID } from './schema.gql';
 
 require('./StockOpnameForm.sass');
 
-interface StockOpnameFormProps {
+export interface StockOpnameFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormProps) {
+export function StockOpnameForm({ auth, formType, recordKey, ...props }: StockOpnameFormProps) {
+    let { lang } = { ...props };
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -46,7 +52,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
         title: string;
     }>({
         show: false,
-        title: 'Add Product',
+        title: stockOpnameModal.add.title[lang],
     });
 
     let medicineQuery = queryList({
@@ -68,7 +74,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
     if (medicine) {
         let checkData = data.find((data) => data.key === medicine.id);
         if (checkData) {
-            Message('Data already exist!', 'error');
+            Message(stockOpnameError.duplicate[lang], 'error');
         } else {
             dataForm.setFieldsValue({
                 physical_stock: 1,
@@ -76,12 +82,12 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
             showModal({
                 tempData: medicine as Medicine,
                 show: true,
-                title: 'Add Product',
+                title: stockOpnameModal.add.title[lang],
             });
         }
         handleResetFindData();
     } else if (medicine === null) {
-        Message('Medicine not found!', 'error');
+        Message(stockOpnameError.not_found[lang], 'error');
         handleResetFindData();
     }
 
@@ -138,7 +144,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
                 },
             });
         } else {
-            Message('Fill detail first!', 'error');
+            Message(stockOpnameError.required[lang], 'error');
         }
     }
 
@@ -177,14 +183,14 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
     function handleMedicineList(recordKey: string, record: any) {
         let checkData = data.find((data) => data.key === recordKey);
         if (checkData) {
-            Message('Data already exist!', 'error');
+            Message(stockOpnameError.duplicate[lang], 'error');
         } else {
             dataForm.setFieldsValue({ physical_stock: 1 });
             searchMedicine.current.closeList();
             showModal({
                 tempData: { ...record, id: recordKey, uom: { name: record.uom_name } } as Medicine,
                 show: true,
-                title: 'Add Product',
+                title: stockOpnameModal.add.title[lang],
             });
         }
     }
@@ -194,7 +200,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
         showModal({
             recordKey,
             show: true,
-            title: 'Update Product',
+            title: stockOpnameModal.update.title[lang],
         });
     }
 
@@ -220,7 +226,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
                 <Form form={dataForm} layout='vertical' onFinish={handleFinishData}>
                     <Form.Item
                         getValueFromEvent={formatNumeric}
-                        label='Physical Stock'
+                        label={stockOpnameForm.physical_stock.label[lang]}
                         name='physical_stock'
                     >
                         <Input autoFocus />
@@ -235,34 +241,35 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item label='Stock Opname No' name='no'>
+                    <Form.Item label={stockOpnameForm.no.label[lang]} name='no'>
                         <Input disabled />
                     </Form.Item>
                     <Form.Item
-                        label='Stock Opname Date'
+                        label={stockOpnameForm.date.label[lang]}
                         name='date'
                         rules={[
                             {
                                 required: true,
-                                message: 'Please select the stock opname date',
+                                message: stockOpnameForm.date.message[lang],
                             },
                         ]}
                     >
                         <DatePicker defaultValue={moment()} />
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item label={stockOpnameForm.description.label[lang]} name='description'>
                         <InputArea />
                     </Form.Item>
                 </div>
                 <div className={classNames('col-12 col@md-9', !isMobile ? 'Detail-Bordered' : '')}>
                     <h1 className='fw-bold'>Detail</h1>
-                    <Form.Item label='Code' name='code'>
+                    <Form.Item label={stockOpnameForm.code.label[lang]} name='code'>
                         <div className='row'>
                             <div className='col@md-4'>
                                 <Input className='code' onPressEnter={handleCode} />
                             </div>
                             <div className='col@md-4'>
                                 <SearchMedicineList
+                                    {...props}
                                     onRecordList={handleMedicineList}
                                     ref={searchMedicine}
                                 />
@@ -271,6 +278,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable
+                        {...props}
                         columns={stockOpnameDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}
@@ -280,7 +288,7 @@ export function StockOpnameForm({ auth, formType, recordKey }: StockOpnameFormPr
                         showUpdate
                     />
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton {...props} />
                     </Form.Item>
                 </div>
             </div>

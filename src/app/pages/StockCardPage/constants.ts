@@ -2,51 +2,58 @@ export const stockCardColumns = [
     {
         dataIndex: 'transaction_date',
         key: 'transaction_date',
-        title: 'Date',
+        title: { en: 'Date', id: 'Tanggal' },
     },
     {
         dataIndex: 'transaction_no',
         key: 'transaction_no',
-        title: 'Transaction No',
+        title: { en: 'Transaction No', id: 'No Transaksi' },
     },
     {
         dataIndex: 'tag',
         key: 'tag',
-        title: 'Transaction',
+        title: { en: 'Transaction', id: 'Transaksi' },
     },
     {
         dataIndex: 'supplier_name',
         key: 'supplier_name',
-        title: 'Supplier',
+        title: { en: 'Supplier', id: 'Pemasok' },
     },
     {
         dataIndex: 'expired_date',
         key: 'expired_date',
-        title: 'Expired Date',
+        title: { en: 'Expired Date', id: 'Tanggal Kadaluwarsa' },
     },
     {
         dataIndex: 'batch_no',
         key: 'batch_no',
-        title: 'Batch No',
+        title: { en: 'Batch No', id: 'No Batch' },
     },
     {
         dataIndex: 'qty_begin',
         key: 'qty_begin',
-        title: 'Qty Begin',
+        title: { en: 'Qty Begin', id: 'Jumlah Awal' },
     },
     {
         dataIndex: 'qty_in',
         key: 'qty_in',
-        title: 'Qty In',
+        title: { en: 'Qty In', id: 'Jumlah Masuk' },
     },
     {
         dataIndex: 'qty_out',
         key: 'qty_out',
-        title: 'Qty Out',
+        title: { en: 'Qty Out', id: 'Jumlah Keluar' },
     },
     {
         dataIndex: 'qty_ending',
         key: 'qty_ending',
-        title: 'Qty Ending',
+        title: { en: 'Qty Ending', id: 'Jumlah Akhir' },
     },
 ];
+
+export const stockCardSummary = {
+    stock_in: { en: 'Stock In', id: 'Stok Masuk' },
+    stock_out: { en: 'Stock Out', id: 'Stok Keluar' },
+    stock_begin: { en: 'Stock Begin', id: 'Stok Awal' },
+    stock_ending: { en: 'Stock Ending', id: 'Stok Akhir' },
+};

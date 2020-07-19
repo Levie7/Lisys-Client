@@ -6,7 +6,7 @@ import React from 'react';
 
 import { CATEGORY_BY_ID } from 'src/shared/graphql/Category/schema.gql';
 
-import { MasterCategoryForm } from './MasterCategoryForm';
+import { MasterCategoryForm, CategoryFormProps } from './MasterCategoryForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -28,9 +28,10 @@ let mockInitialValues = {
 };
 describe('MasterCategoryForm', () => {
     let wrap: any;
-    let props = {
+    let props: CategoryFormProps = {
         auth: 'username1',
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

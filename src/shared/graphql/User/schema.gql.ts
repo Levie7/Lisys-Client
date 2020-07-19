@@ -10,6 +10,7 @@ const AUTH_LOGIN = gql`
 export const USER_BY_ID = gql`
     query getUserById($id: ID!) {
         getUserById(id: $id) {
+            id
             name
             role {
                 id
@@ -40,6 +41,7 @@ export const USER_LIST = gql`
                 id
                 name
                 role {
+                    id
                     name
                 }
                 username

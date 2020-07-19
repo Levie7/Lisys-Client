@@ -1,12 +1,13 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { SalesHeader } from './SalesHeader';
+import { SalesHeader, SalesHeaderProps } from './SalesHeader';
 
 describe('SalesHeader', () => {
     let wrap: any;
-    let props = {
+    let props: SalesHeaderProps = {
         date: '20-07-2020',
+        lang: 'en',
         no: 'PI/123',
     };
 

@@ -23,10 +23,11 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { PurchasePaymentDetail } from './components/PurchasePaymentDetail';
 import { PurchasePaymentHeader } from './components/PurchasePaymentHeader';
 import { PurchasePaymentSummary } from './components/PurchasePaymentSummary';
-import { moduleName, purchasePaymentColumns, title } from './constants';
+import { moduleName, purchasePaymentColumns, purchasePaymentForm, title } from './constants';
 import { PurchasePaymentForm } from './PurchasePaymentForm';
 import {
     deletePurchasePayment,
@@ -37,6 +38,7 @@ import {
 
 export const PurchasePaymentPage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
@@ -106,20 +108,22 @@ export const PurchasePaymentPage = () => {
             <div className='row'>
                 <PurchasePaymentHeader
                     date={convertMilisecondsToDate(data.date)}
+                    lang={lang}
                     no={data.no}
                     payment_method={data.payment_method}
                     payment_no={data.payment_no}
                     supplier={data.supplier!.name}
                 />
-                <PurchasePaymentDetail data={readData} />
+                <PurchasePaymentDetail data={readData} lang={lang} />
                 <div className='col-12'>
                     <PurchasePaymentSummary
                         credit_total={Currency(formatCommaValue(data.credit_total))}
+                        lang={lang}
                         payment_total={Currency(formatCommaValue(data.payment_total))}
                     />
                 </div>
                 <div className='col-12'>
-                    <h3>Description : </h3>
+                    <h3>{purchasePaymentForm.description.label[lang]} : </h3>
                     {data.description}
                 </div>
             </div>
@@ -159,6 +163,7 @@ export const PurchasePaymentPage = () => {
                 header={{ link: '/purchase_payment', title }}
                 initSection='purchase_payment'
                 isCrud
+                lang={lang}
                 module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -172,6 +177,7 @@ export const PurchasePaymentPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            lang={lang}
                             module={moduleName}
                             mutation={{
                                 delete: deletePurchasePayment,
@@ -193,6 +199,7 @@ export const PurchasePaymentPage = () => {
                         <PurchasePaymentForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

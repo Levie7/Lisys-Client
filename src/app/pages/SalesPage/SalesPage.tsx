@@ -29,14 +29,16 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { SalesDetail } from './components/SalesDetail';
 import { SalesHeader } from './components/SalesHeader';
 import { SalesSummary } from './components/SalesSummary';
-import { moduleName, salesListColumns, title } from './constants';
+import { moduleName, salesButton, salesForm, salesListColumns, title } from './constants';
 import { SalesForm } from './SalesForm';
 
 export const SalesPage = ({ location }: RouteComponentProps) => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let [readData, setReadData] = React.useState<any>();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
@@ -108,19 +110,20 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
 
         return (
             <div className='row'>
-                <SalesHeader date={date} no={data.no} />
-                <SalesDetail data={readData} />
+                <SalesHeader date={date} lang={lang} no={data.no} />
+                <SalesDetail data={readData} lang={lang} />
                 <div className='col-12'>
                     <SalesSummary
                         amount_total={Currency(formatCommaValue(data.payment_total))}
                         change_total={Currency(formatCommaValue(data.change_total))}
                         isMobile={false}
+                        lang={lang}
                         qty_total={data.qty_total}
                         total={Currency(formatCommaValue(data.grand_total))}
                     />
                 </div>
                 <div className='col-12'>
-                    <h3>Description : </h3>
+                    <h3>{salesForm.description.label[lang]} : </h3>
                     {data.description}
                 </div>
                 <Link
@@ -139,7 +142,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                     }}
                 >
                     <Button className='bg-green fg-white' type='default'>
-                        {Icon['print']} Print
+                        {Icon['print']} {salesButton.print[lang]}
                     </Button>
                 </Link>
             </div>
@@ -153,6 +156,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                 initAction={location.search !== '' ? 'create' : undefined}
                 initSection='sales'
                 isCrud
+                lang={lang}
                 module={moduleName}
             >
                 {({ action, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -166,6 +170,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            lang={lang}
                             module={moduleName}
                             mutation={{ delete: deleteSales }}
                             query={{
@@ -182,7 +187,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                             handleShowCreate={handleShowCreate!}
                         />
                     ) : (
-                        <SalesForm auth={storage.getToken()} formType={action!} />
+                        <SalesForm auth={storage.getToken()} formType={action!} lang={lang} />
                     )
                 }
             </MasterCard>

@@ -30,14 +30,16 @@ import {
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 import { classNames } from 'src/shared/utilities/classNames';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { PurchaseDetail } from './components/PurchaseDetail';
 import { PurchaseHeader } from './components/PurchaseHeader';
 import { PurchaseSummary } from './components/PurchaseSummary';
-import { moduleName, purchaseListColumns, title } from './constants';
+import { moduleName, purchaseForm, purchaseListColumns, title } from './constants';
 import { PurchaseListForm } from './PurchaseListForm';
 
 export const PurchaseListPage = () => {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
@@ -111,19 +113,21 @@ export const PurchaseListPage = () => {
                 <PurchaseHeader
                     date={convertMilisecondsToDate(data.date)}
                     due_date={convertMilisecondsToDate(data.due_date)}
+                    lang={lang}
                     no={data.no}
                     supplier={data.supplier!.name}
                 />
-                <PurchaseDetail data={readData} />
+                <PurchaseDetail lang={lang} data={readData} />
                 <div className='col-12'>
                     <PurchaseSummary
                         credit_total={Currency(formatCommaValue(data.credit_total))}
+                        lang={lang}
                         qty_total={data.qty_total}
                         total={Currency(formatCommaValue(data.grand_total))}
                     />
                 </div>
                 <div className='col-12'>
-                    <h3>Description : </h3>
+                    <h3>{purchaseForm.description.label[lang]} : </h3>
                     {data.description}
                 </div>
             </div>
@@ -136,6 +140,7 @@ export const PurchaseListPage = () => {
                 header={{ link: '/purchase_list', title }}
                 initSection='purchase'
                 isCrud
+                lang={lang}
                 module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>
@@ -149,6 +154,7 @@ export const PurchaseListPage = () => {
                                 components: renderCustomFilter(),
                                 value: handleCustomFilter(),
                             }}
+                            lang={lang}
                             module={moduleName}
                             mutation={{ delete: deletePurchasing }}
                             query={{
@@ -168,6 +174,7 @@ export const PurchaseListPage = () => {
                         <PurchaseListForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

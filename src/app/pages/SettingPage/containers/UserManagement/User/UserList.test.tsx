@@ -7,13 +7,14 @@ import React from 'react';
 import { USER_LIST } from 'src/shared/graphql/User/schema.gql';
 
 import { mockUser } from './mocks/mockData';
-import { UserList } from './UserList';
+import { UserList, UserListProps } from './UserList';
 
 let mockClient = createMockClient();
 describe('UserList', () => {
     let wrap: any;
-    const props = {
+    let props: UserListProps = {
         handleRecord: jest.fn(),
+        lang: 'en',
     };
     let queryHandler = jest.fn().mockResolvedValue({
         data: {

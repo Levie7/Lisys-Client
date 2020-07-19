@@ -1,11 +1,11 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { SalesDetail } from './SalesDetail';
+import { SalesDetail, SalesDetailProps } from './SalesDetail';
 
 describe('SalesDetail', () => {
     let wrap: any;
-    let props = {
+    let props: SalesDetailProps = {
         data: {
             getSalesById: {
                 detail: [
@@ -23,6 +23,7 @@ describe('SalesDetail', () => {
                     },
                 ],
             },
+            lang: 'en',
         },
     };
 
@@ -33,7 +34,7 @@ describe('SalesDetail', () => {
 
     describe('when render SalesDetail with empty data', () => {
         beforeEach(() => {
-            props = { data: { getSalesById: { detail: [] } } };
+            props = { data: { getSalesById: { detail: [] } }, lang: 'en' };
             wrap = mount(<SalesDetail {...props} />);
         });
         it('should render SalesDetail with empty data', () => {

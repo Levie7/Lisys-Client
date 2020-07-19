@@ -8,7 +8,7 @@ import React from 'react';
 import { PURCHASING_LIST } from 'src/shared/graphql/Purchasing/schema.gql';
 import { SUPPLIERS } from 'src/shared/graphql/Supplier/schema.gql';
 
-import { PurchaseReturnForm } from './PurchaseReturnForm';
+import { PurchaseReturnForm, PurchaseReturnFormProps } from './PurchaseReturnForm';
 import { PURCHASE_RETURN_BY_ID } from './schema.gql';
 
 Object.defineProperty(window, 'matchMedia', {
@@ -119,9 +119,10 @@ let mockPurchasing = [
 ];
 describe('PurchaseReturnForm', () => {
     let wrap: any;
-    let props = {
+    let props: PurchaseReturnFormProps = {
         auth: 'username1',
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

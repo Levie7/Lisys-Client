@@ -6,7 +6,7 @@ import React from 'react';
 
 import { VARIANT_BY_ID } from 'src/shared/graphql/Variant/schema.gql';
 
-import { MasterVariantForm } from './MasterVariantForm';
+import { MasterVariantForm, MasterVariantFormProps } from './MasterVariantForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -28,9 +28,10 @@ let mockInitialValues = {
 };
 describe('MasterVariantForm', () => {
     let wrap: any;
-    let props = {
+    let props: MasterVariantFormProps = {
         auth: 'username1',
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

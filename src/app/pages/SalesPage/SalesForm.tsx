@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { Medicine, SalesListData } from 'src/core/api';
+import { Lang, Medicine, SalesListData } from 'src/core/api';
 
 import { Button } from 'src/shared/components/Button';
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
@@ -27,16 +27,17 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { SalesSummary } from './components/SalesSummary';
-import { salesDetailColumns } from './constants';
+import { salesButton, salesDetailColumns, salesError, salesForm, salesModal } from './constants';
 
 require('./SalesForm.sass');
 
-interface SalesFormProps {
+export interface SalesFormProps extends Lang {
     auth: string | null;
     formType: string;
 }
 
-export function SalesForm({ auth, formType }: SalesFormProps) {
+export function SalesForm({ auth, formType, ...props }: SalesFormProps) {
+    let { lang } = { ...props };
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let [paymentForm] = Form.useForm();
@@ -55,7 +56,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
         title: string;
     }>({
         show: false,
-        title: 'Add Product',
+        title: salesModal.add.title[lang],
     });
     let [modalPayment, showModalPayment] = React.useState(false);
     let [grandTotal, setGrandTotal] = React.useState({
@@ -90,13 +91,13 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
             }
         } else if (filter.code !== '') {
             if (checkData) {
-                Message('Data already exist!', 'error');
+                Message(salesError.duplicate[lang], 'error');
             } else {
                 dataForm.setFieldsValue({ qty: 1 });
                 showModal({
                     tempData: medicine as Medicine,
                     show: true,
-                    title: 'Add Product',
+                    title: salesModal.add.title[lang],
                 });
             }
         } else if (filter.id) {
@@ -105,12 +106,12 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                 handleChangeProduct({ qty: updateQty, recordKey: modal.recordKey! });
                 handleClose();
             } else {
-                Message('Stock is not enough', 'error');
+                Message(salesError.stock[lang], 'error');
             }
         }
         handleResetFindData();
     } else if (medicine === null) {
-        Message('Medicine not found!', 'error');
+        Message(salesError.not_found[lang], 'error');
         handleResetFindData();
     }
 
@@ -239,7 +240,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                 Message('Pay first!', 'error');
             }
         } else {
-            Message('Fill detail first!', 'error');
+            Message(salesError.required[lang], 'error');
         }
     }
 
@@ -256,7 +257,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                 dataForm.resetFields(['qty']);
                 handleClose();
             } else {
-                Message('Stock is not enough', 'error');
+                Message(salesError.stock[lang], 'error');
             }
         }
     }
@@ -275,7 +276,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
     function handleMedicineList(recordKey: string, record: any) {
         let checkData = data.find((data) => data.key === recordKey);
         if (checkData) {
-            Message('Data already exist!', 'error');
+            Message(salesError.duplicate[lang], 'error');
         } else {
             dataForm.setFieldsValue({ qty: 1 });
             searchMedicine.current.closeList();
@@ -287,7 +288,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                     sell_price: formatValue(record.sell_price),
                 } as Medicine,
                 show: true,
-                title: 'Add Product',
+                title: salesModal.add.title[lang],
             });
         }
     }
@@ -306,7 +307,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
         showModal({
             recordKey,
             show: true,
-            title: 'Update Product',
+            title: salesModal.update.title[lang],
         });
     }
 
@@ -340,9 +341,9 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                 <Form form={dataForm} layout='vertical' onFinish={handleFinishData}>
                     <Form.Item
                         getValueFromEvent={formatNumeric}
-                        label='Qty'
+                        label={salesForm.qty.label[lang]}
                         name='qty'
-                        rules={[{ required: true, message: 'Please input the Qty' }]}
+                        rules={[{ required: true, message: salesForm.qty.message[lang] }]}
                     >
                         <Input autoFocus />
                     </Form.Item>
@@ -363,7 +364,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                 <Form form={paymentForm} layout='vertical' onFinish={handleFinishPayment}>
                     <Form.Item
                         getValueFromEvent={formatCurrency}
-                        label='Payment Amount'
+                        label={salesForm.payment_amount.label[lang]}
                         name='payment'
                     >
                         <Input autoFocus id='payment' />
@@ -380,41 +381,42 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item label='Sales No' name='no'>
+                    <Form.Item label={salesForm.no.label[lang]} name='no'>
                         <Input disabled />
                     </Form.Item>
                     <Form.Item
-                        label='Sales Date'
+                        label={salesForm.date.label[lang]}
                         name='date'
                         rules={[
                             {
                                 required: true,
-                                message: 'Please select the sales date',
+                                message: salesForm.date.message[lang],
                             },
                         ]}
                     >
                         <DatePicker defaultValue={moment()} disabled />
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item label={salesForm.description.label[lang]} name='description'>
                         <InputArea disabled={saved} />
                     </Form.Item>
                 </div>
                 <div className={classNames('col-12 col@md-9', !isMobile ? 'Detail-Bordered' : '')}>
                     <h1 className='fw-bold'>Detail</h1>
-                    <Form.Item label='Medicine' name='medicine_code'>
+                    <Form.Item label={salesForm.medicine.label[lang]} name='medicine_code'>
                         <div className='row'>
                             <div className='col-9 col@md-4'>
                                 <Input
                                     disabled={saved}
                                     id='code'
                                     onPressEnter={handleCode}
-                                    placeholder='Code'
+                                    placeholder={salesForm.code.label[lang]}
                                     prefix={Icon['code']}
                                 />
                             </div>
                             <div className='col-3 col@md-4'>
                                 {!saved && (
                                     <SearchMedicineList
+                                        {...props}
                                         onRecordList={handleMedicineList}
                                         ref={searchMedicine}
                                     />
@@ -435,6 +437,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                     {renderDataForm()}
                     {renderPayment()}
                     <CrudListTable
+                        {...props}
                         columns={salesDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}
@@ -447,6 +450,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                         amount_total={Currency(formatCommaValue(payment.amount_total))}
                         change_total={Currency(formatCommaValue(payment.change_total))}
                         isMobile={isMobile}
+                        lang={lang}
                         qty_total={grandTotal.qty_total}
                         total={Currency(formatCommaValue(grandTotal.total))}
                     />
@@ -454,14 +458,14 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                         <div className='d-flex fj-between'>
                             {!saved && (
                                 <>
-                                    <SaveButton />
+                                    <SaveButton lang={lang} />
                                     <Button
                                         className='bg-green fg-white'
                                         id='pay'
                                         onClick={handleShowPay}
                                         type='dashed'
                                     >
-                                        {Icon['payment']} Pay
+                                        {Icon['payment']} {salesButton.pay[lang]}
                                     </Button>
                                 </>
                             )}
@@ -481,7 +485,7 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                                     }}
                                 >
                                     <Button className='bg-green fg-white' type='default'>
-                                        {Icon['print']} Print
+                                        {Icon['print']} {salesButton.print[lang]}
                                     </Button>
                                 </Link>
                             )}
@@ -491,11 +495,13 @@ export function SalesForm({ auth, formType }: SalesFormProps) {
                                 onClick={handleNew}
                                 type='dashed'
                             >
-                                {Icon['plus']} New
+                                {Icon['plus']} {salesButton.new[lang]}
                             </Button>
                             {!saved && (
                                 <Link target='_blank' to={'/sales?create'}>
-                                    <Button type='danger'>{Icon['pending']} Pending</Button>
+                                    <Button type='danger'>
+                                        {Icon['pending']} {salesButton.pending[lang]}
+                                    </Button>
                                 </Link>
                             )}
                         </div>

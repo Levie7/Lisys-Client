@@ -15,11 +15,13 @@ import {
     VARIANT_LIST,
 } from 'src/shared/graphql/Variant/schema.gql';
 
+import { getLanguage } from '../SettingPage/helpers';
 import { moduleName, title, variantColumns } from './constants';
 import { MasterVariantForm } from './MasterVariantForm';
 
 export function MasterVariantPage() {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
 
     function handleData(data?: any): { list: VariantData[]; total: number } {
         let variant = data?.getVariantList.data;
@@ -51,6 +53,7 @@ export function MasterVariantPage() {
                 header={{ link: '/variant', title }}
                 initSection='variant'
                 isCrud
+                lang={lang}
                 module={moduleName}
                 showAction
             >
@@ -61,6 +64,7 @@ export function MasterVariantPage() {
                             auth={storage.getToken()}
                             columns={variantColumns}
                             hasStatus
+                            lang={lang}
                             module={moduleName}
                             mutation={{
                                 delete: deleteVariant,
@@ -82,6 +86,7 @@ export function MasterVariantPage() {
                         <MasterVariantForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

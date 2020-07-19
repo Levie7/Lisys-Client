@@ -1,6 +1,8 @@
 import { Form } from 'antd';
 import * as React from 'react';
 
+import { Lang } from 'src/core/api';
+
 import { Alert } from 'src/shared/components/Alert';
 import { Info } from 'src/shared/components/Info';
 import { Input, InputArea } from 'src/shared/components/Input';
@@ -16,15 +18,15 @@ import {
 import { formatNumeric } from 'src/shared/helpers/formatNumeric';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { alertMessage, supplierInfo } from './constants';
+import { alertMessage, supplierForm, supplierInfo } from './constants';
 
-interface MasterSupplierFormProps {
+export interface MasterSupplierFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterSupplierForm({ auth, formType, recordKey }: MasterSupplierFormProps) {
+export function MasterSupplierForm({ auth, formType, lang, recordKey }: MasterSupplierFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({
@@ -127,7 +129,7 @@ export function MasterSupplierForm({ auth, formType, recordKey }: MasterSupplier
 
     return (
         <>
-            <Alert message={alertMessage} type='info' showIcon />
+            <Alert message={alertMessage[lang]} type='info' showIcon />
             <Form
                 form={form}
                 initialValues={initialValues}
@@ -136,66 +138,81 @@ export function MasterSupplierForm({ auth, formType, recordKey }: MasterSupplier
                 scrollToFirstError
             >
                 <Info
-                    description={supplierInfo.general.description}
-                    title={supplierInfo.general.title}
+                    description={supplierInfo.general.description[lang]}
+                    title={supplierInfo.general.title[lang]}
                 >
                     <Form.Item
-                        label='Name'
+                        label={supplierForm.name.label[lang]}
                         name='name'
-                        rules={[{ required: true, message: 'Please input the name' }]}
+                        rules={[{ required: true, message: supplierForm.name.message[lang] }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label='Phone'
+                        label={supplierForm.phone.label[lang]}
                         name='phone'
-                        rules={[{ required: true, message: 'Please input the phone number' }]}
+                        rules={[{ required: true, message: supplierForm.phone.message[lang] }]}
                     >
                         <Input />
                     </Form.Item>
                 </Info>
                 <Info
-                    description={supplierInfo.additional.description}
-                    title={supplierInfo.additional.title}
+                    description={supplierInfo.additional.description[lang]}
+                    title={supplierInfo.additional.title[lang]}
                 >
-                    <Form.Item label='Contact' name='contact'>
+                    <Form.Item label={supplierForm.contact.label[lang]} name='contact'>
                         <Input />
                     </Form.Item>
-                    <Form.Item label='E-mail' name='email' rules={[{ type: 'email' }]}>
+                    <Form.Item
+                        label={supplierForm.email.label[lang]}
+                        name='email'
+                        rules={[{ type: 'email' }]}
+                    >
                         <Input />
                     </Form.Item>
-                    <Form.Item label='Address' name='address'>
+                    <Form.Item label={supplierForm.address.label[lang]} name='address'>
                         <InputArea />
                     </Form.Item>
-                    <Form.Item label='City' name='city'>
+                    <Form.Item label={supplierForm.city.label[lang]} name='city'>
                         <Input />
                     </Form.Item>
-                    <Form.Item label='Province' name='province'>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item getValueFromEvent={formatNumeric} label='Zipcode' name='zip_code'>
-                        <Input />
-                    </Form.Item>
-                </Info>
-                <Info description={supplierInfo.bank.description} title={supplierInfo.bank.title}>
-                    <Form.Item label='Bank Name' name='bank'>
+                    <Form.Item label={supplierForm.province.label[lang]} name='province'>
                         <Input />
                     </Form.Item>
                     <Form.Item
                         getValueFromEvent={formatNumeric}
-                        label='Account No'
+                        label={supplierForm.zipcode.label[lang]}
+                        name='zip_code'
+                    >
+                        <Input />
+                    </Form.Item>
+                </Info>
+                <Info
+                    description={supplierInfo.bank.description[lang]}
+                    title={supplierInfo.bank.title[lang]}
+                >
+                    <Form.Item label={supplierForm.bank.label[lang]} name='bank'>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        getValueFromEvent={formatNumeric}
+                        label={supplierForm.account_no.label[lang]}
                         name='account_no'
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label='Account Name' name='account_name'>
+                    <Form.Item label={supplierForm.account_name.label[lang]} name='account_name'>
                         <Input />
                     </Form.Item>
-                    <Form.Item getValueFromEvent={formatNumeric} label='Npwp' name='npwp'>
+                    <Form.Item
+                        getValueFromEvent={formatNumeric}
+                        label={supplierForm.npwp.label[lang]}
+                        name='npwp'
+                    >
                         <Input />
                     </Form.Item>
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </Info>
             </Form>

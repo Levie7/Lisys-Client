@@ -6,7 +6,7 @@ import React from 'react';
 
 import { CATEGORY_LIST, getCategoryList } from 'src/shared/graphql/Category/schema.gql';
 
-import { MasterSearchList } from './MasterSearchList';
+import { MasterSearchList, MasterSearchListProps } from './MasterSearchList';
 import { mockCategory } from './mocks/mockData';
 
 Object.defineProperty(window, 'matchMedia', {
@@ -29,24 +29,25 @@ let mockDataCategory = {
 };
 describe('MasterSearchList', () => {
     let wrap: any;
-    let props = {
+    let props: MasterSearchListProps = {
         columns: [
             {
                 dataIndex: 'name',
                 key: 'name',
-                title: 'Name',
+                title: { en: 'Name', id: 'Nama' },
             },
             {
                 dataIndex: 'description',
                 key: 'description',
-                title: 'Description',
+                title: { en: 'Description', id: 'Deskripsi' },
             },
             {
                 dataIndex: 'status',
                 key: 'status',
-                title: 'Status',
+                title: { en: 'Status', id: 'Status' },
             },
         ],
+        lang: 'en',
         query: getCategoryList,
         showSearch: true,
         usePagination: true,

@@ -5,6 +5,7 @@ export let mockUser = [
         name: 'user1',
         password: 'password1',
         role: {
+            id: 'id1',
             name: 'role1',
         },
         username: 'username1',
@@ -15,6 +16,7 @@ export let mockUser = [
         name: 'user2',
         password: 'password2',
         role: {
+            id: 'id2',
             name: 'role2',
         },
         username: 'username2',
@@ -25,6 +27,7 @@ export let mockUser = [
         name: 'user3',
         password: 'password3',
         role: {
+            id: 'id3',
             name: 'role3',
         },
         username: 'username3',
@@ -35,6 +38,7 @@ export let mockUser = [
         name: 'user4',
         password: 'password4',
         role: {
+            id: 'id4',
             name: 'role4',
         },
         username: 'username4',
@@ -45,6 +49,7 @@ export let mockUser = [
         name: 'user5',
         password: 'password5',
         role: {
+            id: 'id5',
             name: 'role5',
         },
         username: 'username5',
@@ -55,6 +60,7 @@ export let mockUser = [
         name: 'user6',
         password: 'password6',
         role: {
+            id: 'id6',
             name: 'role6',
         },
         username: 'username6',
@@ -65,6 +71,7 @@ export let mockUser = [
         name: 'user7',
         password: 'password7',
         role: {
+            id: 'id7',
             name: 'role7',
         },
         username: 'username7',
@@ -75,6 +82,7 @@ export let mockUser = [
         name: 'user8',
         password: 'password8',
         role: {
+            id: 'id8',
             name: 'role8',
         },
         username: 'username8',
@@ -85,6 +93,7 @@ export let mockUser = [
         name: 'user9',
         password: 'password9',
         role: {
+            id: 'id9',
             name: 'role9',
         },
         username: 'username9',
@@ -95,6 +104,7 @@ export let mockUser = [
         name: 'user10',
         password: 'password10',
         role: {
+            id: 'id10',
             name: 'role10',
         },
         username: 'username10',
@@ -108,6 +118,7 @@ export const mockUser2 = [
         name: 'user11',
         password: 'password11',
         role: {
+            id: 'id11',
             name: 'role11',
         },
         username: 'username11',

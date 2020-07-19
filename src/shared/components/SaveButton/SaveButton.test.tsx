@@ -3,15 +3,16 @@ import React from 'react';
 
 import UIContext, * as UIContextModule from 'src/shared/contexts/UIContext';
 
-import { SaveButton } from '../SaveButton';
+import { SaveButton, SaveButtonProps } from './SaveButton';
 
 describe('SaveButton', () => {
     let context = { isMobile: true };
     let wrap: any;
+    let props: SaveButtonProps = { lang: 'en' };
     jest.spyOn(UIContextModule, 'useUIContext').mockImplementation(() => context);
     wrap = shallow(
         <UIContext.Provider value={context}>
-            <SaveButton />
+            <SaveButton {...props} />
         </UIContext.Provider>,
         { context }
     );

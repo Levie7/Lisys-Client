@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { PurchasePaymentListData, Purchasing } from 'src/core/api';
+import { Lang, PurchasePaymentListData, Purchasing } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
@@ -28,7 +28,12 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { PurchasePaymentSummary } from './components/PurchasePaymentSummary';
-import { purchasePaymentDetailColumns } from './constants';
+import {
+    purchasePaymentDetailColumns,
+    purchasePaymentError,
+    purchasePaymentForm,
+    purchasePaymentModal,
+} from './constants';
 import {
     createPurchasePayment,
     getPurchasePaymentById,
@@ -38,13 +43,19 @@ import {
 
 require('./PurchasePaymentForm.sass');
 
-interface PurchasePaymentFormProps {
+export interface PurchasePaymentFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePaymentFormProps) {
+export function PurchasePaymentForm({
+    auth,
+    formType,
+    recordKey,
+    ...props
+}: PurchasePaymentFormProps) {
+    let { lang } = { ...props };
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -60,7 +71,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
         title: string;
     }>({
         show: false,
-        title: 'Add Invoice',
+        title: purchasePaymentModal.add.title[lang],
     });
     let [grandTotal, setGrandTotal] = React.useState({
         credit_total: 0,
@@ -169,7 +180,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                 },
             });
         } else {
-            Message('Fill detail first!', 'error');
+            Message(purchasePaymentError.required[lang], 'error');
         }
     }
 
@@ -224,7 +235,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
     function handlePurchasingList(recordKey: string, record: any) {
         let checkData = data.find((data) => data.key === recordKey);
         if (checkData) {
-            Message('Data already exist!', 'error');
+            Message(purchasePaymentError.duplicate[lang], 'error');
         } else {
             dataForm.setFieldsValue({
                 payment_amount: record.credit_total,
@@ -233,7 +244,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
             showModal({
                 tempData: { ...record, id: recordKey } as Purchasing,
                 show: true,
-                title: 'Add Invoice',
+                title: purchasePaymentModal.add.title[lang],
             });
         }
     }
@@ -253,7 +264,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
         showModal({
             recordKey,
             show: true,
-            title: 'Update Invoice',
+            title: purchasePaymentModal.update.title[lang],
         });
     }
 
@@ -283,7 +294,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                 <Form form={dataForm} layout='vertical' onFinish={handleFinishData}>
                     <Form.Item
                         getValueFromEvent={formatCurrency}
-                        label='Payment Amount'
+                        label={purchasePaymentForm.payment_amount.label[lang]}
                         name='payment_amount'
                     >
                         <Input autoFocus prefix='Rp' />
@@ -298,25 +309,27 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item label='Purchase Payment No' name='no'>
+                    <Form.Item label={purchasePaymentForm.no.label[lang]} name='no'>
                         <Input disabled />
                     </Form.Item>
                     <Form.Item
-                        label='Purchase Payment Date'
+                        label={purchasePaymentForm.date.label[lang]}
                         name='date'
                         rules={[
                             {
                                 required: true,
-                                message: 'Please select the purchase payment date',
+                                message: purchasePaymentForm.date.message[lang],
                             },
                         ]}
                     >
                         <DatePicker defaultValue={moment()} />
                     </Form.Item>
                     <Form.Item
-                        label='Supplier'
+                        label={purchasePaymentForm.supplier.label[lang]}
                         name='supplier'
-                        rules={[{ required: true, message: 'Please select the supplier' }]}
+                        rules={[
+                            { required: true, message: purchasePaymentForm.supplier.message[lang] },
+                        ]}
                     >
                         <Select onChange={handleSupplier} showSearch>
                             {suppliers &&
@@ -328,9 +341,14 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                         </Select>
                     </Form.Item>
                     <Form.Item
-                        label='Payment Method'
+                        label={purchasePaymentForm.payment_method.label[lang]}
                         name='payment_method'
-                        rules={[{ required: true, message: 'Please select the payment method' }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: purchasePaymentForm.payment_method.message[lang],
+                            },
+                        ]}
                     >
                         <Select onChange={handlePaymentMethod}>
                             <Select.Option key='cash' value='cash'>
@@ -341,17 +359,21 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                             </Select.Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item label='Payment No' name='payment_no'>
+                    <Form.Item label={purchasePaymentForm.payment_no.label[lang]} name='payment_no'>
                         <Input disabled={isPaymentNoDisabled} />
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item
+                        label={purchasePaymentForm.description.label[lang]}
+                        name='description'
+                    >
                         <InputArea />
                     </Form.Item>
                 </div>
                 <div className={classNames('col-12 col@md-9', !isMobile ? 'Detail-Bordered' : '')}>
                     <h1 className='fw-bold'>Detail</h1>
-                    <Form.Item label='Purchasing' name='purchasing'>
+                    <Form.Item label={purchasePaymentForm.purchasing.label[lang]} name='purchasing'>
                         <SearchPurchasingList
+                            {...props}
                             is_not_paid
                             onRecordList={handlePurchasingList}
                             ref={searchPurchasing}
@@ -360,6 +382,7 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable
+                        {...props}
                         columns={purchasePaymentDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}
@@ -370,10 +393,11 @@ export function PurchasePaymentForm({ auth, formType, recordKey }: PurchasePayme
                     />
                     <PurchasePaymentSummary
                         credit_total={Currency(formatCommaValue(grandTotal.credit_total))}
+                        lang={lang}
                         payment_total={Currency(formatCommaValue(grandTotal.payment_total))}
                     />
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </div>
             </div>

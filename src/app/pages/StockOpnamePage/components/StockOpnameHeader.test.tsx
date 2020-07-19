@@ -1,12 +1,13 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { StockOpnameHeader } from './StockOpnameHeader';
+import { StockOpnameHeader, StockOpnameHeaderProps } from './StockOpnameHeader';
 
 describe('StockOpnameHeader', () => {
     let wrap: any;
-    let props = {
+    let props: StockOpnameHeaderProps = {
         date: '20-07-2020',
+        lang: 'en',
         no: 'PI/123',
     };
 

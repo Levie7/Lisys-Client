@@ -1,8 +1,11 @@
 import * as React from 'react';
 
-import { Divider } from 'src/shared/components/Divider';
+import { Lang } from 'src/core/api';
 
-interface PurchasePaymentHeaderProps {
+import { Divider } from 'src/shared/components/Divider';
+import { purchasePaymentForm } from '../constants';
+
+export interface PurchasePaymentHeaderProps extends Lang {
     date: string;
     no: string;
     payment_method: string;
@@ -11,30 +14,30 @@ interface PurchasePaymentHeaderProps {
 }
 
 export const PurchasePaymentHeader = React.memo<PurchasePaymentHeaderProps>(
-    ({ date, no, payment_method, payment_no, supplier }) => (
+    ({ date, lang, no, payment_method, payment_no, supplier }) => (
         <>
             <div className='col-6'>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Transaction No</h3>
+                        <h3>{purchasePaymentForm.no.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {no}</div>
                 </div>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Supplier</h3>
+                        <h3>{purchasePaymentForm.supplier.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {supplier}</div>
                 </div>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Payment Method</h3>
+                        <h3>{purchasePaymentForm.payment_method.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {payment_method}</div>
                 </div>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Payment No</h3>
+                        <h3>{purchasePaymentForm.payment_no.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {payment_no}</div>
                 </div>
@@ -42,7 +45,7 @@ export const PurchasePaymentHeader = React.memo<PurchasePaymentHeaderProps>(
             <div className='col-6'>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Date</h3>
+                        <h3>{purchasePaymentForm.date.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {date}</div>
                 </div>

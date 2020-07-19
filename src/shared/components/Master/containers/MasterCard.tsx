@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Action } from 'src/core/api';
+import { Action, Lang } from 'src/core/api';
 import { updateCrud, useCrud } from 'src/core/graphql/crud';
 
 import { Card } from 'src/shared/components/Card';
@@ -12,7 +12,7 @@ import { initialize } from '../helpers';
 
 require('./MasterCard.sass');
 
-interface MasterCardProps {
+export interface MasterCardProps extends Lang {
     children: ({
         action,
         recordKey,
@@ -44,6 +44,7 @@ export function MasterCard({
     isCrud,
     module,
     showAction,
+    ...props
 }: MasterCardProps) {
     let [isInit, setInit] = React.useState(false);
     let [showCreate, setShowCreate] = React.useState(false);
@@ -77,7 +78,7 @@ export function MasterCard({
                     to={header.link}
                 />
                 {isCrud ? (
-                    <Crud showAction={showAction} showCreate={showCreate}>
+                    <Crud {...props} showAction={showAction} showCreate={showCreate}>
                         {children({
                             action: crud.action,
                             recordKey,

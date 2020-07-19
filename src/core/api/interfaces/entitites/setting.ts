@@ -1,3 +1,7 @@
+export interface Lang {
+    lang: SettingLanguage;
+}
+
 export interface Setting {
     category: string;
     type: string;
@@ -14,3 +18,10 @@ export interface SettingGeneral {
     language: string;
     time_format: string;
 }
+
+export interface SupportedLang {
+    en: string;
+    id: string;
+}
+
+export type SettingLanguage = 'en' | 'id';

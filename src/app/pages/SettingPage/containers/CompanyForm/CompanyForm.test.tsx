@@ -6,7 +6,7 @@ import React from 'react';
 
 import { SETTING } from 'src/shared/graphql/Setting/schema.gql';
 
-import { CompanyForm } from './CompanyForm';
+import { CompanyForm, CompanyFormProps } from './CompanyForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -29,6 +29,7 @@ let mockCompany = [
 let initialValues = { company_name: 'lisys', company_year: '2020' };
 describe('CompanyForm', () => {
     let wrap: any;
+    let props: CompanyFormProps = { lang: 'en' };
     let queryHandler = jest.fn().mockResolvedValue({
         data: { getSettingsByCategory: mockCompany },
     });
@@ -38,7 +39,7 @@ describe('CompanyForm', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <CompanyForm />
+                    <CompanyForm {...props} />
                 </ApolloProvider>
             );
         });
@@ -51,7 +52,7 @@ describe('CompanyForm', () => {
             await act(async () => {
                 wrap = mount(
                     <ApolloProvider client={mockClient}>
-                        <CompanyForm />
+                        <CompanyForm {...props} />
                     </ApolloProvider>
                 );
             });
@@ -68,7 +69,7 @@ describe('CompanyForm', () => {
                 await act(async () => {
                     const { getByText } = render(
                         <ApolloProvider client={mockClient}>
-                            <CompanyForm />
+                            <CompanyForm {...props} />
                         </ApolloProvider>
                     );
                     fireEvent.submit(getByText('Save'));

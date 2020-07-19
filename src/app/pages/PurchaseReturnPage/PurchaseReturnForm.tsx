@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
 
-import { PurchaseReturnListData, PurchasingWithDetailListData } from 'src/core/api';
+import { Lang, PurchaseReturnListData, PurchasingWithDetailListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 import { DatePicker } from 'src/shared/components/DatePicker';
@@ -30,7 +30,12 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { PurchaseReturnSummary } from './components/PurchaseReturnSummary';
-import { purchaseReturnDetailColumns } from './constants';
+import {
+    purchaseReturnDetailColumns,
+    purchaseReturnError,
+    purchaseReturnForm,
+    purchaseReturnModal,
+} from './constants';
 import {
     createPurchaseReturn,
     getPurchaseReturnById,
@@ -40,13 +45,19 @@ import {
 
 require('./PurchaseReturnForm.sass');
 
-interface PurchaseReturnFormProps {
+export interface PurchaseReturnFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturnFormProps) {
+export function PurchaseReturnForm({
+    auth,
+    formType,
+    recordKey,
+    ...props
+}: PurchaseReturnFormProps) {
+    let { lang } = { ...props };
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -61,7 +72,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         title: string;
     }>({
         show: false,
-        title: 'Add Product',
+        title: purchaseReturnModal.add.title[lang],
     });
     let [grandTotal, setGrandTotal] = React.useState({
         cash_total: 0,
@@ -131,7 +142,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     handleAddItemList();
                 }
             } else {
-                Message('Stock is not enough', 'error');
+                Message(purchaseReturnError.stock[lang], 'error');
             }
         }
         setFilter({});
@@ -140,7 +151,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
     function handleAddItemList() {
         let tempData = modal.tempData!;
         if (formQty > tempData.qty) {
-            Message('Qty of items is more than qty purchase', 'error');
+            Message(purchaseReturnError.qty[lang], 'error');
         } else {
             let sub_total = formQty * formatValue(tempData.buy_price);
             let cash_total = 0;
@@ -175,7 +186,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
     function handleChangeItemList() {
         let selected = data.find((data) => data.key === modal.recordKey);
         if (formQty > selected!.qty_buy) {
-            Message('Qty of items is more than qty purchase', 'error');
+            Message(purchaseReturnError.qty[lang], 'error');
         } else {
             let sub_total = 0;
             let cash_total = 0;
@@ -304,7 +315,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                 },
             });
         } else {
-            Message('Fill detail first!', 'error');
+            Message(purchaseReturnError.required[lang], 'error');
         }
     }
 
@@ -326,7 +337,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
     function handlePurchasingList(recordKey: string, record: any) {
         let checkData = data.find((data) => data.key === recordKey);
         if (checkData) {
-            Message('Data already exist!', 'error');
+            Message(purchaseReturnError.duplicate[lang], 'error');
         } else {
             dataForm.setFieldsValue({
                 qty: 1,
@@ -335,7 +346,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             showModal({
                 tempData: { ...record, id: recordKey } as PurchasingWithDetailListData,
                 show: true,
-                title: 'Add Product',
+                title: purchaseReturnModal.add.title[lang],
             });
         }
     }
@@ -347,7 +358,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
         showModal({
             recordKey,
             show: true,
-            title: 'Update Product',
+            title: purchaseReturnModal.update.title[lang],
         });
     }
 
@@ -378,9 +389,9 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                 <Form form={dataForm} layout='vertical' onFinish={handleFinishData}>
                     <Form.Item
                         getValueFromEvent={formatNumeric}
-                        label='Qty'
+                        label={purchaseReturnForm.qty.label[lang]}
                         name='qty'
-                        rules={[{ required: true, message: 'Please input the Qty' }]}
+                        rules={[{ required: true, message: purchaseReturnForm.qty.message[lang] }]}
                     >
                         <Input autoFocus />
                     </Form.Item>
@@ -394,25 +405,27 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item label='Purchase Return No' name='no'>
+                    <Form.Item label={purchaseReturnForm.no.label[lang]} name='no'>
                         <Input disabled />
                     </Form.Item>
                     <Form.Item
-                        label='Purchase Return Date'
+                        label={purchaseReturnForm.date.label[lang]}
                         name='date'
                         rules={[
                             {
                                 required: true,
-                                message: 'Please select the purchase payment date',
+                                message: purchaseReturnForm.date.message[lang],
                             },
                         ]}
                     >
                         <DatePicker defaultValue={moment()} />
                     </Form.Item>
                     <Form.Item
-                        label='Supplier'
+                        label={purchaseReturnForm.supplier.label[lang]}
                         name='supplier'
-                        rules={[{ required: true, message: 'Please select the supplier' }]}
+                        rules={[
+                            { required: true, message: purchaseReturnForm.supplier.message[lang] },
+                        ]}
                     >
                         <Select onChange={handleSupplier} showSearch>
                             {suppliers &&
@@ -423,14 +436,18 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                                 ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item
+                        label={purchaseReturnForm.description.label[lang]}
+                        name='description'
+                    >
                         <InputArea />
                     </Form.Item>
                 </div>
                 <div className={classNames('col-12 col@md-9', !isMobile ? 'Detail-Bordered' : '')}>
                     <h1 className='fw-bold'>Detail</h1>
-                    <Form.Item label='Purchasing' name='purchasing'>
+                    <Form.Item label={purchaseReturnForm.purchasing.label[lang]} name='purchasing'>
                         <SearchPurchasingList
+                            {...props}
                             onRecordList={handlePurchasingList}
                             ref={searchPurchasing}
                             supplier_id={supplier}
@@ -439,6 +456,7 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable
+                        {...props}
                         columns={purchaseReturnDetailColumns}
                         dataSource={data}
                         handleDelete={handleDelete}
@@ -452,11 +470,12 @@ export function PurchaseReturnForm({ auth, formType, recordKey }: PurchaseReturn
                         credit_discount_total={Currency(
                             formatCommaValue(grandTotal.credit_discount_total)
                         )}
+                        lang={lang}
                         grand_total={Currency(formatCommaValue(grandTotal.grand_total))}
                         qty_total={grandTotal.qty_total}
                     />
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </div>
             </div>

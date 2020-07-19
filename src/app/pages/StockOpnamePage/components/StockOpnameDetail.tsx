@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-import { StockOpnameDetail as StockOpnameDetailAPI, StockOpnameListData } from 'src/core/api';
+import { Lang, StockOpnameDetail as StockOpnameDetailAPI, StockOpnameListData } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
 
 import { stockOpnameDetailColumns } from '../constants';
 
-interface StockOpnameDetailProps {
+export interface StockOpnameDetailProps extends Lang {
     data: any;
 }
 
-export const StockOpnameDetail = React.memo<StockOpnameDetailProps>(({ data }) => {
+export const StockOpnameDetail = React.memo<StockOpnameDetailProps>(({ data, ...props }) => {
     let detail = handleStockOpnameDetail(data);
 
     function handleStockOpnameDetail(data?: any): StockOpnameListData[] {
@@ -34,7 +34,7 @@ export const StockOpnameDetail = React.memo<StockOpnameDetailProps>(({ data }) =
 
     return (
         <div className='col-12'>
-            <CrudListTable columns={stockOpnameDetailColumns} dataSource={detail} />
+            <CrudListTable {...props} columns={stockOpnameDetailColumns} dataSource={detail} />
         </div>
     );
 });

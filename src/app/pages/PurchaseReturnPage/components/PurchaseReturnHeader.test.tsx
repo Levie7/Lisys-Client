@@ -1,12 +1,13 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { PurchaseReturnHeader } from './PurchaseReturnHeader';
+import { PurchaseReturnHeader, PurchaseReturnHeaderProps } from './PurchaseReturnHeader';
 
 describe('PurchaseReturnHeader', () => {
     let wrap: any;
-    let props = {
+    let props: PurchaseReturnHeaderProps = {
         date: '20-07-2020',
+        lang: 'en',
         no: 'PI/123',
         supplier: 'Dwijaya',
     };
