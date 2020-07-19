@@ -76,7 +76,7 @@ export function RoleForm({ formType, lang, recordKey }: RoleFormProps) {
                 <InputArea />
             </Form.Item>
             <Form.Item>
-                <SaveButton />
+                <SaveButton lang={lang} />
             </Form.Item>
         </Form>
     );

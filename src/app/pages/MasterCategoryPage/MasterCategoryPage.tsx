@@ -54,6 +54,7 @@ export const MasterCategoryPage = () => {
                 header={{ link: '/category', title }}
                 initSection='category'
                 isCrud
+                lang={lang}
                 module={moduleName}
                 showAction
             >

@@ -458,7 +458,7 @@ export function SalesForm({ auth, formType, ...props }: SalesFormProps) {
                         <div className='d-flex fj-between'>
                             {!saved && (
                                 <>
-                                    <SaveButton />
+                                    <SaveButton lang={lang} />
                                     <Button
                                         className='bg-green fg-white'
                                         id='pay'

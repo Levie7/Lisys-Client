@@ -1,12 +1,13 @@
 import * as React from 'react';
 
+import { Lang } from 'src/core/api';
 import { useCrud } from 'src/core/graphql/crud';
 import { Crud as CrudType } from 'src/core/graphql/types';
 
 import { CrudForm } from './CrudForm';
 import { CrudList } from './CrudList';
 
-interface CrudProps {
+interface CrudProps extends Lang {
     children?: React.ReactNode;
     showAction?: boolean;
     showBack?: boolean;
@@ -26,7 +27,9 @@ export function Crud({ children, ...props }: CrudProps) {
                 {children}
             </CrudList>
         ) : (
-            <CrudForm crud={crud}>{children}</CrudForm>
+            <CrudForm crud={crud} {...props}>
+                {children}
+            </CrudForm>
         );
     }
 

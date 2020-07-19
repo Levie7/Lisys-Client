@@ -174,6 +174,7 @@ export const StockCardPage = () => {
             <MasterCard
                 header={{ link: '/stock_card', title: 'Stock Card' }}
                 initSection='stock_card'
+                lang={lang}
                 module='Stock'
             >
                 {() => (

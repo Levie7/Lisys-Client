@@ -5,10 +5,8 @@ import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
 import { resolvers } from 'src/core/graphql/resolvers';
-import { Crud as CrudType } from 'src/core/graphql/types';
 
-import { ButtonType } from '../Button';
-import { ButtonAction } from '../ButtonAction';
+import { ButtonAction, ButtonActionProps } from '../ButtonAction';
 
 const cache = new InMemoryCache();
 let crud = {
@@ -20,9 +18,10 @@ cache.writeData({ data: { getCrud: crud } });
 let mockClient = createMockClient({ cache, resolvers });
 describe('ButtonAction', () => {
     let wrap: any;
-    let props: { buttonType: ButtonType; crud: CrudType; iconType?: string; title: string } = {
+    let props: ButtonActionProps = {
         buttonType: 'default',
         iconType: 'update',
+        lang: 'en',
         title: 'Button',
         crud: {
             action: 'create',

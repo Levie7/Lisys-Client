@@ -163,6 +163,7 @@ export const PurchasePaymentPage = () => {
                 header={{ link: '/purchase_payment', title }}
                 initSection='purchase_payment'
                 isCrud
+                lang={lang}
                 module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>

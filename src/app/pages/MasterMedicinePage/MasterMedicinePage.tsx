@@ -33,6 +33,7 @@ export const MasterMedicinePage = () => {
                 header={{ link: '/medicine', title }}
                 initSection='medicine'
                 isCrud
+                lang={lang}
                 module={moduleName}
                 showAction
             >

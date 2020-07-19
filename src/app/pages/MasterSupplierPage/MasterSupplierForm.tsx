@@ -212,7 +212,7 @@ export function MasterSupplierForm({ auth, formType, lang, recordKey }: MasterSu
                         <Input />
                     </Form.Item>
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </Info>
             </Form>

@@ -53,6 +53,7 @@ export const MasterUoMPage = () => {
                 header={{ link: '/uom', title }}
                 initSection='uom'
                 isCrud
+                lang={lang}
                 module={moduleName}
                 showAction
             >

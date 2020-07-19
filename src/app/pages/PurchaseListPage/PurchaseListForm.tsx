@@ -41,7 +41,7 @@ import { purchaseDetailColumns, purchaseError, purchaseForm, purchaseModal } fro
 
 require('./PurchaseListForm.sass');
 
-interface PurchaseListFormProps extends Lang {
+export interface PurchaseListFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
@@ -478,7 +478,7 @@ export function PurchaseListForm({ auth, formType, recordKey, ...props }: Purcha
                         total={Currency(formatCommaValue(grandTotal.total))}
                     />
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </div>
             </div>

@@ -4,6 +4,7 @@ import React from 'react';
 import { createAuthTokenStorage, exitSession } from 'src/core/graphql/auth';
 import { useHistory } from 'src/core/route';
 
+import { getLanguage } from '../pages/SettingPage/helpers';
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { MainMenu } from './components/MainMenu/MainMenu';
@@ -14,6 +15,7 @@ interface PageProps {
 
 export function Page({ children }: PageProps) {
     let storage = createAuthTokenStorage();
+    let lang = getLanguage();
     let { replace } = useHistory();
 
     function handleLogout() {
@@ -26,7 +28,7 @@ export function Page({ children }: PageProps) {
             <MainMenu auth={storage.getToken()} isMenuTop />
             <Layout>
                 <Layout.Header>
-                    <Header auth={storage.getToken()} logout={handleLogout} />
+                    <Header auth={storage.getToken()} lang={lang} logout={handleLogout} />
                 </Layout.Header>
                 <Layout.Content>{children}</Layout.Content>
                 <Layout.Footer>

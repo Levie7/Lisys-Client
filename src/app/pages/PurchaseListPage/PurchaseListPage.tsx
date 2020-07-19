@@ -140,6 +140,7 @@ export const PurchaseListPage = () => {
                 header={{ link: '/purchase_list', title }}
                 initSection='purchase'
                 isCrud
+                lang={lang}
                 module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>

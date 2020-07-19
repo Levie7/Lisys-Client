@@ -288,7 +288,7 @@ export function StockOpnameForm({ auth, formType, recordKey, ...props }: StockOp
                         showUpdate
                     />
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton {...props} />
                     </Form.Item>
                 </div>
             </div>

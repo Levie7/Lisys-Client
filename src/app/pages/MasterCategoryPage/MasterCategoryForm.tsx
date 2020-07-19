@@ -104,7 +104,7 @@ export function MasterCategoryForm({ auth, formType, lang, recordKey }: Category
                         <InputArea />
                     </Form.Item>
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </Info>
             </Form>

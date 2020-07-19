@@ -8,7 +8,7 @@ import React from 'react';
 import { CRUD } from 'src/core/graphql/crud';
 import { resolvers } from 'src/core/graphql/resolvers';
 
-import { MasterCard } from './MasterCard';
+import { MasterCard, MasterCardProps } from './MasterCard';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -34,13 +34,14 @@ let mockClient = createMockClient({ cache, resolvers });
 describe('MasterCard', () => {
     let wrap: any;
     let children = jest.fn();
-    let props = {
+    let props: MasterCardProps = {
         children,
         header: {
             link: '/variant',
             title: 'Variant',
         },
         initSection: 'variant',
+        lang: 'en',
         module: 'Master',
         showAction: true,
     };

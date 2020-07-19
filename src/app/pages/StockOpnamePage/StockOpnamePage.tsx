@@ -118,6 +118,7 @@ export const StockOpnamePage = () => {
                 header={{ link: '/stock_opname', title }}
                 initSection='stock_opname'
                 isCrud
+                lang={lang}
                 module={moduleName}
                 showAction
             >

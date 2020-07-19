@@ -156,6 +156,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                 initAction={location.search !== '' ? 'create' : undefined}
                 initSection='sales'
                 isCrud
+                lang={lang}
                 module={moduleName}
             >
                 {({ action, handleRecord, handleResetAction, handleShowCreate }) =>

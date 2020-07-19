@@ -12,7 +12,7 @@ import {
 import { Status } from 'src/shared/components/Status';
 import { Delete } from 'src/shared/utilities/delete';
 
-import { crudAction, crudColumn, filterStatus } from './constants';
+import { crudAction, crudColumn, deleteProps, filterStatus } from './constants';
 
 export interface CrudListTableProps extends Lang, TableProps {
     columns: ColumnWithLangProps[];
@@ -100,7 +100,10 @@ function CrudListTablePure({
                             )}
                             {showDelete && (
                                 <Delete
+                                    cancelText={deleteProps.cancelText[lang]}
                                     confirm={handleDelete!}
+                                    okText={deleteProps.okText[lang]}
+                                    popupTitle={deleteProps.popupTitle[lang]}
                                     recordKey={record}
                                     title={crudAction.delete.title[lang]}
                                 />

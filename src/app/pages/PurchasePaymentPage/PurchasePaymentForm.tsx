@@ -397,7 +397,7 @@ export function PurchasePaymentForm({
                         payment_total={Currency(formatCommaValue(grandTotal.payment_total))}
                     />
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </div>
             </div>

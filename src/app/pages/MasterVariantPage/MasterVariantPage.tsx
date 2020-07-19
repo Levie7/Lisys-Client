@@ -53,6 +53,7 @@ export function MasterVariantPage() {
                 header={{ link: '/variant', title }}
                 initSection='variant'
                 isCrud
+                lang={lang}
                 module={moduleName}
                 showAction
             >

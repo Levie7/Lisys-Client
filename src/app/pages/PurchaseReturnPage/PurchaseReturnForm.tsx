@@ -475,7 +475,7 @@ export function PurchaseReturnForm({
                         qty_total={grandTotal.qty_total}
                     />
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </div>
             </div>

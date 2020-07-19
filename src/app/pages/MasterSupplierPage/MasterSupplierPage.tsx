@@ -63,6 +63,7 @@ export const MasterSupplierPage = () => {
                 header={{ link: '/supplier', title }}
                 initSection='supplier'
                 isCrud
+                lang={lang}
                 module={moduleName}
                 showAction
             >

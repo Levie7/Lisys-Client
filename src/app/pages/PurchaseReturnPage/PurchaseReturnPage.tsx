@@ -167,6 +167,7 @@ export const PurchaseReturnPage = () => {
                 header={{ link: '/purchase_return', title }}
                 initSection='purchase_return'
                 isCrud
+                lang={lang}
                 module={moduleName}
             >
                 {({ action, recordKey, handleRecord, handleResetAction, handleShowCreate }) =>

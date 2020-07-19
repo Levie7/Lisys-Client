@@ -103,7 +103,7 @@ export function MasterVariantForm({ auth, formType, lang, recordKey }: MasterVar
                         <InputArea />
                     </Form.Item>
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </Info>
             </Form>

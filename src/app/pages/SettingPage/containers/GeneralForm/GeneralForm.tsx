@@ -78,7 +78,7 @@ export function GeneralForm({ lang }: GeneralFormProps) {
                     </Select>
                 </Form.Item>
                 <Form.Item>
-                    <SaveButton />
+                    <SaveButton lang={lang} />
                 </Form.Item>
             </Info>
         </Form>

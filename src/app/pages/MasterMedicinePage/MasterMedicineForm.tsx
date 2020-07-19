@@ -319,7 +319,7 @@ export function MasterMedicineForm({ auth, formType, lang, recordKey }: MasterMe
                         <Input />
                     </Form.Item>
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </Info>
             </Form>

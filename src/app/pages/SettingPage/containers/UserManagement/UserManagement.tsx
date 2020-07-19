@@ -66,7 +66,7 @@ export function UserManagement({ ...props }: UserManagementProps) {
             {crud.section === 'main' ? (
                 <UserManagementForm {...props} crud={crud} />
             ) : (
-                <Crud showBack showCreate={crud.section !== 'permission'}>
+                <Crud {...props} showBack showCreate={crud.section !== 'permission'}>
                     {renderCrud()}
                 </Crud>
             )}

@@ -43,6 +43,7 @@ export function UserManagementForm({ crud, lang }: UserManagementFormProps) {
                     buttonType='default'
                     crud={{ ...crud, action: 'list', section: userManagement.section }}
                     iconType={userManagement.button.icon}
+                    lang={lang}
                     title={userManagement.button.title[lang]}
                 />
             </Info>

@@ -180,7 +180,7 @@ export function UserForm({ formType, lang, recordKey }: UserFormProps) {
                 renderPassword()
             )}
             <Form.Item>
-                <SaveButton />
+                <SaveButton lang={lang} />
             </Form.Item>
         </Form>
     );

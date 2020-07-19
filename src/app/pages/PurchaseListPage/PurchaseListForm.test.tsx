@@ -9,7 +9,7 @@ import { MEDICINE_BY_QUERY, MEDICINE_LIST } from 'src/shared/graphql/Medicine/sc
 import { PURCHASING_BY_ID } from 'src/shared/graphql/Purchasing/schema.gql';
 import { SUPPLIERS } from 'src/shared/graphql/Supplier/schema.gql';
 
-import { PurchaseListForm } from './PurchaseListForm';
+import { PurchaseListForm, PurchaseListFormProps } from './PurchaseListForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -98,9 +98,10 @@ let mockMedicine = [
 ];
 describe('PurchaseListForm', () => {
     let wrap: any;
-    let props = {
+    let props: PurchaseListFormProps = {
         auth: 'username1',
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

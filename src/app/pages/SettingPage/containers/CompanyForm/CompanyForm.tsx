@@ -70,7 +70,7 @@ export function CompanyForm({ lang }: CompanyFormProps) {
                     <Upload name='company_logo' listType='picture-card' />
                 </Form.Item>
                 <Form.Item>
-                    <SaveButton />
+                    <SaveButton lang={lang} />
                 </Form.Item>
             </Info>
         </Form>

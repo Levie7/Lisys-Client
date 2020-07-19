@@ -102,6 +102,7 @@ export const BuyPriceHistoryPage = () => {
             <MasterCard
                 header={{ link: '/buy_price_history', title: 'Buy Price History' }}
                 initSection='buy_price_history'
+                lang={lang}
                 module='Purchasing'
             >
                 {() => (

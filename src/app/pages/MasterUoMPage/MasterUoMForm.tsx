@@ -99,7 +99,7 @@ export function MasterUoMForm({ auth, formType, lang, recordKey }: UoMFormProps)
                         <InputArea />
                     </Form.Item>
                     <Form.Item>
-                        <SaveButton />
+                        <SaveButton lang={lang} />
                     </Form.Item>
                 </Info>
             </Form>

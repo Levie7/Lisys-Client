@@ -1,18 +1,21 @@
 import { Avatar, Dropdown, Menu } from 'antd';
 import * as React from 'react';
 
+import { Lang } from 'src/core/api';
+
 import { Icon } from 'src/shared/components/Icon';
 import { queryForm } from 'src/shared/graphql';
 import { getUserByUsername } from 'src/shared/graphql/User/schema.gql';
+import { headerAction, headerField } from './constants';
 
 require('./Header.sass');
 
-interface HeaderProps {
+interface HeaderProps extends Lang {
     auth: string | null;
     logout: () => void;
 }
 
-export const Header = React.memo<HeaderProps>(({ auth, logout }) => {
+export const Header = React.memo<HeaderProps>(({ auth, lang, logout }) => {
     let queryUser = queryForm({
         query: getUserByUsername,
         variables: { username: auth },
@@ -29,13 +32,13 @@ export const Header = React.memo<HeaderProps>(({ auth, logout }) => {
                 <div className='rfq__widget__system-status__item'>
                     <strong>Hello, {user.name}</strong>
                     <div>
-                        <strong>Role :</strong> {user.role.name}
+                        <strong>{headerField.role[lang]} :</strong> {user.role.name}
                     </div>
                 </div>
             </Menu.Item>
             <Menu.Item>
                 <div onClick={handleLogout}>
-                    <i className='topbar__dropdownMenuIcon icmn-exit' /> Logout
+                    <i className='topbar__dropdownMenuIcon icmn-exit' /> {headerAction.logout[lang]}
                 </div>
             </Menu.Item>
         </Menu>
@@ -47,7 +50,7 @@ export const Header = React.memo<HeaderProps>(({ auth, logout }) => {
 
     return (
         <div className='Header d-flex fj-between px-4'>
-            <div>Left Header</div>
+            <div />
             <div className='Header_Dropdown'>
                 <Dropdown overlay={menu} trigger={['click']} placement='bottomRight'>
                     <a className='ant-dropdown-link' href='/'>
