@@ -1,6 +1,8 @@
 import moment from 'moment';
 import * as React from 'react';
 
+import { Lang } from 'src/core/api';
+
 import { DatePicker } from 'src/shared/components/DatePicker';
 import { GraphCard, GraphType } from 'src/shared/components/GraphCard';
 import { Select } from 'src/shared/components/Select';
@@ -8,10 +10,19 @@ import { Spin } from 'src/shared/components/Spin';
 import { queryForm, queryList } from 'src/shared/graphql';
 import { getSuppliers } from 'src/shared/graphql/Supplier/schema.gql';
 
-import { backgroundColor, borderColor, months, options, purchasingGraph } from './constants';
+import {
+    backgroundColor,
+    borderColor,
+    months,
+    options,
+    purchasingGraph,
+    purchasingLabel,
+} from './constants';
 import { getPurchasingDebtPerMonth } from './schema.gql';
 
-export function PurchasingGraph() {
+export interface PurchasingGraphProps extends Lang {}
+
+export function PurchasingGraph({ lang }: PurchasingGraphProps) {
     let [year, setYear] = React.useState(moment(moment(), 'YYYY'));
     let [supplier, setSupplier] = React.useState('');
     let getPurchasingDeGraphPerMonth = queryList({
@@ -34,10 +45,10 @@ export function PurchasingGraph() {
     function handlePurchasingDebtDataPerMonth(data?: any) {
         let purchasingDebtPerMonth = data?.getPurchasingDebtPerMonth;
         let result: any = {
-            labels: months,
+            labels: months[lang],
             datasets: [
                 {
-                    label: 'Purchasing Debt Per Month',
+                    label: purchasingLabel[lang],
                     data: [],
                     backgroundColor,
                     borderColor,
@@ -51,7 +62,7 @@ export function PurchasingGraph() {
         let salesData: any[] = [];
         let indexResult = 0;
         // eslint-disable-next-line array-callback-return
-        months.map((_, index) => {
+        months[lang].map((_, index) => {
             if (purchasingDebtPerMonth[indexResult]) {
                 let salesMonth = parseInt(
                     purchasingDebtPerMonth[indexResult]._id.period.split('-')[1]
@@ -112,7 +123,7 @@ export function PurchasingGraph() {
                     data={purchasingDebtPerMonthData}
                     key={purchasing.period}
                     options={options}
-                    title={purchasing.title}
+                    title={purchasing.title[lang]}
                     type={purchasing.type as GraphType}
                 />
             ))}

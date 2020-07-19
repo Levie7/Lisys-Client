@@ -6,7 +6,7 @@ import React from 'react';
 
 import { SUPPLIERS } from 'src/shared/graphql/Supplier/schema.gql';
 
-import { PurchasingGraph } from './PurchasingGraph';
+import { PurchasingGraph, PurchasingGraphProps } from './PurchasingGraph';
 import { PURCHASING_DEBT_PER_MONTH } from './schema.gql';
 
 let mockClient = createMockClient();
@@ -26,6 +26,7 @@ let mockSupplier = [
 ];
 describe('PurchasingGraph', () => {
     let wrap: any;
+    let props: PurchasingGraphProps = { lang: 'en' };
     let querySupplierHandler = jest.fn().mockResolvedValue({
         data: { getSuppliers: mockSupplier },
     });
@@ -48,7 +49,7 @@ describe('PurchasingGraph', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <PurchasingGraph />
+                    <PurchasingGraph {...props} />
                 </ApolloProvider>
             );
         });

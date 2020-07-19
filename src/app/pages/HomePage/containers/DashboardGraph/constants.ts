@@ -27,20 +27,36 @@ export const borderColor = [
     'rgba(152, 94, 77, 1)',
 ];
 
-export const months = [
-    'Januari',
-    'Februari',
-    'Maret',
-    'April',
-    'Mei',
-    'Juni',
-    'Juli',
-    'Agustus',
-    'September',
-    'Oktober',
-    'November',
-    'Desember',
-];
+export const months = {
+    en: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ],
+    id: [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember',
+    ],
+};
 
 export const options = {
     legend: {
@@ -58,10 +74,30 @@ export const options = {
 };
 
 export const purchasingGraph = [
-    { period: 'month', title: 'Purchasing Debt Per Month Graph', type: 'bar' },
+    {
+        period: 'month',
+        title: { en: 'Purchasing Debt Per Month Graph', id: 'Grafik Hutang Pembelian Per Bulan' },
+        type: 'bar',
+    },
 ];
+export const purchasingLabel = {
+    en: 'Purchasing Debt Per Month',
+    id: 'Hutang Pembelian Per Bulan',
+};
 
 export const salesGraph = [
-    { period: 'day', title: 'Sales Per Day Graph', type: 'line' },
-    { period: 'month', title: 'Sales Per Month Graph', type: 'bar' },
+    {
+        period: 'day',
+        title: { en: 'Sales Per Day Graph', id: 'Grafik Penjualan Per Hari' },
+        type: 'line',
+    },
+    {
+        period: 'month',
+        title: { en: 'Sales Per Month Graph', id: 'Grafik Penjualan Per Bulan' },
+        type: 'bar',
+    },
 ];
+export const salesLabel = {
+    day: { en: 'Sales Per Day', id: 'Penjualan Per Hari' },
+    month: { en: 'Sales Per Month', id: 'Penjualan Per Bulan' },
+};

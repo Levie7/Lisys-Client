@@ -1,15 +1,19 @@
 import moment from 'moment';
 import * as React from 'react';
 
+import { Lang } from 'src/core/api';
+
 import { DatePicker } from 'src/shared/components/DatePicker';
 import { GraphCard, GraphType } from 'src/shared/components/GraphCard';
 import { Spin } from 'src/shared/components/Spin';
 import { queryList } from 'src/shared/graphql';
 
-import { backgroundColor, borderColor, months, options, salesGraph } from './constants';
+import { backgroundColor, borderColor, months, options, salesGraph, salesLabel } from './constants';
 import { getSalesDateByPeriod, getSalesPerDay, getSalesPerMonth } from './schema.gql';
 
-export function SalesGraph() {
+export interface SalesGraphProps extends Lang {}
+
+export function SalesGraph({ lang }: SalesGraphProps) {
     let [month, setMonth] = React.useState(moment(moment(), 'MM-YYYY'));
     let [year, setYear] = React.useState(moment(moment(), 'YYYY'));
     let getSalesDates = queryList({ query: getSalesDateByPeriod, variables: { period: month } });
@@ -37,7 +41,7 @@ export function SalesGraph() {
             labels: salesDate,
             datasets: [
                 {
-                    label: 'Sales Per Day',
+                    label: salesLabel.day[lang],
                     data: [],
                     backgroundColor,
                     borderColor,
@@ -74,10 +78,10 @@ export function SalesGraph() {
     function handleSalesDataPerMonth(data?: any) {
         let salesPerMonth = data?.getSalesPerMonth;
         let result: any = {
-            labels: months,
+            labels: months[lang],
             datasets: [
                 {
-                    label: 'Sales Per Month',
+                    label: salesLabel.month[lang],
                     data: [],
                     backgroundColor,
                     borderColor,
@@ -91,7 +95,7 @@ export function SalesGraph() {
         let salesData: any[] = [];
         let indexResult = 0;
         // eslint-disable-next-line array-callback-return
-        months.map((_, index) => {
+        months[lang].map((_, index) => {
             if (salesPerMonth[indexResult]) {
                 let salesMonth = parseInt(salesPerMonth[indexResult]._id.split('-')[1]);
                 if (index + 1 === salesMonth) {
@@ -148,7 +152,7 @@ export function SalesGraph() {
                         data={data}
                         key={sales.period}
                         options={options}
-                        title={sales.title}
+                        title={sales.title[lang]}
                         type={sales.type as GraphType}
                     />
                 );

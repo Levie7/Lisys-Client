@@ -4,12 +4,13 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
-import { MasterStatistic } from './MasterStatistic';
+import { MasterStatistic, MasterStatisticProps } from './MasterStatistic';
 import { MASTER_TOTAL } from './schema.gql';
 
 let mockClient = createMockClient();
 describe('MasterStatistic', () => {
     let wrap: any;
+    let props: MasterStatisticProps = { lang: 'en' };
     let queryHandler = jest.fn().mockResolvedValue({
         data: {
             getMasterTotal: {
@@ -27,7 +28,7 @@ describe('MasterStatistic', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <MasterStatistic />
+                    <MasterStatistic {...props} />
                 </ApolloProvider>
             );
         });

@@ -4,12 +4,13 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
-import { SalesGraph } from './SalesGraph';
+import { SalesGraph, SalesGraphProps } from './SalesGraph';
 import { SALES_DATES, SALES_PER_DAY, SALES_PER_MONTH } from './schema.gql';
 
 let mockClient = createMockClient();
 describe('SalesGraph', () => {
     let wrap: any;
+    let props: SalesGraphProps = { lang: 'en' };
     let querySalesDateHandler = jest.fn().mockResolvedValue({
         data: {
             getSalesDateByPeriod: ['01', '02', '03'],
@@ -43,7 +44,7 @@ describe('SalesGraph', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <SalesGraph />
+                    <SalesGraph {...props} />
                 </ApolloProvider>
             );
         });
