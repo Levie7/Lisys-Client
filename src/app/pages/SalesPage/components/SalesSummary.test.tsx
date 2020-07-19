@@ -1,14 +1,15 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { SalesSummary } from './SalesSummary';
+import { SalesSummary, SalesSummaryProps } from './SalesSummary';
 
 describe('SalesSummary', () => {
     let wrap: any;
-    let props = {
+    let props: SalesSummaryProps = {
         amount_total: '10000',
         change_total: '10000',
         isMobile: true,
+        lang: 'en',
         qty_total: 1,
         total: '10000',
     };
@@ -24,10 +25,11 @@ describe('SalesSummary', () => {
 
     describe('when is not mobile', () => {
         beforeEach(() => {
-            let props = {
+            props = {
                 amount_total: '10000',
                 change_total: '10000',
                 isMobile: false,
+                lang: 'en',
                 qty_total: 1,
                 total: '10000',
             };
