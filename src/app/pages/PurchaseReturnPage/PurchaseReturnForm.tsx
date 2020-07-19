@@ -30,7 +30,12 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { PurchaseReturnSummary } from './components/PurchaseReturnSummary';
-import { purchaseReturnDetailColumns } from './constants';
+import {
+    purchaseReturnDetailColumns,
+    purchaseReturnError,
+    purchaseReturnForm,
+    purchaseReturnModal,
+} from './constants';
 import {
     createPurchaseReturn,
     getPurchaseReturnById,
@@ -52,6 +57,7 @@ export function PurchaseReturnForm({
     recordKey,
     ...props
 }: PurchaseReturnFormProps) {
+    let { lang } = { ...props };
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
@@ -66,7 +72,7 @@ export function PurchaseReturnForm({
         title: string;
     }>({
         show: false,
-        title: 'Add Product',
+        title: purchaseReturnModal.add.title[lang],
     });
     let [grandTotal, setGrandTotal] = React.useState({
         cash_total: 0,
@@ -136,7 +142,7 @@ export function PurchaseReturnForm({
                     handleAddItemList();
                 }
             } else {
-                Message('Stock is not enough', 'error');
+                Message(purchaseReturnError.stock[lang], 'error');
             }
         }
         setFilter({});
@@ -145,7 +151,7 @@ export function PurchaseReturnForm({
     function handleAddItemList() {
         let tempData = modal.tempData!;
         if (formQty > tempData.qty) {
-            Message('Qty of items is more than qty purchase', 'error');
+            Message(purchaseReturnError.qty[lang], 'error');
         } else {
             let sub_total = formQty * formatValue(tempData.buy_price);
             let cash_total = 0;
@@ -180,7 +186,7 @@ export function PurchaseReturnForm({
     function handleChangeItemList() {
         let selected = data.find((data) => data.key === modal.recordKey);
         if (formQty > selected!.qty_buy) {
-            Message('Qty of items is more than qty purchase', 'error');
+            Message(purchaseReturnError.qty[lang], 'error');
         } else {
             let sub_total = 0;
             let cash_total = 0;
@@ -309,7 +315,7 @@ export function PurchaseReturnForm({
                 },
             });
         } else {
-            Message('Fill detail first!', 'error');
+            Message(purchaseReturnError.required[lang], 'error');
         }
     }
 
@@ -331,7 +337,7 @@ export function PurchaseReturnForm({
     function handlePurchasingList(recordKey: string, record: any) {
         let checkData = data.find((data) => data.key === recordKey);
         if (checkData) {
-            Message('Data already exist!', 'error');
+            Message(purchaseReturnError.duplicate[lang], 'error');
         } else {
             dataForm.setFieldsValue({
                 qty: 1,
@@ -340,7 +346,7 @@ export function PurchaseReturnForm({
             showModal({
                 tempData: { ...record, id: recordKey } as PurchasingWithDetailListData,
                 show: true,
-                title: 'Add Product',
+                title: purchaseReturnModal.add.title[lang],
             });
         }
     }
@@ -352,7 +358,7 @@ export function PurchaseReturnForm({
         showModal({
             recordKey,
             show: true,
-            title: 'Update Product',
+            title: purchaseReturnModal.update.title[lang],
         });
     }
 
@@ -383,9 +389,9 @@ export function PurchaseReturnForm({
                 <Form form={dataForm} layout='vertical' onFinish={handleFinishData}>
                     <Form.Item
                         getValueFromEvent={formatNumeric}
-                        label='Qty'
+                        label={purchaseReturnForm.qty.label[lang]}
                         name='qty'
-                        rules={[{ required: true, message: 'Please input the Qty' }]}
+                        rules={[{ required: true, message: purchaseReturnForm.qty.message[lang] }]}
                     >
                         <Input autoFocus />
                     </Form.Item>
@@ -399,25 +405,27 @@ export function PurchaseReturnForm({
             <div className='row'>
                 <div className='col-12 col@md-3'>
                     <h1 className='fw-bold'>Header</h1>
-                    <Form.Item label='Purchase Return No' name='no'>
+                    <Form.Item label={purchaseReturnForm.no.label[lang]} name='no'>
                         <Input disabled />
                     </Form.Item>
                     <Form.Item
-                        label='Purchase Return Date'
+                        label={purchaseReturnForm.date.label[lang]}
                         name='date'
                         rules={[
                             {
                                 required: true,
-                                message: 'Please select the purchase payment date',
+                                message: purchaseReturnForm.date.message[lang],
                             },
                         ]}
                     >
                         <DatePicker defaultValue={moment()} />
                     </Form.Item>
                     <Form.Item
-                        label='Supplier'
+                        label={purchaseReturnForm.supplier.label[lang]}
                         name='supplier'
-                        rules={[{ required: true, message: 'Please select the supplier' }]}
+                        rules={[
+                            { required: true, message: purchaseReturnForm.supplier.message[lang] },
+                        ]}
                     >
                         <Select onChange={handleSupplier} showSearch>
                             {suppliers &&
@@ -428,13 +436,16 @@ export function PurchaseReturnForm({
                                 ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item
+                        label={purchaseReturnForm.description.label[lang]}
+                        name='description'
+                    >
                         <InputArea />
                     </Form.Item>
                 </div>
                 <div className={classNames('col-12 col@md-9', !isMobile ? 'Detail-Bordered' : '')}>
                     <h1 className='fw-bold'>Detail</h1>
-                    <Form.Item label='Purchasing' name='purchasing'>
+                    <Form.Item label={purchaseReturnForm.purchasing.label[lang]} name='purchasing'>
                         <SearchPurchasingList
                             {...props}
                             onRecordList={handlePurchasingList}
@@ -459,6 +470,7 @@ export function PurchaseReturnForm({
                         credit_discount_total={Currency(
                             formatCommaValue(grandTotal.credit_discount_total)
                         )}
+                        lang={lang}
                         grand_total={Currency(formatCommaValue(grandTotal.grand_total))}
                         qty_total={grandTotal.qty_total}
                     />

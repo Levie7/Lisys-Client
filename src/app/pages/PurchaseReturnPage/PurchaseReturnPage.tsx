@@ -27,7 +27,7 @@ import { getLanguage } from '../SettingPage/helpers';
 import { PurchaseReturnDetail } from './components/PurchaseReturnDetail';
 import { PurchaseReturnHeader } from './components/PurchaseReturnHeader';
 import { PurchaseReturnSummary } from './components/PurchaseReturnSummary';
-import { moduleName, purchaseReturnColumns, title } from './constants';
+import { moduleName, purchaseReturnColumns, title, purchaseReturnForm } from './constants';
 import { PurchaseReturnForm } from './PurchaseReturnForm';
 import {
     deletePurchaseReturn,
@@ -137,6 +137,7 @@ export const PurchaseReturnPage = () => {
             <div className='row'>
                 <PurchaseReturnHeader
                     date={convertMilisecondsToDate(data.date)}
+                    lang={lang}
                     no={data.no}
                     supplier={data.supplier!.name}
                 />
@@ -147,12 +148,13 @@ export const PurchaseReturnPage = () => {
                         credit_discount_total={Currency(
                             formatCommaValue(data.credit_discount_total)
                         )}
+                        lang={lang}
                         grand_total={Currency(formatCommaValue(data.grand_total))}
                         qty_total={data.qty_total}
                     />
                 </div>
                 <div className='col-12'>
-                    <h3>Description : </h3>
+                    <h3>{purchaseReturnForm.description.label[lang]} : </h3>
                     {data.description}
                 </div>
             </div>

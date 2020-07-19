@@ -27,7 +27,7 @@ import { getLanguage } from '../SettingPage/helpers';
 import { PurchasePaymentDetail } from './components/PurchasePaymentDetail';
 import { PurchasePaymentHeader } from './components/PurchasePaymentHeader';
 import { PurchasePaymentSummary } from './components/PurchasePaymentSummary';
-import { moduleName, purchasePaymentColumns, title } from './constants';
+import { moduleName, purchasePaymentColumns, title, purchasePaymentForm } from './constants';
 import { PurchasePaymentForm } from './PurchasePaymentForm';
 import {
     deletePurchasePayment,
@@ -108,6 +108,7 @@ export const PurchasePaymentPage = () => {
             <div className='row'>
                 <PurchasePaymentHeader
                     date={convertMilisecondsToDate(data.date)}
+                    lang={lang}
                     no={data.no}
                     payment_method={data.payment_method}
                     payment_no={data.payment_no}
@@ -117,11 +118,12 @@ export const PurchasePaymentPage = () => {
                 <div className='col-12'>
                     <PurchasePaymentSummary
                         credit_total={Currency(formatCommaValue(data.credit_total))}
+                        lang={lang}
                         payment_total={Currency(formatCommaValue(data.payment_total))}
                     />
                 </div>
                 <div className='col-12'>
-                    <h3>Description : </h3>
+                    <h3>{purchasePaymentForm.description.label[lang]} : </h3>
                     {data.description}
                 </div>
             </div>

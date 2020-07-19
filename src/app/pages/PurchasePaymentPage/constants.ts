@@ -71,5 +71,63 @@ export const purchasePaymentDetailColumns = [
     },
 ];
 
+export const purchasePaymentError = {
+    duplicate: {
+        en: 'Data already exist!',
+        id: 'Data sudah ada!',
+    },
+    required: {
+        en: 'Fill detail first!',
+        id: 'Isi detail terlebih dahulu',
+    },
+};
+
+export const purchasePaymentForm = {
+    no: {
+        label: { en: 'Transaction No', id: 'No Transaksi' },
+    },
+    date: {
+        label: { en: 'Date', id: 'Tanggal' },
+        message: { en: 'Please input the date', id: 'Mohon isi tanggal' },
+    },
+    supplier: {
+        label: { en: 'Supplier', id: 'Pemasok' },
+        message: { en: 'Please select the supplier', id: 'Mohon pilih pemasok' },
+    },
+    payment_method: {
+        label: { en: 'Payment Method', id: 'Metode Pembayaran' },
+        message: { en: 'Please select the payment method', id: 'Mohon pilih metode pembayaran' },
+    },
+    payment_no: {
+        label: { en: 'Payment No', id: 'No Pembayaran' },
+        message: { en: 'Please input the payment no', id: 'Mohon isi no pembayaran' },
+    },
+    description: {
+        label: { en: 'Description', id: 'Deskripsi' },
+    },
+    payment_amount: {
+        label: { en: 'Payment Amount', id: 'Jumlah Pembayaran' },
+        message: { en: 'Please input the payment amount', id: 'Mohon isi jumlah pembayaran' },
+    },
+    purchasing: {
+        label: { en: 'Purchasing', id: 'Pembelian' },
+    },
+};
+
+export const purchasePaymentModal = {
+    add: {
+        title: { en: 'Add Invoice', id: 'Tambah Nota' },
+    },
+    update: {
+        title: { en: 'Update Invoice', id: 'Perbaharui Nota' },
+    },
+};
+
+export const purchasePaymentSummary = {
+    grand_total: { en: 'Grand Total', id: 'Total Keseluruhan' },
+    payment_total: { en: 'Payment Total', id: 'Total Pembayaran' },
+    credit_total: { en: 'Credit Total', id: 'Total Kredit' },
+};
+
 export const moduleName = 'Purchasing';
 export const title = 'Purchase Payment';

@@ -86,5 +86,66 @@ export const purchaseReturnDetailColumns = [
     },
 ];
 
+export const purchaseReturnError = {
+    duplicate: {
+        en: 'Data already exist!',
+        id: 'Data sudah ada!',
+    },
+    qty: {
+        en: 'Qty of items is more than qty purchase',
+        id: 'Jumlah barang lebih banyak daripada jumlah beli',
+    },
+    required: {
+        en: 'Fill detail first!',
+        id: 'Isi detail terlebih dahulu',
+    },
+    stock: {
+        en: 'Stock is not enough!',
+        id: 'Stock tidak mencukupi!',
+    },
+};
+
+export const purchaseReturnForm = {
+    no: {
+        label: { en: 'Transaction No', id: 'No Transaksi' },
+    },
+    date: {
+        label: { en: 'Date', id: 'Tanggal' },
+        message: { en: 'Please input the date', id: 'Mohon isi tanggal' },
+    },
+    supplier: {
+        label: { en: 'Supplier', id: 'Pemasok' },
+        message: { en: 'Please select the supplier', id: 'Mohon pilih pemasok' },
+    },
+    description: {
+        label: { en: 'Description', id: 'Deskripsi' },
+    },
+    qty: {
+        label: { en: 'Qty', id: 'Jumlah' },
+        message: { en: 'Please input the qty', id: 'Mohon isi jumlah' },
+    },
+    purchasing: {
+        label: { en: 'Purchasing', id: 'Pembelian' },
+    },
+};
+
+export const purchaseReturnModal = {
+    add: {
+        title: { en: 'Add Product', id: 'Tambah Produk' },
+    },
+    update: {
+        title: { en: 'Update Product', id: 'Perbaharui Produk' },
+    },
+};
+
+export const purchaseReturnSummary = {
+    grand_total: { en: 'Grand Total', id: 'Total Keseluruhan' },
+    payment_total: { en: 'Payment Total', id: 'Total Pembayaran' },
+    credit_total: { en: 'Credit Total', id: 'Total Kredit' },
+    cash_total: { en: 'Cash Total', id: 'Total Tunai' },
+    qty_total: { en: 'Qty Total', id: 'Jumlah Total' },
+    total: { en: 'Total', id: 'Total' },
+};
+
 export const moduleName = 'Purchasing';
 export const title = 'Purchase Return';

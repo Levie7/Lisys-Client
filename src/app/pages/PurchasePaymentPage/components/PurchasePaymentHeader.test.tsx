@@ -1,13 +1,14 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { PurchasePaymentHeader } from './PurchasePaymentHeader';
+import { PurchasePaymentHeader, PurchasePaymentHeaderProps } from './PurchasePaymentHeader';
 
 describe('PurchasePaymentHeader', () => {
     let wrap: any;
-    let props = {
+    let props: PurchasePaymentHeaderProps = {
         date: '20-07-2020',
         no: 'PI/123',
+        lang: 'en',
         payment_method: 'transfer',
         payment_no: '1',
         supplier: 'Dwijaya',

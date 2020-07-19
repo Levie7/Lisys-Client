@@ -34,7 +34,7 @@ import { getLanguage } from '../SettingPage/helpers';
 import { PurchaseDetail } from './components/PurchaseDetail';
 import { PurchaseHeader } from './components/PurchaseHeader';
 import { PurchaseSummary } from './components/PurchaseSummary';
-import { moduleName, purchaseListColumns, title } from './constants';
+import { moduleName, purchaseListColumns, title, purchaseForm } from './constants';
 import { PurchaseListForm } from './PurchaseListForm';
 
 export const PurchaseListPage = () => {
@@ -113,6 +113,7 @@ export const PurchaseListPage = () => {
                 <PurchaseHeader
                     date={convertMilisecondsToDate(data.date)}
                     due_date={convertMilisecondsToDate(data.due_date)}
+                    lang={lang}
                     no={data.no}
                     supplier={data.supplier!.name}
                 />
@@ -120,12 +121,13 @@ export const PurchaseListPage = () => {
                 <div className='col-12'>
                     <PurchaseSummary
                         credit_total={Currency(formatCommaValue(data.credit_total))}
+                        lang={lang}
                         qty_total={data.qty_total}
                         total={Currency(formatCommaValue(data.grand_total))}
                     />
                 </div>
                 <div className='col-12'>
-                    <h3>Description : </h3>
+                    <h3>{purchaseForm.description.label[lang]} : </h3>
                     {data.description}
                 </div>
             </div>

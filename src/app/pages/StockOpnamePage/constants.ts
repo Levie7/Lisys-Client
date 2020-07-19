@@ -1,10 +1,3 @@
-export const alertMessage = {
-    en:
-        'Please fill these required fields below to create or update stock opname data, you can also skip the non required fields.',
-    id:
-        'Mohon lengkapi semua bidang isian wajib dibawah untuk menambahkan atau memperbaharui data stok opname, kamu juga bisa melewati bidang isian yang tidak wajib',
-};
-
 export const stockOpnameColumns = [
     {
         dataIndex: 'no',

@@ -1,8 +1,11 @@
 import * as React from 'react';
 
-import { Divider } from 'src/shared/components/Divider';
+import { Lang } from 'src/core/api';
 
-interface PurchaseHeaderProps {
+import { Divider } from 'src/shared/components/Divider';
+import { purchaseForm } from '../constants';
+
+export interface PurchaseHeaderProps extends Lang {
     date: string;
     due_date: string;
     no: string;
@@ -10,18 +13,18 @@ interface PurchaseHeaderProps {
 }
 
 export const PurchaseHeader = React.memo<PurchaseHeaderProps>(
-    ({ date, due_date, no, supplier }) => (
+    ({ date, due_date, lang, no, supplier }) => (
         <>
             <div className='col-6'>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Transaction No</h3>
+                        <h3>{purchaseForm.no.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {no}</div>
                 </div>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Supplier</h3>
+                        <h3>{purchaseForm.supplier.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {supplier}</div>
                 </div>
@@ -29,13 +32,13 @@ export const PurchaseHeader = React.memo<PurchaseHeaderProps>(
             <div className='col-6'>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Date</h3>
+                        <h3>{purchaseForm.date.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {date}</div>
                 </div>
                 <div className='row'>
                     <div className='col-6'>
-                        <h3>Due Date</h3>
+                        <h3>{purchaseForm.due_date.label[lang]}</h3>
                     </div>
                     <div className='col-6'>: {due_date}</div>
                 </div>
