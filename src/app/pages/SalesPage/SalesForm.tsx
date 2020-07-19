@@ -27,7 +27,7 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { SalesSummary } from './components/SalesSummary';
-import { salesDetailColumns, salesModal, salesError, salesForm, salesButton } from './constants';
+import { salesButton, salesDetailColumns, salesError, salesForm, salesModal } from './constants';
 
 require('./SalesForm.sass');
 

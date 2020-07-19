@@ -27,7 +27,7 @@ import { getLanguage } from '../SettingPage/helpers';
 import { PurchaseReturnDetail } from './components/PurchaseReturnDetail';
 import { PurchaseReturnHeader } from './components/PurchaseReturnHeader';
 import { PurchaseReturnSummary } from './components/PurchaseReturnSummary';
-import { moduleName, purchaseReturnColumns, title, purchaseReturnForm } from './constants';
+import { moduleName, purchaseReturnColumns, purchaseReturnForm, title } from './constants';
 import { PurchaseReturnForm } from './PurchaseReturnForm';
 import {
     deletePurchaseReturn,

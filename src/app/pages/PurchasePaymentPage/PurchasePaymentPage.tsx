@@ -27,7 +27,7 @@ import { getLanguage } from '../SettingPage/helpers';
 import { PurchasePaymentDetail } from './components/PurchasePaymentDetail';
 import { PurchasePaymentHeader } from './components/PurchasePaymentHeader';
 import { PurchasePaymentSummary } from './components/PurchasePaymentSummary';
-import { moduleName, purchasePaymentColumns, title, purchasePaymentForm } from './constants';
+import { moduleName, purchasePaymentColumns, purchasePaymentForm, title } from './constants';
 import { PurchasePaymentForm } from './PurchasePaymentForm';
 import {
     deletePurchasePayment,

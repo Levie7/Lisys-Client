@@ -20,7 +20,7 @@ import { classNames } from 'src/shared/utilities/classNames';
 import { getLanguage } from '../SettingPage/helpers';
 import { StockOpnameDetail } from './components/StockOpnameDetail';
 import { StockOpnameHeader } from './components/StockOpnameHeader';
-import { moduleName, stockOpnameColumns, title, stockOpnameForm } from './constants';
+import { moduleName, stockOpnameColumns, stockOpnameForm, title } from './constants';
 import {
     deleteStockOpname,
     getStockOpnameById,

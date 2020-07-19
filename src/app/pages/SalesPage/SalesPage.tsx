@@ -33,7 +33,7 @@ import { getLanguage } from '../SettingPage/helpers';
 import { SalesDetail } from './components/SalesDetail';
 import { SalesHeader } from './components/SalesHeader';
 import { SalesSummary } from './components/SalesSummary';
-import { moduleName, salesListColumns, title, salesForm, salesButton } from './constants';
+import { moduleName, salesButton, salesForm, salesListColumns, title } from './constants';
 import { SalesForm } from './SalesForm';
 
 export const SalesPage = ({ location }: RouteComponentProps) => {

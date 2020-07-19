@@ -34,7 +34,7 @@ import { getLanguage } from '../SettingPage/helpers';
 import { PurchaseDetail } from './components/PurchaseDetail';
 import { PurchaseHeader } from './components/PurchaseHeader';
 import { PurchaseSummary } from './components/PurchaseSummary';
-import { moduleName, purchaseListColumns, title, purchaseForm } from './constants';
+import { moduleName, purchaseForm, purchaseListColumns, title } from './constants';
 import { PurchaseListForm } from './PurchaseListForm';
 
 export const PurchaseListPage = () => {

@@ -37,7 +37,7 @@ import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
 import { PurchaseSummary } from './components/PurchaseSummary';
-import { purchaseDetailColumns, purchaseModal, purchaseError, purchaseForm } from './constants';
+import { purchaseDetailColumns, purchaseError, purchaseForm, purchaseModal } from './constants';
 
 require('./PurchaseListForm.sass');
 

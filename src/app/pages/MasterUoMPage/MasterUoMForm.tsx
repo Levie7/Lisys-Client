@@ -12,7 +12,7 @@ import { mutationForm, queryForm } from 'src/shared/graphql';
 import { createUoM, getUoMById, UOM_BY_ID, updateUoM } from 'src/shared/graphql/UoM/schema.gql';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { alertMessage, uomInfo, uomForm } from './constants';
+import { alertMessage, uomForm, uomInfo } from './constants';
 
 export interface UoMFormProps extends Lang {
     auth: string | null;
