@@ -8,7 +8,11 @@ import { formatPresentDate } from 'src/shared/helpers/formatDate';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
+import { getLanguage } from '../SettingPage/helpers';
+import { salesField } from './constants';
+
 export const SalesDetailResultPage = ({ history, location }: RouteComponentProps) => {
+    let lang = getLanguage();
     let [fetch] = updateCrud();
     let [init, setInit] = React.useState(false);
     React.useEffect(() => {
@@ -44,15 +48,15 @@ export const SalesDetailResultPage = ({ history, location }: RouteComponentProps
             <div>Telp: 031-99031371</div>
             <br />
             <div className='d-flex fj-between'>
-                <div>No</div>
+                <div>{salesField.no[lang]}</div>
                 <div>{no}</div>
             </div>
             <div className='d-flex fj-between'>
-                <div>Date</div>
+                <div>{salesField.date[lang]}</div>
                 <div>{formatPresentDate(date)}</div>
             </div>
             <div className='d-flex fj-between'>
-                <div>Cashier</div>
+                <div>{salesField.cashier[lang]}</div>
                 <div>{cashier}</div>
             </div>
             <div>--------------------------------------------------------</div>
@@ -69,22 +73,22 @@ export const SalesDetailResultPage = ({ history, location }: RouteComponentProps
             ))}
             <div>--------------------------------------------------------</div>
             <div className='d-flex fj-between'>
-                <div>Total</div>
+                <div>{salesField.total[lang]}</div>
                 <div>{Currency(formatCommaValue(total))}</div>
             </div>
             <div className='d-flex fj-between'>
-                <div>Payment</div>
+                <div>{salesField.payment[lang]}</div>
                 <div>{Currency(formatCommaValue(payment))}</div>
             </div>
             <div className='d-flex fj-end'>
                 <div>----------------</div>
             </div>
             <div className='d-flex fj-between'>
-                <div>Change</div>
+                <div>{salesField.change[lang]}</div>
                 <div>{Currency(formatCommaValue(change))}</div>
             </div>
             <br />
-            <div>Barang yang telah dibeli tidak dapat dikembalikan kecuali ada perjanjian</div>
+            <div>{salesField.note[lang]}</div>
         </div>
     );
 };

@@ -10,9 +10,12 @@ import { Spin } from 'src/shared/components/Spin';
 import { queryForm } from 'src/shared/graphql';
 import { getMedicines } from 'src/shared/graphql/Medicine/schema.gql';
 
+import { medicineTitle } from '../MedicineAlmostDepletedReportPage/constants';
+import { getLanguage } from '../SettingPage/helpers';
 import { medicineExcelColumns, medicineExcelFileName, medicineExcelSheet } from './constants';
 
 export const MedicineListReportPage = () => {
+    let lang = getLanguage();
     let queryMedicine = queryForm({ query: getMedicines });
     if (queryMedicine.loading) return <Spin />;
 
@@ -40,12 +43,12 @@ export const MedicineListReportPage = () => {
             <div className='d-flex fd-row fj-around mx-8 my-8'>
                 <ReportCard title='Medicine List' url='/medicine_list'>
                     <div className='d-flex fa-center fd-row'>
-                        <div className='tw-bold mr-4'>Generate Report :</div>
+                        <div className='tw-bold mr-4'>{medicineTitle[lang]} :</div>
                         <Excel
-                            column={medicineExcelColumns}
+                            column={medicineExcelColumns[lang]}
                             data={medicine}
-                            fileName={medicineExcelFileName}
-                            sheetName={medicineExcelSheet}
+                            fileName={medicineExcelFileName[lang]}
+                            sheetName={medicineExcelSheet[lang]}
                         />
                     </div>
                 </ReportCard>

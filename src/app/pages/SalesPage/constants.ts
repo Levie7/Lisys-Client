@@ -92,6 +92,19 @@ export const salesError = {
     },
 };
 
+export const salesField = {
+    no: { en: 'Transaction No', id: 'No Transaksi' },
+    cashier: { en: 'Cashier', id: 'Kasir' },
+    date: { en: 'Date', id: 'Tanggal' },
+    payment: { en: 'Payment', id: 'Bayar' },
+    change: { en: 'Change', id: 'Kembalian' },
+    total: { en: 'Total', id: 'Total' },
+    note: {
+        en: 'Product that have been purchased cannot be returned unless there is an agreement',
+        id: 'Barang yang telah dibeli tidak dapat dikembalikan kecuali ada perjanjian',
+    },
+};
+
 export const salesForm = {
     no: {
         label: { en: 'Transaction No', id: 'No Transaksi' },

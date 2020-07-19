@@ -18,6 +18,8 @@ import {
     formatDefaultPreviousMoment,
 } from 'src/shared/helpers/formatDate';
 
+import { medicineTitle } from '../MedicineAlmostDepletedReportPage/constants';
+import { getLanguage } from '../SettingPage/helpers';
 import {
     soldMedicineExcelColumns,
     soldMedicineExcelFileName,
@@ -26,6 +28,7 @@ import {
 import moment from 'moment';
 
 export const SoldMedicineReportPage = () => {
+    let lang = getLanguage();
     let [date, setDate] = React.useState({
         end_date: formatDefaultNextDate(formatDate(moment())),
         start_date: formatDefaultDate(formatDate(moment())),
@@ -75,12 +78,12 @@ export const SoldMedicineReportPage = () => {
                         placeholder={['Start Date', 'End Date']}
                     />
                     <div className='d-flex fa-center fd-row mt-4'>
-                        <div className='tw-bold mr-4'>Generate Report :</div>
+                        <div className='tw-bold mr-4'>{medicineTitle[lang]} :</div>
                         <Excel
-                            column={soldMedicineExcelColumns}
+                            column={soldMedicineExcelColumns[lang]}
                             data={medicine}
-                            fileName={soldMedicineExcelFileName}
-                            sheetName={soldMedicineExcelSheet}
+                            fileName={soldMedicineExcelFileName[lang]}
+                            sheetName={soldMedicineExcelSheet[lang]}
                         />
                     </div>
                 </ReportCard>
