@@ -9,7 +9,7 @@ import { MEDICINE_BY_QUERY } from 'src/shared/graphql/Medicine/schema.gql';
 import { UOMS } from 'src/shared/graphql/UoM/schema.gql';
 import { VARIANTS } from 'src/shared/graphql/Variant/schema.gql';
 
-import { MasterMedicineForm } from './MasterMedicineForm';
+import { MasterMedicineForm, MasterMedicineFormProps } from './MasterMedicineForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -83,9 +83,10 @@ let mockVariant = [
 ];
 describe('MasterMedicineForm', () => {
     let wrap: any;
-    let props = {
+    let props: MasterMedicineFormProps = {
         auth: 'username1',
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

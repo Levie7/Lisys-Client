@@ -95,6 +95,7 @@ export const MasterSupplierPage = () => {
                         <MasterSupplierForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

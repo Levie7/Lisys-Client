@@ -85,6 +85,7 @@ export function MasterVariantPage() {
                         <MasterVariantForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

@@ -6,7 +6,7 @@ import React from 'react';
 
 import { UOM_BY_ID } from 'src/shared/graphql/UoM/schema.gql';
 
-import { MasterUoMForm } from './MasterUoMForm';
+import { MasterUoMForm, UoMFormProps } from './MasterUoMForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -28,9 +28,10 @@ let mockInitialValues = {
 };
 describe('MasterUoMForm', () => {
     let wrap: any;
-    let props = {
+    let props: UoMFormProps = {
         auth: 'username1',
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

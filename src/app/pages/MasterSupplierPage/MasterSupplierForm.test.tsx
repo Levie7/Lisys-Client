@@ -6,7 +6,7 @@ import React from 'react';
 
 import { SUPPLIER_BY_ID } from 'src/shared/graphql/Supplier/schema.gql';
 
-import { MasterSupplierForm } from './MasterSupplierForm';
+import { MasterSupplierForm, MasterSupplierFormProps } from './MasterSupplierForm';
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -38,9 +38,10 @@ let mockInitialValues = {
 };
 describe('MasterSupplierForm', () => {
     let wrap: any;
-    let props = {
+    let props: MasterSupplierFormProps = {
         auth: 'username1',
         formType: 'update',
+        lang: 'en',
         recordKey: 'id1',
     };
     let queryHandler = jest.fn().mockResolvedValue({

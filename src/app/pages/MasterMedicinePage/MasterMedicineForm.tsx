@@ -1,6 +1,8 @@
 import { Form } from 'antd';
 import * as React from 'react';
 
+import { Lang } from 'src/core/api';
+
 import { Alert } from 'src/shared/components/Alert';
 import { Info } from 'src/shared/components/Info';
 import { Input } from 'src/shared/components/Input';
@@ -24,15 +26,15 @@ import { formatCommaValue, formatValue } from 'src/shared/helpers/formatValue';
 import { Message } from 'src/shared/utilities/message';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { alertMessage, medicineInfo } from './constants';
+import { alertMessage, medicineError, medicineForm, medicineInfo } from './constants';
 
-interface MasterMedicineFormProps {
+export interface MasterMedicineFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicineFormProps) {
+export function MasterMedicineForm({ auth, formType, lang, recordKey }: MasterMedicineFormProps) {
     let [form] = Form.useForm();
     let [isBarcodeChanged, changeBarcode] = React.useState(false);
     let [isBuyPriceChanged, changeBuyPrice] = React.useState(false);
@@ -167,7 +169,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
 
     function handlePercentage(e: any) {
         if (!form.getFieldValue('buy_price')) {
-            return Message('Please fill the buy price first', 'error');
+            return Message(medicineError.percentage[lang], 'error');
         }
 
         let buyPrice = formatValue(form.getFieldValue('buy_price'));
@@ -196,7 +198,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
 
     function handleSellPrice(e: any) {
         if (!form.getFieldValue('buy_price')) {
-            return Message('Please fill the buy price first', 'error');
+            return Message(medicineError.sell_price[lang], 'error');
         }
 
         let buyPrice = formatValue(form.getFieldValue('buy_price'));
@@ -209,7 +211,7 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
 
     return (
         <>
-            <Alert message={alertMessage} type='info' showIcon />
+            <Alert message={alertMessage[lang]} type='info' showIcon />
             <Form
                 form={form}
                 initialValues={initialValues}
@@ -218,27 +220,27 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                 scrollToFirstError
             >
                 <Info
-                    description={medicineInfo.general.description}
-                    title={medicineInfo.general.title}
+                    description={medicineInfo.general.description[lang]}
+                    title={medicineInfo.general.title[lang]}
                 >
                     <Form.Item
-                        label='Code'
+                        label={medicineForm.code.label[lang]}
                         name='code'
-                        rules={[{ required: true, message: 'Please input the code' }]}
+                        rules={[{ required: true, message: medicineForm.code.message[lang] }]}
                     >
                         <Input autoFocus onChange={handleChangeCode} />
                     </Form.Item>
                     <Form.Item
-                        label='Name'
+                        label={medicineForm.name.label[lang]}
                         name='name'
-                        rules={[{ required: true, message: 'Please input the name' }]}
+                        rules={[{ required: true, message: medicineForm.name.message[lang] }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label='Variant'
+                        label={medicineForm.variant.label[lang]}
                         name='variant'
-                        rules={[{ required: true, message: 'Please select the variant' }]}
+                        rules={[{ required: true, message: medicineForm.variant.message[lang] }]}
                     >
                         <Select showSearch>
                             {variants &&
@@ -250,9 +252,9 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                         </Select>
                     </Form.Item>
                     <Form.Item
-                        label='Category'
+                        label={medicineForm.category.label[lang]}
                         name='category'
-                        rules={[{ required: true, message: 'Please select the category' }]}
+                        rules={[{ required: true, message: medicineForm.category.message[lang] }]}
                     >
                         <Select showSearch>
                             {categories &&
@@ -264,9 +266,9 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                         </Select>
                     </Form.Item>
                     <Form.Item
-                        label='UoM'
+                        label={medicineForm.uom.label[lang]}
                         name='uom'
-                        rules={[{ required: true, message: 'Please select the UoM' }]}
+                        rules={[{ required: true, message: medicineForm.uom.message[lang] }]}
                     >
                         <Select showSearch>
                             {uoms &&
@@ -279,14 +281,14 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                     </Form.Item>
                 </Info>
                 <Info
-                    description={medicineInfo.pricing.description}
-                    title={medicineInfo.pricing.title}
+                    description={medicineInfo.pricing.description[lang]}
+                    title={medicineInfo.pricing.title[lang]}
                 >
                     <Form.Item
                         getValueFromEvent={formatCurrency}
-                        label='Buy Price'
+                        label={medicineForm.buy_price.label[lang]}
                         name='buy_price'
-                        rules={[{ required: true, message: 'Please input the buy price' }]}
+                        rules={[{ required: true, message: medicineForm.buy_price.message[lang] }]}
                     >
                         <Input prefix='Rp' onChange={handleChangeBuyPrice} />
                     </Form.Item>
@@ -295,21 +297,25 @@ export function MasterMedicineForm({ auth, formType, recordKey }: MasterMedicine
                     </Form.Item>
                     <Form.Item
                         getValueFromEvent={handleSellPrice}
-                        label='Sell Price'
+                        label={medicineForm.sell_price.label[lang]}
                         name='sell_price'
-                        rules={[{ required: true, message: 'Please input the sell price' }]}
+                        rules={[{ required: true, message: medicineForm.sell_price.message[lang] }]}
                     >
                         <Input prefix='Rp' onChange={handleChangeSellPrice} />
                     </Form.Item>
                 </Info>
                 <Info
-                    description={medicineInfo.inventory.description}
-                    title={medicineInfo.inventory.title}
+                    description={medicineInfo.inventory.description[lang]}
+                    title={medicineInfo.inventory.title[lang]}
                 >
-                    <Form.Item label='Barcode' name='barcode'>
+                    <Form.Item label={medicineForm.barcode.label[lang]} name='barcode'>
                         <Input onChange={handleChangeBarcode} />
                     </Form.Item>
-                    <Form.Item getValueFromEvent={formatNumeric} label='Min Stock' name='min_stock'>
+                    <Form.Item
+                        getValueFromEvent={formatNumeric}
+                        label={medicineForm.min_stock.label[lang]}
+                        name='min_stock'
+                    >
                         <Input />
                     </Form.Item>
                     <Form.Item>

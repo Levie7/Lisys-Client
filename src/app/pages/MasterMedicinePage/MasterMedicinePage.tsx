@@ -65,6 +65,7 @@ export const MasterMedicinePage = () => {
                         <MasterMedicineForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

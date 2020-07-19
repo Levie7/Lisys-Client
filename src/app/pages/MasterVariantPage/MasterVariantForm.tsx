@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
+import { Lang } from 'src/core/api';
+
 import { Alert } from 'src/shared/components/Alert';
 import { Info } from 'src/shared/components/Info';
 import { Input, InputArea } from 'src/shared/components/Input';
@@ -15,15 +17,15 @@ import {
 } from 'src/shared/graphql/Variant/schema.gql';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { alertMessage } from './constants';
+import { alertMessage, variantForm, variantInfo } from './constants';
 
-interface MasterVariantFormProps {
+export interface MasterVariantFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterVariantForm({ auth, formType, recordKey }: MasterVariantFormProps) {
+export function MasterVariantForm({ auth, formType, lang, recordKey }: MasterVariantFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({
@@ -79,7 +81,7 @@ export function MasterVariantForm({ auth, formType, recordKey }: MasterVariantFo
 
     return (
         <>
-            <Alert message={alertMessage} type='info' showIcon />
+            <Alert message={alertMessage[lang]} type='info' showIcon />
             <Form
                 form={form}
                 initialValues={initialValues}
@@ -87,17 +89,17 @@ export function MasterVariantForm({ auth, formType, recordKey }: MasterVariantFo
                 onFinish={handleFinish}
             >
                 <Info
-                    description='General fields to create or update variant data'
-                    title='General Information'
+                    description={variantInfo.general.description[lang]}
+                    title={variantInfo.general.title[lang]}
                 >
                     <Form.Item
-                        label='Name'
+                        label={variantForm.name.label[lang]}
                         name='name'
-                        rules={[{ required: true, message: 'Please input the name' }]}
+                        rules={[{ required: true, message: variantForm.name.message[lang] }]}
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item label={variantForm.description.label[lang]} name='description'>
                         <InputArea />
                     </Form.Item>
                     <Form.Item>

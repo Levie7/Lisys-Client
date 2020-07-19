@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Form } from 'antd';
 
+import { Lang } from 'src/core/api';
+
 import { Alert } from 'src/shared/components/Alert';
 import { Info } from 'src/shared/components/Info';
 import { Input, InputArea } from 'src/shared/components/Input';
@@ -15,15 +17,15 @@ import {
 import { mutationForm, queryForm } from 'src/shared/graphql';
 import { Progress } from 'src/shared/utilities/progress';
 
-import { alertMessage } from './constants';
+import { alertMessage, categoryForm, categoryInfo } from './constants';
 
-interface CategoryFormProps {
+export interface CategoryFormProps extends Lang {
     auth: string | null;
     formType: string;
     recordKey?: string;
 }
 
-export function MasterCategoryForm({ auth, formType, recordKey }: CategoryFormProps) {
+export function MasterCategoryForm({ auth, formType, lang, recordKey }: CategoryFormProps) {
     let [form] = Form.useForm();
 
     let mutation = mutationForm({
@@ -80,7 +82,7 @@ export function MasterCategoryForm({ auth, formType, recordKey }: CategoryFormPr
 
     return (
         <>
-            <Alert message={alertMessage} type='info' showIcon />
+            <Alert message={alertMessage[lang]} type='info' showIcon />
             <Form
                 form={form}
                 initialValues={initialValues}
@@ -88,17 +90,17 @@ export function MasterCategoryForm({ auth, formType, recordKey }: CategoryFormPr
                 onFinish={handleFinish}
             >
                 <Info
-                    description='General fields to create or update category data'
-                    title='General Information'
+                    description={categoryInfo.general.description[lang]}
+                    title={categoryInfo.general.title[lang]}
                 >
                     <Form.Item
-                        label='Name'
+                        label={categoryForm.name.label[lang]}
                         name='name'
-                        rules={[{ required: true, message: 'Please input the name' }]}
+                        rules={[{ required: true, message: categoryForm.name.message[lang] }]}
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label='Description' name='description'>
+                    <Form.Item label={categoryForm.description.label[lang]} name='description'>
                         <InputArea />
                     </Form.Item>
                     <Form.Item>

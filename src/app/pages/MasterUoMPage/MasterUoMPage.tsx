@@ -85,6 +85,7 @@ export const MasterUoMPage = () => {
                         <MasterUoMForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )

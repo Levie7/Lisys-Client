@@ -86,6 +86,7 @@ export const MasterCategoryPage = () => {
                         <MasterCategoryForm
                             auth={storage.getToken()}
                             formType={action!}
+                            lang={lang}
                             recordKey={recordKey}
                         />
                     )
