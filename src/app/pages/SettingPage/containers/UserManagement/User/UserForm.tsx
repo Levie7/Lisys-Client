@@ -168,9 +168,9 @@ export function UserForm({ formType, lang, recordKey }: UserFormProps) {
             </Form.Item>
             {formType === 'update' ? (
                 !isPasswordChanged ? (
-                    <Form.Item hasFeedback label='Password' name='password'>
+                    <Form.Item hasFeedback label={userForm.password.label[lang]} name='password'>
                         <Button onClick={handleChangePassword} type='default'>
-                            {Icon.lock} Change Password
+                            {Icon.lock} {userForm.password.button[lang]}
                         </Button>
                     </Form.Item>
                 ) : (

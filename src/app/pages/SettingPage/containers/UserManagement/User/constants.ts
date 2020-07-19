@@ -29,6 +29,7 @@ export const userForm = {
         message: { en: 'Please input the name', id: 'Mohon isi nama' },
     },
     password: {
+        button: { en: 'Change Password', id: 'Ubah Kata Sandi' },
         label: { en: 'Password', id: 'Kata Sandi' },
         message: { en: 'Please input the password', id: 'Mohon isi kata sandi' },
     },

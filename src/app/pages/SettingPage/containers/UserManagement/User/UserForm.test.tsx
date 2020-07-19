@@ -24,6 +24,7 @@ Object.defineProperty(window, 'matchMedia', {
 });
 let mockClient = createMockClient();
 let mockUser = {
+    id: 'id1',
     name: 'user1',
     role: { id: 'id1' },
     username: 'username1',
