@@ -68,7 +68,8 @@
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
         "test-coverage": "react-app-rewired test --coverage --watchAll=false --coverageDirectory=output/coverage/jest",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "prod": "pm2 serve build/ 3000 --name=lisys-client"
     },
     "eslintConfig": {
         "extends": "react-app"
