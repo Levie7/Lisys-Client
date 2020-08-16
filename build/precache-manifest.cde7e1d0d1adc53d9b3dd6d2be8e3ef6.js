@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d73ae50f6129137c08afb7c23912ed6d",
+    "revision": "3fa0b609b1b3fa353e94c0a1c5687afa",
     "url": "/index.html"
   },
   {
-    "revision": "604d46c627781bd2c000",
+    "revision": "c92327a1c940ae0ce3dc",
     "url": "/static/css/29.3812ebb2.chunk.css"
   },
   {
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/BuyPriceHistoryPage.126d4f33.chunk.css"
   },
   {
-    "revision": "983403f3be23abf8107a",
+    "revision": "48da111c704229a63b0b",
     "url": "/static/css/HomePage.8ef6d8cd.chunk.css"
   },
   {
@@ -76,7 +76,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/StockOpnamePage.5f25e2e1.chunk.css"
   },
   {
-    "revision": "cdc3c9431a80c63a5c19",
+    "revision": "9b241dc00da931f74cf9",
     "url": "/static/css/main.d0e99a90.chunk.css"
   },
   {
@@ -92,12 +92,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.a63c506f.chunk.js"
   },
   {
-    "revision": "604d46c627781bd2c000",
-    "url": "/static/js/29.4ddc3e2b.chunk.js"
+    "revision": "c92327a1c940ae0ce3dc",
+    "url": "/static/js/29.4702f6f4.chunk.js"
   },
   {
     "revision": "d80de78cef9f1d731f07ce309a8e3b5c",
-    "url": "/static/js/29.4ddc3e2b.chunk.js.LICENSE.txt"
+    "url": "/static/js/29.4702f6f4.chunk.js.LICENSE.txt"
   },
   {
     "revision": "e1cc33f5638f6253cc4d",
@@ -128,12 +128,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/BuyPriceHistoryPage.29b9d18c.chunk.js"
   },
   {
-    "revision": "983403f3be23abf8107a",
-    "url": "/static/js/HomePage.e6be4d36.chunk.js"
+    "revision": "48da111c704229a63b0b",
+    "url": "/static/js/HomePage.c14b35c9.chunk.js"
   },
   {
     "revision": "e7cad5e8c80a4a756b57f883a8b131b2",
-    "url": "/static/js/HomePage.e6be4d36.chunk.js.LICENSE.txt"
+    "url": "/static/js/HomePage.c14b35c9.chunk.js.LICENSE.txt"
   },
   {
     "revision": "814a239e8eac544d2a82",
@@ -208,12 +208,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/SummarySalesReportPage.15475e2c.chunk.js"
   },
   {
-    "revision": "cdc3c9431a80c63a5c19",
-    "url": "/static/js/main.9ff1c088.chunk.js"
+    "revision": "9b241dc00da931f74cf9",
+    "url": "/static/js/main.772a5f27.chunk.js"
   },
   {
-    "revision": "cc69f5f4fc6ab55c9dca",
-    "url": "/static/js/runtime-main.8eb8abc2.js"
+    "revision": "bc6ad0d1db4fb68b5f13",
+    "url": "/static/js/runtime-main.3a9b7e88.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",
