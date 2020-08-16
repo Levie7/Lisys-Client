@@ -98,7 +98,9 @@ export function PurchasePaymentForm({
         date: query.data
             ? formatMoment(convertMilisecondsToDate(query.data.getPurchasePaymentById.date))
             : moment(),
-        supplier: query.data?.getPurchasePaymentById.supplier.id || (suppliers && suppliers[0].id),
+        supplier:
+            query.data?.getPurchasePaymentById.supplier.id ||
+            (!!suppliers.length && suppliers[0].id),
         payment_method: query.data?.getPurchasePaymentById.payment_method || 'cash',
         payment_no: query.data?.getPurchasePaymentById.payment_no,
         description: query.data?.getPurchasePaymentById.description,

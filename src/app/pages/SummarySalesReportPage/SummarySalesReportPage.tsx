@@ -22,7 +22,7 @@ import {
 } from 'src/shared/helpers/formatDate';
 
 import { getLanguage } from '../SettingPage/helpers';
-import { summarySalesButton, summarySalesTitle } from './constants';
+import { summarySalesButton, summarySalesNoData, summarySalesTitle } from './constants';
 
 export const SummarySalesReportPage = () => {
     let lang = getLanguage();
@@ -68,13 +68,17 @@ export const SummarySalesReportPage = () => {
                     />
                     <div className='d-flex fa-center fd-row mt-4'>
                         <div className='tw-bold mr-4'>{summarySalesTitle[lang]} :</div>
-                        <Link
-                            target='_blank'
-                            // eslint-disable-next-line max-len
-                            to={`/summary_sales_report?user=${user.name}&date=${summarySales.date}&sold=${summarySales.sold}&transaction=${summarySales.transaction}&total=${summarySales.grand_total}`}
-                        >
-                            <Button type='default'>{summarySalesButton[lang]}</Button>
-                        </Link>
+                        {summarySales ? (
+                            <Link
+                                target='_blank'
+                                // eslint-disable-next-line max-len
+                                to={`/summary_sales_report?user=${user.name}&date=${summarySales.date}&sold=${summarySales.sold}&transaction=${summarySales.transaction}&total=${summarySales.grand_total}`}
+                            >
+                                <Button type='default'>{summarySalesButton[lang]}</Button>
+                            </Link>
+                        ) : (
+                            summarySalesNoData[lang]
+                        )}
                     </div>
                 </ReportCard>
             </div>
