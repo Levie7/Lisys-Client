@@ -109,7 +109,9 @@ export function PurchaseReturnForm({
         date: query.data
             ? formatMoment(convertMilisecondsToDate(query.data.getPurchaseReturnById.date))
             : moment(),
-        supplier: query.data?.getPurchaseReturnById.supplier.id || (suppliers && suppliers[0].id),
+        supplier:
+            query.data?.getPurchaseReturnById.supplier.id ||
+            (!!suppliers.length && suppliers[0].id),
         description: query.data?.getPurchaseReturnById.description,
     };
 

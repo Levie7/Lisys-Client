@@ -14,7 +14,7 @@ interface SettingTabsProps extends Lang {
 
 function SettingTabsPure({ lang, position }: SettingTabsProps) {
     return (
-        <Tabs defaultActiveKey='3' tabPosition={position}>
+        <Tabs defaultActiveKey='1' tabPosition={position}>
             {tabData.map((tab) => (
                 <Tabs.TabPane
                     key={tab.key}

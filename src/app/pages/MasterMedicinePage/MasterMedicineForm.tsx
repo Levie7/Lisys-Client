@@ -71,7 +71,8 @@ export function MasterMedicineForm({ auth, formType, lang, recordKey }: MasterMe
         barcode: query.data?.getMedicineByQuery.barcode,
         buy_price:
             query.data && Currency(formatCommaValue(query.data.getMedicineByQuery.buy_price)),
-        category: query.data?.getMedicineByQuery.category.id || (categories && categories[0].id),
+        category:
+            query.data?.getMedicineByQuery.category.id || (!!categories.length && categories[0].id),
         code: query.data?.getMedicineByQuery.code,
         key: query.data?.getMedicineByQuery.id!,
         min_stock: query.data?.getMedicineByQuery.min_stock,
@@ -89,8 +90,8 @@ export function MasterMedicineForm({ auth, formType, lang, recordKey }: MasterMe
         sell_price:
             query.data && Currency(formatCommaValue(query.data.getMedicineByQuery.sell_price)),
         stock: query.data?.getMedicineByQuery.stock,
-        uom: query.data?.getMedicineByQuery.uom.id || (uoms && uoms[0].id),
-        variant: query.data?.getMedicineByQuery.variant.id || (variants && variants[0].id),
+        uom: query.data?.getMedicineByQuery.uom.id || (!!uoms.length && uoms[0].id),
+        variant: query.data?.getMedicineByQuery.variant.id || (!!variants.length && variants[0].id),
     };
 
     function handleChangeBarcode() {

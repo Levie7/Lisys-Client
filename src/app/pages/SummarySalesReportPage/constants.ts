@@ -9,3 +9,7 @@ export const summarySalesField = {
     title: { en: 'Summary Sales', id: 'Rangkuman Penjualan' },
     user: { en: 'User', id: 'Pengguna' },
 };
+export const summarySalesNoData = {
+    en: 'No Data',
+    id: 'Tidak Ada Data',
+};

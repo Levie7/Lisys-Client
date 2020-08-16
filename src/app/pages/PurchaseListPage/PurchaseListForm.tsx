@@ -101,7 +101,8 @@ export function PurchaseListForm({ auth, formType, recordKey, ...props }: Purcha
         due_date: query.data
             ? formatMoment(convertMilisecondsToDate(query.data.getPurchasingById.due_date))
             : moment().add(1, 'months'),
-        supplier: query.data?.getPurchasingById.supplier.id || (suppliers && suppliers[0].id),
+        supplier:
+            query.data?.getPurchasingById.supplier.id || (!!suppliers.length && suppliers[0].id),
         description: query.data?.getPurchasingById.description,
     };
     let detail = handlePurchaseListDetail(query.data);

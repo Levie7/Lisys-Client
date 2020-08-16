@@ -65,11 +65,9 @@ const CREATE_USER = gql`
 `;
 
 const DELETE_USER = gql`
-    mutation deleteUser($payload: DeleteUserPayload) {
+    mutation deleteUser($payload: DeletePayload) {
         deleteUser(payload: $payload) {
-            name
             password
-            username
         }
     }
 `;
