@@ -43,9 +43,8 @@ const CREATE_ROLE = gql`
 `;
 
 const DELETE_ROLE = gql`
-    mutation deleteRole($payload: DeleteRolePayload) {
+    mutation deleteRole($payload: DeletePayload) {
         deleteRole(payload: $payload) {
-            name
             description
         }
     }
