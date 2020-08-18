@@ -11,7 +11,6 @@ export const PURCHASE_RETURN_BY_ID = gql`
             detail {
                 buy_price
                 discount_amount
-                id
                 medicine {
                     code
                     id

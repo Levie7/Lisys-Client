@@ -9,7 +9,6 @@ export const PURCHASE_PAYMENT_BY_ID = gql`
             date
             description
             detail {
-                id
                 purchasing {
                     credit_total
                     date
