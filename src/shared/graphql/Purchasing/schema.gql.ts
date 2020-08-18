@@ -12,7 +12,6 @@ export const PURCHASING_BY_ID = gql`
                 batch_no
                 buy_price
                 expired_date
-                id
                 medicine {
                     id
                     code
@@ -46,7 +45,6 @@ export const PURCHASING_LIST = gql`
                 date
                 detail {
                     buy_price
-                    id
                     medicine {
                         code
                         id
