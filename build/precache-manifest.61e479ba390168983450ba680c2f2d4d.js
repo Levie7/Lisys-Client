@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7f51117ab3656a0c9b910d7c23b5d51f",
+    "revision": "58d25c760c15597315188b6176eec392",
     "url": "/index.html"
   },
   {
@@ -56,7 +56,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/PurchaseReturnPage.f5b9e7f0.chunk.css"
   },
   {
-    "revision": "c3d642b999d7ddb3f944",
+    "revision": "27fd0be5e38faacf6e56",
     "url": "/static/css/SalesPage.3fb7c9fd.chunk.css"
   },
   {
@@ -64,7 +64,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/SettingPage.79bc2a2e.chunk.css"
   },
   {
-    "revision": "1c707fa918712b6d84ef",
+    "revision": "feff97d0b301d94fb4c6",
     "url": "/static/css/SoldMedicineReportPage.dcb9bbba.chunk.css"
   },
   {
@@ -184,16 +184,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/PurchaseReturnPage.8a2efae5.chunk.js"
   },
   {
-    "revision": "c3d642b999d7ddb3f944",
-    "url": "/static/js/SalesPage.c7185557.chunk.js"
+    "revision": "27fd0be5e38faacf6e56",
+    "url": "/static/js/SalesPage.c1f3c396.chunk.js"
   },
   {
     "revision": "ffba4ca7dc8b0abae9c0",
     "url": "/static/js/SettingPage.4521030b.chunk.js"
   },
   {
-    "revision": "1c707fa918712b6d84ef",
-    "url": "/static/js/SoldMedicineReportPage.316ebe8b.chunk.js"
+    "revision": "feff97d0b301d94fb4c6",
+    "url": "/static/js/SoldMedicineReportPage.654c269b.chunk.js"
   },
   {
     "revision": "1278232664840449ae5a",
@@ -204,16 +204,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/StockOpnamePage.ed55c596.chunk.js"
   },
   {
-    "revision": "54f2a3c4a83a74d58968",
-    "url": "/static/js/SummarySalesReportPage.15475e2c.chunk.js"
+    "revision": "a4f8e22a10249de35615",
+    "url": "/static/js/SummarySalesReportPage.e8bb617d.chunk.js"
   },
   {
     "revision": "b853c2dfa72b34c6afb1",
     "url": "/static/js/main.2e20f5ef.chunk.js"
   },
   {
-    "revision": "7dd1def16bd5a3f799da",
-    "url": "/static/js/runtime-main.bbb0e6e9.js"
+    "revision": "e0cdd2d5c0f8286181eb",
+    "url": "/static/js/runtime-main.b91273d7.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",
