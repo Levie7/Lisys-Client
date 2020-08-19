@@ -93,6 +93,7 @@ export const PERMISSIONS = gql`
             }
             id
             menu {
+                key
                 name
             }
             status
