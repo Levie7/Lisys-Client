@@ -12,7 +12,6 @@ export const SALES_BY_ID = gql`
             date
             description
             detail {
-                id
                 medicine {
                     id
                     code
@@ -91,7 +90,6 @@ const CREATE_SALES = gql`
             no
             date
             detail {
-                id
                 medicine {
                     id
                     code
