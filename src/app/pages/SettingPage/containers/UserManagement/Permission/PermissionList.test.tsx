@@ -9,7 +9,7 @@ import { ACTIONS, PERMISSIONS } from 'src/shared/graphql/Permission/schema.gql';
 
 import { ROLES } from '../Role/schema.gql';
 
-import { PermissionList } from './PermissionList';
+import { PermissionList, PermissionListProps } from './PermissionList';
 
 let mockClient = createMockClient();
 let mockPermission = [
@@ -19,6 +19,7 @@ let mockPermission = [
         },
         id: 'id1',
         menu: {
+            key: 'name1',
             name: 'name1',
         },
         status: 'active',
@@ -29,6 +30,7 @@ let mockPermission = [
         },
         id: 'id2',
         menu: {
+            key: 'name2',
             name: 'name2',
         },
         status: 'active',
@@ -82,6 +84,7 @@ let mockRole = [
 ];
 describe('PermissionList', () => {
     let wrap: any;
+    let props: PermissionListProps = { lang: 'en' };
     let queryHandler = jest
         .fn()
         .mockResolvedValue({ data: { getPermissionsByRoleId: mockPermission } });
@@ -97,7 +100,7 @@ describe('PermissionList', () => {
         await act(async () => {
             wrap = mount(
                 <ApolloProvider client={mockClient}>
-                    <PermissionList />
+                    <PermissionList {...props} />
                 </ApolloProvider>
             );
         });
@@ -110,7 +113,7 @@ describe('PermissionList', () => {
             await act(async () => {
                 wrap = mount(
                     <ApolloProvider client={mockClient}>
-                        <PermissionList />
+                        <PermissionList {...props} />
                     </ApolloProvider>
                 );
             });

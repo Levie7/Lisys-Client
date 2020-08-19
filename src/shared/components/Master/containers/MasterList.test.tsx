@@ -43,11 +43,12 @@ let mockDataCategory = {
 let mockPermission = [
     {
         action: {
-            name: 'Access',
+            name: 'Delete',
         },
         id: 'id1',
         menu: {
-            name: 'Unit of Measurement',
+            key: 'Category',
+            name: 'Category',
         },
         status: 'active',
     },
@@ -57,6 +58,7 @@ let mockPermission = [
         },
         id: 'id2',
         menu: {
+            key: 'Category',
             name: 'Category',
         },
         status: 'active',

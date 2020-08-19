@@ -221,7 +221,7 @@ export function MasterList({
             permission &&
             permission.find(
                 (permission: Permission) =>
-                    permission.menu?.name === title && permission.status === 'active'
+                    permission.menu?.key === title && permission.status === 'active'
             )
         );
     }
