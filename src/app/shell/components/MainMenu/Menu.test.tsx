@@ -38,6 +38,7 @@ let mockPermission = [
         },
         id: 'id1',
         menu: {
+            key: 'Unit of Measurement',
             name: 'Unit of Measurement',
         },
         status: 'active',
@@ -48,6 +49,7 @@ let mockPermission = [
         },
         id: 'id2',
         menu: {
+            key: 'Medicine',
             name: 'Medicine',
         },
         status: 'active',

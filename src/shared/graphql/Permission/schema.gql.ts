@@ -9,6 +9,7 @@ export const GET_ACCESS_PERMISSIONS = gql`
             }
             id
             menu {
+                key
                 name
             }
             status
@@ -24,6 +25,7 @@ export const GET_CREATE_PERMISSIONS = gql`
             }
             id
             menu {
+                key
                 name
             }
             status
@@ -39,6 +41,7 @@ export const GET_DELETE_PERMISSIONS = gql`
             }
             id
             menu {
+                key
                 name
             }
             status
@@ -54,6 +57,7 @@ export const GET_READ_PERMISSIONS = gql`
             }
             id
             menu {
+                key
                 name
             }
             status
@@ -69,6 +73,7 @@ export const GET_UPDATE_PERMISSIONS = gql`
             }
             id
             menu {
+                key
                 name
             }
             status
