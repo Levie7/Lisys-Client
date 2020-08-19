@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4cf693d42d1d3c0e631c361364cdde84",
+    "revision": "7f51117ab3656a0c9b910d7c23b5d51f",
     "url": "/index.html"
   },
   {
@@ -72,7 +72,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/StockCardPage.126d4f33.chunk.css"
   },
   {
-    "revision": "04f7fd8966dc28151572",
+    "revision": "b68b4d869aa2116fe246",
     "url": "/static/css/StockOpnamePage.5f25e2e1.chunk.css"
   },
   {
@@ -200,8 +200,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/StockCardPage.80156a8f.chunk.js"
   },
   {
-    "revision": "04f7fd8966dc28151572",
-    "url": "/static/js/StockOpnamePage.edb119fd.chunk.js"
+    "revision": "b68b4d869aa2116fe246",
+    "url": "/static/js/StockOpnamePage.ed55c596.chunk.js"
   },
   {
     "revision": "54f2a3c4a83a74d58968",
@@ -212,8 +212,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/main.2e20f5ef.chunk.js"
   },
   {
-    "revision": "ff0f512060db9c356119",
-    "url": "/static/js/runtime-main.ded55c92.js"
+    "revision": "7dd1def16bd5a3f799da",
+    "url": "/static/js/runtime-main.bbb0e6e9.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",

@@ -9,7 +9,6 @@ export const STOCK_OPNAME_BY_ID = gql`
             description
             detail {
                 difference
-                id
                 medicine {
                     id
                     code
