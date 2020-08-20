@@ -109,6 +109,7 @@ function CrudListTablePure({
                                 />
                             )}
                             {!showSelect &&
+                                !showRead &&
                                 !showUpdate &&
                                 !showDelete &&
                                 crudAction.no_action.message[lang]}

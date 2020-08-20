@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "25538449881755ed9c718d55605b07b6",
+    "revision": "97f7a76a7b0aaadf4d12a4e3f2256061",
     "url": "/index.html"
   },
   {
@@ -12,7 +12,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/4.dcb9bbba.chunk.css"
   },
   {
-    "revision": "81e1d57180ff18217af7",
+    "revision": "32f78de3c7cc03c8410e",
     "url": "/static/css/BuyPriceHistoryPage.126d4f33.chunk.css"
   },
   {
@@ -24,43 +24,43 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/LoginPage.18ffa294.chunk.css"
   },
   {
-    "revision": "001700580a94e9847a56",
+    "revision": "35b007d53babafbf2dfb",
     "url": "/static/css/MasterCategoryPage.126d4f33.chunk.css"
   },
   {
-    "revision": "7ab8d94b0cb0c760587b",
+    "revision": "2f0c1f1f8c0ab3917a36",
     "url": "/static/css/MasterMedicinePage.126d4f33.chunk.css"
   },
   {
-    "revision": "5d727223aafe5b849523",
+    "revision": "2d84c0b690dff7dd1477",
     "url": "/static/css/MasterSupplierPage.126d4f33.chunk.css"
   },
   {
-    "revision": "dea33f70bbc637fe8448",
+    "revision": "67c4f64ec4d88f901bfc",
     "url": "/static/css/MasterUoMPage.126d4f33.chunk.css"
   },
   {
-    "revision": "250e7d65e21528ea1dd3",
+    "revision": "91c2ac9b8f4f0c6ccf74",
     "url": "/static/css/MasterVariantPage.126d4f33.chunk.css"
   },
   {
-    "revision": "ee837adfacf4bd15a740",
+    "revision": "fff587c24fe73d7f1ad9",
     "url": "/static/css/PurchaseListPage.7b3d5940.chunk.css"
   },
   {
-    "revision": "a1131064597ca792ec6a",
+    "revision": "bad598f4bb0ff23faec8",
     "url": "/static/css/PurchasePaymentPage.9a91de4b.chunk.css"
   },
   {
-    "revision": "99d6f626eb464bac1920",
+    "revision": "852809a0cc84ad534920",
     "url": "/static/css/PurchaseReturnPage.f5b9e7f0.chunk.css"
   },
   {
-    "revision": "60f4c483a8840c601128",
+    "revision": "5a43393dbc022ac55867",
     "url": "/static/css/SalesPage.3fb7c9fd.chunk.css"
   },
   {
-    "revision": "7ff3892e522db30e1084",
+    "revision": "a77bb4dbfd394ffd90eb",
     "url": "/static/css/SettingPage.79bc2a2e.chunk.css"
   },
   {
@@ -68,11 +68,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/SoldMedicineReportPage.dcb9bbba.chunk.css"
   },
   {
-    "revision": "f34914a0d49494e37592",
+    "revision": "48bad66ce91205d42f75",
     "url": "/static/css/StockCardPage.126d4f33.chunk.css"
   },
   {
-    "revision": "2fbe1f44879983382f92",
+    "revision": "75ab74e226d5191df970",
     "url": "/static/css/StockOpnamePage.5f25e2e1.chunk.css"
   },
   {
@@ -124,8 +124,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/6.3848a467.chunk.js"
   },
   {
-    "revision": "81e1d57180ff18217af7",
-    "url": "/static/js/BuyPriceHistoryPage.f5e08ea1.chunk.js"
+    "revision": "32f78de3c7cc03c8410e",
+    "url": "/static/js/BuyPriceHistoryPage.d85424ee.chunk.js"
   },
   {
     "revision": "638694e0561b933eb07c",
@@ -140,24 +140,24 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/LoginPage.9dcb2bd6.chunk.js"
   },
   {
-    "revision": "001700580a94e9847a56",
-    "url": "/static/js/MasterCategoryPage.7443d126.chunk.js"
+    "revision": "35b007d53babafbf2dfb",
+    "url": "/static/js/MasterCategoryPage.b8ae088c.chunk.js"
   },
   {
-    "revision": "7ab8d94b0cb0c760587b",
-    "url": "/static/js/MasterMedicinePage.c3f42078.chunk.js"
+    "revision": "2f0c1f1f8c0ab3917a36",
+    "url": "/static/js/MasterMedicinePage.1f0d186a.chunk.js"
   },
   {
-    "revision": "5d727223aafe5b849523",
-    "url": "/static/js/MasterSupplierPage.025a362f.chunk.js"
+    "revision": "2d84c0b690dff7dd1477",
+    "url": "/static/js/MasterSupplierPage.96077393.chunk.js"
   },
   {
-    "revision": "dea33f70bbc637fe8448",
-    "url": "/static/js/MasterUoMPage.02352bb0.chunk.js"
+    "revision": "67c4f64ec4d88f901bfc",
+    "url": "/static/js/MasterUoMPage.98c0dd37.chunk.js"
   },
   {
-    "revision": "250e7d65e21528ea1dd3",
-    "url": "/static/js/MasterVariantPage.362731b6.chunk.js"
+    "revision": "91c2ac9b8f4f0c6ccf74",
+    "url": "/static/js/MasterVariantPage.938115f2.chunk.js"
   },
   {
     "revision": "981aef94f30def617016",
@@ -172,36 +172,36 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/MedicineListReportPage.5970d9ee.chunk.js"
   },
   {
-    "revision": "ee837adfacf4bd15a740",
-    "url": "/static/js/PurchaseListPage.cd7c2ff7.chunk.js"
+    "revision": "fff587c24fe73d7f1ad9",
+    "url": "/static/js/PurchaseListPage.1ca02ccf.chunk.js"
   },
   {
-    "revision": "a1131064597ca792ec6a",
-    "url": "/static/js/PurchasePaymentPage.98806679.chunk.js"
+    "revision": "bad598f4bb0ff23faec8",
+    "url": "/static/js/PurchasePaymentPage.fb7215cc.chunk.js"
   },
   {
-    "revision": "99d6f626eb464bac1920",
-    "url": "/static/js/PurchaseReturnPage.d9f90112.chunk.js"
+    "revision": "852809a0cc84ad534920",
+    "url": "/static/js/PurchaseReturnPage.cbb6cfc8.chunk.js"
   },
   {
-    "revision": "60f4c483a8840c601128",
-    "url": "/static/js/SalesPage.a51f213a.chunk.js"
+    "revision": "5a43393dbc022ac55867",
+    "url": "/static/js/SalesPage.623f48e2.chunk.js"
   },
   {
-    "revision": "7ff3892e522db30e1084",
-    "url": "/static/js/SettingPage.461a0ffb.chunk.js"
+    "revision": "a77bb4dbfd394ffd90eb",
+    "url": "/static/js/SettingPage.82cf82cc.chunk.js"
   },
   {
     "revision": "5345a58f6a9c301fbe24",
     "url": "/static/js/SoldMedicineReportPage.404d4d2e.chunk.js"
   },
   {
-    "revision": "f34914a0d49494e37592",
-    "url": "/static/js/StockCardPage.68ce532f.chunk.js"
+    "revision": "48bad66ce91205d42f75",
+    "url": "/static/js/StockCardPage.c6bf38db.chunk.js"
   },
   {
-    "revision": "2fbe1f44879983382f92",
-    "url": "/static/js/StockOpnamePage.67b7b1cd.chunk.js"
+    "revision": "75ab74e226d5191df970",
+    "url": "/static/js/StockOpnamePage.d99340c5.chunk.js"
   },
   {
     "revision": "a4f8e22a10249de35615",
@@ -212,8 +212,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/main.c88f17c0.chunk.js"
   },
   {
-    "revision": "bc4a53701ef287d6761b",
-    "url": "/static/js/runtime-main.2c7c31da.js"
+    "revision": "e3cb5e53e507438448c0",
+    "url": "/static/js/runtime-main.7df66c29.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",
