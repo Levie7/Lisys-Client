@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9371614cf062bbe8c15fc0a346f7f7eb",
+    "revision": "a0d0f862d9de8a6f366113bfde05eba3",
     "url": "/index.html"
   },
   {
@@ -68,7 +68,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/SoldMedicineReportPage.dcb9bbba.chunk.css"
   },
   {
-    "revision": "6b8e07d7235d72cefa68",
+    "revision": "f34914a0d49494e37592",
     "url": "/static/css/StockCardPage.126d4f33.chunk.css"
   },
   {
@@ -196,8 +196,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/SoldMedicineReportPage.404d4d2e.chunk.js"
   },
   {
-    "revision": "6b8e07d7235d72cefa68",
-    "url": "/static/js/StockCardPage.63497554.chunk.js"
+    "revision": "f34914a0d49494e37592",
+    "url": "/static/js/StockCardPage.68ce532f.chunk.js"
   },
   {
     "revision": "2fbe1f44879983382f92",
@@ -212,8 +212,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/main.c88f17c0.chunk.js"
   },
   {
-    "revision": "f04ecaad42d9f6db1095",
-    "url": "/static/js/runtime-main.83b2dbe8.js"
+    "revision": "9873d5dfa3cf13ed1d21",
+    "url": "/static/js/runtime-main.d510d66b.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",

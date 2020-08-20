@@ -108,10 +108,11 @@ export const StockCardPage = () => {
                     tag: stockCard.tag,
                     supplier_name: stockCard.transaction?.supplier?.name,
                     expired_date:
-                        stockCard.transaction?.detail &&
+                        stockCard.transaction?.detail?.length &&
                         convertMilisecondsToDate(stockCard.transaction.detail[0].expired_date),
                     batch_no:
-                        stockCard.transaction?.detail && stockCard.transaction.detail[0].batch_no,
+                        stockCard.transaction?.detail?.length &&
+                        stockCard.transaction.detail[0].batch_no,
                     qty_begin: stockCard.qty_begin,
                     qty_in: stockCard.qty_in,
                     qty_out: stockCard.qty_out,
