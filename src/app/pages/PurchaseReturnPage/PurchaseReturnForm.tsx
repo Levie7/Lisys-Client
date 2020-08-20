@@ -148,6 +148,9 @@ export function PurchaseReturnForm({
             }
         }
         setFilter({});
+    } else if (medicine === null) {
+        Message(purchaseReturnError.not_found[lang], 'error');
+        setFilter({});
     }
 
     function handleAddItemList() {

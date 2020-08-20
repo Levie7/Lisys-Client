@@ -95,6 +95,10 @@ export const purchaseReturnError = {
         en: 'Qty of items is more than qty purchase',
         id: 'Jumlah barang lebih banyak daripada jumlah beli',
     },
+    not_found: {
+        en: 'Medicine not found!',
+        id: 'Obat tidak ditemukan!',
+    },
     required: {
         en: 'Fill detail first!',
         id: 'Isi detail terlebih dahulu',
