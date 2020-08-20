@@ -12,6 +12,9 @@ export const STOCK_CARD_LIST = gql`
                 tag
                 transaction_date
                 transaction(payload: $payload) {
+                    ... on StockOpname {
+                        no
+                    }
                     ... on Purchasing {
                         detail {
                             batch_no
@@ -22,14 +25,14 @@ export const STOCK_CARD_LIST = gql`
                             name
                         }
                     }
+                    ... on Sales {
+                        no
+                    }
                     ... on PurchaseReturn {
                         no
                         supplier {
                             name
                         }
-                    }
-                    ... on Sales {
-                        no
                     }
                 }
             }

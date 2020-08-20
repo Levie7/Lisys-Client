@@ -17,10 +17,12 @@ export const SummarySalesReportResultPage = withQueryParams(
     ({ query }: SummarySalesReportResultPageProps) => {
         let lang = getLanguage();
         let [init, setInit] = React.useState(false);
-        if (!init) {
-            window.print();
-            setInit(true);
-        }
+        React.useEffect(() => {
+            if (!init) {
+                window.print();
+                setInit(true);
+            }
+        }, [init]);
 
         return (
             <div className='p-2'>
