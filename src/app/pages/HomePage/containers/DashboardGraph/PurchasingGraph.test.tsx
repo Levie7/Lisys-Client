@@ -34,9 +34,7 @@ describe('PurchasingGraph', () => {
         data: {
             getPurchasingDebtPerMonth: [
                 {
-                    _id: {
-                        period: '2020-07',
-                    },
+                    _id: '2020-07',
                     credit_total: 3000,
                 },
             ],
