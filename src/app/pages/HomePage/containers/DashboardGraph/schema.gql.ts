@@ -4,9 +4,7 @@ import { gql, useQuery } from 'src/core/graphql';
 export const PURCHASING_DEBT_PER_MONTH = gql`
     query getPurchasingDebtPerMonth($payload: PurchasingDebtPayload) {
         getPurchasingDebtPerMonth(payload: $payload) {
-            _id {
-                period
-            }
+            _id
             credit_total
         }
     }

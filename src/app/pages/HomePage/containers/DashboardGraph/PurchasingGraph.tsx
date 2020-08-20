@@ -64,9 +64,7 @@ export function PurchasingGraph({ lang }: PurchasingGraphProps) {
         // eslint-disable-next-line array-callback-return
         months[lang].map((_, index) => {
             if (purchasingDebtPerMonth[indexResult]) {
-                let salesMonth = parseInt(
-                    purchasingDebtPerMonth[indexResult]._id.period.split('-')[1]
-                );
+                let salesMonth = parseInt(purchasingDebtPerMonth[indexResult]._id.split('-')[1]);
                 if (index + 1 === salesMonth) {
                     salesData.push(purchasingDebtPerMonth[indexResult].credit_total);
                     indexResult++;
