@@ -25,13 +25,13 @@ export const SummarySalesReportResultPage = withQueryParams(
         }, [init]);
 
         return (
-            <div className='p-2 typo-display-2'>
+            <div className='p-2 typo-display-3'>
                 <div>APOTEK HOSANNA</div>
                 <div>Palazzo Park blok A 5012, Sidoarjo</div>
                 <div>Telp: 031-99031371</div>
                 <br />
                 <div>{summarySalesField.title[lang]}</div>
-                <div>--------------------------------------------------------</div>
+                <div>----------------------------------------------</div>
                 <div className='d-flex fj-between'>
                     <div>{summarySalesField.user[lang]}</div>
                     <div>{query.user}</div>
@@ -40,7 +40,7 @@ export const SummarySalesReportResultPage = withQueryParams(
                     <div>{summarySalesField.date[lang]}</div>
                     <div>{formatPresentDate(query.date)}</div>
                 </div>
-                <div>--------------------------------------------------------</div>
+                <div>----------------------------------------------</div>
                 <div className='d-flex fj-between'>
                     <div>{summarySalesField.total_medicine[lang]}</div>
                     <div>{query.sold}</div>
