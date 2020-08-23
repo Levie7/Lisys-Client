@@ -42,7 +42,7 @@ export const SalesDetailResultPage = ({ history, location }: RouteComponentProps
     }
 
     return (
-        <div className='p-2 typo-display-2'>
+        <div className='p-2 typo-display-3'>
             <div>APOTEK HOSANNA</div>
             <div>Palazzo Park blok A 5012, Sidoarjo</div>
             <div>Telp: 031-99031371</div>
@@ -59,7 +59,7 @@ export const SalesDetailResultPage = ({ history, location }: RouteComponentProps
                 <div>{salesField.cashier[lang]}</div>
                 <div>{cashier}</div>
             </div>
-            <div>--------------------------------------------------------</div>
+            <div>----------------------------------------------</div>
             {detail.map((detail: SalesDetail) => (
                 <div className='d-flex fd-column fj-between' key={detail.medicine!.code}>
                     <div>{detail.medicine!.name}</div>
@@ -71,7 +71,7 @@ export const SalesDetailResultPage = ({ history, location }: RouteComponentProps
                     </div>
                 </div>
             ))}
-            <div>--------------------------------------------------------</div>
+            <div>----------------------------------------------</div>
             <div className='d-flex fj-between'>
                 <div>{salesField.total[lang]}</div>
                 <div>{Currency(formatCommaValue(total))}</div>
