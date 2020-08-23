@@ -25,7 +25,7 @@ export const SummarySalesReportResultPage = withQueryParams(
         }, [init]);
 
         return (
-            <div className='p-2'>
+            <div className='p-2 typo-display-2'>
                 <div>APOTEK HOSANNA</div>
                 <div>Palazzo Park blok A 5012, Sidoarjo</div>
                 <div>Telp: 031-99031371</div>
