@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f3e70560b3c03cd94005c9be66e3d4a9",
+    "revision": "025f9bdaf2e7550a59dde71709586066",
     "url": "/index.html"
   },
   {
@@ -56,7 +56,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/PurchaseReturnPage.f5b9e7f0.chunk.css"
   },
   {
-    "revision": "f44c8b8114d7cc3c10da",
+    "revision": "0d3dac04963a9e95384c",
     "url": "/static/css/SalesPage.3fb7c9fd.chunk.css"
   },
   {
@@ -184,8 +184,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/PurchaseReturnPage.df89ad6f.chunk.js"
   },
   {
-    "revision": "f44c8b8114d7cc3c10da",
-    "url": "/static/js/SalesPage.14c0c08d.chunk.js"
+    "revision": "0d3dac04963a9e95384c",
+    "url": "/static/js/SalesPage.74483657.chunk.js"
   },
   {
     "revision": "378bd6407897a995ef17",
@@ -212,8 +212,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/main.f8192c8b.chunk.js"
   },
   {
-    "revision": "d8f798ea96d968a9903d",
-    "url": "/static/js/runtime-main.b7aca4a0.js"
+    "revision": "c26e7b381bb3505ff73a",
+    "url": "/static/js/runtime-main.6066a9c8.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",
