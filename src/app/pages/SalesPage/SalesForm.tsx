@@ -139,7 +139,11 @@ export function SalesForm({ auth, formType, ...props }: SalesFormProps) {
 
     function handleBarcode(e: any) {
         e.preventDefault();
-        setFilter({ ...filter, barcode: e.target.value });
+        let value = e.target.value;
+
+        setTimeout(() => {
+            setFilter({ ...filter, barcode: value });
+        }, 300);
     }
 
     function handleChangeProduct({ qty, recordKey }: { qty: number; recordKey: string }) {
