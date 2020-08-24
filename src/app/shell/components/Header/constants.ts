@@ -3,4 +3,5 @@ export const headerAction = {
 };
 export const headerField = {
     role: { en: 'Role', id: 'Peran' },
+    theme: { en: 'Theme Menu', id: 'Tema Menu' },
 };

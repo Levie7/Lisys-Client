@@ -7,15 +7,21 @@ import { Icon } from 'src/shared/components/Icon';
 import { queryForm } from 'src/shared/graphql';
 import { getUserByUsername } from 'src/shared/graphql/User/schema.gql';
 import { headerAction, headerField } from './constants';
+import { Switch } from 'src/shared/components/Switch';
+
+import { MenuTheme } from '../MainMenu/Menu';
 
 require('./Header.sass');
 
 interface HeaderProps extends Lang {
     auth: string | null;
+    theme?: MenuTheme;
+
+    handleTheme: (value: boolean) => void;
     logout: () => void;
 }
 
-export const Header = React.memo<HeaderProps>(({ auth, lang, logout }) => {
+export const Header = React.memo<HeaderProps>(({ auth, handleTheme, lang, logout, theme }) => {
     let queryUser = queryForm({
         query: getUserByUsername,
         variables: { username: auth },
@@ -33,6 +39,19 @@ export const Header = React.memo<HeaderProps>(({ auth, lang, logout }) => {
                     <strong>Hello, {user.name}</strong>
                     <div>
                         <strong>{headerField.role[lang]} :</strong> {user.role.name}
+                    </div>
+                </div>
+            </Menu.Item>
+            <Menu.Item>
+                <div className='rfq__widget__system-status__item'>
+                    <strong>{headerField.theme[lang]} : </strong>
+                    <div>
+                        <Switch
+                            checkedChildren='Dark'
+                            defaultChecked={theme === 'dark'}
+                            handleChange={(value) => handleTheme(value)}
+                            unCheckedChildren='Light'
+                        />
                     </div>
                 </div>
             </Menu.Item>

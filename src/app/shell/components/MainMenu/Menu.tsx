@@ -10,11 +10,13 @@ import { getMenus } from 'src/shared/graphql/Menu/schema.gql';
 import { getAccessPermissionByRoleId } from 'src/shared/graphql/Permission/schema.gql';
 import { getUserByUsername } from 'src/shared/graphql/User/schema.gql';
 
+export type MenuTheme = 'dark' | 'light';
+
 interface MenuProps {
     auth: string | null;
     className?: string;
     mode?: 'vertical' | 'vertical-left' | 'vertical-right' | 'horizontal' | 'inline';
-    theme?: 'light' | 'dark';
+    theme?: MenuTheme;
 }
 
 function MenuPure({ auth, className, mode, theme }: MenuProps) {
