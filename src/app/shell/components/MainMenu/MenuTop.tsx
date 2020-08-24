@@ -1,25 +1,35 @@
 import * as React from 'react';
 
 import { Picture } from 'src/shared/components/Picture';
+import { classNames } from 'src/shared/utilities/classNames';
 
 import { logo } from './constants';
-import { Menu } from './Menu';
+import { Menu, MenuTheme } from './Menu';
 
 interface MenuTopProps {
     auth: string | null;
+    theme?: MenuTheme;
 }
 
-function MenuTopPure({ auth }: MenuTopProps) {
+function MenuTopPure({ auth, theme }: MenuTopProps) {
+    let pictureTheme: MenuTheme = 'dark';
+    let pictureClassName = 'bg-white';
+
+    if (theme === 'dark') {
+        pictureTheme = 'light';
+        pictureClassName = 'bg-primary';
+    }
+
     return (
         <div id='MenuTop' className='d-flex'>
             <Picture
-                alt={logo.light.alt}
-                className='bg-primary px-4'
+                alt={logo[pictureTheme].alt}
+                className={classNames('px-4', pictureClassName)}
                 height='46px'
-                src={logo.light.url}
-                title={logo.light.title}
+                src={logo[pictureTheme].url}
+                title={logo[pictureTheme].title}
             />
-            <Menu auth={auth} className='w-100' mode='horizontal' theme='dark' />
+            <Menu auth={auth} className='w-100' mode='horizontal' theme={theme} />
         </div>
     );
 }

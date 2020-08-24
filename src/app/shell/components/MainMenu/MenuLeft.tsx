@@ -5,11 +5,12 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { Picture } from 'src/shared/components/Picture';
 
 import { logo } from './constants';
-import { Menu } from './Menu';
+import { Menu, MenuTheme } from './Menu';
 
 interface MenuLeftProps {
     auth: string | null;
     isMobile: boolean;
+    theme?: MenuTheme;
 }
 interface MenuLeftState {
     onCollapsed: boolean;
@@ -36,7 +37,7 @@ export class MenuLeft extends React.PureComponent<MenuLeftProps, MenuLeftState> 
     }
 
     render() {
-        let { auth, isMobile } = this.props;
+        let { auth, isMobile, theme } = this.props;
         let { onCollapsed } = this.state;
 
         let paramsMobile = {
@@ -53,17 +54,24 @@ export class MenuLeft extends React.PureComponent<MenuLeftProps, MenuLeftState> 
             width: 256,
         };
         let params = isMobile ? paramsMobile : paramsDesktop;
+        let pictureTheme: MenuTheme = 'dark';
+        let pictureClassName = 'bg-white';
+
+        if (theme === 'dark') {
+            pictureTheme = 'light';
+            pictureClassName = 'bg-primary';
+        }
 
         return (
             <Layout.Sider {...params} className='MenuLeft'>
                 {!onCollapsed && (
                     <div className='MenuLeft_Logo d-flex fa-center fj-center'>
                         <Picture
-                            alt={logo.light.alt}
-                            className='bg-primary'
+                            alt={logo[pictureTheme].alt}
+                            className={pictureClassName}
                             height='46px'
-                            src={logo.light.url}
-                            title={logo.light.title}
+                            src={logo[pictureTheme].url}
+                            title={logo[pictureTheme].title}
                         />
                     </div>
                 )}
@@ -71,7 +79,7 @@ export class MenuLeft extends React.PureComponent<MenuLeftProps, MenuLeftState> 
                     autoHide
                     style={{ height: isMobile ? 'calc(100vh - 64px)' : 'calc(100vh - 112px)' }}
                 >
-                    <Menu auth={auth} className='MenuLeft_Navigation' mode='inline' theme='dark' />
+                    <Menu auth={auth} className='MenuLeft_Navigation' mode='inline' theme={theme} />
                 </Scrollbars>
             </Layout.Sider>
         );
