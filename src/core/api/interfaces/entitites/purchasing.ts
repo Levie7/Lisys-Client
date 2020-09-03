@@ -12,6 +12,15 @@ export interface Purchasing {
     supplier?: { name: string };
 }
 
+export interface PurchasingWithDetail {
+    buy_price: string;
+    credit_total: number;
+    medicine?: { code: string; id: string; name: string; uom?: { name: string } };
+    no: string;
+    purchasing_id?: string;
+    qty: number;
+}
+
 export interface PurchasingDetail {
     batch_no: string;
     buy_price: number;
@@ -44,12 +53,12 @@ export interface PurchasingListData {
 }
 
 export interface PurchasingWithDetailListData {
-    key?: string;
-    no: string;
-    code: string;
-    medicine: string;
-    qty: number;
-    uom: string;
     buy_price: string;
     credit_total: string;
+    code: string;
+    key?: string;
+    medicine: string;
+    no: string;
+    qty: number;
+    uom: string;
 }

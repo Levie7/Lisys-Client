@@ -1,4 +1,4 @@
-import { Purchasing } from 'src/core/api';
+import { Purchasing, PurchasingWithDetail } from 'src/core/api';
 import { gql, useMutation, useQuery } from 'src/core/graphql';
 
 export const PURCHASING_BY_ID = gql`
@@ -75,6 +75,30 @@ export const PURCHASING_LIST = gql`
     }
 `;
 
+export const PURCHASING_LIST_WITH_DETAIL = gql`
+    query getPurchasingListWithDetail($payload: ListPayload) {
+        getPurchasingListWithDetail(payload: $payload) {
+            data {
+                buy_price
+                credit_total
+                medicine {
+                    code
+                    id
+                    name
+                    uom {
+                        id
+                        name
+                    }
+                }
+                no
+                purchasing_id
+                qty
+            }
+            total
+        }
+    }
+`;
+
 const CREATE_PURCHASING = gql`
     mutation createPurchasing($payload: CreatePurchasingPayload) {
         createPurchasing(payload: $payload) {
@@ -103,6 +127,11 @@ export const getPurchasingById = (options: any) =>
     useQuery<{ getPurchasingById: Purchasing }>(PURCHASING_BY_ID, options);
 export const getPurchasingList = (options: any) =>
     useQuery<{ getPurchasingList: Purchasing[] }>(PURCHASING_LIST, options);
+export const getPurchasingListWithDetail = (options: any) =>
+    useQuery<{ getPurchasingListWithDetail: PurchasingWithDetail[] }>(
+        PURCHASING_LIST_WITH_DETAIL,
+        options
+    );
 export const createPurchasing = (options: any) =>
     useMutation<{ createPurchasing: Purchasing }>(CREATE_PURCHASING, options);
 export const deletePurchasing = (options: any) =>

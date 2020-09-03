@@ -7,6 +7,7 @@ import {
     PurchasingData,
     PurchasingDetail,
     PurchasingListData,
+    PurchasingWithDetail,
     PurchasingWithDetailListData,
 } from 'src/core/api';
 
@@ -41,30 +42,25 @@ export function handlePurchasingData(data?: any): { list: PurchasingData[]; tota
 export function handlePurchasingDetailData(
     data?: any
 ): { list: PurchasingWithDetailListData[]; total: number } {
-    let purchasing = data?.getPurchasingList.data;
-    let total = data?.getPurchasingList.total;
-    if (!purchasing || !purchasing.length) {
+    let purchasingWithDetail = data?.getPurchasingListWithDetail.data;
+    let total = data?.getPurchasingListWithDetail.total;
+    if (!purchasingWithDetail || !purchasingWithDetail.length) {
         return { list: [], total: 0 };
     }
 
-    let header: PurchasingWithDetailListData[] = [];
-    purchasing.map((purchase: Purchasing) => {
-        purchase.detail.map((detail: PurchasingDetail) => {
-            header.push({
-                key: purchase.id! + '-' + detail.medicine!.id!,
-                no: purchase.no,
-                code: detail.medicine!.code,
-                medicine: detail.medicine!.name,
-                qty: detail.qty,
-                uom: detail.medicine!.uom!.name,
-                buy_price: Currency(formatCommaValue(detail.buy_price)),
-                credit_total: Currency(formatCommaValue(purchase.credit_total)),
-            });
-        });
-    });
-
     return {
-        list: header,
+        list: purchasingWithDetail.map((purchasingWithDetail: PurchasingWithDetail) => {
+            return {
+                key: purchasingWithDetail.purchasing_id! + '-' + purchasingWithDetail.medicine!.id!,
+                no: purchasingWithDetail.no,
+                code: purchasingWithDetail.medicine!.code,
+                medicine: purchasingWithDetail.medicine!.name,
+                qty: purchasingWithDetail.qty,
+                uom: purchasingWithDetail.medicine!.uom!.name,
+                buy_price: Currency(formatCommaValue(purchasingWithDetail.buy_price)),
+                credit_total: Currency(formatCommaValue(purchasingWithDetail.credit_total)),
+            };
+        }),
         total,
     };
 }

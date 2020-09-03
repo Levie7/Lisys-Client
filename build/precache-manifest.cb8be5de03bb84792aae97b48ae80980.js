@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "548bc1bd22fdd85ae4b7ae508a7a2335",
+    "revision": "44742b1206c800237cbffa5d34f5a55e",
     "url": "/index.html"
   },
   {
@@ -44,15 +44,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/MasterVariantPage.126d4f33.chunk.css"
   },
   {
-    "revision": "267173267121b6cb519d",
+    "revision": "3d1c866c0040ee06df69",
     "url": "/static/css/PurchaseListPage.7b3d5940.chunk.css"
   },
   {
-    "revision": "b4538a5bb2394052bd40",
+    "revision": "6aedc9b137c4ab273861",
     "url": "/static/css/PurchasePaymentPage.9a91de4b.chunk.css"
   },
   {
-    "revision": "9833a8facba056f0d44e",
+    "revision": "d3a0c8739d5ec8cbb03b",
     "url": "/static/css/PurchaseReturnPage.f5b9e7f0.chunk.css"
   },
   {
@@ -172,16 +172,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/MedicineListReportPage.69ce8f42.chunk.js"
   },
   {
-    "revision": "267173267121b6cb519d",
-    "url": "/static/js/PurchaseListPage.3f108eb4.chunk.js"
+    "revision": "3d1c866c0040ee06df69",
+    "url": "/static/js/PurchaseListPage.1abc069d.chunk.js"
   },
   {
-    "revision": "b4538a5bb2394052bd40",
-    "url": "/static/js/PurchasePaymentPage.913bff1c.chunk.js"
+    "revision": "6aedc9b137c4ab273861",
+    "url": "/static/js/PurchasePaymentPage.da3c53cf.chunk.js"
   },
   {
-    "revision": "9833a8facba056f0d44e",
-    "url": "/static/js/PurchaseReturnPage.de2dd87a.chunk.js"
+    "revision": "d3a0c8739d5ec8cbb03b",
+    "url": "/static/js/PurchaseReturnPage.fd259cbb.chunk.js"
   },
   {
     "revision": "980f299e2aa23906e20d",
@@ -212,8 +212,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/main.a2367c45.chunk.js"
   },
   {
-    "revision": "ce107a1da90a5487790a",
-    "url": "/static/js/runtime-main.6b6028be.js"
+    "revision": "69b0e078a1a4e385ab10",
+    "url": "/static/js/runtime-main.45e3af63.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",
