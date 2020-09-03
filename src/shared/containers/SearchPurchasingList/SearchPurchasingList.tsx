@@ -15,7 +15,10 @@ import {
     handlePurchasingDetailData,
 } from 'src/shared/components/Purchasing/helpers';
 import { Modal } from 'src/shared/components/Modal';
-import { getPurchasingList } from 'src/shared/graphql/Purchasing/schema.gql';
+import {
+    getPurchasingList,
+    getPurchasingListWithDetail,
+} from 'src/shared/graphql/Purchasing/schema.gql';
 
 export interface SearchPurchasingListProps extends Lang {
     is_not_paid?: boolean;
@@ -44,6 +47,14 @@ function SearchPurchasingListPure(
     function handleShowList() {
         showList(true);
     }
+    let columns = purchaseSearchListColumns;
+    let handleData: any = handlePurchasingData;
+    let query: any = getPurchasingList;
+    if (withDetail) {
+        columns = purchaseWithDetailSearchListColumns;
+        handleData = handlePurchasingDetailData;
+        query = getPurchasingListWithDetail;
+    }
 
     return (
         <>
@@ -59,12 +70,10 @@ function SearchPurchasingListPure(
             >
                 <MasterSearchList
                     {...props}
-                    columns={
-                        withDetail ? purchaseWithDetailSearchListColumns : purchaseSearchListColumns
-                    }
+                    columns={columns}
                     customFilter={{ value: { is_not_paid, supplier: supplier_id } }}
-                    query={getPurchasingList}
-                    handleData={withDetail ? handlePurchasingDetailData : handlePurchasingData}
+                    query={query}
+                    handleData={handleData}
                     handleRecord={onRecordList}
                     showAction
                     showSearch
