@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import { createMockClient } from 'mock-apollo-client';
 import React from 'react';
 
-import { MEDICINE_BY_QUERY } from 'src/shared/graphql/Medicine/schema.gql';
+import { MEDICINE_LIST_ACTIVE } from 'src/shared/graphql/Medicine/schema.gql';
 
 import { SearchMedicineList, SearchMedicineListProps } from './SearchMedicineList';
 
@@ -43,7 +43,7 @@ describe('SearchMedicineList', () => {
             },
         },
     });
-    mockClient.setRequestHandler(MEDICINE_BY_QUERY, queryHandler);
+    mockClient.setRequestHandler(MEDICINE_LIST_ACTIVE, queryHandler);
 
     it('should render SearchMedicineList', async () => {
         await act(async () => {
