@@ -60,6 +60,37 @@ export const MEDICINE_LIST = gql`
     }
 `;
 
+export const MEDICINE_LIST_ACTIVE = gql`
+    query getMedicineListActive($payload: ListPayload) {
+        getMedicineListActive(payload: $payload) {
+            data {
+                barcode
+                buy_price
+                category {
+                    id
+                    name
+                }
+                code
+                id
+                min_stock
+                name
+                sell_price
+                status
+                stock
+                uom {
+                    id
+                    name
+                }
+                variant {
+                    id
+                    name
+                }
+            }
+            total
+        }
+    }
+`;
+
 export const MEDICINES = gql`
     query getMedicines {
         getMedicines {
@@ -147,6 +178,8 @@ export const getMedicineByQuery = (options: any) =>
     useQuery<{ getMedicineByQuery: Medicine }>(MEDICINE_BY_QUERY, options);
 export const getMedicineList = (options: any) =>
     useQuery<{ getMedicineList: Medicine[] }>(MEDICINE_LIST, options);
+export const getMedicineListActive = (options: any) =>
+    useQuery<{ getMedicineListActive: Medicine[] }>(MEDICINE_LIST_ACTIVE, options);
 export const createMedicine = (options: any) =>
     useMutation<{ createMedicine: Medicine }>(CREATE_MEDICINE, options);
 export const deleteMedicine = (options: any) =>

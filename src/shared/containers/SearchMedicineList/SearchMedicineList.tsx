@@ -7,9 +7,9 @@ import { Lang } from 'src/core/api';
 import { Button } from 'src/shared/components/Button';
 import { Icon } from 'src/shared/components/Icon';
 import { MasterSearchList } from 'src/shared/components/Master/containers/MasterSearchList';
-import { handleMedicineData } from 'src/shared/components/Master/helpers';
+import { handleMedicineDataActive } from 'src/shared/components/Master/helpers';
 import { Modal } from 'src/shared/components/Modal';
-import { getMedicineList } from 'src/shared/graphql/Medicine/schema.gql';
+import { getMedicineListActive } from 'src/shared/graphql/Medicine/schema.gql';
 
 export interface SearchMedicineListProps extends Lang {
     onRecordList: (recordKey: string, record?: any) => void;
@@ -47,8 +47,8 @@ function SearchMedicineListPure({ onRecordList, ...props }: SearchMedicineListPr
                 <MasterSearchList
                     {...props}
                     columns={medicineSearchListColumns}
-                    query={getMedicineList}
-                    handleData={handleMedicineData}
+                    query={getMedicineListActive}
+                    handleData={handleMedicineDataActive}
                     handleRecord={onRecordList}
                     showAction
                     showSearch
