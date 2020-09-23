@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e1d20763ce67197e8d1681e818b1e191",
+    "revision": "c414029e46d922a91b66e958daa52cc4",
     "url": "/index.html"
   },
   {
@@ -80,7 +80,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/StockOpnamePage.5f25e2e1.chunk.css"
   },
   {
-    "revision": "a7a567e93da70f596bb1",
+    "revision": "792b4473384d0836b24e",
     "url": "/static/css/main.20a05b18.chunk.css"
   },
   {
@@ -216,8 +216,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/SummarySalesReportPage.d3d6d4c8.chunk.js"
   },
   {
-    "revision": "a7a567e93da70f596bb1",
-    "url": "/static/js/main.6c831914.chunk.js"
+    "revision": "792b4473384d0836b24e",
+    "url": "/static/js/main.4dc382d2.chunk.js"
   },
   {
     "revision": "a5933b00b512162ca9de",

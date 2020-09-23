@@ -75,8 +75,8 @@
     "SummarySalesReportPage.js": "/static/js/SummarySalesReportPage.d3d6d4c8.chunk.js",
     "SummarySalesReportPage.js.map": "/static/js/SummarySalesReportPage.d3d6d4c8.chunk.js.map",
     "main.css": "/static/css/main.20a05b18.chunk.css",
-    "main.js": "/static/js/main.6c831914.chunk.js",
-    "main.js.map": "/static/js/main.6c831914.chunk.js.map",
+    "main.js": "/static/js/main.4dc382d2.chunk.js",
+    "main.js.map": "/static/js/main.4dc382d2.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.51645e16.js",
     "runtime-main.js.map": "/static/js/runtime-main.51645e16.js.map",
     "static/css/30.3812ebb2.chunk.css": "/static/css/30.3812ebb2.chunk.css",
@@ -85,7 +85,7 @@
     "static/js/31.2c7fdbea.chunk.js": "/static/js/31.2c7fdbea.chunk.js",
     "static/js/31.2c7fdbea.chunk.js.map": "/static/js/31.2c7fdbea.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.8e32bf37c3aa6ee50fc910ca506fd24d.js": "/precache-manifest.8e32bf37c3aa6ee50fc910ca506fd24d.js",
+    "precache-manifest.60d0047209ed9d091cc78cb83be4451a.js": "/precache-manifest.60d0047209ed9d091cc78cb83be4451a.js",
     "service-worker.js": "/service-worker.js",
     "static/css/30.3812ebb2.chunk.css.map": "/static/css/30.3812ebb2.chunk.css.map",
     "static/css/4.dcb9bbba.chunk.css.map": "/static/css/4.dcb9bbba.chunk.css.map",
@@ -118,6 +118,6 @@
     "static/css/30.3812ebb2.chunk.css",
     "static/js/30.759f0096.chunk.js",
     "static/css/main.20a05b18.chunk.css",
-    "static/js/main.6c831914.chunk.js"
+    "static/js/main.4dc382d2.chunk.js"
   ]
 }
