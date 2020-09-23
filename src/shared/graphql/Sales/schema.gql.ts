@@ -8,6 +8,7 @@ export const SALES_BY_ID = gql`
             created_by {
                 name
             }
+            created_date
             no
             date
             description

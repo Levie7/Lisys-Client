@@ -93,6 +93,7 @@ export const salesError = {
 };
 
 export const salesField = {
+    created: { en: 'Created By', id: 'Dibuat Oleh' },
     no: { en: 'Transaction No', id: 'No Transaksi' },
     cashier: { en: 'Cashier', id: 'Kasir' },
     date: { en: 'Date', id: 'Tanggal' },
