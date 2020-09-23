@@ -9,6 +9,7 @@ export * from './purchaseReturn';
 export * from './purchasing';
 export * from './role';
 export * from './sales';
+export * from './salesReturn';
 export * from './setting';
 export * from './statistic';
 export * from './stockCard';

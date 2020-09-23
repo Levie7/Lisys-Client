@@ -502,7 +502,7 @@ export function SalesForm({ auth, formType, ...props }: SalesFormProps) {
                                 {Icon['plus']} {salesButton.new[lang]}
                             </Button>
                             {!saved && (
-                                <Link target='_blank' to={'/sales?create'}>
+                                <Link target='_blank' to={'/sales_list?create'}>
                                     <Button type='danger'>
                                         {Icon['pending']} {salesButton.pending[lang]}
                                     </Button>

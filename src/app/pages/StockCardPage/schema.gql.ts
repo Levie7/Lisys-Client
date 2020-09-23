@@ -34,6 +34,9 @@ export const STOCK_CARD_LIST = gql`
                             name
                         }
                     }
+                    ... on SalesReturn {
+                        no
+                    }
                 }
             }
             total

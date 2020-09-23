@@ -23,6 +23,7 @@ import {
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import {
     convertMilisecondsToDate,
+    convertMilisecondsToDateTime,
     formatDate,
     formatDefaultDate,
 } from 'src/shared/helpers/formatDate';
@@ -33,7 +34,14 @@ import { getLanguage } from '../SettingPage/helpers';
 import { SalesDetail } from './components/SalesDetail';
 import { SalesHeader } from './components/SalesHeader';
 import { SalesSummary } from './components/SalesSummary';
-import { moduleName, salesButton, salesForm, salesListColumns, title } from './constants';
+import {
+    moduleName,
+    salesButton,
+    salesField,
+    salesForm,
+    salesListColumns,
+    title,
+} from './constants';
 import { SalesForm } from './SalesForm';
 
 export const SalesPage = ({ location }: RouteComponentProps) => {
@@ -107,6 +115,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
 
         let data: Sales = readData.getSalesById;
         let date = convertMilisecondsToDate(data.date);
+        let createdDate = convertMilisecondsToDateTime(data.created_date);
 
         return (
             <div className='row'>
@@ -125,6 +134,11 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
                 <div className='col-12'>
                     <h3>{salesForm.description.label[lang]} : </h3>
                     {data.description}
+                </div>
+                <div className='col-12'>
+                    <h3>
+                        {salesField.created[lang]}: {data.created_by!.name}, {createdDate}
+                    </h3>
                 </div>
                 <Link
                     to={{
@@ -152,7 +166,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
     return (
         <Page>
             <MasterCard
-                header={{ link: '/sales', title }}
+                header={{ link: '/sales_list', title }}
                 initAction={location.search !== '' ? 'create' : undefined}
                 initSection='sales'
                 isCrud

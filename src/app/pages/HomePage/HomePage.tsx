@@ -41,7 +41,7 @@ export const HomePage = ({ history }: RouteComponentProps) => {
     );
 
     if (!hasDashboardPermission) {
-        history.replace('/sales');
+        history.replace('/sales_list');
 
         return null;
     }

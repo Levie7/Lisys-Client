@@ -4,6 +4,10 @@ export function convertMilisecondsToDate(miliseconds: string) {
     return moment(miliseconds, 'x').format('DD-MM-YYYY');
 }
 
+export function convertMilisecondsToDateTime(miliseconds: string) {
+    return moment(miliseconds, 'x').format('DD-MM-YYYY HH:mm:ss');
+}
+
 export function formatDate(date: Moment) {
     return moment(date).format('DD-MM-YYYY');
 }

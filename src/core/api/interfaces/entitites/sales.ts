@@ -1,6 +1,7 @@
 export interface Sales {
     change_total: number;
     created_by?: { name: string };
+    created_date: string;
     date: string;
     description?: string;
     detail: SalesDetail[];
@@ -39,6 +40,24 @@ export interface SalesListData {
     uom: string;
     sell_price: string;
     sub_total: string;
+}
+
+export interface SalesWithDetail {
+    medicine?: { code: string; id: string; name: string; uom?: { name: string } };
+    no: string;
+    qty: number;
+    sales_id?: string;
+    sell_price: string;
+}
+
+export interface SalesWithDetailListData {
+    code: string;
+    key?: string;
+    medicine: string;
+    no: string;
+    qty: number;
+    uom: string;
+    sell_price: string;
 }
 
 export interface SoldMedicine {
