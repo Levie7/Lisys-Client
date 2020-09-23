@@ -166,7 +166,7 @@ export const SalesPage = ({ location }: RouteComponentProps) => {
     return (
         <Page>
             <MasterCard
-                header={{ link: '/sales', title }}
+                header={{ link: '/sales_list', title }}
                 initAction={location.search !== '' ? 'create' : undefined}
                 initSection='sales'
                 isCrud

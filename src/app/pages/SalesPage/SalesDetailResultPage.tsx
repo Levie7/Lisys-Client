@@ -32,10 +32,10 @@ export const SalesDetailResultPage = ({ history, location }: RouteComponentProps
             if (!mql.matches) {
                 if (location.state.list) {
                     fetch({ variables: { payload: { action: 'list', section: 'sales' } } });
-                    history.replace('/sales');
+                    history.replace('/sales_list');
                 } else {
                     fetch({ variables: { payload: { action: 'create', section: 'sales' } } });
-                    history.replace('/sales?create');
+                    history.replace('/sales_list?create');
                 }
             }
         });
