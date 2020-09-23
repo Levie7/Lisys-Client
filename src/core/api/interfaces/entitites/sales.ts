@@ -42,6 +42,14 @@ export interface SalesListData {
     sub_total: string;
 }
 
+export interface SalesWithDetail {
+    medicine?: { code: string; id: string; name: string; uom?: { name: string } };
+    no: string;
+    qty: number;
+    sales_id?: string;
+    sell_price: string;
+}
+
 export interface SalesWithDetailListData {
     code: string;
     key?: string;

@@ -11,6 +11,7 @@ import { Modal } from 'src/shared/components/Modal';
 import { handleSalesReturnDetail } from 'src/shared/components/Sales/helpers';
 import { SaveButton } from 'src/shared/components/SaveButton';
 import { Spin } from 'src/shared/components/Spin';
+import { SearchSalesList } from 'src/shared/containers/SearchSalesList';
 import { useUIContext } from 'src/shared/contexts/UIContext';
 import { mutationForm, queryForm, queryList } from 'src/shared/graphql';
 import { getMedicineByQuery } from 'src/shared/graphql/Medicine/schema.gql';
@@ -53,7 +54,7 @@ export function SalesReturnForm({ auth, formType, recordKey, ...props }: SalesRe
     let [form] = Form.useForm();
     let [dataForm] = Form.useForm();
     let isMobile = useUIContext().isMobile;
-    let searchPurchasing = React.useRef<any>();
+    let searchSales = React.useRef<any>();
     let [init, setInit] = React.useState(false);
     let [data, setData] = React.useState<SalesReturnListData[]>([]);
     let [modal, showModal] = React.useState<{
@@ -115,15 +116,10 @@ export function SalesReturnForm({ auth, formType, recordKey, ...props }: SalesRe
     let medicine = medicineQuery.data?.getMedicineByQuery;
     if (medicine) {
         if (filter.id) {
-            let checkStock = medicine.stock - formQty >= 0;
-            if (checkStock) {
-                if (modal.recordKey) {
-                    handleChangeItemList();
-                } else {
-                    handleAddItemList();
-                }
+            if (modal.recordKey) {
+                handleChangeItemList();
             } else {
-                Message(salesReturnError.stock[lang], 'error');
+                handleAddItemList();
             }
         }
         setFilter({});
@@ -272,7 +268,7 @@ export function SalesReturnForm({ auth, formType, recordKey, ...props }: SalesRe
         setFormQty(qty);
     }
 
-    function handlePurchasingList(recordKey: string, record: any) {
+    function handleSalesList(recordKey: string, record: any) {
         let checkData = data.find((data) => data.key === recordKey);
         if (checkData) {
             Message(salesReturnError.duplicate[lang], 'error');
@@ -280,7 +276,7 @@ export function SalesReturnForm({ auth, formType, recordKey, ...props }: SalesRe
             dataForm.setFieldsValue({
                 qty: 1,
             });
-            searchPurchasing.current.closeList();
+            searchSales.current.closeList();
             showModal({
                 tempData: { ...record, id: recordKey } as SalesWithDetailListData,
                 show: true,
@@ -356,13 +352,12 @@ export function SalesReturnForm({ auth, formType, recordKey, ...props }: SalesRe
                 <div className={classNames('col-12 col@md-9', !isMobile ? 'Detail-Bordered' : '')}>
                     <h1 className='fw-bold'>Detail</h1>
                     <Form.Item label={salesReturnForm.sales.label[lang]} name='sales'>
-                        {/* <SearchPurchasingList
+                        <SearchSalesList
                             {...props}
-                            onRecordList={handlePurchasingList}
-                            ref={searchPurchasing}
-                            supplier_id={supplier}
+                            onRecordList={handleSalesList}
+                            ref={searchSales}
                             withDetail
-                        /> */}
+                        />
                     </Form.Item>
                     {renderDataForm()}
                     <CrudListTable

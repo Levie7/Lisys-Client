@@ -154,5 +154,59 @@ export const salesSummary = {
     total: { en: 'Total', id: 'Total' },
 };
 
+export const salesSearchListColumns = [
+    {
+        dataIndex: 'no',
+        key: 'no',
+        sorter: true,
+        title: { en: 'Transaction No', id: 'No Transaksi' },
+    },
+    {
+        dataIndex: 'date',
+        key: 'date',
+        sorter: true,
+        title: { en: 'Date', id: 'Tanggal' },
+    },
+    {
+        dataIndex: 'grand_total',
+        key: 'grand_total',
+        title: { en: 'Total', id: 'Total' },
+    },
+];
+
+export const salesWithDetailSearchListColumns = [
+    {
+        dataIndex: 'no',
+        key: 'no',
+        sorter: true,
+        title: { en: 'Transaction No', id: 'No Transaksi' },
+    },
+    {
+        dataIndex: 'code',
+        key: 'code',
+        title: { en: 'Code', id: 'Kode' },
+    },
+    {
+        dataIndex: 'medicine',
+        key: 'medicine',
+        title: { en: 'Medicine', id: 'Obat' },
+    },
+    {
+        dataIndex: 'qty',
+        key: 'qty',
+        title: { en: 'Qty', id: 'Jumlah' },
+    },
+    {
+        dataIndex: 'uom',
+        key: 'uom',
+        title: { en: 'UoM', id: 'Satuan' },
+    },
+    {
+        dataIndex: 'sell_price',
+        key: 'sell_price',
+        title: { en: 'Sell Price', id: 'Harga Jual' },
+    },
+];
+
 export const moduleName = 'Sales';
 export const title = 'Sales';

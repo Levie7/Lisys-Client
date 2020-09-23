@@ -72,8 +72,8 @@ export const salesReturnError = {
         id: 'Data sudah ada!',
     },
     qty: {
-        en: 'Qty of items is more than qty purchase',
-        id: 'Jumlah barang lebih banyak daripada jumlah beli',
+        en: 'Qty of items is more than qty sell',
+        id: 'Jumlah barang lebih banyak daripada jumlah jual',
     },
     not_found: {
         en: 'Medicine not found!',
