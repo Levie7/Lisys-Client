@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Lang } from 'src/core/api';
 
 import { CrudListTable } from 'src/shared/components/Crud/CrudList/CrudListTable';
-import { handlePurchaseReturnDetail } from 'src/shared/components/Purchasing/helpers';
+import { handleSalesReturnDetail } from 'src/shared/components/Sales/helpers';
 
 import { salesReturnDetailColumns } from '../constants';
 
@@ -12,7 +12,7 @@ export interface SalesReturnDetailProps extends Lang {
 }
 
 export const SalesReturnDetail = React.memo<SalesReturnDetailProps>(({ data, ...props }) => {
-    let detail = handlePurchaseReturnDetail(data);
+    let detail = handleSalesReturnDetail(data);
 
     return (
         <div className='col-12'>
