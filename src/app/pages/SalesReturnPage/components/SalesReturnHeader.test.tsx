@@ -9,7 +9,6 @@ describe('SalesReturnHeader', () => {
         date: '20-07-2020',
         lang: 'en',
         no: 'PI/123',
-        supplier: 'Dwijaya',
     };
 
     it('should render SalesReturnHeader', () => {
