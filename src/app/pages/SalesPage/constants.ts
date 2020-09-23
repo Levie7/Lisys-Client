@@ -209,4 +209,4 @@ export const salesWithDetailSearchListColumns = [
 ];
 
 export const moduleName = 'Sales';
-export const title = 'Sales';
+export const title = 'Sales List';
