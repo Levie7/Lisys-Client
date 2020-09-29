@@ -4,7 +4,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import { SalesDetail } from 'src/core/api';
 import { updateCrud } from 'src/core/graphql/crud';
 
-import { formatPresentDate } from 'src/shared/helpers/formatDate';
 import { Currency } from 'src/shared/helpers/formatCurrency';
 import { formatCommaValue } from 'src/shared/helpers/formatValue';
 
@@ -53,7 +52,7 @@ export const SalesDetailResultPage = ({ history, location }: RouteComponentProps
             </div>
             <div className='d-flex fj-between'>
                 <div>{salesField.date[lang]}</div>
-                <div>{formatPresentDate(date)}</div>
+                <div>{date}</div>
             </div>
             <div className='d-flex fj-between'>
                 <div>{salesField.cashier[lang]}</div>
