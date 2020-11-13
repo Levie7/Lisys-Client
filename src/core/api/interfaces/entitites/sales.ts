@@ -16,6 +16,7 @@ export interface Sales {
 export interface SalesByPeriod {
     _id: string;
     grand_total: number;
+    return_total: number;
 }
 
 export interface SalesDetail {
@@ -72,6 +73,7 @@ export interface SummarySales {
     };
     date: string;
     grand_total: number;
+    return_total: number;
     sold: number;
     transaction: number;
 }

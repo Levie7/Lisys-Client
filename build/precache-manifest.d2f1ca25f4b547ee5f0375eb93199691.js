@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8fab0660e45f1175f5f380c274bf8c7e",
+    "revision": "43c331537cf8635a57516afade12bb50",
     "url": "/index.html"
   },
   {
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/BuyPriceHistoryPage.126d4f33.chunk.css"
   },
   {
-    "revision": "3c3eab1abd6fd00eeea3",
+    "revision": "8896758a0708887d6efd",
     "url": "/static/css/HomePage.76315bea.chunk.css"
   },
   {
@@ -56,11 +56,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/PurchaseReturnPage.f5b9e7f0.chunk.css"
   },
   {
-    "revision": "440a1bc56148e132e89f",
+    "revision": "bbf240dee355a7caac65",
     "url": "/static/css/SalesPage.3fb7c9fd.chunk.css"
   },
   {
-    "revision": "38bc580047c4021d6d6b",
+    "revision": "326415bdba1b735b1ccd",
     "url": "/static/css/SalesReturnPage.b00dca79.chunk.css"
   },
   {
@@ -68,7 +68,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/SettingPage.79bc2a2e.chunk.css"
   },
   {
-    "revision": "c4af1ec997a27a4f554e",
+    "revision": "062260d4c215259bfcaa",
     "url": "/static/css/SoldMedicineReportPage.dcb9bbba.chunk.css"
   },
   {
@@ -132,12 +132,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/BuyPriceHistoryPage.8ca8ce8c.chunk.js"
   },
   {
-    "revision": "3c3eab1abd6fd00eeea3",
-    "url": "/static/js/HomePage.bbb58d8f.chunk.js"
+    "revision": "8896758a0708887d6efd",
+    "url": "/static/js/HomePage.2031c03e.chunk.js"
   },
   {
     "revision": "e7cad5e8c80a4a756b57f883a8b131b2",
-    "url": "/static/js/HomePage.bbb58d8f.chunk.js.LICENSE.txt"
+    "url": "/static/js/HomePage.2031c03e.chunk.js.LICENSE.txt"
   },
   {
     "revision": "ac75ea6df63c96440f15",
@@ -188,20 +188,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/PurchaseReturnPage.2b74d58c.chunk.js"
   },
   {
-    "revision": "440a1bc56148e132e89f",
-    "url": "/static/js/SalesPage.4b05a555.chunk.js"
+    "revision": "bbf240dee355a7caac65",
+    "url": "/static/js/SalesPage.3807a023.chunk.js"
   },
   {
-    "revision": "38bc580047c4021d6d6b",
-    "url": "/static/js/SalesReturnPage.9ad38723.chunk.js"
+    "revision": "326415bdba1b735b1ccd",
+    "url": "/static/js/SalesReturnPage.fc78a367.chunk.js"
   },
   {
     "revision": "1c1fdfa9226c687da7c9",
     "url": "/static/js/SettingPage.51c90fc3.chunk.js"
   },
   {
-    "revision": "c4af1ec997a27a4f554e",
-    "url": "/static/js/SoldMedicineReportPage.0e05b79f.chunk.js"
+    "revision": "062260d4c215259bfcaa",
+    "url": "/static/js/SoldMedicineReportPage.a432d37e.chunk.js"
   },
   {
     "revision": "255e9190ba9180b838e7",
@@ -212,16 +212,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/StockOpnamePage.c7bd3f89.chunk.js"
   },
   {
-    "revision": "b8dd7f59ecf9f6a6c416",
-    "url": "/static/js/SummarySalesReportPage.b150a2dd.chunk.js"
+    "revision": "a96373abe1c2cc48d697",
+    "url": "/static/js/SummarySalesReportPage.8bb846e6.chunk.js"
   },
   {
     "revision": "5fd7772e5ee647096b94",
     "url": "/static/js/main.b596bd28.chunk.js"
   },
   {
-    "revision": "0bae4c9d489660a9def9",
-    "url": "/static/js/runtime-main.698c5e77.js"
+    "revision": "56a681589cfad9fd230a",
+    "url": "/static/js/runtime-main.4b3161c8.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",

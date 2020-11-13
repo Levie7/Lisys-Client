@@ -71,8 +71,11 @@ export const SummarySalesReportPage = () => {
                         {summarySales ? (
                             <Link
                                 target='_blank'
-                                // eslint-disable-next-line max-len
-                                to={`/summary_sales_report?user=${user.name}&date=${summarySales.date}&sold=${summarySales.sold}&transaction=${summarySales.transaction}&total=${summarySales.grand_total}`}
+                                to={`/summary_sales_report?user=${user.name}&date=${
+                                    summarySales.date
+                                }&sold=${summarySales.sold}&transaction=${
+                                    summarySales.transaction
+                                }&total=${summarySales.grand_total - summarySales.return_total}`}
                             >
                                 <Button type='default'>{summarySalesButton[lang]}</Button>
                             </Link>
