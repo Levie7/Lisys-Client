@@ -99,6 +99,7 @@ export const SUMMARY_SALES = gql`
             }
             date
             grand_total
+            return_total
             sold
             transaction
         }

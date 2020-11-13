@@ -60,7 +60,10 @@ export function SalesGraph({ lang }: SalesGraphProps) {
             if (salesPerDay[indexResult]) {
                 let salesDateData = parseInt(salesPerDay[indexResult]._id.split('-')[2]);
                 if (date === salesDateData) {
-                    salesData.push(salesPerDay[indexResult].grand_total);
+                    let total =
+                        salesPerDay[indexResult].grand_total -
+                        salesPerDay[indexResult].return_total;
+                    salesData.push(total);
                     indexResult++;
                 } else {
                     salesData.push(0);
@@ -99,7 +102,10 @@ export function SalesGraph({ lang }: SalesGraphProps) {
             if (salesPerMonth[indexResult]) {
                 let salesMonth = parseInt(salesPerMonth[indexResult]._id.split('-')[1]);
                 if (index + 1 === salesMonth) {
-                    salesData.push(salesPerMonth[indexResult].grand_total);
+                    let total =
+                        salesPerMonth[indexResult].grand_total -
+                        salesPerMonth[indexResult].return_total;
+                    salesData.push(total);
                     indexResult++;
                 } else {
                     salesData.push(0);

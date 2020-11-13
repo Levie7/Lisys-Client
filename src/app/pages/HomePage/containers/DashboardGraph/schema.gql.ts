@@ -21,6 +21,7 @@ export const SALES_PER_DAY = gql`
         getSalesPerDay(period: $period) {
             _id
             grand_total
+            return_total
         }
     }
 `;
@@ -30,6 +31,7 @@ export const SALES_PER_MONTH = gql`
         getSalesPerMonth(period: $period) {
             _id
             grand_total
+            return_total
         }
     }
 `;
