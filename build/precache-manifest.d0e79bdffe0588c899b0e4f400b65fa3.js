@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "43c331537cf8635a57516afade12bb50",
+    "revision": "b339b255cb84982dc6c25c50e1aa0114",
     "url": "/index.html"
   },
   {
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/BuyPriceHistoryPage.126d4f33.chunk.css"
   },
   {
-    "revision": "8896758a0708887d6efd",
+    "revision": "fe090709560bcb7913ac",
     "url": "/static/css/HomePage.76315bea.chunk.css"
   },
   {
@@ -132,12 +132,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/BuyPriceHistoryPage.8ca8ce8c.chunk.js"
   },
   {
-    "revision": "8896758a0708887d6efd",
-    "url": "/static/js/HomePage.2031c03e.chunk.js"
+    "revision": "fe090709560bcb7913ac",
+    "url": "/static/js/HomePage.0bfa9151.chunk.js"
   },
   {
     "revision": "e7cad5e8c80a4a756b57f883a8b131b2",
-    "url": "/static/js/HomePage.2031c03e.chunk.js.LICENSE.txt"
+    "url": "/static/js/HomePage.0bfa9151.chunk.js.LICENSE.txt"
   },
   {
     "revision": "ac75ea6df63c96440f15",
@@ -220,8 +220,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/main.b596bd28.chunk.js"
   },
   {
-    "revision": "56a681589cfad9fd230a",
-    "url": "/static/js/runtime-main.4b3161c8.js"
+    "revision": "81595b3272839b2625cd",
+    "url": "/static/js/runtime-main.4df23330.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",
