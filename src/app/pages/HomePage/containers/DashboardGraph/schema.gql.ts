@@ -10,6 +10,15 @@ export const PURCHASING_DEBT_PER_MONTH = gql`
     }
 `;
 
+export const PURCHASING_SUMMARY_PER_MONTH = gql`
+    query getPurchasingSummaryPerMonth($payload: PurchasingSummaryPayload) {
+        getPurchasingSummaryPerMonth(payload: $payload) {
+            _id
+            grand_total
+        }
+    }
+`;
+
 export const SALES_DATES = gql`
     query getSalesDateByPeriod($period: String) {
         getSalesDateByPeriod(period: $period)
@@ -38,6 +47,8 @@ export const SALES_PER_MONTH = gql`
 
 export const getPurchasingDebtPerMonth = (options: any) =>
     useQuery<{ getPurchasingDebtPerMonth: string[] }>(PURCHASING_DEBT_PER_MONTH, options);
+export const getPurchasingSummaryPerMonth = (options: any) =>
+    useQuery<{ getPurchasingSummaryPerMonth: string[] }>(PURCHASING_SUMMARY_PER_MONTH, options);
 export const getSalesDateByPeriod = (options: any) =>
     useQuery<{ getSalesDateByPeriod: string[] }>(SALES_DATES, options);
 export const getSalesPerDay = (options: any) =>
