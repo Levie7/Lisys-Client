@@ -75,14 +75,28 @@ export const options = {
 
 export const purchasingGraph = [
     {
+        model: 'debt',
         period: 'month',
         title: { en: 'Purchasing Debt Per Month Graph', id: 'Grafik Hutang Pembelian Per Bulan' },
+        type: 'bar',
+    },
+    {
+        model: 'summary',
+        period: 'month',
+        title: {
+            en: 'Purchasing Summary Per Month Graph',
+            id: 'Grafik Rangkuman Pembelian Per Bulan',
+        },
         type: 'bar',
     },
 ];
 export const purchasingLabel = {
     en: 'Purchasing Debt Per Month',
     id: 'Hutang Pembelian Per Bulan',
+};
+export const purchasingSummaryLabel = {
+    en: 'Purchasing Summary Per Month',
+    id: 'Rangkuman Pembelian Per Bulan',
 };
 
 export const salesGraph = [
