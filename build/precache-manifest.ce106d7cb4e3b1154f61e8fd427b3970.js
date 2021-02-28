@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b339b255cb84982dc6c25c50e1aa0114",
+    "revision": "45604a794a40eeb98c894b7577c87fee",
     "url": "/index.html"
   },
   {
@@ -12,7 +12,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/4.dcb9bbba.chunk.css"
   },
   {
-    "revision": "bb12fcf41c8a888cd301",
+    "revision": "2a0b81fec8a655ba1f4e",
     "url": "/static/css/BuyPriceHistoryPage.126d4f33.chunk.css"
   },
   {
@@ -44,23 +44,23 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/MasterVariantPage.126d4f33.chunk.css"
   },
   {
-    "revision": "5f5e6e6ebfffae7ed806",
+    "revision": "520cf8aadfde18d86c82",
     "url": "/static/css/PurchaseListPage.7b3d5940.chunk.css"
   },
   {
-    "revision": "6cc5274d9cfca2accbf4",
+    "revision": "9bfc1f8a4a2ed581952f",
     "url": "/static/css/PurchasePaymentPage.9a91de4b.chunk.css"
   },
   {
-    "revision": "967f5c80e462ff67d198",
+    "revision": "a69bb89271068bbce9dc",
     "url": "/static/css/PurchaseReturnPage.f5b9e7f0.chunk.css"
   },
   {
-    "revision": "bbf240dee355a7caac65",
+    "revision": "d0bef6f44f484a639995",
     "url": "/static/css/SalesPage.3fb7c9fd.chunk.css"
   },
   {
-    "revision": "326415bdba1b735b1ccd",
+    "revision": "b05880b5962ebc9217bb",
     "url": "/static/css/SalesReturnPage.b00dca79.chunk.css"
   },
   {
@@ -72,11 +72,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/SoldMedicineReportPage.dcb9bbba.chunk.css"
   },
   {
-    "revision": "255e9190ba9180b838e7",
+    "revision": "88fbe3e48a7a10c98bc7",
     "url": "/static/css/StockCardPage.126d4f33.chunk.css"
   },
   {
-    "revision": "d1f08f02cec9f087c89e",
+    "revision": "5bec0a51732cd6ea3577",
     "url": "/static/css/StockOpnamePage.5f25e2e1.chunk.css"
   },
   {
@@ -128,8 +128,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/6.29c17b40.chunk.js"
   },
   {
-    "revision": "bb12fcf41c8a888cd301",
-    "url": "/static/js/BuyPriceHistoryPage.8ca8ce8c.chunk.js"
+    "revision": "2a0b81fec8a655ba1f4e",
+    "url": "/static/js/BuyPriceHistoryPage.76e40d1a.chunk.js"
   },
   {
     "revision": "fe090709560bcb7913ac",
@@ -176,24 +176,24 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/MedicineListReportPage.f819167a.chunk.js"
   },
   {
-    "revision": "5f5e6e6ebfffae7ed806",
-    "url": "/static/js/PurchaseListPage.00c57062.chunk.js"
+    "revision": "520cf8aadfde18d86c82",
+    "url": "/static/js/PurchaseListPage.24ffee44.chunk.js"
   },
   {
-    "revision": "6cc5274d9cfca2accbf4",
-    "url": "/static/js/PurchasePaymentPage.b8ac42e3.chunk.js"
+    "revision": "9bfc1f8a4a2ed581952f",
+    "url": "/static/js/PurchasePaymentPage.94d77b19.chunk.js"
   },
   {
-    "revision": "967f5c80e462ff67d198",
-    "url": "/static/js/PurchaseReturnPage.2b74d58c.chunk.js"
+    "revision": "a69bb89271068bbce9dc",
+    "url": "/static/js/PurchaseReturnPage.9d9a4005.chunk.js"
   },
   {
-    "revision": "bbf240dee355a7caac65",
-    "url": "/static/js/SalesPage.3807a023.chunk.js"
+    "revision": "d0bef6f44f484a639995",
+    "url": "/static/js/SalesPage.17acc36c.chunk.js"
   },
   {
-    "revision": "326415bdba1b735b1ccd",
-    "url": "/static/js/SalesReturnPage.fc78a367.chunk.js"
+    "revision": "b05880b5962ebc9217bb",
+    "url": "/static/js/SalesReturnPage.bdb3c178.chunk.js"
   },
   {
     "revision": "1c1fdfa9226c687da7c9",
@@ -204,12 +204,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/SoldMedicineReportPage.a432d37e.chunk.js"
   },
   {
-    "revision": "255e9190ba9180b838e7",
-    "url": "/static/js/StockCardPage.8c0d8dd6.chunk.js"
+    "revision": "88fbe3e48a7a10c98bc7",
+    "url": "/static/js/StockCardPage.5207e49c.chunk.js"
   },
   {
-    "revision": "d1f08f02cec9f087c89e",
-    "url": "/static/js/StockOpnamePage.c7bd3f89.chunk.js"
+    "revision": "5bec0a51732cd6ea3577",
+    "url": "/static/js/StockOpnamePage.5a1a0e81.chunk.js"
   },
   {
     "revision": "a96373abe1c2cc48d697",
@@ -220,8 +220,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/main.b596bd28.chunk.js"
   },
   {
-    "revision": "81595b3272839b2625cd",
-    "url": "/static/js/runtime-main.4df23330.js"
+    "revision": "83b1817e351386dec7c8",
+    "url": "/static/js/runtime-main.bc44b4f6.js"
   },
   {
     "revision": "cbf24a77845b2eb1fbc6ade16048c4ae",
