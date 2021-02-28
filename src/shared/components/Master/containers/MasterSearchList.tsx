@@ -57,7 +57,7 @@ export function MasterSearchList({
     let prevDataTotal = usePrevious(data.total);
 
     useEffect(() => {
-        if (!queryDataList.loading && prevDataTotal !== data.total) {
+        if (prevDataTotal !== data.total) {
             setPage({ ...page, current: 1, total: data.total });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
